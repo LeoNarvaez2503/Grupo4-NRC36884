@@ -13,16 +13,26 @@ public class AdministradorCredenciales {
 
     private static final Map<String, String> USUARIOS = new ConcurrentHashMap<>();
 
+    // Credencial única permitida en el sistema
+    public static final String USUARIO_DEFAULT = "MONSTER";
+    public static final String CONTRASENIA_DEFAULT = "MONSTER9";
+
     static {
-        // Credenciales predeterminadas para pruebas y desarrollo
-        USUARIOS.put("admin", "admin");
-        USUARIOS.put("monster", "monster");
-        USUARIOS.put("espe", "espe");
-        USUARIOS.put("usuario", "1234");
+        reiniciar();
     }
 
     private AdministradorCredenciales() {
         // Constructor privado para clase utilitaria
+    }
+
+    /**
+     * Restablece las credenciales a la única credencial permitida:
+     * USUARIO: MONSTER
+     * PASSWORD: MONSTER9
+     */
+    public static void reiniciar() {
+        USUARIOS.clear();
+        USUARIOS.put(USUARIO_DEFAULT.toLowerCase(), CONTRASENIA_DEFAULT);
     }
 
     /**

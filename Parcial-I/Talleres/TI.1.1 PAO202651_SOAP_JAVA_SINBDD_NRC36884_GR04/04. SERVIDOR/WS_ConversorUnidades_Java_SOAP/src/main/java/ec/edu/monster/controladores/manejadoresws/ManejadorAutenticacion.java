@@ -20,12 +20,24 @@ public class ManejadorAutenticacion implements SOAPHandler<SOAPMessageContext> {
             try {
 
                 QName operacion = (QName) contexto.get(MessageContext.WSDL_OPERATION);
-                if (operacion != null && "login".equals(operacion.getLocalPart())) {
+                if (operacion != null && "login".equalsIgnoreCase(operacion.getLocalPart())) {
                     return true; 
                 }
 
                 var mensajeSOAP = contexto.getMessage();
-                var encabezado = mensajeSOAP.getSOAPHeader();
+
+                // Verificar si la llamada es al método login en el cuerpo SOAP
+                if (mensajeSOAP != null && mensajeSOAP.getSOAPBody() != null) {
+                    var nodo = mensajeSOAP.getSOAPBody().getFirstChild();
+                    while (nodo != null && nodo.getNodeType() != org.w3c.dom.Node.ELEMENT_NODE) {
+                        nodo = nodo.getNextSibling();
+                    }
+                    if (nodo != null && "login".equalsIgnoreCase(nodo.getLocalName())) {
+                        return true;
+                    }
+                }
+
+                var encabezado = mensajeSOAP != null ? mensajeSOAP.getSOAPHeader() : null;
 
                 if (encabezado == null) {
                     throw new RuntimeException("Acceso denegado: Se requiere encabezado SOAP con el token de seguridad.");

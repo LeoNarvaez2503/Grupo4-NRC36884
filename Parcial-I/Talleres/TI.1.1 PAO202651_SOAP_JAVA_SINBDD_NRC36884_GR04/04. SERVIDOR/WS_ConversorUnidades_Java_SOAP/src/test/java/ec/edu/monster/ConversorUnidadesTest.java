@@ -19,6 +19,8 @@ class ConversorUnidadesTest {
 
     @BeforeEach
     void setUp() {
+        AdministradorCredenciales.reiniciar();
+        AdministradorToken.limpiar();
         servicio = new WSConversorUnidades();
     }
 
@@ -61,24 +63,41 @@ class ConversorUnidadesTest {
 
     @Test
     void testLoginYCredenciales() {
-        // Login exitoso
-        String token = servicio.login("admin", "admin");
+        // Login exitoso con la única credencial válida: MONSTER / MONSTER9
+        String token = servicio.login("MONSTER", "MONSTER9");
         assertNotNull(token);
         assertFalse(token.isBlank());
         assertTrue(AdministradorToken.validarToken(token));
         assertTrue(AdministradorTokens.validarToken(token));
 
-        // Login fallido
-        assertThrows(RuntimeException.class, () -> servicio.login("admin", "clave_invalida"));
+        // Login exitoso insensible a mayúsculas en el usuario
+        String token2 = servicio.login("monster", "MONSTER9");
+        assertNotNull(token2);
+        assertTrue(AdministradorToken.validarToken(token2));
+
+        // Login fallido con contraseña incorrecta (las contraseñas sí son sensibles a mayúsculas)
+        assertThrows(RuntimeException.class, () -> servicio.login("MONSTER", "clave_invalida"));
+        assertThrows(RuntimeException.class, () -> servicio.login("MONSTER", "monster9"));
+
+        // Login fallido con credenciales anteriores (ya no deben existir)
+        assertThrows(RuntimeException.class, () -> servicio.login("admin", "admin"));
+        assertThrows(RuntimeException.class, () -> servicio.login("espe", "espe"));
+        assertThrows(RuntimeException.class, () -> servicio.login("usuario", "1234"));
     }
 
     @Test
     void testCambiarContrasenia() {
-        AdministradorCredenciales.registrarUsuario("testuser", "clave123");
-        assertTrue(AdministradorCredenciales.validarUsuario("testuser", "clave123"));
+        // Validar credencial predeterminada
+        assertTrue(AdministradorCredenciales.validarUsuario("MONSTER", "MONSTER9"));
 
-        AdministradorCredenciales.cambiarContrasenia("testuser", "clave123", "claveNueva456");
-        assertTrue(AdministradorCredenciales.validarUsuario("testuser", "claveNueva456"));
+        // Cambiar contraseña de MONSTER
+        AdministradorCredenciales.cambiarContrasenia("MONSTER", "MONSTER9", "NUEVA_CLAVE_99");
+        assertTrue(AdministradorCredenciales.validarUsuario("MONSTER", "NUEVA_CLAVE_99"));
+        assertFalse(AdministradorCredenciales.validarUsuario("MONSTER", "MONSTER9"));
+
+        // Restaurar estado
+        AdministradorCredenciales.reiniciar();
+        assertTrue(AdministradorCredenciales.validarUsuario("MONSTER", "MONSTER9"));
     }
 
     @Test
