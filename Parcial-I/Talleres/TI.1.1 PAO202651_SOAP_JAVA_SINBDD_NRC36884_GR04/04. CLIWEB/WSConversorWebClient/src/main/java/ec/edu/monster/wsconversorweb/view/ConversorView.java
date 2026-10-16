@@ -1,10 +1,10 @@
-package ec.edu.monster.wsconversorweb.controller;
+package ec.edu.monster.wsconversorweb.view;
 
+import ec.edu.monster.wsconversorweb.controller.AppControlador;
 import ec.edu.monster.wsconversorweb.model.HistorialItem;
 import ec.edu.monster.wsconversorweb.model.UnidadLongitud;
 import ec.edu.monster.wsconversorweb.model.UnidadMasa;
 import ec.edu.monster.wsconversorweb.model.UnidadTemperatura;
-import ec.edu.monster.wsconversorweb.service.ConversorService;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
@@ -16,14 +16,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Named("conversorBean")
+/**
+ * Vista / Bean del Conversor de Unidades para Cliente Web (Patrón MVC).
+ */
+@Named("conversorView")
 @SessionScoped
-public class ConversorBean implements Serializable {
+public class ConversorView implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Inject
-    private LoginBean loginBean;
+    private LoginView loginView;
 
     private String tipoMagnitud = "LONGITUD";
     private Double valor;
@@ -31,7 +34,7 @@ public class ConversorBean implements Serializable {
     private String unidadDestino;
     private Double resultado;
     private final List<HistorialItem> historial = new ArrayList<>();
-    private final ConversorService conversorService = new ConversorService();
+    private final AppControlador controlador = new AppControlador();
 
     @PostConstruct
     public void init() {
@@ -39,7 +42,7 @@ public class ConversorBean implements Serializable {
     }
 
     public void verificarSesion() {
-        if (loginBean == null || !loginBean.isAutenticado()) {
+        if (loginView == null || !loginView.isAutenticado()) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
             } catch (Exception ignored) {
@@ -85,7 +88,7 @@ public class ConversorBean implements Serializable {
     }
 
     public void convertir() {
-        if (loginBean == null || !loginBean.isAutenticado()) {
+        if (loginView == null || !loginView.isAutenticado()) {
             FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe iniciar sesión primero.", null));
             return;
@@ -101,14 +104,14 @@ public class ConversorBean implements Serializable {
             double res;
             switch (tipoMagnitud) {
                 case "MASA":
-                    res = conversorService.convertirMasa(valor, unidadOrigen, unidadDestino);
+                    res = controlador.convertirMasa(valor, unidadOrigen, unidadDestino);
                     break;
                 case "TEMPERATURA":
-                    res = conversorService.convertirTemperatura(valor, unidadOrigen, unidadDestino);
+                    res = controlador.convertirTemperatura(valor, unidadOrigen, unidadDestino);
                     break;
                 case "LONGITUD":
                 default:
-                    res = conversorService.convertirLongitud(valor, unidadOrigen, unidadDestino);
+                    res = controlador.convertirLongitud(valor, unidadOrigen, unidadDestino);
                     break;
             }
             resultado = res;
@@ -126,7 +129,7 @@ public class ConversorBean implements Serializable {
     }
 
     public String logout() {
-        return loginBean.logout();
+        return loginView.logout();
     }
 
     public String getTipoMagnitud() {
@@ -173,11 +176,11 @@ public class ConversorBean implements Serializable {
         return historial;
     }
 
-    public LoginBean getLoginBean() {
-        return loginBean;
+    public LoginView getLoginView() {
+        return loginView;
     }
 
-    public void setLoginBean(LoginBean loginBean) {
-        this.loginBean = loginBean;
+    public void setLoginView(LoginView loginView) {
+        this.loginView = loginView;
     }
 }

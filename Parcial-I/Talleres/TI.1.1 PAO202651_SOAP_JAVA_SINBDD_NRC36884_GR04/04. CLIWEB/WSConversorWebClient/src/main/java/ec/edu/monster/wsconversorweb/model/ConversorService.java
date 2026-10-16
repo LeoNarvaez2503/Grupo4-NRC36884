@@ -1,4 +1,4 @@
-package ec.edu.monster.wsconversorweb.service;
+package ec.edu.monster.wsconversorweb.model;
 
 import ec.edu.monster.ws.WSConversorUnidades;
 import ec.edu.monster.ws.WSConversorUnidades_Service;

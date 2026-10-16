@@ -1,4 +1,4 @@
-package ec.edu.monster.wsconversormov.controller;
+package ec.edu.monster.wsconversormov.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ec.edu.monster.wsconversormov.R;
+import ec.edu.monster.wsconversormov.controller.AppControlador;
 import ec.edu.monster.wsconversormov.model.UnidadLongitud;
 import ec.edu.monster.wsconversormov.model.UnidadMasa;
 import ec.edu.monster.wsconversormov.model.UnidadTemperatura;
@@ -25,7 +26,10 @@ import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ConversorActivity extends AppCompatActivity {
+/**
+ * Vista del Conversor de Unidades para Cliente Móvil (Patrón MVC).
+ */
+public class ConversorView extends AppCompatActivity {
 
     private TextView txtUsuarioSesion;
     private TextView btnCerrarSesion;
@@ -69,20 +73,23 @@ public class ConversorActivity extends AppCompatActivity {
     private void configurarDatosUsuario() {
         UsuarioSession session = (UsuarioSession) getIntent().getSerializableExtra("usuario_session");
         if (session != null) {
-            txtUsuarioSesion.setText("Usuario: " + session.getUsuario() + " (" + session.getHoraIngreso() + ")");
-        } else {
-            txtUsuarioSesion.setText("Usuario: MONSTER");
+            txtUsuarioSesion.setText("Usuario: " + session.getUsuario());
         }
     }
 
     private void configurarSpinnerMagnitud() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, magnitudes);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                magnitudes
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnMagnitud.setAdapter(adapter);
 
         spnMagnitud.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                actualizarUnidades();
+                actualizarSpinnersSegunMagnitud(magnitudes[position]);
             }
 
             @Override
@@ -91,39 +98,31 @@ public class ConversorActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Actualiza las unidades de los Spinners según la magnitud seleccionada (idéntico a Swing).
-     */
-    private void actualizarUnidades() {
-        String seleccion = (String) spnMagnitud.getSelectedItem();
-        if (seleccion == null) {
-            seleccion = "LONGITUD";
-        }
-
+    private void actualizarSpinnersSegunMagnitud(String magnitud) {
         String[] unidades;
-        switch (seleccion) {
+        switch (magnitud) {
             case "MASA":
-                unidades = Arrays.stream(UnidadMasa.values())
-                        .map(Enum::name)
-                        .toArray(String[]::new);
                 txtTitulo.setText(R.string.title_masa);
+                unidades = Arrays.stream(UnidadMasa.values()).map(Enum::name).toArray(String[]::new);
                 break;
             case "TEMPERATURA":
-                unidades = Arrays.stream(UnidadTemperatura.values())
-                        .map(Enum::name)
-                        .toArray(String[]::new);
                 txtTitulo.setText(R.string.title_temperatura);
+                unidades = Arrays.stream(UnidadTemperatura.values()).map(Enum::name).toArray(String[]::new);
                 break;
             case "LONGITUD":
             default:
-                unidades = Arrays.stream(UnidadLongitud.values())
-                        .map(Enum::name)
-                        .toArray(String[]::new);
                 txtTitulo.setText(R.string.title_longitud);
+                unidades = Arrays.stream(UnidadLongitud.values()).map(Enum::name).toArray(String[]::new);
                 break;
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, unidades);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                unidades
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         spnUndInit.setAdapter(adapter);
         spnUndFinal.setAdapter(adapter);
 
@@ -131,71 +130,67 @@ public class ConversorActivity extends AppCompatActivity {
             spnUndInit.setSelection(0);
             spnUndFinal.setSelection(1);
         }
-
-        txtResultado.setText("");
     }
 
     private void configurarEventos() {
-        btnConvertir.setOnClickListener(v -> procesarConversion());
+        btnConvertir.setOnClickListener(v -> realizarConversion());
 
         btnCerrarSesion.setOnClickListener(v -> {
-            Toast.makeText(this, "Sesión finalizada.", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(ConversorActivity.this, LoginActivity.class);
+            Intent intent = new Intent(ConversorView.this, LoginView.class);
             startActivity(intent);
             finish();
         });
     }
 
-    private void procesarConversion() {
-        String txtVal = txtValor.getText() != null ? txtValor.getText().toString().trim() : "";
-        if (txtVal.isEmpty()) {
+    private void realizarConversion() {
+        String valorStr = txtValor.getText() != null ? txtValor.getText().toString().trim() : "";
+        if (valorStr.isEmpty()) {
             Toast.makeText(this, "Por favor ingrese un valor a convertir.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        final double num;
+        double valor;
         try {
-            num = Double.parseDouble(txtVal);
-        } catch (NumberFormatException ex) {
-            Toast.makeText(this, "Ingrese un número válido.", Toast.LENGTH_SHORT).show();
+            valor = Double.parseDouble(valorStr);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Valor no válido.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        final String unidadInicial = (String) spnUndInit.getSelectedItem();
-        final String unidadFinal = (String) spnUndFinal.getSelectedItem();
-        final String tipo = (String) spnMagnitud.getSelectedItem();
+        String magnitud = (String) spnMagnitud.getSelectedItem();
+        String undInit = (String) spnUndInit.getSelectedItem();
+        String undFinal = (String) spnUndFinal.getSelectedItem();
 
         btnConvertir.setEnabled(false);
         btnConvertir.setText("Convirtiendo...");
 
         executor.execute(() -> {
             try {
-                final double conversion;
-
-                if ("MASA".equalsIgnoreCase(tipo)) {
-                    conversion = controlador.convertirMasa(num, unidadInicial, unidadFinal);
-                } else if ("TEMPERATURA".equalsIgnoreCase(tipo)) {
-                    conversion = controlador.convertirTemperatura(num, unidadInicial, unidadFinal);
-                } else {
-                    conversion = controlador.convertirLongitud(num, unidadInicial, unidadFinal);
+                double resultado;
+                switch (magnitud) {
+                    case "MASA":
+                        resultado = controlador.convertirMasa(valor, undInit, undFinal);
+                        break;
+                    case "TEMPERATURA":
+                        resultado = controlador.convertirTemperatura(valor, undInit, undFinal);
+                        break;
+                    case "LONGITUD":
+                    default:
+                        resultado = controlador.convertirLongitud(valor, undInit, undFinal);
+                        break;
                 }
 
                 mainHandler.post(() -> {
                     btnConvertir.setEnabled(true);
                     btnConvertir.setText(R.string.btn_convertir);
-                    txtResultado.setText(String.format("%.4f", conversion));
+                    txtResultado.setText(String.format("%.4f %s", resultado, undFinal));
                 });
 
-            } catch (Exception ex) {
+            } catch (Exception e) {
                 mainHandler.post(() -> {
                     btnConvertir.setEnabled(true);
                     btnConvertir.setText(R.string.btn_convertir);
-
-                    String msg = ex.getMessage();
-                    if (msg == null || msg.isBlank()) {
-                        msg = "Error al conectar con el servidor SOAP.";
-                    }
-                    Toast.makeText(ConversorActivity.this, msg, Toast.LENGTH_LONG).show();
+                    Toast.makeText(ConversorView.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 });
             }
         });

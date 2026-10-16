@@ -20,15 +20,15 @@
 
                 <h:panelGrid columns="2" cellpadding="8" style="text-align: left; width: 100%;">
                     <h:outputLabel for="usuario" value="Usuario:" style="font-weight: bold;" />
-                    <h:inputText id="usuario" value="#{loginBean.usuario}" required="true" requiredMessage="Ingrese su usuario." style="width: 100%;" />
+                    <h:inputText id="usuario" value="#{loginView.usuario}" required="true" requiredMessage="Ingrese su usuario." style="width: 100%;" />
 
                     <h:outputLabel for="contrasenia" value="Contraseña:" style="font-weight: bold;" />
-                    <h:inputSecret id="contrasenia" value="#{loginBean.contrasenia}" required="true" requiredMessage="Ingrese su contraseña." style="width: 100%;" />
+                    <h:inputSecret id="contrasenia" value="#{loginView.contrasenia}" required="true" requiredMessage="Ingrese su contraseña." style="width: 100%;" />
                 </h:panelGrid>
 
                 <h:panelGroup layout="block" style="margin-top: 15px;">
-                    <h:commandButton value="Ingresar" action="#{loginBean.login}" style="padding: 6px 16px; margin-right: 10px; cursor: pointer;" />
-                    <h:commandButton value="Limpiar" action="#{loginBean.limpiar}" immediate="true" style="padding: 6px 16px; cursor: pointer;">
+                    <h:commandButton value="Ingresar" action="#{loginView.login}" style="padding: 6px 16px; margin-right: 10px; cursor: pointer;" />
+                    <h:commandButton value="Limpiar" action="#{loginView.limpiar}" immediate="true" style="padding: 6px 16px; cursor: pointer;">
                         <f:ajax execute="@this" render="loginForm" />
                     </h:commandButton>
                 </h:panelGroup>

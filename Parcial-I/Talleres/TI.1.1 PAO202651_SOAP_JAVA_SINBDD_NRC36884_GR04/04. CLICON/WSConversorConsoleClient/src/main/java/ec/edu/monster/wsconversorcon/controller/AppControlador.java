@@ -1,6 +1,6 @@
 package ec.edu.monster.wsconversorcon.controller;
 
-import ec.edu.monster.wsconversorcon.service.ConversorService;
+import ec.edu.monster.wsconversorcon.model.ConversorService;
 
 public class AppControlador {
 

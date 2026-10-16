@@ -4,7 +4,7 @@
  */
 package ec.edu.monster.wsconversorclient.controller;
 
-import ec.edu.monster.wsconversorclient.service.ConversorService;
+import ec.edu.monster.wsconversorclient.model.ConversorService;
 
 /**
  *

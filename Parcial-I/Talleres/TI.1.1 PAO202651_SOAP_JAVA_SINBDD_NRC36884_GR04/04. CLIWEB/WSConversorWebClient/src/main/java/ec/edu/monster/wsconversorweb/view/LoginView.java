@@ -1,23 +1,26 @@
-package ec.edu.monster.wsconversorweb.controller;
+package ec.edu.monster.wsconversorweb.view;
 
+import ec.edu.monster.wsconversorweb.controller.AppControlador;
 import ec.edu.monster.wsconversorweb.model.UsuarioSession;
-import ec.edu.monster.wsconversorweb.service.ConversorService;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import java.io.Serializable;
 
-@Named("loginBean")
+/**
+ * Vista / Bean de Inicio de Sesión para Cliente Web (Patrón MVC).
+ */
+@Named("loginView")
 @SessionScoped
-public class LoginBean implements Serializable {
+public class LoginView implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String usuario;
     private String contrasenia;
     private UsuarioSession usuarioSession;
-    private final ConversorService conversorService = new ConversorService();
+    private final AppControlador controlador = new AppControlador();
 
     public String login() {
         if (usuario == null || usuario.trim().isEmpty() ||
@@ -28,7 +31,7 @@ public class LoginBean implements Serializable {
         }
 
         try {
-            String token = conversorService.login(usuario.trim(), contrasenia.trim());
+            String token = controlador.login(usuario.trim(), contrasenia.trim());
             if (token != null && !token.isBlank()) {
                 usuarioSession = new UsuarioSession(usuario.trim().toUpperCase(), token);
                 return "conversor?faces-redirect=true";

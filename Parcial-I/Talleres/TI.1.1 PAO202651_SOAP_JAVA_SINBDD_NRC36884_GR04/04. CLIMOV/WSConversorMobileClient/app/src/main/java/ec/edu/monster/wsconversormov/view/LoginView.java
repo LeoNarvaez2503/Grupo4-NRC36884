@@ -1,4 +1,4 @@
-package ec.edu.monster.wsconversormov.controller;
+package ec.edu.monster.wsconversormov.view;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -16,13 +16,17 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ec.edu.monster.wsconversormov.R;
+import ec.edu.monster.wsconversormov.controller.AppControlador;
 import ec.edu.monster.wsconversormov.model.ConfiguracionConexion;
 import ec.edu.monster.wsconversormov.model.UsuarioSession;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class LoginActivity extends AppCompatActivity {
+/**
+ * Vista de Inicio de Sesión para Cliente Móvil (Patrón MVC).
+ */
+public class LoginView extends AppCompatActivity {
 
     private EditText txtUsuario;
     private EditText txtContrasenia;
@@ -54,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void configurarEventos() {
-        // Mostrar / ocultar contraseña
         chkMostrarContrasenia.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 txtContrasenia.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
@@ -64,17 +67,13 @@ public class LoginActivity extends AppCompatActivity {
             txtContrasenia.setSelection(txtContrasenia.getText().length());
         });
 
-        // Botón Limpiar (idéntico al escritorio)
         btnLimpiar.setOnClickListener(v -> {
             txtUsuario.setText("");
             txtContrasenia.setText("");
             txtUsuario.requestFocus();
         });
 
-        // Botón Ingresar
         btnIngresar.setOnClickListener(v -> procesarLogin());
-
-        // Botón para configurar IP del servidor SOAP
         btnConfigIp.setOnClickListener(v -> mostrarDialogoConfigIp());
     }
 
@@ -100,14 +99,14 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (token != null && !token.isBlank()) {
                         UsuarioSession session = new UsuarioSession(user.toUpperCase(), token);
-                        Toast.makeText(LoginActivity.this, "¡Bienvenido " + user + "!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginView.this, "¡Bienvenido " + user + "!", Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(LoginActivity.this, ConversorActivity.class);
+                        Intent intent = new Intent(LoginView.this, ConversorView.class);
                         intent.putExtra("usuario_session", session);
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(LoginActivity.this, "Usuario o contraseña incorrectos.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginView.this, "Usuario o contraseña incorrectos.", Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -120,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (msg == null || msg.contains("Fault") || msg.isBlank()) {
                         msg = "Usuario o contraseña incorrectos o error de red.";
                     }
-                    Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginView.this, msg, Toast.LENGTH_LONG).show();
                 });
             }
         });
@@ -138,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
         builder.setPositiveButton("Guardar", (dialog, which) -> {
             String nuevaUrl = input.getText().toString();
             ConfiguracionConexion.setEndpointUrl(nuevaUrl);
-            Toast.makeText(LoginActivity.this, "URL actualizada.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginView.this, "URL actualizada.", Toast.LENGTH_SHORT).show();
         });
 
         builder.setNegativeButton("Cancelar", (dialog, which) -> dialog.cancel());

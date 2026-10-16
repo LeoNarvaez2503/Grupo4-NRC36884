@@ -1,4 +1,4 @@
-package ec.edu.monster.wsconversormov.service;
+package ec.edu.monster.wsconversormov.model;
 
 import ec.edu.monster.wsconversormov.model.ConfiguracionConexion;
 

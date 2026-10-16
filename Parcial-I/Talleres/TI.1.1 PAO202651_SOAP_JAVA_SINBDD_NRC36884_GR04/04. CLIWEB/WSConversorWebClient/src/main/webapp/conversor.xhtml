@@ -4,12 +4,12 @@
       xmlns:f="jakarta.faces.core">
 
 <f:metadata>
-    <f:viewAction action="#{conversorBean.verificarSesion}" />
+    <f:viewAction action="#{conversorView.verificarSesion}" />
 </f:metadata>
 
 <h:head>
     <meta charset="UTF-8"/>
-    <title>#{conversorBean.titulo} - Java Faces</title>
+    <title>#{conversorView.titulo} - Java Faces</title>
 </h:head>
 <h:body>
 
@@ -22,8 +22,8 @@
             </h:panelGroup>
             <h:panelGroup style="text-align: right; display: block;">
                 <h:outputText value="Usuario: " />
-                <h:outputText value="#{loginBean.nombreUsuario}" style="font-weight: bold; margin-right: 15px;" />
-                <h:commandLink value="Cerrar Sesión" action="#{conversorBean.logout}" style="color: #c00; font-weight: bold;" />
+                <h:outputText value="#{loginView.nombreUsuario}" style="font-weight: bold; margin-right: 15px;" />
+                <h:commandLink value="Cerrar Sesión" action="#{conversorView.logout}" style="color: #c00; font-weight: bold;" />
             </h:panelGroup>
         </h:panelGrid>
     </h:form>
@@ -34,50 +34,50 @@
 
                 <h:graphicImage value="/images/sullivan.png" width="80" height="80" alt="Sullivan Monsters Inc" />
 
-                <h:outputText value="#{conversorBean.titulo}" style="font-size: 20px; font-weight: bold; margin: 10px 0; display: block;" />
+                <h:outputText value="#{conversorView.titulo}" style="font-size: 20px; font-weight: bold; margin: 10px 0; display: block;" />
 
                 <h:messages globalOnly="true" style="color: red; list-style-type: none; padding: 0;" />
 
                 <h:panelGrid columns="2" cellpadding="8" style="text-align: left; width: 100%;">
                     <h:outputLabel for="cmbMagnitud" value="Tipo de Magnitud:" style="font-weight: bold;" />
-                    <h:selectOneMenu id="cmbMagnitud" value="#{conversorBean.tipoMagnitud}" style="width: 100%;">
+                    <h:selectOneMenu id="cmbMagnitud" value="#{conversorView.tipoMagnitud}" style="width: 100%;">
                         <f:selectItem itemValue="LONGITUD" itemLabel="Longitud" />
                         <f:selectItem itemValue="MASA" itemLabel="Masa" />
                         <f:selectItem itemValue="TEMPERATURA" itemLabel="Temperatura" />
-                        <f:ajax listener="#{conversorBean.cambiarMagnitud}" render="conversorForm" />
+                        <f:ajax listener="#{conversorView.cambiarMagnitud}" render="conversorForm" />
                     </h:selectOneMenu>
 
                     <h:outputLabel for="txtValor" value="Valor:" style="font-weight: bold;" />
-                    <h:inputText id="txtValor" value="#{conversorBean.valor}" style="width: 100%;" />
+                    <h:inputText id="txtValor" value="#{conversorView.valor}" style="width: 100%;" />
 
                     <h:outputLabel for="cmbOrigen" value="De:" style="font-weight: bold;" />
-                    <h:selectOneMenu id="cmbOrigen" value="#{conversorBean.unidadOrigen}" style="width: 100%;">
-                        <f:selectItems value="#{conversorBean.unidadesDisponibles}" />
+                    <h:selectOneMenu id="cmbOrigen" value="#{conversorView.unidadOrigen}" style="width: 100%;">
+                        <f:selectItems value="#{conversorView.unidadesDisponibles}" />
                     </h:selectOneMenu>
 
                     <h:outputLabel for="cmbDestino" value="A:" style="font-weight: bold;" />
-                    <h:selectOneMenu id="cmbDestino" value="#{conversorBean.unidadDestino}" style="width: 100%;">
-                        <f:selectItems value="#{conversorBean.unidadesDisponibles}" />
+                    <h:selectOneMenu id="cmbDestino" value="#{conversorView.unidadDestino}" style="width: 100%;">
+                        <f:selectItems value="#{conversorView.unidadesDisponibles}" />
                     </h:selectOneMenu>
 
                     <h:outputLabel for="txtResultado" value="Resultado:" style="font-weight: bold;" />
-                    <h:inputText id="txtResultado" value="#{conversorBean.resultado}" readonly="true" style="width: 100%; font-weight: bold; color: green;" />
+                    <h:inputText id="txtResultado" value="#{conversorView.resultado}" readonly="true" style="width: 100%; font-weight: bold; color: green;" />
                 </h:panelGrid>
 
                 <h:panelGroup layout="block" style="margin: 20px 0;">
-                    <h:commandButton value="Convertir" action="#{conversorBean.convertir}" style="padding: 6px 18px; margin-right: 10px; cursor: pointer;">
+                    <h:commandButton value="Convertir" action="#{conversorView.convertir}" style="padding: 6px 18px; margin-right: 10px; cursor: pointer;">
                         <f:ajax execute="@form" render="conversorForm" />
                     </h:commandButton>
-                    <h:commandButton value="Limpiar" action="#{conversorBean.limpiar}" immediate="true" style="padding: 6px 18px; margin-right: 10px; cursor: pointer;">
+                    <h:commandButton value="Limpiar" action="#{conversorView.limpiar}" immediate="true" style="padding: 6px 18px; margin-right: 10px; cursor: pointer;">
                         <f:ajax execute="@this" render="conversorForm" />
                     </h:commandButton>
-                    <h:commandButton value="Cerrar" action="#{conversorBean.logout}" immediate="true" style="padding: 6px 18px; cursor: pointer;" />
+                    <h:commandButton value="Cerrar" action="#{conversorView.logout}" immediate="true" style="padding: 6px 18px; cursor: pointer;" />
                 </h:panelGroup>
 
                 <!-- Historial con h:dataTable nativo de JSF -->
-                <h:panelGroup layout="block" rendered="#{not empty conversorBean.historial}" style="margin-top: 15px; width: 100%;">
+                <h:panelGroup layout="block" rendered="#{not empty conversorView.historial}" style="margin-top: 15px; width: 100%;">
                     <h:outputText value="Historial de Conversiones" style="font-weight: bold; display: block; margin-bottom: 8px;" />
-                    <h:dataTable value="#{conversorBean.historial}" var="item" border="1" cellpadding="6" cellspacing="0" style="width: 100%; text-align: center; border-collapse: collapse;">
+                    <h:dataTable value="#{conversorView.historial}" var="item" border="1" cellpadding="6" cellspacing="0" style="width: 100%; text-align: center; border-collapse: collapse;">
                         <h:column>
                             <f:facet name="header">Magnitud</f:facet>
                             #{item.magnitud}
