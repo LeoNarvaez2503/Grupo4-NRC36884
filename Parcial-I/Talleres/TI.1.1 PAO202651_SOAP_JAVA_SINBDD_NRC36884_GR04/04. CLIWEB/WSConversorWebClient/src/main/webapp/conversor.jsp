@@ -37,7 +37,10 @@
 
 <!-- Barra superior simple con usuario y salir -->
 <div class="top-bar">
-    <div class="top-bar-title">WS Conversor</div>
+    <div class="top-bar-title">
+        <img src="${pageContext.request.contextPath}/images/sullivan.png" alt="Sulley" style="width: 26px; height: 26px; vertical-align: middle; margin-right: 6px; object-fit: contain;">
+        WS Conversor
+    </div>
     <div class="top-bar-user">
         <span>Usuario: <strong><%= usuario.getUsuario() %></strong></span>
         <a href="${pageContext.request.contextPath}/logout" class="link-logout">Cerrar Sesión</a>
@@ -46,6 +49,12 @@
 
 <div class="window-wrapper">
     <div class="window-card window-card-large">
+
+        <div style="text-align: center; margin-bottom: 8px;">
+            <img src="${pageContext.request.contextPath}/images/sullivan.png" 
+                 alt="James P. Sullivan - Monsters Inc" 
+                 style="width: 80px; height: 80px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));">
+        </div>
 
         <h2 class="window-title" id="tituloConversor"><%= titulo %></h2>
 

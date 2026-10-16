@@ -22,8 +22,29 @@ public class ConversorView extends javax.swing.JFrame {
      */
     public ConversorView() {
         initComponents();
+        cargarImagenSulley();
         setLocationRelativeTo(null);
         actualizarUnidades();
+    }
+
+    private void cargarImagenSulley() {
+        try {
+            java.net.URL imgUrl = getClass().getResource("/ec/edu/monster/wsconversorclient/images/sullivan.png");
+            if (imgUrl == null) {
+                imgUrl = getClass().getResource("/ec/edu/monster/wsconversorclient/images/monster_sulley.png");
+            }
+            if (imgUrl != null) {
+                javax.swing.ImageIcon originalIcon = new javax.swing.ImageIcon(imgUrl);
+                java.awt.Image scaledImage = originalIcon.getImage().getScaledInstance(70, 70, java.awt.Image.SCALE_SMOOTH);
+                javax.swing.ImageIcon scaledIcon = new javax.swing.ImageIcon(scaledImage);
+                jLabel2.setIcon(scaledIcon);
+                jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+                jLabel2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+                setIconImage(originalIcon.getImage());
+            }
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.WARNING, "No se pudo cargar la imagen de Sulley", e);
+        }
     }
 
     /**

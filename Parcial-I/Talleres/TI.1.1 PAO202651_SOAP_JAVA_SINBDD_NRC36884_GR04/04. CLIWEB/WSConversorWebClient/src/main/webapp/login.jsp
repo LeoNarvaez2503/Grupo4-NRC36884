@@ -12,6 +12,12 @@
 <div class="window-wrapper">
     <div class="window-card">
         
+        <div style="text-align: center; margin-bottom: 12px;">
+            <img src="${pageContext.request.contextPath}/images/sullivan.png" 
+                 alt="James P. Sullivan - Monsters Inc" 
+                 style="width: 120px; height: 120px; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));">
+        </div>
+
         <h2 class="window-title">INICIAR SESIÓN</h2>
 
         <!-- Mensaje de error -->

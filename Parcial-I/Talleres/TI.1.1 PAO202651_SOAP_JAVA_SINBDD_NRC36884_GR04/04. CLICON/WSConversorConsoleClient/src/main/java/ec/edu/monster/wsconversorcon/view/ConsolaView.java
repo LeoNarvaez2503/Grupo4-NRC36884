@@ -11,10 +11,13 @@ public class ConsolaView {
     private final Scanner scanner = new Scanner(System.in);
 
     public void mostrarBanner() {
-        System.out.println("==================================================");
-        System.out.println("       WS CONVERSOR DE UNIDADES - CONSOLA        ");
-        System.out.println("          (Arquitectura MVC - Java Puro)          ");
-        System.out.println("==================================================");
+        System.out.println("   /\\_______/\\");
+        System.out.println("  /   o   o   \\     ╔═══════════════════════════════════════╗");
+        System.out.println(" (   == ^ ==   )    ║   MONSTERS INC. - CONVERSOR SOAP      ║");
+        System.out.println("  )   \\___/   (     ║   (Arquitectura MVC - Java Puro)      ║");
+        System.out.println(" (  (_______)  )    ║   Personaje: James P. Sullivan        ║");
+        System.out.println("  \\___________/     ╚═══════════════════════════════════════╝");
+        System.out.println();
     }
 
     public String leerTexto(String etiqueta) {
