@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+<h:head>
+    <meta charset="UTF-8"/>
+    <title>Iniciar Sesión - Conversor SOAP (Java Faces)</title>
+</h:head>
+<h:body>
+
+    <div align="center">
+        <h:form id="loginForm">
+            <h:panelGrid columns="1" style="text-align: center; margin-top: 50px; border: 1px solid #999; padding: 25px; border-radius: 8px; width: 380px;">
+                
+                <h:graphicImage value="/images/sullivan.png" width="120" height="120" alt="Sullivan Monsters Inc" />
+
+                <h:outputText value="INICIAR SESIÓN" style="font-size: 20px; font-weight: bold; margin: 15px 0; display: block;" />
+
+                <h:messages globalOnly="true" style="color: red; list-style-type: none; padding: 0;" />
+
+                <h:panelGrid columns="2" cellpadding="8" style="text-align: left; width: 100%;">
+                    <h:outputLabel for="usuario" value="Usuario:" style="font-weight: bold;" />
+                    <h:inputText id="usuario" value="#{loginBean.usuario}" required="true" requiredMessage="Ingrese su usuario." style="width: 100%;" />
+
+                    <h:outputLabel for="contrasenia" value="Contraseña:" style="font-weight: bold;" />
+                    <h:inputSecret id="contrasenia" value="#{loginBean.contrasenia}" required="true" requiredMessage="Ingrese su contraseña." style="width: 100%;" />
+                </h:panelGrid>
+
+                <h:panelGroup layout="block" style="margin-top: 15px;">
+                    <h:commandButton value="Ingresar" action="#{loginBean.login}" style="padding: 6px 16px; margin-right: 10px; cursor: pointer;" />
+                    <h:commandButton value="Limpiar" action="#{loginBean.limpiar}" immediate="true" style="padding: 6px 16px; cursor: pointer;">
+                        <f:ajax execute="@this" render="loginForm" />
+                    </h:commandButton>
+                </h:panelGroup>
+
+            </h:panelGrid>
+        </h:form>
+    </div>
+
+</h:body>
+</html>

@@ -1,101 +1,83 @@
-# Cliente Web SOAP - Conversor de Unidades (Java Puro | Jakarta EE MVC)
+# Cliente Web SOAP - Conversor de Unidades (Jakarta Faces / JSF + XML | MVC)
 
 **NRC:** 36884 | **Grupo:** 4 | **PAO:** 202651
 
-Aplicación Web desarrollada en **Java Puro con Jakarta EE 10** para despliegue en **Payara Server / GlassFish**, implementando estrictamente el patrón arquitectónico **Modelo-Vista-Controlador (MVC)** y consumiendo el servicio web SOAP (`WSConversorUnidades`).
+Aplicación Web desarrollada en **Java Puro con Jakarta Faces (JSF 4.0) y Facelets XML** para despliegue en **Payara Server / GlassFish**, implementando estrictamente el patrón arquitectónico **Modelo-Vista-Controlador (MVC)** y consumiendo el servicio web SOAP (`WSConversorUnidades`).
 
 ---
 
-## 🏛️ Patrón Arquitectónico MVC (Java EE / Jakarta EE)
+## 🏛️ Patrón Arquitectónico MVC (Jakarta Faces / JSF)
+
+En Jakarta Faces, la interfaz de usuario se define mediante **vistas XML declarativas (`.xhtml`)** con componentes visuales de Java (`<h:form>`, `<h:inputText>`, `<h:commandButton>`), y la lógica de negocio y control reside 100% en **Beans de Java (`@Named @SessionScoped`)**:
 
 ```
-             Petición HTTP (GET/POST)
-Cliente  ───────────────────────────────>  [ CONTROLADOR ]
-(Browser)                                   - LoginServlet.java
-   │                                        - ConversorServlet.java
-   │                                        - LogoutServlet.java
-   │                                        - AuthFilter.java (Seguridad)
-   │                                                │
-   │                                                ▼
-   │                                        [ MODELO & SERVICIO ]
-   │                                        - AppControlador.java
-   │                                        - ConversorService.java (JAX-WS)
-   │                                        - UsuarioSession.java
-   │                                        - HistorialItem.java
-   │                                        - Enums: UnidadLongitud, UnidadMasa, etc.
-   │                                                │
-   │                                                ▼ Invoca SOAP
-   │                                        [ SERVIDOR SOAP ] (Payara)
-   │                                        http://localhost:8080/WS_Conversor...
-   │                                                │
-   │ <──────────────────────────────────────────────┘ Retorna Datos
-   │
+                       Petición HTTP / AJAX
+Navegador Web ──────────────────────────────────────> [ FACES SERVLET ]
+(Cliente)                                                    │
+   │                                                         ▼
+   │                                                 [ CONTROLADORES ]
+   │                                                 - LoginBean.java (@Named)
+   │                                                 - ConversorBean.java (@Named)
+   │                                                 - AppControlador.java
+   │                                                         │
+   │                                                         ▼
+   │                                                 [ MODELO & SERVICIO ]
+   │                                                 - ConversorService.java (JAX-WS)
+   │                                                 - UsuarioSession.java
+   │                                                 - HistorialItem.java
+   │                                                 - Enums: Magnitudes
+   │                                                         │
+   │                                                         ▼ Invoca SOAP
+   │                                                 [ SERVIDOR PAYARA ]
+   │                                                 WSConversorUnidades?wsdl
+   │                                                         │
+   │ <───────────────────────────────────────────────────────┘
    ▼
-[ VISTA (JSP) ]
-- login.jsp (Formulario con glassmorphism y auto-llenado de credenciales)
-- conversor.jsp (Selector por pestañas, tarjetas dinámicas e historial de sesión)
-- css/styles.css & js/app.js (Interfaz moderna con estética dark glassmorphism)
+[ VISTA XML DECLARATIVA (.xhtml) ]
+- login.xhtml (Vista en XML estricto con Facelets y avatar de Sullivan)
+- conversor.xhtml (Conversor tipo ventana de escritorio con <f:ajax> dinámico)
+- images/sullivan.png (Portada de James P. Sullivan de Monsters Inc)
 ```
 
 ---
 
 ## 📂 Estructura de Paquetes y Clases
 
-- **Controlador (`ec.edu.monster.wsconversorweb.controller`):**
-  - `LoginServlet.java`: Gestiona la autenticación con el servidor SOAP y almacena la sesión.
-  - `ConversorServlet.java`: Recibe peticiones de conversión, invoca al modelo y gestiona el historial.
-  - `LogoutServlet.java`: Invalida la sesión del usuario.
-  - `AuthFilter.java`: Filtro Jakarta EE que protege las rutas `/conversor` y `/conversor.jsp`.
+- **Controladores / Managed Beans (`ec.edu.monster.wsconversorweb.controller`):**
+  - `LoginBean.java`: Controlador CDI (`@Named @SessionScoped`) para la autenticación y control de sesión.
+  - `ConversorBean.java`: Controlador CDI para la gestión de magnitudes, invocación de conversiones y actualización de componentes con `<f:ajax>`.
   - `AppControlador.java`: Fachada controladora de la lógica de aplicación.
+  - `LoginServlet.java`, `ConversorServlet.java`, `AuthFilter.java`: Soporte para endpoints Servlet tradicionales.
+
+- **Vistas XML (`src/main/webapp/`):**
+  - `login.xhtml`: Formulario XML con componentes `<h:form>`, `<h:inputText>`, `<h:inputSecret>` y `<h:commandButton>`.
+  - `conversor.xhtml`: Vista XML con selector dinámico de magnitud, conversión con AJAX nativo de Faces y tabla de historial.
+  - `WEB-INF/beans.xml`: Descriptor CDI 4.0 (`bean-discovery-mode="annotated"`).
+  - `WEB-INF/faces-config.xml`: Descriptor de configuración de Jakarta Faces 4.0.
+  - `WEB-INF/web.xml`: Mapeo de `FacesServlet` sobre `*.xhtml` y página de bienvenida `login.xhtml`.
 
 - **Servicio & SOAP (`ec.edu.monster.wsconversorweb.service` / `ec.edu.monster.ws`):**
   - `ConversorService.java`: Servicio cliente JAX-WS que consume las operaciones SOAP.
-  - `WSConversorUnidades.java`: Interfaz SEI Jakarta XML Web Services.
-  - `WSConversorUnidades_Service.java`: Clase Service Jakarta JAX-WS que conecta con el WSDL.
+  - `WSConversorUnidades.java` y `WSConversorUnidades_Service.java`: Clases SEI y Service JAX-WS.
 
 - **Modelo (`ec.edu.monster.wsconversorweb.model`):**
-  - `UsuarioSession.java`: Bean de sesión para el usuario autenticado.
-  - `HistorialItem.java`: Bean que representa cada conversión realizada en la sesión.
-  - `UnidadLongitud.java`, `UnidadMasa.java`, `UnidadTemperatura.java`: Enums de magnitudes.
-
-- **Vistas (`src/main/webapp`):**
-  - `login.jsp`: Vista de autenticación con feedback de errores e indicador de credenciales.
-  - `conversor.jsp`: Vista del conversor multimagnitud con pestañas, tarjetas reactivas y tabla de historial.
-  - `css/styles.css`: Estilos visuales en modo oscuro (glassmorphism).
-  - `js/app.js`: Interactividad de cliente (cambio de unidades, botón de intercambio ⇄, copiar resultado).
-  - `WEB-INF/web.xml`: Descriptor de despliegue Jakarta EE 10.
+  - `UsuarioSession.java`: Modelo de datos de sesión.
+  - `HistorialItem.java`: Modelo de cada conversión efectuada.
+  - `UnidadLongitud.java`, `UnidadMasa.java`, `UnidadTemperatura.java`: Enumeraciones de unidades.
 
 ---
 
-## 🔑 Credenciales Oficiales
-- **Usuario:** `MONSTER`
-- **Contraseña:** `MONSTER9`
+## 🚀 Despliegue y Ejecución en Payara Server
 
----
-
-## ⚙️ Despliegue y Ejecución
-
-### 1. Iniciar el Servidor SOAP en Payara
-Asegurarse de que el servicio SOAP esté desplegado y accesible:
-`http://localhost:8080/WS_ConversorUnidades_Java_SOAP/WSConversorUnidades?wsdl`
-
-### 2. Desplegar el Cliente Web en Payara Server
-
-#### Desde NetBeans:
-1. Abrir el proyecto `WSConversorWebClient` en NetBeans.
-2. Hacer clic derecho en el proyecto y seleccionar **Run** o **Deploy** (utiliza Payara Server configurado).
-
-#### Desde la Terminal con Maven:
-```bash
-mvn clean package
-```
-El archivo `.war` generado se encuentra en:
-`target/WSConversorWebClient-1.0-SNAPSHOT.war`
-
-Copia este archivo a la carpeta `autodeploy` de tu Payara Server:
-```bash
-cp target/WSConversorWebClient-1.0-SNAPSHOT.war $PAYARA_HOME/glassfish/domains/domain1/autodeploy/
-```
-
-### 3. Acceder en el Navegador
-👉 **`http://localhost:8080/WSConversorWebClient/`** o **`http://localhost:8080/WSConversorWebClient/login`**
+1. **Compilar el archivo `.war`:**
+   ```bash
+   mvn clean package
+   ```
+2. **Desplegar en Payara:**
+   - Copiar `target/WSConversorWebClient-1.0-SNAPSHOT.war` a la carpeta `glassfish/domains/domain1/autodeploy/`.
+   - O desplegar desde NetBeans haciendo clic derecho en el proyecto -> **Run**.
+3. **Acceso:**
+   - La aplicación iniciará en:
+     ```text
+     http://localhost:8080/WSConversorWebClient/login.xhtml
+     ```
