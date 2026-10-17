@@ -1,3 +1,15 @@
 /Parcial-I/Talleres/TI.1.1 PAO202651_SOAP_JAVA_SINBDD_NRC36884_GR04/04. SERVIDOR/WSConversionUnidades
 /Parcial-I/Talleres/TI.1.1 PAO202651_SOAP_JAVA_SINBDD_NRC36884_GR04/04. SERVIDOR/WSConversorClient/build/
 /Parcial-I/Talleres/TI.1.1 PAO202651_SOAP_JAVA_SINBDD_NRC36884_GR04/04. SERVIDOR/WSConversorClient/dist/
+
+# Temp folders
+.tmp.driveupload/
+*.tmp
+
+# .NET build and user artifacts
+[Bb]in/
+[Oo]bj/
+.vs/
+*.user
+*.suo
+

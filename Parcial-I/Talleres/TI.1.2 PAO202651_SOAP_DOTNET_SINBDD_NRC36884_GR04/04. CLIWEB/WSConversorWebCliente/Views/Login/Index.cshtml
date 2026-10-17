@@ -1,0 +1,145 @@
+@model ec.edu.monster.modelo.LoginViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar Sesión - Conversor SOAP (ASP.NET Core MVC)</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .login-card {
+            text-align: center;
+            margin-top: 50px;
+            border: 1px solid #999;
+            padding: 25px;
+            border-radius: 8px;
+            width: 380px;
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+        .form-table {
+            text-align: left;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .form-table td {
+            padding: 8px;
+        }
+        .form-input {
+            width: 95%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn {
+            padding: 8px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+            border: 1px solid #888;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-secondary {
+            background-color: #e9ecef;
+            color: #333;
+        }
+        .btn-secondary:hover {
+            background-color: #dae0e5;
+        }
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 12px 0;
+            font-size: 13px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div align="center">
+        <form id="loginForm" asp-controller="Login" asp-action="Index" method="post">
+            @Html.AntiForgeryToken()
+            <div class="login-card">
+                
+                <img src="~/images/sullivan.png" width="120" height="120" alt="Sullivan Monsters Inc" />
+
+                <div style="font-size: 20px; font-weight: bold; margin: 15px 0;">INICIAR SESIÓN</div>
+
+                @if (!string.IsNullOrEmpty(Model?.MensajeError))
+                {
+                    <div class="alert-error">
+                        @Model.MensajeError
+                    </div>
+                }
+
+                <table class="form-table">
+                    <tr>
+                        <td style="font-weight: bold; width: 35%;">
+                            <label for="usuario">Usuario:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="usuario" name="Usuario" value="@Model?.Usuario" class="form-input" required autocomplete="username" autofocus />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">
+                            <label for="contrasenia">Contraseña:</label>
+                        </td>
+                        <td>
+                            <input type="password" id="contrasenia" name="Contrasenia" class="form-input" required autocomplete="current-password" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="font-size: 12px;">
+                            <label style="cursor: pointer;">
+                                <input type="checkbox" id="chkMostrar" onclick="togglePassword()" /> Mostrar contraseña
+                            </label>
+                        </td>
+                    </tr>
+                </table>
+
+                <div style="margin-top: 15px;">
+                    <button type="submit" class="btn btn-primary">Ingresar</button>
+                    <button type="button" class="btn btn-secondary" onclick="limpiarFormulario()">Limpiar</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function togglePassword() {
+            var input = document.getElementById("contrasenia");
+            input.type = input.type === "password" ? "text" : "password";
+        }
+        function limpiarFormulario() {
+            document.getElementById("usuario").value = "";
+            document.getElementById("contrasenia").value = "";
+            document.getElementById("usuario").focus();
+        }
+    </script>
+</body>
+</html>
