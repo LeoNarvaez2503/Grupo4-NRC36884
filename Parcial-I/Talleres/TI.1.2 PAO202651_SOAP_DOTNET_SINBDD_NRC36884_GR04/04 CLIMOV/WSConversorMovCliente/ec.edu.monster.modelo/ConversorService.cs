@@ -13,9 +13,17 @@ namespace ec.edu.monster.modelo
 
         private WSConversorUnidadesClient CrearCliente()
         {
-            return new WSConversorUnidadesClient(
+            var cliente = new WSConversorUnidadesClient(
                 WSConversorUnidadesClient.EndpointConfiguration.BasicHttpBinding_IWSConversorUnidades,
                 EndpointUrl);
+
+            var uri = new Uri(EndpointUrl);
+            if (!uri.Host.Equals("localhost", StringComparison.OrdinalIgnoreCase))
+            {
+                cliente.Endpoint.EndpointBehaviors.Add(new IisExpressHostHeaderBehavior($"localhost:{uri.Port}"));
+            }
+
+            return cliente;
         }
 
         public async Task<string> LoginAsync(string usuario, string contrasenia)
@@ -60,6 +68,46 @@ namespace ec.edu.monster.modelo
         public double ConvertirTemperatura(double valor, string unidadInicial, string unidadFinal)
         {
             return ConvertirTemperaturaAsync(valor, unidadInicial, unidadFinal).GetAwaiter().GetResult();
+        }
+    }
+
+    internal class IisExpressHostHeaderBehavior : System.ServiceModel.Description.IEndpointBehavior, System.ServiceModel.Dispatcher.IClientMessageInspector
+    {
+        private readonly string hostHeader;
+
+        public IisExpressHostHeaderBehavior(string hostHeader)
+        {
+            this.hostHeader = hostHeader;
+        }
+
+        public void AddBindingParameters(System.ServiceModel.Description.ServiceEndpoint endpoint, System.ServiceModel.Channels.BindingParameterCollection bindingParameters) { }
+        
+        public void ApplyClientBehavior(System.ServiceModel.Description.ServiceEndpoint endpoint, System.ServiceModel.Dispatcher.ClientRuntime clientRuntime)
+        {
+            clientRuntime.ClientMessageInspectors.Add(this);
+        }
+
+        public void ApplyDispatchBehavior(System.ServiceModel.Description.ServiceEndpoint endpoint, System.ServiceModel.Dispatcher.EndpointDispatcher endpointDispatcher) { }
+
+        public void Validate(System.ServiceModel.Description.ServiceEndpoint endpoint) { }
+
+        public void AfterReceiveReply(ref System.ServiceModel.Channels.Message reply, object correlationState) { }
+
+        public object BeforeSendRequest(ref System.ServiceModel.Channels.Message request, System.ServiceModel.IClientChannel channel)
+        {
+            System.ServiceModel.Channels.HttpRequestMessageProperty httpRequestProperty;
+            if (request.Properties.TryGetValue(System.ServiceModel.Channels.HttpRequestMessageProperty.Name, out object? obj) && obj is System.ServiceModel.Channels.HttpRequestMessageProperty prop)
+            {
+                httpRequestProperty = prop;
+            }
+            else
+            {
+                httpRequestProperty = new System.ServiceModel.Channels.HttpRequestMessageProperty();
+                request.Properties.Add(System.ServiceModel.Channels.HttpRequestMessageProperty.Name, httpRequestProperty);
+            }
+
+            httpRequestProperty.Headers["Host"] = hostHeader;
+            return null!;
         }
     }
 }
