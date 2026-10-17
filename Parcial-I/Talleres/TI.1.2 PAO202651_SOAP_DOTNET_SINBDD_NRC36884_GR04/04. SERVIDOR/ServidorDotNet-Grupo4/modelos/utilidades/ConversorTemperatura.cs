@@ -1,5 +1,5 @@
-using System;
 using ServidorDotNet_Grupo4.modelos.enums;
+using System;
 
 namespace ServidorDotNet_Grupo4.modelos.utilidades
 {

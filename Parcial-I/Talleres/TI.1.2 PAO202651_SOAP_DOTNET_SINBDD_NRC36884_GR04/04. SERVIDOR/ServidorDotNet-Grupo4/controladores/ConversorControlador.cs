@@ -1,10 +1,10 @@
-using System;
-using System.ServiceModel;
 using ServidorDotNet_Grupo4.modelos.enums;
 using ServidorDotNet_Grupo4.modelos.mapeadores;
 using ServidorDotNet_Grupo4.modelos.seguridad;
 using ServidorDotNet_Grupo4.modelos.utilidades;
 using ServidorDotNet_Grupo4.servicios;
+using System;
+using System.ServiceModel;
 
 namespace ServidorDotNet_Grupo4.controladores
 {
@@ -29,7 +29,7 @@ namespace ServidorDotNet_Grupo4.controladores
                 {
                     return AdministradorToken.GenerarToken();
                 }
-                
+
                 return null;
             }
             catch (Exception ex)

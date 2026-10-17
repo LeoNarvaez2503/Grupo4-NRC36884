@@ -1,7 +1,7 @@
+using ServidorDotNet_Grupo4.modelos.enums;
 using System;
 using System.Globalization;
 using System.Text;
-using ServidorDotNet_Grupo4.modelos.enums;
 
 namespace ServidorDotNet_Grupo4.modelos.mapeadores
 {

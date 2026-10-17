@@ -80,7 +80,11 @@ namespace ec.edu.monster.modelo
             this.hostHeader = hostHeader;
         }
 
-        public void AddBindingParameters(System.ServiceModel.Description.ServiceEndpoint endpoint, System.ServiceModel.Channels.BindingParameterCollection bindingParameters) { }
+        public void AddBindingParameters(System.ServiceModel.Description.ServiceEndpoint endpoint, System.ServiceModel.Channels.BindingParameterCollection bindingParameters)
+        {
+            bindingParameters.Add(new Func<System.Net.Http.HttpClientHandler, System.Net.Http.HttpMessageHandler>(
+                handler => new HostRewriteHandler(handler, hostHeader)));
+        }
         
         public void ApplyClientBehavior(System.ServiceModel.Description.ServiceEndpoint endpoint, System.ServiceModel.Dispatcher.ClientRuntime clientRuntime)
         {
@@ -108,6 +112,25 @@ namespace ec.edu.monster.modelo
 
             httpRequestProperty.Headers["Host"] = hostHeader;
             return null!;
+        }
+    }
+
+    internal class HostRewriteHandler : System.Net.Http.DelegatingHandler
+    {
+        private readonly string hostHeader;
+
+        public HostRewriteHandler(System.Net.Http.HttpMessageHandler innerHandler, string hostHeader)
+            : base(innerHandler)
+        {
+            this.hostHeader = hostHeader;
+        }
+
+        protected override System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage> SendAsync(
+            System.Net.Http.HttpRequestMessage request,
+            System.Threading.CancellationToken cancellationToken)
+        {
+            request.Headers.Host = hostHeader;
+            return base.SendAsync(request, cancellationToken);
         }
     }
 }
