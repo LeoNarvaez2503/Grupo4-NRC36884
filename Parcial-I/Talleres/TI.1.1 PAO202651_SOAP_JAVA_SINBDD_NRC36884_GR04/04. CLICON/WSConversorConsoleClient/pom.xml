@@ -34,6 +34,19 @@
     </dependencies>
     
     <build>
+        <resources>
+            <resource>
+                <targetPath>META-INF</targetPath>
+                <directory>src</directory>
+                <includes>
+                    <include>jax-ws-catalog.xml</include>
+                    <include>wsdl/**</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -95,6 +108,35 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <version>4.0.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>localhost_8080/WS_ConversorUnidades_Java_SOAP/WSConversorUnidades.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>ec.edu.monster.ws</packageName>
+                            <wsdlLocation>http://localhost:8080/WS_ConversorUnidades_Java_SOAP/WSConversorUnidades?wsdl</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/WSConversorUnidades.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-WSConversorUnidades</id>
+                        <phase>generate-sources</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <sourceDestDir>${project.build.directory}/generated-sources/jaxws-wsimport</sourceDestDir>
+                    <xnocompile>true</xnocompile>
+                    <verbose>true</verbose>
+                    <extension>true</extension>
+                    <catalog>${basedir}/src/jax-ws-catalog.xml</catalog>
+                </configuration>
             </plugin>
         </plugins>
     </build>
