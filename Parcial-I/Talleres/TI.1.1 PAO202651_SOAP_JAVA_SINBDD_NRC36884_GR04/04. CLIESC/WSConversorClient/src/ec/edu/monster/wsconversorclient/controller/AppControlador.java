@@ -18,7 +18,11 @@ public class AppControlador {
         return service.login(usuario, contrasenia);
     }
 
-    public double convertirLogintud(double n1, String unidadInicial, String unidadFinal){
+    public double convertirLongitud(double n1, String unidadInicial, String unidadFinal) {
+        return service.convertirLongitud(n1, unidadInicial, unidadFinal);
+    }
+
+    public double convertirLogintud(double n1, String unidadInicial, String unidadFinal) {
         return service.convertirLongitud(n1, unidadInicial, unidadFinal);
     }
 

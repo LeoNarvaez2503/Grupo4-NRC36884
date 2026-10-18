@@ -70,4 +70,8 @@
     nbproject/build-impl.xml file. 
 
     -->
+
+    <target name="wsimport-client-generate">
+        <echo message="Usando stubs oficiales de Jakarta XML-WS desde src/ec/edu/monster/ws"/>
+    </target>
 </project>

@@ -23,8 +23,11 @@ public class ConversorView extends javax.swing.JFrame {
     public ConversorView() {
         initComponents();
         cargarImagenSulley();
-        setLocationRelativeTo(null);
         actualizarUnidades();
+        pack();
+        setMinimumSize(new java.awt.Dimension(Math.max(540, getPreferredSize().width), Math.max(380, getPreferredSize().height)));
+        setResizable(true);
+        setLocationRelativeTo(null);
     }
 
     private void cargarImagenSulley() {
@@ -223,7 +226,7 @@ public class ConversorView extends javax.swing.JFrame {
             } else if ("TEMPERATURA".equalsIgnoreCase(tipo)) {
                 conversion = control.convertirTemperatura(num, unidadInicial, unidadFinal);
             } else {
-                conversion = control.convertirLogintud(num, unidadInicial, unidadFinal);
+                conversion = control.convertirLongitud(num, unidadInicial, unidadFinal);
             }
 
             conversionResultado.setText(String.valueOf(conversion));

@@ -23,8 +23,11 @@ public class ConversorView extends javax.swing.JFrame {
     public ConversorView() {
         initComponents();
         cargarImagenSulley();
-        setLocationRelativeTo(null);
         actualizarUnidades();
+        pack();
+        setMinimumSize(new java.awt.Dimension(Math.max(540, getPreferredSize().width), Math.max(380, getPreferredSize().height)));
+        setResizable(true);
+        setLocationRelativeTo(null);
     }
 
     private void cargarImagenSulley() {

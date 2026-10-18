@@ -20,6 +20,9 @@ public class LoginView extends javax.swing.JFrame {
     public LoginView() {
         initComponents();
         cargarImagenSulley();
+        pack();
+        setMinimumSize(new java.awt.Dimension(Math.max(400, getPreferredSize().width), Math.max(430, getPreferredSize().height)));
+        setResizable(true);
         setLocationRelativeTo(null);
     }
 
