@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package ec.edu.monster.wsconversorclient.model;
+
 import ec.edu.monster.ws.WSConversorUnidades;
 import ec.edu.monster.ws.WSConversorUnidades_Service;
 
@@ -47,5 +48,5 @@ public class ConversorService {
         WSConversorUnidades port = service.getWSConversorUnidadesPort();
         return port.convertirTemperatura(valor, unidadInicial, unidadFinal);
     }
-    
+
 }
