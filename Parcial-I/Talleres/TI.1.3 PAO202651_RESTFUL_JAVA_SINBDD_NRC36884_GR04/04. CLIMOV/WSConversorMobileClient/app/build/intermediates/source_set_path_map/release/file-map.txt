@@ -1,0 +1,34 @@
+ec.edu.monster.wsconversormov.app-lifecycle-livedata-core-2.6.1-0 /home/meatpuppets/.gradle/caches/transforms-3/04a2cc2cf974a3e31486f48a52bf28bd/transformed/lifecycle-livedata-core-2.6.1/res
+ec.edu.monster.wsconversormov.app-appcompat-1.6.1-1 /home/meatpuppets/.gradle/caches/transforms-3/1269e761ba2b2764df14d796e474c793/transformed/appcompat-1.6.1/res
+ec.edu.monster.wsconversormov.app-material-1.11.0-2 /home/meatpuppets/.gradle/caches/transforms-3/2b09c2cd4192fe4b7b686a651ae8eff3/transformed/material-1.11.0/res
+ec.edu.monster.wsconversormov.app-viewpager2-1.0.0-3 /home/meatpuppets/.gradle/caches/transforms-3/2ddaf1f12da8c118613d930985fe5f92/transformed/viewpager2-1.0.0/res
+ec.edu.monster.wsconversormov.app-coordinatorlayout-1.1.0-4 /home/meatpuppets/.gradle/caches/transforms-3/32c941a3a261d4a55722954517b3f409/transformed/coordinatorlayout-1.1.0/res
+ec.edu.monster.wsconversormov.app-lifecycle-livedata-2.6.1-5 /home/meatpuppets/.gradle/caches/transforms-3/34f9b4270b7c99dcca59829b049b10ab/transformed/lifecycle-livedata-2.6.1/res
+ec.edu.monster.wsconversormov.app-cardview-1.0.0-6 /home/meatpuppets/.gradle/caches/transforms-3/47ab4dae8f4577a0d35e59cd24d21777/transformed/cardview-1.0.0/res
+ec.edu.monster.wsconversormov.app-fragment-1.3.6-7 /home/meatpuppets/.gradle/caches/transforms-3/4a11e6aca8deda0d389cc913a41ef35f/transformed/fragment-1.3.6/res
+ec.edu.monster.wsconversormov.app-emoji2-1.2.0-8 /home/meatpuppets/.gradle/caches/transforms-3/4db699d37aeb53b95d33ff3db7cc3cca/transformed/emoji2-1.2.0/res
+ec.edu.monster.wsconversormov.app-lifecycle-viewmodel-2.6.1-9 /home/meatpuppets/.gradle/caches/transforms-3/51b62a6c97e776fdd191bf135d7ebb51/transformed/lifecycle-viewmodel-2.6.1/res
+ec.edu.monster.wsconversormov.app-annotation-experimental-1.3.0-10 /home/meatpuppets/.gradle/caches/transforms-3/5aa2966d78ad4ee758c1ecea8b1a578e/transformed/annotation-experimental-1.3.0/res
+ec.edu.monster.wsconversormov.app-lifecycle-viewmodel-savedstate-2.6.1-11 /home/meatpuppets/.gradle/caches/transforms-3/5d76c96047a1a9b92903d933c7066756/transformed/lifecycle-viewmodel-savedstate-2.6.1/res
+ec.edu.monster.wsconversormov.app-transition-1.2.0-12 /home/meatpuppets/.gradle/caches/transforms-3/650519a49e7a6174437614923942058b/transformed/transition-1.2.0/res
+ec.edu.monster.wsconversormov.app-appcompat-resources-1.6.1-13 /home/meatpuppets/.gradle/caches/transforms-3/68b491ffcc6cd52d6dfc071349a68223/transformed/appcompat-resources-1.6.1/res
+ec.edu.monster.wsconversormov.app-lifecycle-process-2.6.1-14 /home/meatpuppets/.gradle/caches/transforms-3/6a853b8e18009ae21a802547b22027ba/transformed/lifecycle-process-2.6.1/res
+ec.edu.monster.wsconversormov.app-core-1.9.0-15 /home/meatpuppets/.gradle/caches/transforms-3/75919e89ab9acfe92b320b18b5eba894/transformed/core-1.9.0/res
+ec.edu.monster.wsconversormov.app-drawerlayout-1.1.1-16 /home/meatpuppets/.gradle/caches/transforms-3/7a572ff4edc0378b5d2b48016d96eedc/transformed/drawerlayout-1.1.1/res
+ec.edu.monster.wsconversormov.app-constraintlayout-2.1.4-17 /home/meatpuppets/.gradle/caches/transforms-3/80bc2211690f56e6063d66d7e4cf0117/transformed/constraintlayout-2.1.4/res
+ec.edu.monster.wsconversormov.app-lifecycle-runtime-2.6.1-18 /home/meatpuppets/.gradle/caches/transforms-3/8d855579f340258c3d768fdeeb11fee6/transformed/lifecycle-runtime-2.6.1/res
+ec.edu.monster.wsconversormov.app-core-ktx-1.9.0-19 /home/meatpuppets/.gradle/caches/transforms-3/9c3ca203d3a113b78b2264ad670cc142/transformed/core-ktx-1.9.0/res
+ec.edu.monster.wsconversormov.app-startup-runtime-1.1.1-20 /home/meatpuppets/.gradle/caches/transforms-3/a84acd55e284ffe396d760fb830715fc/transformed/startup-runtime-1.1.1/res
+ec.edu.monster.wsconversormov.app-profileinstaller-1.3.0-21 /home/meatpuppets/.gradle/caches/transforms-3/afec4888cd7306003b24265c0b81ca00/transformed/profileinstaller-1.3.0/res
+ec.edu.monster.wsconversormov.app-savedstate-1.2.1-22 /home/meatpuppets/.gradle/caches/transforms-3/b1bddee15373eefabd0c8160be5328b4/transformed/savedstate-1.2.1/res
+ec.edu.monster.wsconversormov.app-recyclerview-1.1.0-23 /home/meatpuppets/.gradle/caches/transforms-3/c0ac89fe8199f06f14827c1abbfd1142/transformed/recyclerview-1.1.0/res
+ec.edu.monster.wsconversormov.app-core-runtime-2.2.0-24 /home/meatpuppets/.gradle/caches/transforms-3/c4d46c66381fe03d5ba8401bfbeda42c/transformed/core-runtime-2.2.0/res
+ec.edu.monster.wsconversormov.app-emoji2-views-helper-1.2.0-25 /home/meatpuppets/.gradle/caches/transforms-3/e90e4c74940af4d851072a16323da8fe/transformed/emoji2-views-helper-1.2.0/res
+ec.edu.monster.wsconversormov.app-activity-1.8.0-26 /home/meatpuppets/.gradle/caches/transforms-3/f96519b30a247a560eaaa2d50bd68ffc/transformed/activity-1.8.0/res
+ec.edu.monster.wsconversormov.app-pngs-27 /home/meatpuppets/Escritorio/Semeste VIII/Arquitectura/Parcial-I/Talleres/TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04/04. CLIMOV/WSConversorMobileClient/app/build/generated/res/pngs/release
+ec.edu.monster.wsconversormov.app-resValues-28 /home/meatpuppets/Escritorio/Semeste VIII/Arquitectura/Parcial-I/Talleres/TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04/04. CLIMOV/WSConversorMobileClient/app/build/generated/res/resValues/release
+ec.edu.monster.wsconversormov.app-packageReleaseResources-29 /home/meatpuppets/Escritorio/Semeste VIII/Arquitectura/Parcial-I/Talleres/TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04/04. CLIMOV/WSConversorMobileClient/app/build/intermediates/incremental/release/packageReleaseResources/merged.dir
+ec.edu.monster.wsconversormov.app-packageReleaseResources-30 /home/meatpuppets/Escritorio/Semeste VIII/Arquitectura/Parcial-I/Talleres/TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04/04. CLIMOV/WSConversorMobileClient/app/build/intermediates/incremental/release/packageReleaseResources/stripped.dir
+ec.edu.monster.wsconversormov.app-merged_res-31 /home/meatpuppets/Escritorio/Semeste VIII/Arquitectura/Parcial-I/Talleres/TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04/04. CLIMOV/WSConversorMobileClient/app/build/intermediates/merged_res/release
+ec.edu.monster.wsconversormov.app-main-32 /home/meatpuppets/Escritorio/Semeste VIII/Arquitectura/Parcial-I/Talleres/TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04/04. CLIMOV/WSConversorMobileClient/app/src/main/res
+ec.edu.monster.wsconversormov.app-release-33 /home/meatpuppets/Escritorio/Semeste VIII/Arquitectura/Parcial-I/Talleres/TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04/04. CLIMOV/WSConversorMobileClient/app/src/release/res

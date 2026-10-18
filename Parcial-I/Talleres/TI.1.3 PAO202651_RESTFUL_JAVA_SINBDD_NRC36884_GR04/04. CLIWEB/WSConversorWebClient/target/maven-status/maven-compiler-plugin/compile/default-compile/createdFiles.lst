@@ -1,0 +1,9 @@
+ec/edu/monster/wsconversorweb/controller/AppControlador.class
+ec/edu/monster/wsconversorweb/model/UnidadTemperatura.class
+ec/edu/monster/wsconversorweb/model/UnidadLongitud.class
+ec/edu/monster/wsconversorweb/model/UnidadMasa.class
+ec/edu/monster/wsconversorweb/model/HistorialItem.class
+ec/edu/monster/wsconversorweb/model/ConversorService.class
+ec/edu/monster/wsconversorweb/model/UsuarioSession.class
+ec/edu/monster/wsconversorweb/view/LoginView.class
+ec/edu/monster/wsconversorweb/view/ConversorView.class

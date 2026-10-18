@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">WS Conversor</string>
+    <string name="title_login">INICIAR SESIÓN</string>
+    <string name="prompt_usuario">Usuario:</string>
+    <string name="prompt_contrasenia">Contraseña:</string>
+    <string name="chk_mostrar_contrasenia">Mostrar contraseña</string>
+    <string name="btn_ingresar">Ingresar</string>
+    <string name="btn_limpiar">Limpiar</string>
+    <string name="title_conversor">Conversor de Unidades</string>
+    <string name="title_longitud">Conversor de Longitudes</string>
+    <string name="title_masa">Conversor de Masa</string>
+    <string name="title_temperatura">Conversor de Temperatura</string>
+    <string name="prompt_magnitud">Magnitud:</string>
+    <string name="prompt_valor">Valor a convertir:</string>
+    <string name="prompt_a">a</string>
+    <string name="btn_convertir">Convertir</string>
+    <string name="label_resultado">Resultado:</string>
+    <string name="btn_cerrar_sesion">Cerrar Sesión</string>
+    <string name="btn_config_ip">⚙ Configurar IP Servidor</string>
+</resources>

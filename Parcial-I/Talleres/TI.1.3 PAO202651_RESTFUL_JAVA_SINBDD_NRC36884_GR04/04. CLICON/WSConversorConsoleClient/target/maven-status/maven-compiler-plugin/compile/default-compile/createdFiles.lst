@@ -1,0 +1,8 @@
+ec/edu/monster/wsconversorcon/view/ConsolaView.class
+ec/edu/monster/wsconversorcon/model/UnidadMasa.class
+ec/edu/monster/wsconversorcon/WSConversorConsoleClient.class
+ec/edu/monster/wsconversorcon/model/UnidadLongitud.class
+ec/edu/monster/wsconversorcon/model/UnidadTemperatura.class
+ec/edu/monster/wsconversorcon/controller/ConsolaControlador.class
+ec/edu/monster/wsconversorcon/controller/AppControlador.class
+ec/edu/monster/wsconversorcon/model/ConversorService.class

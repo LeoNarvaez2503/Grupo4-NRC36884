@@ -1,0 +1,34 @@
+[
+    {
+        "merged": "ec.edu.monster.wsconversormov.app-merged_res-31:/drawable_monster_sulley.png.flat",
+        "source": "ec.edu.monster.wsconversormov.app-main-32:/drawable/monster_sulley.png"
+    },
+    {
+        "merged": "ec.edu.monster.wsconversormov.app-merged_res-31:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "ec.edu.monster.wsconversormov.app-main-32:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "ec.edu.monster.wsconversormov.app-merged_res-31:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "ec.edu.monster.wsconversormov.app-main-32:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "ec.edu.monster.wsconversormov.app-merged_res-31:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "ec.edu.monster.wsconversormov.app-main-32:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "ec.edu.monster.wsconversormov.app-merged_res-31:/drawable_edittext_border.xml.flat",
+        "source": "ec.edu.monster.wsconversormov.app-main-32:/drawable/edittext_border.xml"
+    },
+    {
+        "merged": "ec.edu.monster.wsconversormov.app-merged_res-31:/layout_activity_login.xml.flat",
+        "source": "ec.edu.monster.wsconversormov.app-main-32:/layout/activity_login.xml"
+    },
+    {
+        "merged": "ec.edu.monster.wsconversormov.app-merged_res-31:/drawable_sullivan.png.flat",
+        "source": "ec.edu.monster.wsconversormov.app-main-32:/drawable/sullivan.png"
+    },
+    {
+        "merged": "ec.edu.monster.wsconversormov.app-merged_res-31:/layout_activity_conversor.xml.flat",
+        "source": "ec.edu.monster.wsconversormov.app-main-32:/layout/activity_conversor.xml"
+    }
+]

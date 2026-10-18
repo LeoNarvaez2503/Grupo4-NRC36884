@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="accent">#10B981</color>
+    <color name="background">#F3F4F6</color>
+    <color name="border">#D1D5DB</color>
+    <color name="card_bg">#FFFFFF</color>
+    <color name="danger">#DC2626</color>
+    <color name="primary">#2563EB</color>
+    <color name="primary_dark">#1D4ED8</color>
+    <color name="text_primary">#111827</color>
+    <color name="text_secondary">#4B5563</color>
+    <string name="app_name">WS Conversor</string>
+    <string name="btn_cerrar_sesion">Cerrar Sesión</string>
+    <string name="btn_config_ip">⚙ Configurar IP Servidor</string>
+    <string name="btn_convertir">Convertir</string>
+    <string name="btn_ingresar">Ingresar</string>
+    <string name="btn_limpiar">Limpiar</string>
+    <string name="chk_mostrar_contrasenia">Mostrar contraseña</string>
+    <string name="label_resultado">Resultado:</string>
+    <string name="prompt_a">a</string>
+    <string name="prompt_contrasenia">Contraseña:</string>
+    <string name="prompt_magnitud">Magnitud:</string>
+    <string name="prompt_usuario">Usuario:</string>
+    <string name="prompt_valor">Valor a convertir:</string>
+    <string name="title_conversor">Conversor de Unidades</string>
+    <string name="title_login">INICIAR SESIÓN</string>
+    <string name="title_longitud">Conversor de Longitudes</string>
+    <string name="title_masa">Conversor de Masa</string>
+    <string name="title_temperatura">Conversor de Temperatura</string>
+    <style name="Theme.WSConversorMobileClient" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/card_bg</item>
+        
+        <item name="colorSecondary">@color/accent</item>
+        <item name="colorSecondaryVariant">@color/accent</item>
+        <item name="colorOnSecondary">@color/card_bg</item>
+        
+        <item name="android:statusBarColor">@color/primary_dark</item>
+        <item name="android:windowBackground">@color/background</item>
+    </style>
+</resources>
