@@ -124,14 +124,12 @@ public class ConversorView extends javax.swing.JFrame {
         valor.setFont(new java.awt.Font("sansserif", 0, 16)); // NOI18N
         valor.addActionListener(this::valorActionPerformed);
 
-        undInit.setFont(new java.awt.Font("sansserif", 0, 13)); // NOI18N
         undInit.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         undInit.addActionListener(this::undInitActionPerformed);
 
         jLabel3.setFont(new java.awt.Font("sansserif", 1, 20)); // NOI18N
         jLabel3.setText("a");
 
-        undFinal.setFont(new java.awt.Font("sansserif", 0, 13)); // NOI18N
         undFinal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         undFinal.addActionListener(this::undFinalActionPerformed);
 
@@ -196,10 +194,11 @@ public class ConversorView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(conversionResultado))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(108, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConvertirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConvertirActionPerformed

@@ -92,6 +92,10 @@ public class ConversorService {
         int code = conn.getResponseCode();
         if (code != 200) {
             String errorMsg = leerStream(conn.getErrorStream());
+            String cleanMsg = extraerCampoJson(errorMsg, "mensaje");
+            if (cleanMsg != null && !cleanMsg.isBlank()) {
+                throw new RuntimeException(cleanMsg);
+            }
             throw new RuntimeException("HTTP " + code + ": " + errorMsg);
         }
         return leerStream(conn.getInputStream());
@@ -101,7 +105,7 @@ public class ConversorService {
         URL url = new URL(urlStr);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-Type", "application/json; utf-8");
+        conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
         conn.setRequestProperty("Accept", "application/json");
         if (tokenSesion != null) {
             conn.setRequestProperty("Authorization", "Bearer " + tokenSesion);
@@ -116,6 +120,10 @@ public class ConversorService {
         int code = conn.getResponseCode();
         if (code >= 400) {
             String errorMsg = leerStream(conn.getErrorStream());
+            String cleanMsg = extraerCampoJson(errorMsg, "mensaje");
+            if (cleanMsg != null && !cleanMsg.isBlank()) {
+                throw new RuntimeException(cleanMsg);
+            }
             throw new RuntimeException("HTTP " + code + ": " + errorMsg);
         }
         return leerStream(conn.getInputStream());
