@@ -1,0 +1,277 @@
+@model ec.edu.monster.modelo.ConversorViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@Model.Titulo - ASP.NET Core MVC</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .top-bar {
+            width: 100%;
+            border-bottom: 1px solid #ccc;
+            padding: 10px 20px;
+            background-color: #fff;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .top-bar-left img {
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        .top-bar-right {
+            font-size: 14px;
+        }
+        .top-bar-right a {
+            color: #c00;
+            font-weight: bold;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+        .top-bar-right a:hover {
+            text-decoration: underline;
+        }
+        .conversor-card {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            border: 1px solid #999;
+            padding: 25px;
+            border-radius: 8px;
+            width: 500px;
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+        .form-table {
+            text-align: left;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .form-table td {
+            padding: 8px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn {
+            padding: 7px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+            border: 1px solid #888;
+            margin-right: 8px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+            font-weight: bold;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-secondary {
+            background-color: #e9ecef;
+            color: #333;
+        }
+        .btn-secondary:hover {
+            background-color: #dae0e5;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+        .btn-danger:hover {
+            background-color: #bd2130;
+        }
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 12px 0;
+            font-size: 13px;
+            text-align: left;
+        }
+        .table-historial {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .table-historial th, .table-historial td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        .table-historial th {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra superior con usuario y salir -->
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <img src="~/images/sullivan.png" width="30" height="30" alt="Sullivan" />
+            <span>WS Conversor de Unidades (ASP.NET Core MVC)</span>
+        </div>
+        <div class="top-bar-right">
+            <span>Usuario: <strong>@Model.NombreUsuario</strong></span>
+            <a asp-controller="Login" asp-action="Logout">Cerrar Sesión</a>
+        </div>
+    </div>
+
+    <div align="center">
+        <div class="conversor-card">
+            
+            <img src="~/images/sullivan.png" width="80" height="80" alt="Sullivan Monsters Inc" />
+
+            <div style="font-size: 20px; font-weight: bold; margin: 10px 0;">@Model.Titulo</div>
+
+            @if (!string.IsNullOrEmpty(Model.MensajeError))
+            {
+                <div class="alert-error">
+                    @Model.MensajeError
+                </div>
+            }
+
+            <form id="conversorForm" asp-controller="Conversor" asp-action="Convertir" method="post">
+                @Html.AntiForgeryToken()
+
+                <table class="form-table">
+                    <tr>
+                        <td style="font-weight: bold; width: 35%;">
+                            <label for="cmbMagnitud">Tipo de Magnitud:</label>
+                        </td>
+                        <td>
+                            <select id="cmbMagnitud" name="TipoMagnitud" class="form-input" onchange="cambiarMagnitud()">
+                                <option value="LONGITUD" selected="@(Model.TipoMagnitud == "LONGITUD")">Longitud</option>
+                                <option value="MASA" selected="@(Model.TipoMagnitud == "MASA")">Masa</option>
+                                <option value="TEMPERATURA" selected="@(Model.TipoMagnitud == "TEMPERATURA")">Temperatura</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">
+                            <label for="txtValor">Valor:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="txtValor" name="Valor" value="@Model.Valor" class="form-input" placeholder="Ej: 100" autofocus />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">
+                            <label for="cmbOrigen">De:</label>
+                        </td>
+                        <td>
+                            <select id="cmbOrigen" name="UnidadOrigen" class="form-input">
+                                @foreach (var u in Model.UnidadesDisponibles)
+                                {
+                                    <option value="@u" selected="@(Model.UnidadOrigen == u)">@u</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">
+                            <label for="cmbDestino">A:</label>
+                        </td>
+                        <td>
+                            <select id="cmbDestino" name="UnidadDestino" class="form-input">
+                                @foreach (var u in Model.UnidadesDisponibles)
+                                {
+                                    <option value="@u" selected="@(Model.UnidadDestino == u)">@u</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">
+                            <label for="txtResultado">Resultado:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="txtResultado" value="@Model.Resultado" class="form-input" readonly style="font-weight: bold; color: green; background-color: #f9f9f9;" />
+                        </td>
+                    </tr>
+                </table>
+
+                <div style="margin: 20px 0;">
+                    <button type="submit" class="btn btn-primary">Convertir</button>
+                    <button type="button" class="btn btn-secondary" onclick="limpiarConversor()">Limpiar</button>
+                    <a asp-controller="Login" asp-action="Logout" class="btn btn-danger" style="text-decoration: none;">Cerrar</a>
+                </div>
+            </form>
+
+            <!-- Historial de Conversiones -->
+            @if (Model.Historial != null && Model.Historial.Count > 0)
+            {
+                <div style="margin-top: 15px; width: 100%;">
+                    <div style="font-weight: bold; margin-bottom: 8px;">Historial de Conversiones</div>
+                    <table class="table-historial">
+                        <thead>
+                            <tr>
+                                <th>Magnitud</th>
+                                <th>Origen</th>
+                                <th>Destino</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Historial)
+                            {
+                                <tr>
+                                    <td>@item.Magnitud</td>
+                                    <td>@item.ValorOrigen @item.UnidadOrigen</td>
+                                    <td><strong>@item.ValorDestino @item.UnidadDestino</strong></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+        </div>
+    </div>
+
+    <form id="cambioMagnitudForm" asp-controller="Conversor" asp-action="CambiarMagnitud" method="post" style="display: none;">
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="hiddenMagnitud" name="tipoMagnitud" value="" />
+    </form>
+
+    <script>
+        function cambiarMagnitud() {
+            var seleccion = document.getElementById("cmbMagnitud").value;
+            window.location.href = "/Conversor?magnitud=" + encodeURIComponent(seleccion);
+        }
+        function limpiarConversor() {
+            document.getElementById("txtValor").value = "";
+            document.getElementById("txtResultado").value = "";
+            document.getElementById("txtValor").focus();
+        }
+    </script>
+</body>
+</html>

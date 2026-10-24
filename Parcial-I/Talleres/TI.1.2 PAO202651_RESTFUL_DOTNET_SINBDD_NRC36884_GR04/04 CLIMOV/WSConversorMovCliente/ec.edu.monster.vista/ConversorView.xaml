@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ec.edu.monster.vista.ConversorView"
+             Title="Conversor de Unidades"
+             BackgroundColor="#F1F5F9"
+             NavigationPage.HasBackButton="False">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Cerrar Sesión"
+                     Clicked="btnCerrarSesion_Clicked"
+                     Priority="0"
+                     Order="Primary" />
+    </ContentPage.ToolbarItems>
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="20">
+
+            <!-- Encabezado con Sulley y Título -->
+            <Border StrokeShape="RoundRectangle 16"
+                    Stroke="#E2E8F0"
+                    BackgroundColor="White"
+                    Padding="16">
+                <Border.Shadow>
+                    <Shadow Brush="#000000" Offset="0,2" Radius="6" Opacity="0.05" />
+                </Border.Shadow>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14" VerticalOptions="Center">
+                    <Image Grid.Column="0"
+                           Source="sullivan.png"
+                           HeightRequest="60"
+                           WidthRequest="60"
+                           Aspect="AspectFit"
+                           VerticalOptions="Center" />
+                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                        <Label x:Name="lblTitulo"
+                               Text="Conversor de Longitudes"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#0F172A" />
+                        <Label Text="Servicio Web SOAP Monsters Inc."
+                               FontSize="12"
+                               TextColor="#64748B" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- Card de Conversión -->
+            <Border StrokeShape="RoundRectangle 16"
+                    Stroke="#E2E8F0"
+                    BackgroundColor="White"
+                    Padding="20">
+                <Border.Shadow>
+                    <Shadow Brush="#000000" Offset="0,4" Radius="8" Opacity="0.06" />
+                </Border.Shadow>
+
+                <VerticalStackLayout Spacing="16">
+
+                    <!-- Selector de Magnitud -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Magnitud a convertir"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="#334155" />
+                        <Border StrokeShape="RoundRectangle 8"
+                                Stroke="#CBD5E1"
+                                BackgroundColor="#F8FAFC"
+                                Padding="10,0">
+                            <Picker x:Name="cmbMagnitud"
+                                    Title="Selecciona magnitud"
+                                    FontSize="15"
+                                    TextColor="#0F172A"
+                                    SelectedIndexChanged="cmbMagnitud_SelectedIndexChanged">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>LONGITUD</x:String>
+                                        <x:String>MASA</x:String>
+                                        <x:String>TEMPERATURA</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- Valor de Entrada -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Valor a convertir"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="#334155" />
+                        <Border StrokeShape="RoundRectangle 8"
+                                Stroke="#CBD5E1"
+                                BackgroundColor="#F8FAFC"
+                                Padding="10,0">
+                            <Entry x:Name="txtValor"
+                                   Placeholder="Ej: 100 o 25.5"
+                                   FontSize="16"
+                                   TextColor="#0F172A"
+                                   Keyboard="Numeric"
+                                   ClearButtonVisibility="WhileEditing" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- Unidades Origen y Destino -->
+                    <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="8" VerticalOptions="Center">
+
+                        <!-- Origen -->
+                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                            <Label Text="De (Origen)"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="#475569" />
+                            <Border StrokeShape="RoundRectangle 8"
+                                    Stroke="#CBD5E1"
+                                    BackgroundColor="#F8FAFC"
+                                    Padding="6,0">
+                                <Picker x:Name="cmbUndInit"
+                                        FontSize="13"
+                                        TextColor="#0F172A" />
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Botón Intercambiar -->
+                        <Button Grid.Column="1"
+                                Text="⇄"
+                                FontSize="18"
+                                BackgroundColor="#F1F5F9"
+                                TextColor="#0284C7"
+                                CornerRadius="20"
+                                WidthRequest="40"
+                                HeightRequest="40"
+                                VerticalOptions="End"
+                                Margin="0,0,0,4"
+                                Padding="0"
+                                ToolTipProperties.Text="Intercambiar unidades"
+                                Clicked="btnIntercambiar_Clicked" />
+
+                        <!-- Destino -->
+                        <VerticalStackLayout Grid.Column="2" Spacing="4">
+                            <Label Text="A (Destino)"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="#475569" />
+                            <Border StrokeShape="RoundRectangle 8"
+                                    Stroke="#CBD5E1"
+                                    BackgroundColor="#F8FAFC"
+                                    Padding="6,0">
+                                <Picker x:Name="cmbUndFinal"
+                                        FontSize="13"
+                                        TextColor="#0F172A" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <!-- Indicador de Carga -->
+                    <ActivityIndicator x:Name="actCargando"
+                                       IsRunning="False"
+                                       IsVisible="False"
+                                       Color="#0284C7"
+                                       HeightRequest="30" />
+
+                    <!-- Mensaje de Error -->
+                    <Label x:Name="lblError"
+                           FontSize="12"
+                           TextColor="#DC2626"
+                           HorizontalTextAlignment="Center"
+                           IsVisible="False"
+                           LineBreakMode="WordWrap" />
+
+                    <!-- Botón Convertir -->
+                    <Button x:Name="btnConvertir"
+                            Text="CONVERTIR AHORA"
+                            FontSize="15"
+                            FontAttributes="Bold"
+                            BackgroundColor="#0284C7"
+                            TextColor="White"
+                            CornerRadius="10"
+                            HeightRequest="48"
+                            Clicked="btnConvertir_Clicked" />
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Card Resultado -->
+            <Border x:Name="cardResultado"
+                    StrokeShape="RoundRectangle 16"
+                    Stroke="#86EFAC"
+                    BackgroundColor="#F0FDF4"
+                    Padding="20"
+                    IsVisible="False">
+                <Border.Shadow>
+                    <Shadow Brush="#000000" Offset="0,2" Radius="6" Opacity="0.05" />
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                    <Label Text="RESULTADO DE LA CONVERSIÓN"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="#166534"
+                           HorizontalTextAlignment="Center" />
+                    <Label x:Name="lblResultado"
+                           Text="---"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#15803D"
+                           HorizontalTextAlignment="Center" />
+                    <Label x:Name="lblDetalleConversion"
+                           Text=""
+                           FontSize="13"
+                           TextColor="#166534"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Botón Salir / Cerrar Sesión inferior -->
+            <Button Text="Cerrar Sesión"
+                    FontSize="14"
+                    TextColor="#DC2626"
+                    BackgroundColor="Transparent"
+                    BorderColor="#FECACA"
+                    BorderWidth="1"
+                    CornerRadius="8"
+                    HeightRequest="42"
+                    Clicked="btnCerrarSesion_Clicked"
+                    Margin="0,10,0,20" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

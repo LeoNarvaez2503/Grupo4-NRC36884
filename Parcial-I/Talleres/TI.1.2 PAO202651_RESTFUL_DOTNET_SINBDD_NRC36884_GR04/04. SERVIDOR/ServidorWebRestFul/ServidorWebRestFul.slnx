@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="../../04 CLIMOV/WSConversorMovCliente/WSConversorMovCliente.csproj" />
+  <Project Path="../../04. CLICON/WSConversorConCliente/WSConversorConCliente.csproj" />
+  <Project Path="../../04. CLIESC/WSConversorEscCliente/WSConversorEscCliente.csproj" />
+  <Project Path="../../04. CLIWEB/WSConversorWebCliente/WSConversorWebCliente.csproj" />
+  <Project Path="ServidorWebRestFul/ServidorWebRestFul.csproj" Id="83f3f852-85a8-4a3a-8743-f7f7b7379028" />
+</Solution>
