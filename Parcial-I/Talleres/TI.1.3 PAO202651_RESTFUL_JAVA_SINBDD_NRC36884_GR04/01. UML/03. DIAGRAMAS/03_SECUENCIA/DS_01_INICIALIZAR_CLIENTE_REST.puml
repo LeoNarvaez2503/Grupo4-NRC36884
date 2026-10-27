@@ -1,0 +1,39 @@
+﻿@startuml
+title "DS_01_INICIALIZAR_CLIENTE_REST"
+autonumber
+
+actor "Usuario" as Usuario
+participant "CONVERSION_VISTA" as Vista
+participant "LOGIN_CONTROLADOR" as Controlador
+participant "CLIENTE_REST_CONVERSOR\n(ConversorService)" as ClienteRest
+participant "API_REST_CONVERSOR\n(/api/auth/login)" as ApiRest
+participant "ADMINISTRADOR_CREDENCIALES" as Credenciales
+participant "ADMINISTRADOR_TOKEN" as Tokens
+
+Usuario -> Vista: Ingresa credenciales (MONSTER / MONSTER9)
+Vista -> Controlador: login(usuario, contrasenia)
+Controlador -> ClienteRest: autenticar(usuario, contrasenia)
+activate ClienteRest
+
+ClienteRest -> ApiRest: HTTP POST /api/auth/login\nContent-Type: application/json\n{"usuario": "MONSTER", "contrasenia": "MONSTER9"}
+activate ApiRest
+
+ApiRest -> Credenciales: validarUsuario(usuario, contrasenia)
+activate Credenciales
+Credenciales --> ApiRest: true (credenciales correctas)
+deactivate Credenciales
+
+ApiRest -> Tokens: generarToken()
+activate Tokens
+Tokens --> ApiRest: token (UUID)
+deactivate Tokens
+
+ApiRest --> ClienteRest: HTTP 200 OK\n{"token": "uuid-token", "usuario": "MONSTER"}
+deactivate ApiRest
+
+ClienteRest -> ClienteRest: guardarToken(token)\npara cabecera Authorization: Bearer
+ClienteRest --> Controlador: LoginResponse(token, usuario)
+deactivate ClienteRest
+Controlador --> Vista: mostrarMenuPrincipal()
+Vista --> Usuario: Interfaz de conversion habilitada
+@enduml

@@ -1,0 +1,31 @@
+﻿@startuml
+title "DS_06_CERRAR_SESION (REST)"
+autonumber
+
+actor "Usuario" as Usuario
+participant "CONVERSION_VISTA" as Vista
+participant "LOGIN_CONTROLADOR" as Controlador
+participant "CLIENTE_REST_CONVERSOR\n(ConversorService)" as ClienteRest
+participant "AUTENTICACION_RESOURCE\n(/api/auth)" as AuthResource
+participant "ADMINISTRADOR_TOKEN" as TokenMgr
+
+Usuario -> Vista: Presiona boton "Cerrar Sesion"
+Vista -> Controlador: cerrarSesion()
+Controlador -> ClienteRest: invalidarSesion()
+activate ClienteRest
+
+opt Invalidacion en Servidor
+    ClienteRest -> AuthResource: HTTP POST /api/auth/logout\nHeader Authorization: Bearer <token>
+    activate AuthResource
+    AuthResource -> TokenMgr: invalidarToken(token)
+    TokenMgr --> AuthResource: ok
+    AuthResource --> ClienteRest: HTTP 200 OK {"mensaje": "Sesion cerrada"}
+    deactivate AuthResource
+end
+
+ClienteRest -> ClienteRest: limpiarTokenLocal()
+ClienteRest --> Controlador: sesionCerrada
+deactivate ClienteRest
+Controlador --> Vista: redireccionarLogin()
+Vista --> Usuario: Pantalla de Login (Sesion Finalizada)
+@enduml

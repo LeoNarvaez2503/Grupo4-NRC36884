@@ -1,0 +1,36 @@
+﻿@startuml
+title "DS_08_ERROR_AUTENTICACION_401 (REST)"
+autonumber
+
+actor "Usuario" as Usuario
+participant "CONVERSION_VISTA" as Vista
+participant "CONVERSION_CONTROLADOR" as Controlador
+participant "CLIENTE_REST_CONVERSOR\n(ConversorService)" as ClienteRest
+participant "CONVERSOR_RESOURCE\n(/api/conversor)" as ConversorResource
+participant "ADMINISTRADOR_TOKEN" as TokenMgr
+
+Usuario -> Vista: Solicita conversion
+Vista -> Controlador: solicitarConversion(...)
+Controlador -> ClienteRest: convertirLongitud(...)
+activate ClienteRest
+
+alt Token Ausente
+    ClienteRest -> ConversorResource: HTTP POST /api/conversor/longitud\n(Sin Header Authorization)
+    activate ConversorResource
+    ConversorResource --> ClienteRest: HTTP 401 Unauthorized\n{"error": "Acceso denegado: Se requiere encabezado Authorization Bearer"}
+    deactivate ConversorResource
+else Token Invalido o Expirado
+    ClienteRest -> ConversorResource: HTTP POST /api/conversor/longitud\nHeader Authorization: Bearer token_expirado
+    activate ConversorResource
+    ConversorResource -> TokenMgr: validarToken("token_expirado")
+    TokenMgr --> ConversorResource: false
+    ConversorResource --> ClienteRest: HTTP 401 Unauthorized\n{"error": "Acceso denegado: Token invalido o expirado"}
+    deactivate ConversorResource
+end
+
+ClienteRest --> Controlador: HttpUnauthorizedException(401)
+deactivate ClienteRest
+Controlador -> Controlador: limpiarSesionLocal()
+Controlador --> Vista: mostrarMensaje("Sesion no autorizada o expirada")
+Vista --> Usuario: Redirigir a pantalla de Login
+@enduml
