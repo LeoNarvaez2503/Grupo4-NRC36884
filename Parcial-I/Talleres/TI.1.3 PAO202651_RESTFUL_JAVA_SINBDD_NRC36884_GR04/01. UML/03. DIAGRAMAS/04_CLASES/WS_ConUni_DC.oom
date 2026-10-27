@@ -965,8 +965,8 @@ ColnFKNameUse=No</a:ModelOptionsText>
         <c:ExtendedModelDefinitions>
           <o:Shortcut Id="o4">
             <a:ObjectID>0A73782A-1BDB-4E20-A914-CF82EEC20715</a:ObjectID>
-            <a:Name>WSDL for Java</a:Name>
-            <a:Code>WSDLJava</a:Code>
+            <a:Name>Jakarta RESTful Web Services</a:Name>
+            <a:Code>JakartaREST</a:Code>
             <a:CreationDate>1776474466</a:CreationDate>
             <a:Creator>dario</a:Creator>
             <a:ModificationDate>1776474466</a:ModificationDate>
@@ -9915,8 +9915,8 @@ LABL 0 Arial,8,N</a:FontList>
                             <c:Classes>
                               <o:Class Id="o174">
                                 <a:ObjectID>7F257CFD-83FC-468D-A20D-EB26AD0BDEDA</a:ObjectID>
-                                <a:Name>ManejadorAutenticacion</a:Name>
-                                <a:Code>ManejadorAutenticacion</a:Code>
+                                <a:Name>AutenticacionResource</a:Name>
+                                <a:Code>AutenticacionResource</a:Code>
                                 <a:CreationDate>1776474486</a:CreationDate>
                                 <a:Creator>dario</a:Creator>
                                 <a:ModificationDate>1776474486</a:ModificationDate>
@@ -9925,9 +9925,9 @@ LABL 0 Arial,8,N</a:FontList>
                                 <a:Classifier.Header>
                                 </a:Classifier.Header>
                                 <a:Imports>import ec.edu.monster.seguridad.AdministradorTokens;
-import jakarta.xml.ws.handler.soap.SOAPHandler;
-import jakarta.xml.ws.handler.soap.SOAPMessageContext;
-import jakarta.xml.ws.handler.MessageContext;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.container.ContainerResponseContext;
+import jakarta.annotation.security.PermitAll;
 import javax.xml.namespace.QName;
 import org.w3c.dom.NodeList;
 import java.util.Set;
@@ -9935,8 +9935,8 @@ import java.util.Set;
                                 <c:Operations>
                                   <o:Operation Id="o177">
                                     <a:ObjectID>88DD0D7B-17D9-4CE9-A709-652DB2D5B258</a:ObjectID>
-                                    <a:Name>handleMessage</a:Name>
-                                    <a:Code>handleMessage</a:Code>
+                                    <a:Name>login</a:Name>
+                                    <a:Code>login</a:Code>
                                     <a:CreationDate>1776474487</a:CreationDate>
                                     <a:Creator>dario</a:Creator>
                                     <a:ModificationDate>1776474487</a:ModificationDate>
@@ -9949,16 +9949,16 @@ import java.util.Set;
     if (!esSalida) {
         try {
 
-            QName operacion = (QName) contexto.get(MessageContext.WSDL_OPERATION);
+            // Endpoint REST
             if (operacion != null &amp;&amp; "login".equals(operacion.getLocalPart())) {
                 return true; 
             }
 
-            var mensajeSOAP = contexto.getMessage();
-            var encabezado = mensajeSOAP.getSOAPHeader();
+            // Validar Bearer token
+            // Extraer encabezado Authorization
 
             if (encabezado == null) {
-                throw new RuntimeException("Acceso denegado: Se requiere encabezado SOAP con el token de seguridad.");
+                return Response.status(Response.Status.UNAUTHORIZED).entity(new RespuestaGeneral(false, "Acceso denegado: Token invalido o expirado")).build();
             }
 
             NodeList nodosToken = encabezado.getElementsByTagNameNS("*", "token");
@@ -9989,7 +9989,7 @@ import java.util.Set;
                                         <a:Creator>dario</a:Creator>
                                         <a:ModificationDate>1776474487</a:ModificationDate>
                                         <a:Modifier>dario</a:Modifier>
-                                        <a:Parameter.DataType>SOAPMessageContext</a:Parameter.DataType>
+                                        <a:Parameter.DataType>ContainerResponseContext</a:Parameter.DataType>
                                       </o:Parameter>
                                     </c:Parameters>
                                     <c:Annotations>
@@ -10029,8 +10029,8 @@ import java.util.Set;
                                   </o:Operation>
                                   <o:Operation Id="o182">
                                     <a:ObjectID>54C2A37F-7350-483F-8E8F-824CAE150BB7</a:ObjectID>
-                                    <a:Name>handleFault</a:Name>
-                                    <a:Code>handleFault</a:Code>
+                                    <a:Name>cambiarContrasenia</a:Name>
+                                    <a:Code>cambiarContrasenia</a:Code>
                                     <a:CreationDate>1776474487</a:CreationDate>
                                     <a:Creator>dario</a:Creator>
                                     <a:ModificationDate>1776474487</a:ModificationDate>
@@ -10049,7 +10049,7 @@ import java.util.Set;
                                         <a:Creator>dario</a:Creator>
                                         <a:ModificationDate>1776474487</a:ModificationDate>
                                         <a:Modifier>dario</a:Modifier>
-                                        <a:Parameter.DataType>SOAPMessageContext</a:Parameter.DataType>
+                                        <a:Parameter.DataType>ContainerResponseContext</a:Parameter.DataType>
                                       </o:Parameter>
                                     </c:Parameters>
                                     <c:Annotations>
@@ -10103,8 +10103,8 @@ import java.util.Set;
                             <c:Interfaces>
                               <o:Interface Id="o175">
                                 <a:ObjectID>E7B2E9B2-ED8B-46BB-B58A-9B6A0C60B439</a:ObjectID>
-                                <a:Name>SOAPHandler_SOAPMessageContext</a:Name>
-                                <a:Code>SOAPHandler_SOAPMessageContext</a:Code>
+                                <a:Name>CorsFilter_ContainerResponseFilter</a:Name>
+                                <a:Code>CorsFilter_ContainerResponseFilter</a:Code>
                                 <a:CreationDate>1776474486</a:CreationDate>
                                 <a:Creator>dario</a:Creator>
                                 <a:ModificationDate>1776474486</a:ModificationDate>
@@ -10120,7 +10120,7 @@ import java.util.Set;
                                     <a:Creator>dario</a:Creator>
                                     <a:ModificationDate>1776474487</a:ModificationDate>
                                     <a:Modifier>dario</a:Modifier>
-                                    <a:TypeParameterValue.Value>SOAPMessageContext</a:TypeParameterValue.Value>
+                                    <a:TypeParameterValue.Value>ContainerResponseContext</a:TypeParameterValue.Value>
                                     <c:TypeParameter>
                                       <o:TypeParameter Ref="o189" />
                                     </c:TypeParameter>
@@ -10132,8 +10132,8 @@ import java.util.Set;
                               </o:Interface>
                               <o:Shortcut Id="o176">
                                 <a:ObjectID>4667A1D7-A83D-4659-BFD1-3970936046EE</a:ObjectID>
-                                <a:Name>SOAPHandler</a:Name>
-                                <a:Code>SOAPHandler</a:Code>
+                                <a:Name>CorsFilter</a:Name>
+                                <a:Code>CorsFilter</a:Code>
                                 <a:CreationDate>1776474487</a:CreationDate>
                                 <a:Creator>dario</a:Creator>
                                 <a:ModificationDate>1776474487</a:ModificationDate>
@@ -10141,19 +10141,19 @@ import java.util.Set;
                                 <a:TargetStereotype />
                                 <a:TargetID>C5D6F4C2-9456-4EA7-A8CF-246953A2EFD5</a:TargetID>
                                 <a:TargetClassID>18112064-1A4B-11D1-83D9-444553540000</a:TargetClassID>
-                                <a:TargetPackagePath>&lt;Model&gt;::jakarta::xml::ws::handler::soap</a:TargetPackagePath>
+                                <a:TargetPackagePath>&lt;Model&gt;::jakarta::ws::rs::container</a:TargetPackagePath>
                               </o:Shortcut>
                             </c:Interfaces>
                             <c:Realizations>
                               <o:Realization Id="o170">
                                 <a:ObjectID>82C4F9D0-38AC-4B8D-B4BB-1C69D07640B4</a:ObjectID>
-                                <a:Name>ManejadorAutenticacion implements SOAPHandler&lt;SOAPMessageContext&gt;</a:Name>
-                                <a:Code>ManejadorAutenticacion_implements_SOAPHandler_SOAPMessageContext</a:Code>
+                                <a:Name>AutenticacionResource&lt;ContainerResponseContext&gt;</a:Name>
+                                <a:Code>ManejadorAutenticacion_implements_CorsFilter_ContainerResponseFilter</a:Code>
                                 <a:CreationDate>1776474486</a:CreationDate>
                                 <a:Creator>dario</a:Creator>
                                 <a:ModificationDate>1776474486</a:ModificationDate>
                                 <a:Modifier>dario</a:Modifier>
-                                <a:Comment>ManejadorAutenticacion implements SOAPHandler&lt;SOAPMessageContext&gt;</a:Comment>
+                                <a:Comment>AutenticacionResource&lt;ContainerResponseContext&gt;</a:Comment>
                                 <c:Object1>
                                   <o:Interface Ref="o175" />
                                 </c:Object1>
@@ -10188,8 +10188,8 @@ import java.util.Set;
                         <c:Classes>
                           <o:Class Id="o163">
                             <a:ObjectID>B90A6711-F0CC-4A38-8ADA-71BC5628F5CB</a:ObjectID>
-                            <a:Name>WSConversorUnidades</a:Name>
-                            <a:Code>WSConversorUnidades</a:Code>
+                            <a:Name>ConversorResource</a:Name>
+                            <a:Code>ConversorResource</a:Code>
                             <a:CreationDate>1776474486</a:CreationDate>
                             <a:Creator>dario</a:Creator>
                             <a:ModificationDate>1776474486</a:ModificationDate>
@@ -10202,10 +10202,10 @@ import ec.edu.monster.utilidades.*;
 import ec.edu.monster.utilidades.enums.*;
 import ec.edu.monster.mapeadores.UnidadMapper;
 import ec.edu.monster.seguridad.AdministradorTokens;
-import jakarta.jws.WebService;
-import jakarta.jws.WebMethod;
-import jakarta.jws.WebParam;
-import jakarta.jws.HandlerChain;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Produces;
 </a:Imports>
                             <c:Attributes>
                               <o:Attribute Id="o191">
@@ -10316,7 +10316,7 @@ import jakarta.jws.HandlerChain;
                                     <a:ModificationDate>1776474487</a:ModificationDate>
                                     <a:Modifier>dario</a:Modifier>
                                     <a:Annotation.Text>operationName = "login"</a:Annotation.Text>
-                                    <a:Annotation.Name>WebMethod</a:Annotation.Name>
+                                    <a:Annotation.Name>POST</a:Annotation.Name>
                                   </o:Annotation>
                                 </c:Annotations>
                               </o:Operation>
@@ -10410,7 +10410,7 @@ import jakarta.jws.HandlerChain;
                                     <a:ModificationDate>1776474487</a:ModificationDate>
                                     <a:Modifier>dario</a:Modifier>
                                     <a:Annotation.Text>operationName = "convertirLongitud"</a:Annotation.Text>
-                                    <a:Annotation.Name>WebMethod</a:Annotation.Name>
+                                    <a:Annotation.Name>POST</a:Annotation.Name>
                                   </o:Annotation>
                                 </c:Annotations>
                               </o:Operation>
@@ -10504,7 +10504,7 @@ import jakarta.jws.HandlerChain;
                                     <a:ModificationDate>1776474487</a:ModificationDate>
                                     <a:Modifier>dario</a:Modifier>
                                     <a:Annotation.Text>operationName = "convertirMasa"</a:Annotation.Text>
-                                    <a:Annotation.Name>WebMethod</a:Annotation.Name>
+                                    <a:Annotation.Name>POST</a:Annotation.Name>
                                   </o:Annotation>
                                 </c:Annotations>
                               </o:Operation>
@@ -10598,7 +10598,7 @@ import jakarta.jws.HandlerChain;
                                     <a:ModificationDate>1776474487</a:ModificationDate>
                                     <a:Modifier>dario</a:Modifier>
                                     <a:Annotation.Text>operationName = "convertirTemperatura"</a:Annotation.Text>
-                                    <a:Annotation.Name>WebMethod</a:Annotation.Name>
+                                    <a:Annotation.Name>POST</a:Annotation.Name>
                                   </o:Annotation>
                                 </c:Annotations>
                               </o:Operation>
@@ -10634,8 +10634,8 @@ import jakarta.jws.HandlerChain;
                                 <a:Creator>dario</a:Creator>
                                 <a:ModificationDate>1776474487</a:ModificationDate>
                                 <a:Modifier>dario</a:Modifier>
-                                <a:Annotation.Text>serviceName = "WSConversorUnidades"</a:Annotation.Text>
-                                <a:Annotation.Name>WebService</a:Annotation.Name>
+                                <a:Annotation.Text>"/conversor"</a:Annotation.Text>
+                                <a:Annotation.Name>Path</a:Annotation.Name>
                               </o:Annotation>
                               <o:Annotation Id="o225">
                                 <a:ObjectID>BA582254-F3F9-44BA-A260-3344F424A246</a:ObjectID>
@@ -10643,8 +10643,8 @@ import jakarta.jws.HandlerChain;
                                 <a:Creator>dario</a:Creator>
                                 <a:ModificationDate>1776474487</a:ModificationDate>
                                 <a:Modifier>dario</a:Modifier>
-                                <a:Annotation.Text>file = "manejador.xml"</a:Annotation.Text>
-                                <a:Annotation.Name>HandlerChain</a:Annotation.Name>
+                                <a:Annotation.Text>MediaType.APPLICATION_JSON</a:Annotation.Text>
+                                <a:Annotation.Name>Produces</a:Annotation.Name>
                               </o:Annotation>
                             </c:Annotations>
                           </o:Class>
@@ -14431,8 +14431,8 @@ LABL 0 Arial,8,N</a:FontList>
                         <c:Packages>
                           <o:Package Id="o249">
                             <a:ObjectID>BF703207-96B3-48C5-AF3C-F57C62936A1C</a:ObjectID>
-                            <a:Name>soap</a:Name>
-                            <a:Code>soap</a:Code>
+                            <a:Name>rest</a:Name>
+                            <a:Code>rest</a:Code>
                             <a:CreationDate>1776474486</a:CreationDate>
                             <a:Creator>dario</a:Creator>
                             <a:ModificationDate>1776474486</a:ModificationDate>
@@ -14960,8 +14960,8 @@ LABL 0 Arial,8,N</a:FontList>
                             <c:Interfaces>
                               <o:Interface Id="o190">
                                 <a:ObjectID>C5D6F4C2-9456-4EA7-A8CF-246953A2EFD5</a:ObjectID>
-                                <a:Name>SOAPHandler</a:Name>
-                                <a:Code>SOAPHandler</a:Code>
+                                <a:Name>CorsFilter</a:Name>
+                                <a:Code>CorsFilter</a:Code>
                                 <a:CreationDate>1776474486</a:CreationDate>
                                 <a:Creator>dario</a:Creator>
                                 <a:ModificationDate>1776474486</a:ModificationDate>
@@ -15026,8 +15026,8 @@ LABL 0 Arial,8,N</a:FontList>
           </o:TargetModel>
           <o:TargetModel Id="o253">
             <a:ObjectID>EEE31BC7-75BC-4861-A159-44FDF2CF96F1</a:ObjectID>
-            <a:Name>WSDL for Java</a:Name>
-            <a:Code>WSDLJava</a:Code>
+            <a:Name>Jakarta RESTful Web Services</a:Name>
+            <a:Code>JakartaREST</a:Code>
             <a:CreationDate>1776474466</a:CreationDate>
             <a:Creator>dario</a:Creator>
             <a:ModificationDate>1776474466</a:ModificationDate>

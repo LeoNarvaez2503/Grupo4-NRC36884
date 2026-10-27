@@ -968,8 +968,8 @@ ColnFKNameUse=No</a:ModelOptionsText>
 <c:ExtendedModelDefinitions>
 <o:Shortcut Id="o4">
 <a:ObjectID>B8F74166-D67F-486C-B118-EA5AE2945685</a:ObjectID>
-<a:Name>WSDL for Java</a:Name>
-<a:Code>WSDLJava</a:Code>
+<a:Name>Servicios REST</a:Name>
+<a:Code>ServiciosREST</a:Code>
 <a:CreationDate>1607389956</a:CreationDate>
 <a:Creator>l</a:Creator>
 <a:ModificationDate>1607389956</a:ModificationDate>
@@ -2282,7 +2282,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o47">
 <a:ObjectID>954DEF66-5BD3-4853-8645-08222BBC524B</a:ObjectID>
-<a:Name>ManejadorAutenticacion valida token activo</a:Name>
+<a:Name>AdministradorToken valida token activo</a:Name>
 <a:Code>ManejadorAutenticacion_valida_token_activo</a:Code>
 <a:CreationDate>1776650282</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2300,8 +2300,8 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o45">
 <a:ObjectID>9F8217AB-606A-48BE-BE8C-8C67A4B1EA68</a:ObjectID>
-<a:Name>ManejadorAutenticacion lee header Authorization: Bearer token</a:Name>
-<a:Code>ManejadorAutenticacion_lee_header_SOAP_token</a:Code>
+<a:Name>Recibe peticion y extrae Authorization: Bearer token</a:Name>
+<a:Code>Recibe_peticion_extrae_Bearer_token</a:Code>
 <a:CreationDate>1776650275</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
 <a:ModificationDate>1776651939</a:ModificationDate>
@@ -2336,8 +2336,8 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o40">
 <a:ObjectID>88C99226-DD31-4297-A6D9-1A7EE9FB3D3A</a:ObjectID>
-<a:Name>envia SOAP convertirMasa</a:Name>
-<a:Code>envia_SOAP_convertirMasa</a:Code>
+<a:Name>HTTP POST /api/conversor/masa (JSON)</a:Name>
+<a:Code>HTTP_POST_convertirMasa</a:Code>
 <a:CreationDate>1776650197</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
 <a:ModificationDate>1776652056</a:ModificationDate>
@@ -2353,8 +2353,8 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o37">
 <a:ObjectID>1726C7BE-5548-4B35-B4D7-B159E4B15884</a:ObjectID>
-<a:Name>ClienteSoap agrega header header Authorization: Bearer token</a:Name>
-<a:Code>ClienteSoap_agrega_header_SOAP_token</a:Code>
+<a:Name>Cliente REST adjunta header Authorization: Bearer token</a:Name>
+<a:Code>ClienteRest_agrega_header_Bearer_token</a:Code>
 <a:CreationDate>1776650151</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
 <a:ModificationDate>1776651939</a:ModificationDate>
@@ -2371,8 +2371,8 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o35">
 <a:ObjectID>BECC240B-58B1-420C-89EF-103E5A05E468</a:ObjectID>
-<a:Name>ClienteSoap obtiene token</a:Name>
-<a:Code>ClienteSoap_obtiene_token</a:Code>
+<a:Name>Cliente REST obtiene Bearer token</a:Name>
+<a:Code>Cliente REST_obtiene_token</a:Code>
 <a:CreationDate>1776650122</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
 <a:ModificationDate>1776651939</a:ModificationDate>
@@ -2389,8 +2389,8 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o33">
 <a:ObjectID>0690DEA5-9489-4C5B-9D7C-624F5830213C</a:ObjectID>
-<a:Name>ClienteSoap detecta operacion protegida</a:Name>
-<a:Code>ClienteSoap_detecta_operacion_protegida</a:Code>
+<a:Name>Cliente REST detecta operacion protegida</a:Name>
+<a:Code>Cliente REST_detecta_operacion_protegida</a:Code>
 <a:CreationDate>1776650088</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
 <a:ModificationDate>1776651939</a:ModificationDate>
@@ -2407,8 +2407,8 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o30">
 <a:ObjectID>5755138A-1834-4B63-B66E-1D08A228BCDD</a:ObjectID>
-<a:Name>invoca clienteSoap.convertirMasa</a:Name>
-<a:Code>invoca_clienteSoap_convertirMasa</a:Code>
+<a:Name>invoca conversorService.convertirMasa</a:Name>
+<a:Code>invoca_conversorService_convertirMasa</a:Code>
 <a:CreationDate>1776648554</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
 <a:ModificationDate>1776652021</a:ModificationDate>
@@ -2600,8 +2600,8 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:TargetModel>
 <o:TargetModel Id="o71">
 <a:ObjectID>22FC7E13-0C4E-491A-B1A6-D29F0CCF3AA4</a:ObjectID>
-<a:Name>WSDL for Java</a:Name>
-<a:Code>WSDLJava</a:Code>
+<a:Name>Servicios REST</a:Name>
+<a:Code>ServiciosREST</a:Code>
 <a:CreationDate>1607389956</a:CreationDate>
 <a:Creator>l</a:Creator>
 <a:ModificationDate>1777260518</a:ModificationDate>

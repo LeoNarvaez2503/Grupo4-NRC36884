@@ -967,8 +967,8 @@ ColnFKNameUse=No</a:ModelOptionsText>
 <c:ExtendedModelDefinitions>
 <o:Shortcut Id="o4">
 <a:ObjectID>937F02A9-34A8-4FE9-A682-9DBF36C6AF4C</a:ObjectID>
-<a:Name>WSDL for Java</a:Name>
-<a:Code>WSDLJava</a:Code>
+<a:Name>Servicios RESTful</a:Name>
+<a:Code>ServiciosREST</a:Code>
 <a:CreationDate>1776577404</a:CreationDate>
 <a:Creator>ariel</a:Creator>
 <a:ModificationDate>1776577404</a:ModificationDate>
@@ -1145,8 +1145,8 @@ ColnFKNameUse=No</a:ModelOptionsText>
 </o:Activity>
 <o:Activity Id="o10">
 <a:ObjectID>1E41B36D-0198-4A7B-A1B0-74056ACA1099</a:ObjectID>
-<a:Name>Enviar petición XML (SOAP Request)</a:Name>
-<a:Code>Enviar_peticion_XML__SOAP_Request_</a:Code>
+<a:Name>Enviar peticion HTTP POST (JSON)</a:Name>
+<a:Code>Enviar_peticion_HTTP_POST_JSON</a:Code>
 <a:CreationDate>1776578344</a:CreationDate>
 <a:Creator>ariel</a:Creator>
 <a:ModificationDate>1776578356</a:ModificationDate>
@@ -1171,8 +1171,8 @@ ColnFKNameUse=No</a:ModelOptionsText>
 </o:Activity>
 <o:Activity Id="o16">
 <a:ObjectID>2693BF50-ED87-41A8-8843-D1BE9C4B5A93</a:ObjectID>
-<a:Name>Generar SOAP Fault: Acceso Denegado / Clave actual invalida</a:Name>
-<a:Code>Generar_SOAP_Fault__Acceso_Denegado_</a:Code>
+<a:Name>Retornar HTTP 401 Unauthorized: Clave actual invalida o token expirado</a:Name>
+<a:Code>Retornar_HTTP_401_Acceso_Denegado</a:Code>
 <a:CreationDate>1776578722</a:CreationDate>
 <a:Creator>ariel</a:Creator>
 <a:ModificationDate>1776579896</a:ModificationDate>
@@ -1207,8 +1207,8 @@ ColnFKNameUse=No</a:ModelOptionsText>
 </o:Activity>
 <o:Activity Id="o24">
 <a:ObjectID>259717A4-78B5-43C7-AEA2-4A1A22D4C197</a:ObjectID>
-<a:Name>Generar respuesta SOAP: "Contrasenia actualizada correctamente"</a:Name>
-<a:Code>Generar_respuesta_XML__SOAP_Response__con_el_resultado</a:Code>
+<a:Name>Retornar HTTP 200 OK: "Contrasenia actualizada correctamente"</a:Name>
+<a:Code>Retornar_HTTP_200_OK_con_resultado_JSON</a:Code>
 <a:CreationDate>1776579434</a:CreationDate>
 <a:Creator>ariel</a:Creator>
 <a:ModificationDate>1776579442</a:ModificationDate>
@@ -1221,7 +1221,7 @@ ColnFKNameUse=No</a:ModelOptionsText>
 <o:Activity Id="o26">
 <a:ObjectID>07C20AF7-2565-40F6-AFCD-3D2ABB712131</a:ObjectID>
 <a:Name>Cliente: Mostrar mensaje de exito en interfaz</a:Name>
-<a:Code>Extraer_resultado_del_XML_y_mostrar_en_interfaz</a:Code>
+<a:Code>Extraer_resultado_del_JSON_y_mostrar_en_interfaz</a:Code>
 <a:CreationDate>1776579468</a:CreationDate>
 <a:Creator>ariel</a:Creator>
 <a:ModificationDate>1776579473</a:ModificationDate>
@@ -1258,8 +1258,8 @@ ColnFKNameUse=No</a:ModelOptionsText>
 </o:OrganizationUnit>
 <o:OrganizationUnit Id="o30">
 <a:ObjectID>F18F2FE5-27A6-4CE1-997A-D9C9B2FA2309</a:ObjectID>
-<a:Name>Servidor Payara SOAP (ManejadorAutenticacion / WSConversorUnidades)</a:Name>
-<a:Code>Servidor__Payara___Web_Service_SOAP__</a:Code>
+<a:Name>Servidor Web REST (AutenticacionControlador / ConversorControlador)</a:Name>
+<a:Code>Servidor_Web_REST</a:Code>
 <a:CreationDate>1776577775</a:CreationDate>
 <a:Creator>ariel</a:Creator>
 <a:ModificationDate>1776577786</a:ModificationDate>
@@ -2346,8 +2346,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:TargetModel>
 <o:TargetModel Id="o58">
 <a:ObjectID>1780E7B1-C708-4B35-9025-19C56DF2CDD1</a:ObjectID>
-<a:Name>WSDL for Java</a:Name>
-<a:Code>WSDLJava</a:Code>
+<a:Name>Servicios RESTful</a:Name>
+<a:Code>ServiciosREST</a:Code>
 <a:CreationDate>1776577404</a:CreationDate>
 <a:Creator>ariel</a:Creator>
 <a:ModificationDate>1776577404</a:ModificationDate>

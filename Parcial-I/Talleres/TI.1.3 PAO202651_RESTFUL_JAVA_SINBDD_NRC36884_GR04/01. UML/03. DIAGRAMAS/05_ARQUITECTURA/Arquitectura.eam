@@ -1003,8 +1003,8 @@ ConvTablePath=%_HOME%\Resource Files\Conversion Tables</a:ModelOptionsText>
 <c:SubAreas>
 <o:ArchitectureArea Id="o5">
 <a:ObjectID>705DD8F4-0E81-454A-A587-5B9F6B18A597</a:ObjectID>
-<a:Name>Servidor Payara (WSConversorUnidades)</a:Name>
-<a:Code>Servidor_Payara_SOAP</a:Code>
+<a:Name>Servidor Payara REST (AutenticacionResource / ConversorResource)</a:Name>
+<a:Code>Servidor_Payara_REST</a:Code>
 <a:CreationDate>1776959025</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776959363</a:ModificationDate>
@@ -2351,7 +2351,7 @@ Shadow=0</a:DisplayPreferences>
 <a:PaperSource>1</a:PaperSource>
 <c:Symbols>
 <o:TextSymbol Id="o21">
-<a:Text>Arquitectura Orientada a Servicios (SOA / SOAP)</a:Text>
+<a:Text>Arquitectura Orientada a Servicios RESTful (API REST / HTTP JSON)</a:Text>
 <a:CreationDate>1776915523</a:CreationDate>
 <a:ModificationDate>1776958666</a:ModificationDate>
 <a:Rect>((-7530,35001), (9726,38360))</a:Rect>
@@ -2891,8 +2891,8 @@ ETYP 0 Arial,8,N</a:FontList>
 <c:ApplicationServices>
 <o:ApplicationService Id="o9">
 <a:ObjectID>E70A9CEA-BAD1-4573-AD86-B7556A3E78A6</a:ObjectID>
-<a:Name>Servicio de Conversión SOAP</a:Name>
-<a:Code>Servicio_de_Conversion_SOAP</a:Code>
+<a:Name>API REST Conversor de Unidades</a:Name>
+<a:Code>API_REST_Conversor_Unidades</a:Code>
 <a:CreationDate>1776910850</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776958077</a:ModificationDate>

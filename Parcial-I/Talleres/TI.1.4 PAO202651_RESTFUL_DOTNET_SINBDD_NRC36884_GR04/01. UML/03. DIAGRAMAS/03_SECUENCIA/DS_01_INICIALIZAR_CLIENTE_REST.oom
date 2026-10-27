@@ -968,8 +968,8 @@ ColnFKNameUse=No</a:ModelOptionsText>
 <c:ExtendedModelDefinitions>
 <o:Shortcut Id="o4">
 <a:ObjectID>1E5FA85C-9E1B-4B34-B500-42F7B5588EEC</a:ObjectID>
-<a:Name>WSDL for Java</a:Name>
-<a:Code>WSDLJava</a:Code>
+<a:Name>Servicios REST</a:Name>
+<a:Code>ServiciosREST</a:Code>
 <a:CreationDate>1540913973</a:CreationDate>
 <a:Creator>jorge</a:Creator>
 <a:ModificationDate>1540913973</a:ModificationDate>
@@ -1970,7 +1970,7 @@ DISPNAME 0 Arial,8,U</a:FontList>
 <o:Message Id="o34">
 <a:ObjectID>C8DA4C98-D0A7-4DC0-B626-35FAD8D1B23E</a:ObjectID>
 <a:Name>configura cliente con header Authorization: Bearer token</a:Name>
-<a:Code>configura_cliente_con_SOAP_token</a:Code>
+<a:Code>configura_cliente_con_Bearer_token</a:Code>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:Creator>jorge</a:Creator>
 <a:ModificationDate>1540913976</a:ModificationDate>
@@ -2019,8 +2019,8 @@ DISPNAME 0 Arial,8,U</a:FontList>
 </o:Message>
 <o:Message Id="o28">
 <a:ObjectID>BDACAD0E-DFDA-46DC-9B87-1B1DDEF07D61</a:ObjectID>
-<a:Name>inicializarClienteSoap arma endpoint y candidatos WSDL</a:Name>
-<a:Code>inicializarClienteSoap_arma_endpoint_y_candidatos_WSDL</a:Code>
+<a:Name>inicializarClienteRest configura BaseUrl y HttpClient</a:Name>
+<a:Code>inicializarClienteRest_configura_BaseUrl_y_HttpClient</a:Code>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:Creator>jorge</a:Creator>
 <a:ModificationDate>1540913976</a:ModificationDate>
@@ -2035,8 +2035,8 @@ DISPNAME 0 Arial,8,U</a:FontList>
 </o:Message>
 <o:Message Id="o25">
 <a:ObjectID>297AB19C-C31D-4336-BBF4-2295CAA4A9FE</a:ObjectID>
-<a:Name>construirBasesUrl revisa ws.base.url y WS BASE URL</a:Name>
-<a:Code>construirBasesUrl_revisa_ws_base_url_y_WS_SOAP_BASE_URL</a:Code>
+<a:Name>construirBasesUrl revisa rest.base.url o URL por defecto</a:Name>
+<a:Code>construirBasesUrl_revisa_rest_base_url</a:Code>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:Creator>jorge</a:Creator>
 <a:ModificationDate>1776642836</a:ModificationDate>
@@ -2051,8 +2051,8 @@ DISPNAME 0 Arial,8,U</a:FontList>
 </o:Message>
 <o:Message Id="o23">
 <a:ObjectID>137136DD-23B5-4B42-A73C-74D9A1189F1E</a:ObjectID>
-<a:Name>inicializarClienteSoap llama construirBasesUrl</a:Name>
-<a:Code>inicializarClienteSoap_llama_construirBasesUrl</a:Code>
+<a:Name>inicializarClienteRest llama construirBasesUrl</a:Name>
+<a:Code>inicializarClienteRest_llama_construirBasesUrl</a:Code>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:Creator>jorge</a:Creator>
 <a:ModificationDate>1540913976</a:ModificationDate>
@@ -2067,8 +2067,8 @@ DISPNAME 0 Arial,8,U</a:FontList>
 </o:Message>
 <o:Message Id="o21">
 <a:ObjectID>B82E3B6A-EE11-4E2E-9FAC-CABF37F5FBF7</a:ObjectID>
-<a:Name>ClienteSoapConversor llama inicializarClienteSoap</a:Name>
-<a:Code>ClienteSoapConversor_llama_inicializarClienteSoap</a:Code>
+<a:Name>ConversorService llama inicializarClienteRest</a:Name>
+<a:Code>ConversorService_llama_inicializarClienteRest</a:Code>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:Creator>jorge</a:Creator>
 <a:ModificationDate>1540913976</a:ModificationDate>
@@ -2100,8 +2100,8 @@ DISPNAME 0 Arial,8,U</a:FontList>
 </o:Message>
 <o:Message Id="o16">
 <a:ObjectID>2365D72A-FEAD-4961-A94B-A992322E1AD1</a:ObjectID>
-<a:Name>LoginControlador crea ClienteSoapConversor</a:Name>
-<a:Code>LoginControlador_crea_ClienteSoapConversor</a:Code>
+<a:Name>LoginControlador crea ConversorService</a:Name>
+<a:Code>LoginControlador_crea_ConversorService</a:Code>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:Creator>jorge</a:Creator>
 <a:ModificationDate>1540913976</a:ModificationDate>
@@ -2168,8 +2168,8 @@ DISPNAME 0 Arial,8,U</a:FontList>
 </o:TargetModel>
 <o:TargetModel Id="o51">
 <a:ObjectID>8C3FEE55-6C46-463D-8476-1008D8BDD094</a:ObjectID>
-<a:Name>WSDL for Java</a:Name>
-<a:Code>WSDLJava</a:Code>
+<a:Name>Servicios REST</a:Name>
+<a:Code>ServiciosREST</a:Code>
 <a:CreationDate>1540913973</a:CreationDate>
 <a:Creator>jorge</a:Creator>
 <a:ModificationDate>1777386851</a:ModificationDate>

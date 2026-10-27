@@ -967,8 +967,8 @@ ColnFKNameUse=No</a:ModelOptionsText>
 <c:ExtendedModelDefinitions>
 <o:Shortcut Id="o4">
 <a:ObjectID>1E64F6F9-AF0E-4098-B95E-8A79E9942DD4</a:ObjectID>
-<a:Name>SERVICIO SOAP</a:Name>
-<a:Code>WSDLJava</a:Code>
+<a:Name>SERVICIO REST (API)</a:Name>
+<a:Code>ServiciosREST</a:Code>
 <a:CreationDate>1622316603</a:CreationDate>
 <a:Creator>johanaaracely.herre</a:Creator>
 <a:ModificationDate>1622316603</a:ModificationDate>
@@ -2185,8 +2185,8 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o36">
 <a:ObjectID>1E4E8C0A-4274-4B27-B140-9A1B974918C1</a:ObjectID>
-<a:Name>envia SOAP convertirLongitud con token ausente o invalido</a:Name>
-<a:Code>envia_SOAP_convertirLongitud_token_invalido</a:Code>
+<a:Name>HTTP POST /api/conversor/longitud sin Bearer token</a:Name>
+<a:Code>HTTP_POST_convertirLongitud_token_invalido</a:Code>
 <a:CreationDate>1776645105</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
 <a:ModificationDate>1776645113</a:ModificationDate>
@@ -2220,7 +2220,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o32">
 <a:ObjectID>26ECE825-E08A-4F86-B13F-08E1872CFFE7</a:ObjectID>
-<a:Name>intenta validar token en ManejadorAutenticacion</a:Name>
+<a:Name>intenta validar token con AdministradorToken</a:Name>
 <a:Code>intenta_validar_token_en_ManejadorAutenticacion</a:Code>
 <a:CreationDate>1776645189</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2239,7 +2239,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 <o:Message Id="o30">
 <a:ObjectID>470A4A1B-7392-4AC9-AFA8-44B89712D69B</a:ObjectID>
 <a:Name>verifica header Authorization: Bearer token</a:Name>
-<a:Code>verifica_header_SOAP_token</a:Code>
+<a:Code>verifica_header_Bearer_token</a:Code>
 <a:CreationDate>1776645219</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
 <a:ModificationDate>1776645230</a:ModificationDate>
@@ -2292,7 +2292,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o23">
 <a:ObjectID>F63B5088-03C1-4FFC-B1AD-888078378CD3</a:ObjectID>
-<a:Name>retorna RuntimeException de autenticacion</a:Name>
+<a:Name>retorna HTTP 401 Unauthorized (JSON)</a:Name>
 <a:Code>retorna_RuntimeException_autenticacion</a:Code>
 <a:CreationDate>1776645381</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2395,8 +2395,8 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:TargetModel>
 <o:TargetModel Id="o63">
 <a:ObjectID>C894DF54-AE5F-4CFF-982D-DDF4715B88B5</a:ObjectID>
-<a:Name>SERVICIO SOAP</a:Name>
-<a:Code>WSDLJava</a:Code>
+<a:Name>SERVICIO REST (API)</a:Name>
+<a:Code>ServiciosREST</a:Code>
 <a:CreationDate>1622316603</a:CreationDate>
 <a:Creator>johanaaracely.herre</a:Creator>
 <a:ModificationDate>1622316603</a:ModificationDate>
