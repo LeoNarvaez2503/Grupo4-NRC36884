@@ -15,7 +15,7 @@ namespace ec.edu.monster.modelo
 
         public static string? TokenSesion { get; set; }
 
-        private static readonly HttpClient httpClient = new HttpClient(new HostRewriteHandler(new HttpClientHandler()));
+        private static readonly HttpClient httpClient = new HttpClient(new HostRewriteHandler(new SocketsHttpHandler()));
 
         public string? Login(string usuario, string contrasenia)
         {

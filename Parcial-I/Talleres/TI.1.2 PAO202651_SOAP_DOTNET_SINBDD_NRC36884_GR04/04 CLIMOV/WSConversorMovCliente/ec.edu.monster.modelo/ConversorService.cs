@@ -78,7 +78,7 @@ namespace ec.edu.monster.modelo
             {
                 try
                 {
-                    HttpMessageHandler handler = new HttpClientHandler();
+                    HttpMessageHandler handler = new SocketsHttpHandler();
                     if (reescribir)
                     {
                         handler = new HostRewriteHandler(handler, $"localhost:{uri.Port}");
@@ -112,7 +112,7 @@ namespace ec.edu.monster.modelo
         public void AddBindingParameters(System.ServiceModel.Description.ServiceEndpoint endpoint, System.ServiceModel.Channels.BindingParameterCollection bindingParameters)
         {
             bindingParameters.Add(new Func<System.Net.Http.HttpClientHandler, System.Net.Http.HttpMessageHandler>(
-                handler => new HostRewriteHandler(handler, hostHeader)));
+                handler => new HostRewriteHandler(new System.Net.Http.SocketsHttpHandler(), hostHeader)));
         }
         
         public void ApplyClientBehavior(System.ServiceModel.Description.ServiceEndpoint endpoint, System.ServiceModel.Dispatcher.ClientRuntime clientRuntime)

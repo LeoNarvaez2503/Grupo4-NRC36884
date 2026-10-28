@@ -8,14 +8,14 @@ namespace ec.edu.monster.modelo
     /// </summary>
     public static class ConfiguracionServidor
     {
-        public const string Host = "10.234.96.150";
+        public const string Host = "localhost";
         public const string Puerto = "63281";
         public const string Ruta = "ServicioWebRest.svc";
 
         public static string HostActual =>
             Environment.GetEnvironmentVariable("SERVIDOR_HOST") is { Length: > 0 } h ? h : Host;
 
-        /// <summary>Ej.: http://10.234.96.150:63281/ServicioWebRest.svc</summary>
+        /// <summary>Ej.: http://localhost:63281/ServicioWebRest.svc</summary>
         public static string UrlServicio => $"http://{HostActual}:{Puerto}/{Ruta}";
     }
 }
