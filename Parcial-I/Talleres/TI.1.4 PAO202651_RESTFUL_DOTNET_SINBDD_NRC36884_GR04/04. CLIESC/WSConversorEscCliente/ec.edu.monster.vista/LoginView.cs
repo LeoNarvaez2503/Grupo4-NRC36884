@@ -100,7 +100,7 @@ namespace ec.edu.monster.vista
                 MessageBox.Show(
                     "No se pudo conectar con el servidor web RESTful.\n\n" +
                     "Asegúrate de que el servidor esté iniciado ejecutando 'IniciarServidor.bat' en la carpeta '04. SERVIDOR'.\n" +
-                    "URL requerida: http://localhost:63281/ServicioWebRest.svc",
+                    "URL requerida: " + ec.edu.monster.modelo.ConfiguracionServidor.UrlServicio,
                     "Servidor no Disponible",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -125,7 +125,7 @@ namespace ec.edu.monster.vista
                 {
                     MessageBox.Show(
                         "No se pudo conectar con el servidor web RESTful.\n\n" +
-                        "El servidor no está iniciado en http://localhost:63281/ServicioWebRest.svc.\n\n" +
+                        "El servidor no está iniciado en " + ec.edu.monster.modelo.ConfiguracionServidor.UrlServicio + ".\n\n" +
                         "Por favor, ejecuta el archivo 'IniciarServidor.bat' en la carpeta 04. SERVIDOR para levantarlo.",
                         "Servidor Desconectado",
                         MessageBoxButtons.OK,

@@ -97,9 +97,10 @@ namespace ec.edu.monster.vista
                 }
                 else
                 {
-                    lblMensaje.Text = $"Error: {ex.Message}";
+                    string diag = await ConversorService.DiagnosticarAsync();
+                    lblMensaje.Text = $"Error: {ex.Message}\n\n{diag}";
                     lblMensaje.IsVisible = true;
-                    await DisplayAlert("Error", $"Ocurrió un error inesperado:\n{ex.Message}", "Aceptar");
+                    await DisplayAlert("Error", $"Ocurrió un error inesperado:\n{ex.Message}\n\nDiagnóstico:\n{diag}", "Aceptar");
                 }
             }
             finally

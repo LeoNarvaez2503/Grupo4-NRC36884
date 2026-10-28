@@ -2,12 +2,23 @@ package ec.edu.monster.wsconversorweb.model;
 
 import ec.edu.monster.ws.WSConversorUnidades;
 import ec.edu.monster.ws.WSConversorUnidades_Service;
+import jakarta.xml.ws.BindingProvider;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class ConversorService {
 
     private WSConversorUnidades getPort() {
-        WSConversorUnidades_Service service = new WSConversorUnidades_Service();
-        return service.getWSConversorUnidadesPort();
+        try {
+            WSConversorUnidades_Service service
+                    = new WSConversorUnidades_Service(new URL(ConfiguracionServidor.getUrlWsdl()));
+            WSConversorUnidades port = service.getWSConversorUnidadesPort();
+            ((BindingProvider) port).getRequestContext().put(
+                    BindingProvider.ENDPOINT_ADDRESS_PROPERTY, ConfiguracionServidor.getUrlServicio());
+            return port;
+        } catch (MalformedURLException ex) {
+            throw new IllegalStateException("URL del servidor invalida: " + ConfiguracionServidor.getUrlWsdl(), ex);
+        }
     }
 
     public String login(String usuario, String contrasenia) {

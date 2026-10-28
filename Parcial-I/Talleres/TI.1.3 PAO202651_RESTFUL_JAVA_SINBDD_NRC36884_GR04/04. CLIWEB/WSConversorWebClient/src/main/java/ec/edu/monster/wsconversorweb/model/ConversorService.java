@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 
 public class ConversorService implements Serializable {
 
-    private static final String BASE_URL = "http://localhost:8080/WS_ConversorUnidades_Java_REST/api";
+    private static final String BASE_URL = ConfiguracionServidor.getUrlBase();
     private static String tokenSesion;
 
     public static String getTokenSesion() {

@@ -1,8 +1,9 @@
-/home/meatpuppets/Escritorio/Semeste VIII/Arquitectura/Parcial-I/Talleres/TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04/04. CLIESC/WSConversorClient/src/main/java/ec/edu/monster/wsconversorclient/WSConversorClient.java
-/home/meatpuppets/Escritorio/Semeste VIII/Arquitectura/Parcial-I/Talleres/TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04/04. CLIESC/WSConversorClient/src/main/java/ec/edu/monster/wsconversorclient/controller/AppControlador.java
-/home/meatpuppets/Escritorio/Semeste VIII/Arquitectura/Parcial-I/Talleres/TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04/04. CLIESC/WSConversorClient/src/main/java/ec/edu/monster/wsconversorclient/model/ConversorService.java
-/home/meatpuppets/Escritorio/Semeste VIII/Arquitectura/Parcial-I/Talleres/TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04/04. CLIESC/WSConversorClient/src/main/java/ec/edu/monster/wsconversorclient/model/UnidadLongitud.java
-/home/meatpuppets/Escritorio/Semeste VIII/Arquitectura/Parcial-I/Talleres/TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04/04. CLIESC/WSConversorClient/src/main/java/ec/edu/monster/wsconversorclient/model/UnidadMasa.java
-/home/meatpuppets/Escritorio/Semeste VIII/Arquitectura/Parcial-I/Talleres/TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04/04. CLIESC/WSConversorClient/src/main/java/ec/edu/monster/wsconversorclient/model/UnidadTemperatura.java
-/home/meatpuppets/Escritorio/Semeste VIII/Arquitectura/Parcial-I/Talleres/TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04/04. CLIESC/WSConversorClient/src/main/java/ec/edu/monster/wsconversorclient/view/ConversorView.java
-/home/meatpuppets/Escritorio/Semeste VIII/Arquitectura/Parcial-I/Talleres/TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04/04. CLIESC/WSConversorClient/src/main/java/ec/edu/monster/wsconversorclient/view/LoginView.java
+C:\MONSTER\g4\Parcial-I\Talleres\TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04\04. CLIESC\WSConversorClient\src\main\java\ec\edu\monster\wsconversorclient\controller\AppControlador.java
+C:\MONSTER\g4\Parcial-I\Talleres\TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04\04. CLIESC\WSConversorClient\src\main\java\ec\edu\monster\wsconversorclient\model\ConfiguracionServidor.java
+C:\MONSTER\g4\Parcial-I\Talleres\TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04\04. CLIESC\WSConversorClient\src\main\java\ec\edu\monster\wsconversorclient\model\ConversorService.java
+C:\MONSTER\g4\Parcial-I\Talleres\TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04\04. CLIESC\WSConversorClient\src\main\java\ec\edu\monster\wsconversorclient\model\UnidadLongitud.java
+C:\MONSTER\g4\Parcial-I\Talleres\TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04\04. CLIESC\WSConversorClient\src\main\java\ec\edu\monster\wsconversorclient\model\UnidadMasa.java
+C:\MONSTER\g4\Parcial-I\Talleres\TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04\04. CLIESC\WSConversorClient\src\main\java\ec\edu\monster\wsconversorclient\model\UnidadTemperatura.java
+C:\MONSTER\g4\Parcial-I\Talleres\TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04\04. CLIESC\WSConversorClient\src\main\java\ec\edu\monster\wsconversorclient\view\ConversorView.java
+C:\MONSTER\g4\Parcial-I\Talleres\TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04\04. CLIESC\WSConversorClient\src\main\java\ec\edu\monster\wsconversorclient\view\LoginView.java
+C:\MONSTER\g4\Parcial-I\Talleres\TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04\04. CLIESC\WSConversorClient\src\main\java\ec\edu\monster\wsconversorclient\WSConversorClient.java

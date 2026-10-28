@@ -9,8 +9,8 @@ namespace ec.edu.monster.modelo
 {
     public class ConversorService
     {
-        private static readonly HttpClient httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(8) };
-        public static string BaseUrl { get; set; } = "http://localhost:63281/ServicioWebRest.svc";
+        private static readonly HttpClient httpClient = new HttpClient(new HostRewriteHandler(new HttpClientHandler())) { Timeout = TimeSpan.FromSeconds(8) };
+        public static string BaseUrl { get; set; } = ConfiguracionServidor.UrlServicio;
         public static string? TokenSesion { get; set; }
 
         public string? Login(string usuario, string contrasenia)
@@ -113,6 +113,23 @@ namespace ec.edu.monster.modelo
             {
                 throw new InvalidOperationException($"Error en conversión de {tipo} REST: " + ex.Message, ex);
             }
+        }
+    }
+
+    // IIS Express solo acepta el Host 'localhost:puerto'; se reescribe cuando se usa una IP.
+    internal class HostRewriteHandler : DelegatingHandler
+    {
+        public HostRewriteHandler(HttpMessageHandler innerHandler) : base(innerHandler)
+        {
+        }
+
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
+        {
+            if (request.RequestUri != null && !request.RequestUri.Host.Equals("localhost", StringComparison.OrdinalIgnoreCase))
+            {
+                request.Headers.Host = $"localhost:{request.RequestUri.Port}";
+            }
+            return base.SendAsync(request, cancellationToken);
         }
     }
 }

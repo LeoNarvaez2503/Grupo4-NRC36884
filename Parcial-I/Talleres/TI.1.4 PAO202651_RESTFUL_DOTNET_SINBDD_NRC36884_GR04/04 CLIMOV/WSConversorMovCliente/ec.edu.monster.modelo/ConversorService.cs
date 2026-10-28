@@ -10,9 +10,8 @@ namespace ec.edu.monster.modelo
 {
     public class ConversorService
     {
-        public static string EndpointUrl { get; set; } = DeviceInfo.Platform == DevicePlatform.Android
-            ? "http://10.0.2.2:63281/ServicioWebRest.svc"
-            : "http://localhost:63281/ServicioWebRest.svc";
+        // La IP del servidor se define en ConfiguracionServidor (y se puede cambiar desde la app).
+        public static string EndpointUrl { get; set; } = ConfiguracionServidor.UrlServicio;
 
         public static string? TokenSesion { get; set; }
 
@@ -127,7 +126,7 @@ namespace ec.edu.monster.modelo
 
         private static void AplicarHostHeader(HttpRequestMessage request)
         {
-            if (request.RequestUri != null && request.RequestUri.Host.Equals("10.0.2.2", StringComparison.OrdinalIgnoreCase))
+            if (request.RequestUri != null && !request.RequestUri.Host.Equals("localhost", StringComparison.OrdinalIgnoreCase))
             {
                 request.Headers.Host = $"localhost:{request.RequestUri.Port}";
             }
@@ -142,7 +141,7 @@ namespace ec.edu.monster.modelo
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
         {
-            if (request.RequestUri != null && request.RequestUri.Host.Equals("10.0.2.2", StringComparison.OrdinalIgnoreCase))
+            if (request.RequestUri != null && !request.RequestUri.Host.Equals("localhost", StringComparison.OrdinalIgnoreCase))
             {
                 request.Headers.Host = $"localhost:{request.RequestUri.Port}";
             }

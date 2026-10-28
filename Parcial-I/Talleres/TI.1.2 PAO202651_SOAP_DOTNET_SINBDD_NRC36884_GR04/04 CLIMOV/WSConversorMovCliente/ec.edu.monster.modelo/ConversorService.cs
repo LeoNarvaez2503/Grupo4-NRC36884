@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Maui.Devices;
 using ServiceReference1;
@@ -7,9 +8,8 @@ namespace ec.edu.monster.modelo
 {
     public class ConversorService
     {
-        public static string EndpointUrl { get; set; } = DeviceInfo.Platform == DevicePlatform.Android
-            ? "http://10.0.2.2:55981/ServicioWeb.svc"
-            : "http://localhost:55981/ServicioWeb.svc";
+        // La IP del servidor se define en ConfiguracionServidor (y se puede cambiar desde la app).
+        public static string EndpointUrl { get; set; } = ConfiguracionServidor.UrlServicio;
 
         private WSConversorUnidadesClient CrearCliente()
         {
@@ -69,6 +69,35 @@ namespace ec.edu.monster.modelo
         {
             return ConvertirTemperaturaAsync(valor, unidadInicial, unidadFinal).GetAwaiter().GetResult();
         }
+        // Pide el WSDL con y sin el Host reescrito para saber quien responde y con que codigo.
+        public static async Task<string> DiagnosticarAsync()
+        {
+            var uri = new Uri(EndpointUrl);
+            var sb = new System.Text.StringBuilder();
+            foreach (var reescribir in new[] { true, false })
+            {
+                try
+                {
+                    HttpMessageHandler handler = new HttpClientHandler();
+                    if (reescribir)
+                    {
+                        handler = new HostRewriteHandler(handler, $"localhost:{uri.Port}");
+                    }
+                    using var http = new System.Net.Http.HttpClient(handler) { Timeout = TimeSpan.FromSeconds(8) };
+                    using var resp = await http.GetAsync(EndpointUrl + "?wsdl");
+                    var cuerpo = await resp.Content.ReadAsStringAsync();
+                    var servidor = string.Join(",", System.Linq.Enumerable.Select(resp.Headers.Server, x => x.ToString()));
+                    cuerpo = cuerpo.Length > 100 ? cuerpo.Substring(0, 100) : cuerpo;
+                    sb.AppendLine($"Host {(reescribir ? "reescrito" : "original")}: HTTP {(int)resp.StatusCode}, Server={servidor}, cuerpo={cuerpo.Replace('\n', ' ')}");
+                }
+                catch (Exception ex)
+                {
+                    sb.AppendLine($"Host {(reescribir ? "reescrito" : "original")}: fallo {ex.GetType().Name}: {ex.Message}");
+                }
+            }
+            return sb.ToString();
+        }
+
     }
 
     internal class IisExpressHostHeaderBehavior : System.ServiceModel.Description.IEndpointBehavior, System.ServiceModel.Dispatcher.IClientMessageInspector

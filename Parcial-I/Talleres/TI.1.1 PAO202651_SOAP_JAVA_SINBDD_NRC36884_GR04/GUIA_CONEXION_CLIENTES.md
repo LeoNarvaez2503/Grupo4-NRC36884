@@ -13,7 +13,7 @@ Esta guía explica detalladamente cómo conectar **cualquier cliente (Web, Móvi
 | :--- | :--- | :--- | :--- |
 | **🌐 Cliente Web** | PC, Laptop o Celular | Navegador web (Chrome, Firefox, etc.) | `http://<TU_IP>:8080/WSConversorWebClient/` |
 | **📱 Cliente Móvil** | Celular Android / Emulador | Botón `⚙ Configurar IP Servidor` en la app | `http://<TU_IP>:8080/WS_ConversorUnidades_Java_SOAP/WSConversorUnidades` |
-| **🖥️ Cliente Escritorio** | PC con Java / NetBeans | `ConversorService.java` / WSDL | `http://<TU_IP>:8080/WS_ConversorUnidades_Java_SOAP/WSConversorUnidades?wsdl` |
+| **🖥️ Cliente Escritorio** | PC con Java / NetBeans | `04. CLIESC/.../src/servidor.properties` (`servidor.host`) | `http://<TU_IP>:8080/WS_ConversorUnidades_Java_SOAP/WSConversorUnidades?wsdl` |
 | **💻 Cliente Consola** | PC con Java / Maven | `WSConversorUnidades_Service.java` / WSDL | `http://<TU_IP>:8080/WS_ConversorUnidades_Java_SOAP/WSConversorUnidades?wsdl` |
 
 > [!IMPORTANT]

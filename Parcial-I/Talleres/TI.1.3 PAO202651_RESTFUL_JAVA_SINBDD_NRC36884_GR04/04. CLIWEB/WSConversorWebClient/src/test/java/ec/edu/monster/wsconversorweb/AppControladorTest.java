@@ -1,5 +1,7 @@
 package ec.edu.monster.wsconversorweb;
 
+import ec.edu.monster.wsconversorweb.model.ConfiguracionServidor;
+
 import ec.edu.monster.wsconversorweb.controller.AppControlador;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +21,7 @@ public class AppControladorTest {
     @BeforeEach
     public void verificarServidor() {
         try {
-            URL url = new URL("http://localhost:8080/WS_ConversorUnidades_Java_REST/api/conversor/unidades");
+            URL url = new URL(ConfiguracionServidor.getUrlBase() + "/conversor/unidades");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(1500);
             conn.setReadTimeout(1500);
@@ -38,7 +40,7 @@ public class AppControladorTest {
     @Test
     @DisplayName("CLIWEB: Test Login con servidor activo")
     public void testLogin() {
-        Assumptions.assumeTrue(servidorDisponible, "Servidor REST no disponible en localhost:8080");
+        Assumptions.assumeTrue(servidorDisponible, "Servidor REST no disponible (ver servidor.properties)");
         String token = control.login("MONSTER", "MONSTER9");
         assertNotNull(token);
         assertFalse(token.isBlank());
@@ -47,7 +49,7 @@ public class AppControladorTest {
     @Test
     @DisplayName("CLIWEB: Test Conversión Longitud 1000m -> 1km con servidor activo")
     public void testConvertirLongitud() {
-        Assumptions.assumeTrue(servidorDisponible, "Servidor REST no disponible en localhost:8080");
+        Assumptions.assumeTrue(servidorDisponible, "Servidor REST no disponible (ver servidor.properties)");
         double res = control.convertirLongitud(1000.0, "METRO", "KILOMETRO");
         assertEquals(1.0, res, 0.0001);
     }
@@ -55,7 +57,7 @@ public class AppControladorTest {
     @Test
     @DisplayName("CLIWEB: Test Conversión Temperatura 100C -> 212F con servidor activo")
     public void testConvertirTemperatura() {
-        Assumptions.assumeTrue(servidorDisponible, "Servidor REST no disponible en localhost:8080");
+        Assumptions.assumeTrue(servidorDisponible, "Servidor REST no disponible (ver servidor.properties)");
         double res = control.convertirTemperatura(100.0, "CELSIUS", "FAHRENHEIT");
         assertEquals(212.0, res, 0.0001);
     }
