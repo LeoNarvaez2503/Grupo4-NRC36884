@@ -3,6 +3,7 @@ package ec.edu.monster.wsconversorcon.view;
 import ec.edu.monster.wsconversorcon.model.UnidadLongitud;
 import ec.edu.monster.wsconversorcon.model.UnidadMasa;
 import ec.edu.monster.wsconversorcon.model.UnidadTemperatura;
+import java.util.Locale;
 
 import java.util.Scanner;
 
@@ -104,7 +105,7 @@ public class ConsolaView {
     public void mostrarResultado(double resultado) {
         System.out.println();
         System.out.println("==================================================");
-        System.out.println("Resultado: " + resultado);
+        System.out.println("Resultado: " + String.format(Locale.US, "%.4f", resultado));
         System.out.println("==================================================");
     }
 

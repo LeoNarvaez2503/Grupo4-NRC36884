@@ -1,0 +1,36 @@
+﻿@startuml
+title "DS_09_ERROR_VALIDACION_400 (REST)"
+autonumber
+
+actor "Usuario" as Usuario
+participant "CONVERSION_VISTA" as Vista
+participant "CONVERSION_CONTROLADOR" as Controlador
+participant "CLIENTE_REST_CONVERSOR\n(ConversorService)" as ClienteRest
+participant "CONVERSOR_RESOURCE\n(/api/conversor)" as ConversorResource
+participant "ADMINISTRADOR_TOKEN" as TokenMgr
+participant "UNIDAD_MAPPER" as Mapper
+
+Usuario -> Vista: Ingresa unidad no soportada ("LIBRA_ESTERLINA")
+Vista -> Controlador: solicitarConversionMasa(10, "LIBRA_ESTERLINA", "KILOGRAMO")
+Controlador -> ClienteRest: convertirMasa(10, "LIBRA_ESTERLINA", "KILOGRAMO")
+activate ClienteRest
+
+ClienteRest -> ConversorResource: HTTP POST /api/conversor/masa\nHeader Authorization: Bearer <token>\n{"valor": 10, "unidadInicial": "LIBRA_ESTERLINA", "unidadFinal": "KILOGRAMO"}
+activate ConversorResource
+
+ConversorResource -> TokenMgr: validarToken(token)
+TokenMgr --> ConversorResource: true (autorizado)
+
+ConversorResource -> Mapper: toMasa("LIBRA_ESTERLINA")
+activate Mapper
+Mapper --> ConversorResource: IllegalArgumentException("Unidad de masa no valida: LIBRA_ESTERLINA")
+deactivate Mapper
+
+ConversorResource --> ClienteRest: HTTP 400 Bad Request\n{"error": "Unidad de masa no valida: LIBRA_ESTERLINA"}
+deactivate ConversorResource
+
+ClienteRest --> Controlador: HttpBadRequestException(400, "Unidad no valida")
+deactivate ClienteRest
+Controlador --> Vista: mostrarErrorValidacion("La unidad ingresada no es soportada por el sistema")
+Vista --> Usuario: Mostrar alerta: corregir seleccion de unidades
+@enduml

@@ -1,0 +1,42 @@
+﻿@startuml
+title "DS_02_INGRESO_SISTEMA (AUTENTICACION REST)"
+autonumber
+
+actor "Usuario" as Usuario
+participant "LOGIN_VISTA" as Vista
+participant "LOGIN_CONTROLADOR" as Controlador
+participant "CLIENTE_REST_CONVERSOR\n(ConversorService)" as ClienteRest
+participant "AUTENTICACION_RESOURCE\n(/api/auth)" as AuthResource
+participant "ADMINISTRADOR_CREDENCIALES" as Credenciales
+participant "ADMINISTRADOR_TOKEN" as TokenMgr
+
+Usuario -> Vista: Presiona boton "Iniciar Sesion"
+Vista -> Controlador: iniciarSesion(usuario, contrasenia)
+Controlador -> Controlador: validarCamposNoVacios()
+
+Controlador -> ClienteRest: login(LoginRequest)
+activate ClienteRest
+
+ClienteRest -> AuthResource: HTTP POST /api/auth/login\n{"usuario": "...", "contrasenia": "..."}
+activate AuthResource
+
+AuthResource -> Credenciales: validarUsuario(...)
+alt Credenciales Validas
+    Credenciales --> AuthResource: true
+    AuthResource -> TokenMgr: generarToken()
+    TokenMgr --> AuthResource: token_uuid
+    AuthResource --> ClienteRest: HTTP 200 OK {"token": "...", "usuario": "..."}
+    ClienteRest -> ClienteRest: session.setToken(token)
+    ClienteRest --> Controlador: exito
+    Controlador --> Vista: redireccionarAConversor()
+    Vista --> Usuario: Pantalla de Conversion Activa
+else Credenciales Invalidas
+    Credenciales --> AuthResource: false
+    AuthResource --> ClienteRest: HTTP 401 Unauthorized {"error": "Credenciales incorrectas"}
+    ClienteRest --> Controlador: ErrorAutenticacionException
+    Controlador --> Vista: mostrarMensajeError("Usuario o clave incorrectos")
+    Vista --> Usuario: Mostrar alerta de error
+end
+deactivate AuthResource
+deactivate ClienteRest
+@enduml

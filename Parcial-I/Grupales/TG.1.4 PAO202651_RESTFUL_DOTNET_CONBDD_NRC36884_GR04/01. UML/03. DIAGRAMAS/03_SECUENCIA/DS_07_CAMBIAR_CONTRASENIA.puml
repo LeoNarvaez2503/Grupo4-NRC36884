@@ -1,0 +1,49 @@
+﻿@startuml
+title "DS_07_CAMBIAR_CONTRASENIA (REST)"
+autonumber
+
+actor "Usuario" as Usuario
+participant "CONVERSION_VISTA" as Vista
+participant "LOGIN_CONTROLADOR" as Controlador
+participant "CLIENTE_REST_CONVERSOR\n(ConversorService)" as ClienteRest
+participant "AUTENTICACION_RESOURCE\n(/api/auth)" as AuthResource
+participant "ADMINISTRADOR_TOKEN" as TokenMgr
+participant "ADMINISTRADOR_CREDENCIALES" as Credenciales
+
+Usuario -> Vista: Ingresa clave actual y clave nueva
+Vista -> Controlador: cambiarContrasenia(actual, nueva)
+Controlador -> Controlador: validarCamposNoVacios()
+
+Controlador -> ClienteRest: cambiarContrasenia(actual, nueva)
+activate ClienteRest
+
+ClienteRest -> AuthResource: HTTP POST /api/auth/cambiar-contrasenia\nHeader Authorization: Bearer <token>\n{"contraseniaActual": "MONSTER9", "contraseniaNueva": "NUEVACLAVE1"}
+activate AuthResource
+
+AuthResource -> TokenMgr: validarToken(token)
+alt Token Invalido o Expirado
+    TokenMgr --> AuthResource: false
+    AuthResource --> ClienteRest: HTTP 401 Unauthorized {"error": "Token invalido o expirado"}
+    ClienteRest --> Controlador: errorAutenticacion
+    Controlador --> Vista: mostrarError("Sesion expirada. Inicie sesion nuevamente.")
+else Token Valido
+    TokenMgr --> AuthResource: true
+    AuthResource -> Credenciales: cambiarContrasenia(actual, nueva)
+    activate Credenciales
+    alt Clave Actual Coincide
+        Credenciales --> AuthResource: exito (clave actualizada en memoria)
+        deactivate Credenciales
+        AuthResource --> ClienteRest: HTTP 200 OK {"mensaje": "Contrasenia actualizada correctamente"}
+        ClienteRest --> Controlador: confirmacionExito
+        Controlador --> Vista: mostrarExito("Contrasenia cambiada con exito")
+        Vista --> Usuario: Mensaje de confirmacion
+    else Clave Actual Incorrecta
+        Credenciales --> AuthResource: RuntimeException("Contrasenia actual incorrecta")
+        AuthResource --> ClienteRest: HTTP 400 Bad Request {"error": "La contrasenia actual es incorrecta"}
+        ClienteRest --> Controlador: errorValidacion
+        Controlador --> Vista: mostrarError("Contrasenia actual incorrecta")
+    end
+end
+deactivate AuthResource
+deactivate ClienteRest
+@enduml
