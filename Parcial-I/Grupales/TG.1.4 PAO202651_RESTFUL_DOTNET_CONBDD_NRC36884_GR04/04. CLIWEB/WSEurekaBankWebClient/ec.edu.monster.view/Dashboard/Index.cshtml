@@ -1,0 +1,295 @@
+﻿@model ec.edu.monster.model.DashboardWebModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Monitor MashUp &amp; Operaciones â€” EurekaBank Web RESTful .NET (GR04)</title>
+    <style>
+        body { margin:0; font-family:'Segoe UI',Roboto,sans-serif; background:#f1f5f9; color:#0f172a; }
+        .topbar { background:#0f172a; color:#f8fafc; padding:14px 26px; display:flex; align-items:center; justify-content:space-between; border-bottom:3px solid #38bdf8; }
+        .topbar-left { display:flex; align-items:center; gap:14px; }
+        .topbar-title { font-size:18px; font-weight:700; color:#38bdf8; }
+        .topbar-sub { font-size:12px; color:#cbd5e1; }
+        .container { max-width:1360px; margin:20px auto; padding:0 20px; display:grid; grid-template-columns:2.1fr 1fr; gap:20px; }
+        .card { background:#fff; border-radius:12px; border:1px solid #cbd5e1; padding:18px 20px; box-shadow:0 2px 8px rgba(15,23,42,0.05); margin-bottom:18px; }
+        .card h3 { margin:0 0 14px 0; font-size:16px; border-bottom:1px solid #e2e8f0; padding-bottom:8px; }
+        .kpi-row { display:flex; gap:14px; margin-bottom:14px; }
+        .kpi { flex:1; padding:11px 14px; border-radius:8px; font-weight:700; font-size:13px; }
+        .kpi-green { background:#dcfce7; color:#166534; border:1px solid #86efac; }
+        .kpi-red { background:#fee2e2; color:#991b1b; border:1px solid #fca5a5; }
+        .filter-bar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:12px; }
+        .input { padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px; }
+        .input-full { width:100%; box-sizing:border-box; padding:9px 10px; border:1px solid #cbd5e1; border-radius:6px; font-size:14px; margin-bottom:10px; }
+        .lbl { display:block; font-size:12px; font-weight:700; color:#334155; margin-bottom:4px; }
+        table.bank-table { width:100%; border-collapse:collapse; font-size:13px; }
+        table.bank-table th { background:#f8fafc; color:#334155; text-align:left; padding:9px 10px; border-bottom:2px solid #cbd5e1; }
+        table.bank-table td { padding:9px 10px; border-bottom:1px solid #e2e8f0; }
+        tr.row-rojo { background:#fef2f2; }
+        .badge-verde { background:#dcfce7; color:#166534; padding:4px 11px; border-radius:999px; font-weight:700; font-size:12px; display:inline-block; }
+        .badge-rojo { background:#dc2626; color:#ffffff; padding:4px 11px; border-radius:999px; font-weight:700; font-size:12px; display:inline-block; box-shadow:0 0 0 3px rgba(220,38,38,0.22); }
+        .btn { padding:8px 14px; border:none; border-radius:6px; font-weight:700; font-size:13px; cursor:pointer; color:#fff; text-decoration:none; }
+        .btn-blue { background:#2563eb; }
+        .btn-green { background:#16a34a; width:100%; margin-bottom:8px; padding:10px; }
+        .btn-red { background:#dc2626; width:100%; margin-bottom:8px; padding:10px; }
+        .btn-indigo { background:#4f46e5; width:100%; margin-bottom:8px; padding:10px; }
+        .btn-amber { background:#d97706; width:100%; margin-bottom:8px; padding:10px; }
+        .btn-slate { background:#475569; padding:8px 14px; }
+        .btn-sm { background:#0ea5e9; padding:5px 10px; font-size:12px; border-radius:5px; border:none; color:#fff; cursor:pointer; }
+        .alert-box { padding:10px 12px; border-radius:8px; margin-bottom:12px; font-size:13px; font-weight:600; display:none; }
+        .alert-ok { background:#dcfce7; color:#166534; border:1px solid #86efac; display:block; }
+        .alert-err { background:#fee2e2; color:#991b1b; border:1px solid #fca5a5; display:block; }
+        .alert-proc { background:#fef3c7; color:#92400e; border:1px solid #fcd34d; display:block; }
+    </style>
+</head>
+<body>
+    <div class="topbar">
+        <div class="topbar-left">
+            <img src="/images/sullivan.png" width="44" height="44" alt="Monster" />
+            <div>
+                <div class="topbar-title">EUREKABANK â€” SUPERVISIÃ“N MASHUP &amp; BANCA WEB (RESTful .NET - GR04)</div>
+                <div class="topbar-sub">
+                    Operador: @Model.Sesion.NombreCompleto (@Model.Sesion.Rol) | Dominio: ec.edu.monster | Monitoreo en Tiempo Real (0.9s)
+                </div>
+            </div>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center;">
+            <span style="font-size:13px; color:#cbd5e1;">Ventanilla Activa:</span>
+            <select id="selVentanilla" class="input">
+                @for (int v = 1; v <= 4; v++)
+                {
+                    if (v == Model.VentanillaActiva)
+                    {
+                        <option value="@v" selected>Ventanilla @v</option>
+                    }
+                    else
+                    {
+                        <option value="@v">Ventanilla @v</option>
+                    }
+                }
+            </select>
+            <a href="/Login/Logout" class="btn btn-slate">Cerrar SesiÃ³n</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div>
+            <div class="card">
+                <h3>SemÃ¡foro de Concurrencia MashUp en Tiempo Real (VERDE = Libre | ROJO = Ocupado en Ventanilla)</h3>
+                <div class="filter-bar">
+                    <label style="font-weight:700; font-size:13px;">Sucursal:</label>
+                    <select id="selSucursal" class="input" onchange="sincronizarMashup()">
+                        <option value="0">0 - Todas las Sucursales</option>
+                        @foreach (var s in Model.Sucursales)
+                        {
+                            <option value="@s.IdSucursal">@s.Codigo - @s.Nombre (@s.Ciudad)</option>
+                        }
+                    </select>
+                    <input type="text" id="txtFiltro" class="input" placeholder="Cuenta o DNI..." value="@Model.Filtro" />
+                    <button type="button" class="btn btn-blue" onclick="sincronizarMashup()">Buscar</button>
+                    <button type="button" class="btn btn-slate" onclick="document.getElementById('txtFiltro').value=''; document.getElementById('selSucursal').value='0'; sincronizarMashup();">Ver Todas</button>
+                </div>
+
+                <div class="kpi-row">
+                    <div id="kpiVerdes" class="kpi kpi-green">â— Cuentas Libres (VERDE): @Model.TotalVerdes</div>
+                    <div id="kpiRojas" class="kpi kpi-red">â— Cuentas Ocupadas en Ventanilla (ROJO): @Model.TotalRojas</div>
+                </div>
+
+                <table class="bank-table">
+                    <thead>
+                        <tr>
+                            <th>Cuenta</th>
+                            <th>Titular</th>
+                            <th>DNI</th>
+                            <th>Sucursal</th>
+                            <th>Saldo USD</th>
+                            <th>SemÃ¡foro MashUp</th>
+                            <th>AcciÃ³n</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyCuentas">
+                        @foreach (var c in Model.Cuentas)
+                        {
+                            <tr class="@(c.EstadoMashup == "ROJO" ? "row-rojo" : "")">
+                                <td><strong>@c.NumeroCuenta</strong></td>
+                                <td>@c.TitularCompleto</td>
+                                <td>@c.DniCliente</td>
+                                <td>@c.NombreSucursal</td>
+                                <td>$@c.Saldo.ToString("F2")</td>
+                                <td>
+                                    @if (c.EstadoMashup == "ROJO")
+                                    {
+                                        <span class="badge-rojo">ðŸ”´ @c.EtiquetaSemaforo</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge-verde">ðŸŸ¢ VERDE (Libre)</span>
+                                    }
+                                </td>
+                                <td><button type="button" class="btn-sm" onclick="seleccionarCuenta('@c.NumeroCuenta')">Usar / Extracto</button></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>Extracto CronolÃ³gico de Movimientos â€” Cuenta <span id="lblCuentaExt">@Model.CuentaSeleccionada</span></h3>
+                <table class="bank-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha / Hora</th>
+                            <th>NÂ° OperaciÃ³n</th>
+                            <th>Tipo</th>
+                            <th>Ventanilla</th>
+                            <th>Monto</th>
+                            <th>Saldo Resultante</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyExtracto">
+                        @foreach (var m in Model.Extracto.Take(15))
+                        {
+                            <tr>
+                                <td>@m.FechaHora</td>
+                                <td>@m.NumeroOperacion</td>
+                                <td>@m.Tipo</td>
+                                <td>V@(m.Ventanilla)</td>
+                                <td>$@m.Monto.ToString("F2")</td>
+                                <td><strong>$@m.SaldoResultante.ToString("F2")</strong></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <div class="card">
+                <h3>Operaciones Transaccionales ACID</h3>
+                <div id="cajaAlerta" class="alert-box"></div>
+
+                <label class="lbl">Cuenta Principal / Origen:</label>
+                <input type="text" id="inpCuenta" class="input-full" value="@Model.CuentaSeleccionada" />
+
+                <label class="lbl">Cuenta Destino (solo para Transferencia):</label>
+                <input type="text" id="inpDestino" class="input-full" value="001-0002" />
+
+                <label class="lbl">Monto USD ($):</label>
+                <input type="text" id="inpMonto" class="input-full" value="50.00" />
+
+                <button type="button" class="btn btn-green" onclick="ejecutarOperacion('DEPOSITO')">ACREDITAR DEPÃ“SITO (+)</button>
+                <button type="button" class="btn btn-red" onclick="ejecutarOperacion('RETIRO')">PROCESAR RETIRO (-)</button>
+                <button type="button" class="btn btn-indigo" onclick="ejecutarOperacion('TRANSFERENCIA')">EJECUTAR TRANSFERENCIA (â‡„)</button>
+                <button type="button" class="btn btn-amber" onclick="ejecutarOperacion('SIMULAR3')">âš¡ SIMULAR 3 VENTANILLAS SIMULTÃNEAS</button>
+
+                <div style="display:flex; gap:8px; margin-top:6px;">
+                    <button type="button" class="btn btn-red" style="margin:0;" onclick="ejecutarOperacion('BLOQUEAR')">ðŸ”’ Retener ROJO</button>
+                    <button type="button" class="btn btn-green" style="margin:0; background:#0d9488;" onclick="ejecutarOperacion('DESBLOQUEAR')">ðŸ”“ Liberar VERDE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cuentaActivaExtracto = '@Model.CuentaSeleccionada';
+        let sincronizando = false;
+
+        function seleccionarCuenta(nro) {
+            cuentaActivaExtracto = nro;
+            document.getElementById('inpCuenta').value = nro;
+            document.getElementById('lblCuentaExt').textContent = nro;
+            sincronizarMashup();
+        }
+
+        function mostrarAlerta(clase, texto) {
+            const box = document.getElementById('cajaAlerta');
+            box.className = 'alert-box ' + clase;
+            box.textContent = texto;
+        }
+
+        async function sincronizarMashup() {
+            if (sincronizando) return;
+            sincronizando = true;
+            try {
+                const suc = document.getElementById('selSucursal').value;
+                const fil = encodeURIComponent(document.getElementById('txtFiltro').value || '');
+                const cta = encodeURIComponent(cuentaActivaExtracto || '');
+                const resp = await fetch(`/Dashboard/EstadoMashup?sucursalId=${suc}&filtro=${fil}&cuentaExtracto=${cta}`, { cache: 'no-store' });
+                if (!resp.ok) return;
+                const data = await resp.json();
+
+                document.getElementById('kpiVerdes').textContent = `â— Cuentas Libres (VERDE): ${data.verdes}`;
+                document.getElementById('kpiRojas').textContent = `â— Cuentas Ocupadas en Ventanilla (ROJO): ${data.rojas}`;
+
+                const tb = document.getElementById('tbodyCuentas');
+                tb.innerHTML = data.cuentas.map(c => {
+                    const esRojo = c.estadoMashup === 'ROJO';
+                    const badge = esRojo
+                        ? `<span class="badge-rojo">ðŸ”´ ${c.etiqueta}</span>`
+                        : `<span class="badge-verde">ðŸŸ¢ VERDE (Libre)</span>`;
+                    return `<tr class="${esRojo ? 'row-rojo' : ''}">
+                        <td><strong>${c.numeroCuenta}</strong></td>
+                        <td>${c.titular}</td>
+                        <td>${c.dni}</td>
+                        <td>${c.sucursal}</td>
+                        <td>$${c.saldo}</td>
+                        <td>${badge}</td>
+                        <td><button type="button" class="btn-sm" onclick="seleccionarCuenta('${c.numeroCuenta}')">Usar / Extracto</button></td>
+                    </tr>`;
+                }).join('');
+
+                const tbExt = document.getElementById('tbodyExtracto');
+                tbExt.innerHTML = data.extracto.map(m => `<tr>
+                    <td>${m.fechaHora}</td>
+                    <td>${m.numeroOperacion}</td>
+                    <td>${m.tipo}</td>
+                    <td>V${m.ventanilla}</td>
+                    <td>$${m.monto}</td>
+                    <td><strong>$${m.saldoResultante}</strong></td>
+                </tr>`).join('');
+            } catch (e) {
+            } finally {
+                sincronizando = false;
+            }
+        }
+
+        async function ejecutarOperacion(tipo) {
+            const cta = document.getElementById('inpCuenta').value;
+            const dest = document.getElementById('inpDestino').value;
+            const mon = document.getElementById('inpMonto').value;
+            const vent = document.getElementById('selVentanilla').value;
+            cuentaActivaExtracto = cta;
+            document.getElementById('lblCuentaExt').textContent = cta;
+
+            mostrarAlerta('alert-proc', `â³ Ejecutando ${tipo} sobre ${cta} en Ventanilla ${vent}... Observe el cambio inmediato a ROJO (Ocupado).`);
+
+            const form = new URLSearchParams();
+            form.append('tipo', tipo);
+            form.append('cuenta', cta);
+            form.append('destino', dest);
+            form.append('monto', mon);
+            form.append('ventanilla', vent);
+
+            const promesaTx = fetch('/Dashboard/Operar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: form.toString()
+            });
+
+            // Disparo inmediato a los 250ms y 600ms para reflejar ROJO instantÃ¡neamente
+            setTimeout(sincronizarMashup, 250);
+            setTimeout(sincronizarMashup, 650);
+
+            const resp = await promesaTx;
+            const res = await resp.json();
+            mostrarAlerta(res.exito ? 'alert-ok' : 'alert-err', res.mensaje);
+            await sincronizarMashup();
+        }
+
+        setInterval(sincronizarMashup, 900);
+    </script>
+</body>
+</html>
+

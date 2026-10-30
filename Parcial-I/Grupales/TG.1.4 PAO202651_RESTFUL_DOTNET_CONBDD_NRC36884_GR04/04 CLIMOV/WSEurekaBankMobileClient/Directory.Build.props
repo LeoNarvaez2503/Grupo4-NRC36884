@@ -1,0 +1,7 @@
+﻿<Project>
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <BaseIntermediateOutputPath>C:\b\EB_MAUI_REST\obj\</BaseIntermediateOutputPath>
+    <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
+  </PropertyGroup>
+</Project>
+

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ec.edu.monster.view.DashboardView"
+             Title="Monitor MashUp &amp; Operaciones"
+             BackgroundColor="#F1F5F9">
+    <ScrollView>
+        <VerticalStackLayout Padding="14" Spacing="12">
+            <!-- Cabecera Operador -->
+            <Border BackgroundColor="#0F172A" Padding="14" StrokeThickness="0">
+                <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                <VerticalStackLayout Spacing="4">
+                    <Label x:Name="LblBienvenida" TextColor="#38BDF8" FontAttributes="Bold" FontSize="15" />
+                    <Label Text="Sincronización MashUp en vivo (1.2s) | Dominio: ec.edu.monster" TextColor="#CBD5E1" FontSize="11" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- KPIs Verde / Rojo -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Border Grid.Column="0" BackgroundColor="#DCFCE7" Padding="10" Stroke="#86EFAC">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="10" /></Border.StrokeShape>
+                    <Label x:Name="LblKpiVerdes" Text="VERDE (Libres): 0" TextColor="#166534" FontAttributes="Bold" FontSize="12" />
+                </Border>
+                <Border Grid.Column="1" BackgroundColor="#FEE2E2" Padding="10" Stroke="#FCA5A5">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="10" /></Border.StrokeShape>
+                    <Label x:Name="LblKpiRojas" Text="ROJO (Ocupadas): 0" TextColor="#991B1B" FontAttributes="Bold" FontSize="12" />
+                </Border>
+            </Grid>
+
+            <!-- Operaciones Transaccionales -->
+            <Border BackgroundColor="White" Padding="14" Stroke="#CBD5E1">
+                <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Operaciones Transaccionales ACID" FontAttributes="Bold" FontSize="15" TextColor="#0F172A" />
+                    <Label x:Name="LblMensajeOp" IsVisible="False" FontSize="12" FontAttributes="Bold" Padding="8" />
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                        <VerticalStackLayout Grid.Column="0">
+                            <Label Text="Cuenta Principal:" FontSize="11" FontAttributes="Bold" TextColor="#334155" />
+                            <Entry x:Name="TxtCuenta" Text="001-0001" TextColor="#0F172A" BackgroundColor="#F8FAFC" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="Cuenta Destino (Trf):" FontSize="11" FontAttributes="Bold" TextColor="#334155" />
+                            <Entry x:Name="TxtDestino" Text="001-0002" TextColor="#0F172A" BackgroundColor="#F8FAFC" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Label Text="Monto USD ($):" FontSize="11" FontAttributes="Bold" TextColor="#334155" />
+                    <Entry x:Name="TxtMonto" Text="50.00" Keyboard="Numeric" TextColor="#0F172A" BackgroundColor="#F8FAFC" />
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                        <Button Grid.Column="0" Text="DEPOSITAR (+)" BackgroundColor="#16A34A" TextColor="White" FontAttributes="Bold" Clicked="OnDepositarClicked" />
+                        <Button Grid.Column="1" Text="RETIRAR (-)" BackgroundColor="#DC2626" TextColor="White" FontAttributes="Bold" Clicked="OnRetirarClicked" />
+                    </Grid>
+
+                    <Button Text="TRANSFERIR ENTRE CUENTAS" BackgroundColor="#4F46E5" TextColor="White" FontAttributes="Bold" Clicked="OnTransferirClicked" />
+                    <Button Text="SIMULAR 3 VENTANILLAS SIMULTÁNEAS" BackgroundColor="#D97706" TextColor="White" FontAttributes="Bold" Clicked="OnSimular3Clicked" />
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                        <Button Grid.Column="0" Text="Retener ROJO" BackgroundColor="#B91C1C" TextColor="White" FontSize="12" Clicked="OnBloquearClicked" />
+                        <Button Grid.Column="1" Text="Liberar VERDE" BackgroundColor="#0D9488" TextColor="White" FontSize="12" Clicked="OnDesbloquearClicked" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Semáforo de Cuentas -->
+            <Border BackgroundColor="White" Padding="14" Stroke="#CBD5E1">
+                <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Semáforo de Cuentas en Tiempo Real (Toque una cuenta para usarla)" FontAttributes="Bold" FontSize="14" TextColor="#0F172A" />
+                    <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="6">
+                        <Entry Grid.Column="0" x:Name="TxtFiltro" Placeholder="Cuenta o DNI..." TextColor="#0F172A" BackgroundColor="#F8FAFC" />
+                        <Button Grid.Column="1" Text="Buscar" BackgroundColor="#2563EB" TextColor="White" Clicked="OnBuscarClicked" />
+                        <Button Grid.Column="2" Text="Todas" BackgroundColor="#475569" TextColor="White" Clicked="OnLimpiarFiltroClicked" />
+                    </Grid>
+
+                    <CollectionView x:Name="ListaCuentas" SelectionMode="Single" SelectionChanged="OnCuentaSeleccionada">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,4" Padding="10" Stroke="#E2E8F0" BackgroundColor="{Binding ColorTarjeta}">
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape>
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                            <Label Text="{Binding NumeroCuenta}" FontAttributes="Bold" FontSize="14" TextColor="#0F172A" />
+                                            <Label Text="{Binding TitularCompleto}" FontSize="12" TextColor="#334155" />
+                                            <Label Text="{Binding NombreSucursal}" FontSize="11" TextColor="#64748B" />
+                                        </VerticalStackLayout>
+                                        <VerticalStackLayout Grid.Column="1" HorizontalOptions="End" Spacing="4">
+                                            <Label Text="{Binding SaldoFormateado}" FontAttributes="Bold" FontSize="13" TextColor="#0F172A" HorizontalTextAlignment="End" />
+                                            <Border BackgroundColor="{Binding ColorBadge}" Padding="8,3" StrokeThickness="0">
+                                                <Border.StrokeShape><RoundRectangle CornerRadius="99" /></Border.StrokeShape>
+                                                <Label Text="{Binding EtiquetaSemaforo}" TextColor="White" FontAttributes="Bold" FontSize="11" />
+                                            </Border>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Extracto -->
+            <Border BackgroundColor="White" Padding="14" Stroke="#CBD5E1">
+                <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                <VerticalStackLayout Spacing="8">
+                    <Label x:Name="LblTituloExtracto" Text="Extracto Reciente — 001-0001" FontAttributes="Bold" FontSize="14" TextColor="#0F172A" />
+                    <CollectionView x:Name="ListaExtracto">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <VerticalStackLayout Padding="4,6">
+                                    <Label Text="{Binding ResumenMovimiento}" FontAttributes="Bold" FontSize="12" TextColor="#0F172A" />
+                                    <Label Text="{Binding FechaHora}" FontSize="11" TextColor="#64748B" />
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
