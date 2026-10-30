@@ -1,0 +1,49 @@
+﻿@startuml
+title "DS_03_OBTENER_CUENTAS_SUCURSAL (REST)"
+autonumber
+
+actor "Usuario" as Usuario
+participant "CONVERSION_VISTA" as Vista
+participant "CONVERSION_CONTROLADOR" as Controlador
+participant "CLIENTE_REST_CONVERSOR\n(ConversorService)" as ClienteRest
+participant "CONVERSOR_RESOURCE\n(/api/conversor)" as ConversorResource
+participant "ADMINISTRADOR_TOKEN" as TokenMgr
+participant "UNIDAD_MAPPER" as Mapper
+participant "SERVICIO_CONVERSOR" as Servicio
+participant "CONVERSOR_LONGITUD" as ConvLong
+
+Usuario -> Vista: Selecciona [METRO -> KILOMETRO], valor=1000 y pulsa "Convertir"
+Vista -> Controlador: convertirLongitud(1000, "METRO", "KILOMETRO")
+Controlador -> ClienteRest: convertirLongitud(ConversionRequest)
+activate ClienteRest
+
+ClienteRest -> ConversorResource: HTTP POST /api/conversor/longitud\nHeader Authorization: Bearer <token>\n{"valor": 1000.0, "unidadInicial": "METRO", "unidadFinal": "KILOMETRO"}
+activate ConversorResource
+
+ConversorResource -> TokenMgr: validarToken(token)
+activate TokenMgr
+TokenMgr --> ConversorResource: true (token vigente)
+deactivate TokenMgr
+
+ConversorResource -> Mapper: toLongitud("METRO"), toLongitud("KILOMETRO")
+activate Mapper
+Mapper --> ConversorResource: UnidadLongitud.METRO, UnidadLongitud.KILOMETRO
+deactivate Mapper
+
+ConversorResource -> Servicio: convertir(1000.0, METRO, KILOMETRO)
+activate Servicio
+Servicio -> ConvLong: convertir(1000.0, METRO, KILOMETRO)
+activate ConvLong
+ConvLong --> Servicio: 1.0
+deactivate ConvLong
+Servicio --> ConversorResource: 1.0
+deactivate Servicio
+
+ConversorResource --> ClienteRest: HTTP 200 OK\n{"valorOriginal": 1000.0, "valorConvertido": 1.0, "unidadInicial": "METRO", "unidadFinal": "KILOMETRO"}
+deactivate ConversorResource
+
+ClienteRest --> Controlador: ConversionResponse(1.0)
+deactivate ClienteRest
+Controlador --> Vista: mostrarResultado(1.0)
+Vista --> Usuario: "Resultado: 1.0 KILOMETRO"
+@enduml

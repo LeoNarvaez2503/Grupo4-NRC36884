@@ -1186,7 +1186,7 @@ DefaultChar=_
 Script=.convert_code(%Code%,&quot; &quot;)
 ConvTable=
 ConvTablePath=%_HOME%\Resource Files\Conversion Tables</a:ModelOptionsText>
-<a:RepositoryFilename>C:\Users\MeatPuppets\Desktop\Grupo4-NRC36884\Parcial-I\Grupales\TG.1.1 PAO202651_SOAP_JAVA_CONBDD_NRC36884_GR04\01. UML\03. DIAGRAMAS\05_ARQUITECTURA\Arquitectura.eam</a:RepositoryFilename>
+<a:RepositoryFilename>%[PRJ_ROOT_DIR]%\Arquitectura.eam</a:RepositoryFilename>
 <c:DefaultDiagram>
 <o:ApplicationArchitectureDiagram Ref="o3"/>
 </c:DefaultDiagram>
@@ -3118,7 +3118,7 @@ STYP 0 Arial,8,N</a:FontList>
 <a:GradientFillMode>18</a:GradientFillMode>
 <a:CustomPictureType>3</a:CustomPictureType>
 <a:CustomTextMode>1</a:CustomTextMode>
-<a:CustomPictureID>594465D1-C31C-4543-9586-01821B63D6C2</a:CustomPictureID>
+<a:CustomPictureID>581397C4-8BC7-4237-8CBC-126783791237</a:CustomPictureID>
 <a:GradientEndColor>16245717</a:GradientEndColor>
 <a:KeepAspect>1</a:KeepAspect>
 <c:Object>
@@ -3151,7 +3151,7 @@ ETYP 0 Arial,8,N</a:FontList>
 <a:GradientFillMode>65</a:GradientFillMode>
 <a:CustomPictureType>3</a:CustomPictureType>
 <a:CustomTextMode>1</a:CustomTextMode>
-<a:CustomPictureID>E73D78D7-D14F-43C0-B1DF-DA694477A966</a:CustomPictureID>
+<a:CustomPictureID>959B95F0-7C5B-4A3D-8B22-89D700FBB49B</a:CustomPictureID>
 <a:GradientEndColor>16777215</a:GradientEndColor>
 <a:KeepAspect>1</a:KeepAspect>
 <a:ManuallyResized>1</a:ManuallyResized>
@@ -3193,7 +3193,7 @@ PROL 0 Arial,8,N</a:FontList>
 <a:GradientFillMode>1030</a:GradientFillMode>
 <a:CustomPictureType>3</a:CustomPictureType>
 <a:CustomTextMode>1</a:CustomTextMode>
-<a:CustomPictureID>063F4255-B8B3-4213-A732-065281B03270</a:CustomPictureID>
+<a:CustomPictureID>4B1D89ED-B434-4D1B-9478-898E715A36ED</a:CustomPictureID>
 <a:GradientEndColor>16777215</a:GradientEndColor>
 <a:KeepAspect>1</a:KeepAspect>
 <c:Object>
@@ -3269,7 +3269,7 @@ ETYP 0 Arial,8,N</a:FontList>
 <a:GradientFillMode>65</a:GradientFillMode>
 <a:CustomPictureType>3</a:CustomPictureType>
 <a:CustomTextMode>1</a:CustomTextMode>
-<a:CustomPictureID>E73D78D7-D14F-43C0-B1DF-DA694477A966</a:CustomPictureID>
+<a:CustomPictureID>959B95F0-7C5B-4A3D-8B22-89D700FBB49B</a:CustomPictureID>
 <a:GradientEndColor>16777215</a:GradientEndColor>
 <a:KeepAspect>1</a:KeepAspect>
 <c:Object>
@@ -3317,7 +3317,7 @@ ETYP 0 Arial,8,N</a:FontList>
 <a:GradientFillMode>65</a:GradientFillMode>
 <a:CustomPictureType>3</a:CustomPictureType>
 <a:CustomTextMode>1</a:CustomTextMode>
-<a:CustomPictureID>E73D78D7-D14F-43C0-B1DF-DA694477A966</a:CustomPictureID>
+<a:CustomPictureID>959B95F0-7C5B-4A3D-8B22-89D700FBB49B</a:CustomPictureID>
 <a:GradientEndColor>16777215</a:GradientEndColor>
 <a:KeepAspect>1</a:KeepAspect>
 <c:Object>
@@ -3365,7 +3365,7 @@ ETYP 0 Arial,8,N</a:FontList>
 <a:GradientFillMode>65</a:GradientFillMode>
 <a:CustomPictureType>3</a:CustomPictureType>
 <a:CustomTextMode>1</a:CustomTextMode>
-<a:CustomPictureID>E73D78D7-D14F-43C0-B1DF-DA694477A966</a:CustomPictureID>
+<a:CustomPictureID>959B95F0-7C5B-4A3D-8B22-89D700FBB49B</a:CustomPictureID>
 <a:GradientEndColor>16777215</a:GradientEndColor>
 <a:KeepAspect>1</a:KeepAspect>
 <c:Object>
@@ -3413,7 +3413,7 @@ ETYP 0 Arial,8,N</a:FontList>
 <a:GradientFillMode>65</a:GradientFillMode>
 <a:CustomPictureType>3</a:CustomPictureType>
 <a:CustomTextMode>1</a:CustomTextMode>
-<a:CustomPictureID>E73D78D7-D14F-43C0-B1DF-DA694477A966</a:CustomPictureID>
+<a:CustomPictureID>959B95F0-7C5B-4A3D-8B22-89D700FBB49B</a:CustomPictureID>
 <a:GradientEndColor>16777215</a:GradientEndColor>
 <a:KeepAspect>1</a:KeepAspect>
 <c:Object>
