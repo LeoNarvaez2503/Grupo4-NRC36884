@@ -980,7 +980,7 @@ IndxFKName=%REFR%_FK
 IndxThreshold=
 ColnFKName=%.3:PARENT%_%COLUMN%
 ColnFKNameUse=No</a:ModelOptionsText>
-<a:RepositoryFilename>%[PRJ_ROOT_DIR]%\CU_General.oom</a:RepositoryFilename>
+<a:RepositoryFilename>C:\Users\MeatPuppets\Desktop\Grupo4-NRC36884\Parcial-I\Grupales\TG.1.1 PAO202651_SOAP_JAVA_CONBDD_NRC36884_GR04\01. UML\03. DIAGRAMAS\01_CASOS_USO\CU_General.oom</a:RepositoryFilename>
 <c:ObjectLanguage>
 <o:Shortcut Id="o3">
 <a:ObjectID>B8512C7F-310D-4983-B13F-8EF96C125F88</a:ObjectID>
@@ -1554,8 +1554,8 @@ Shadow=0</a:DisplayPreferences>
 <o:UseCaseAssociationSymbol Id="o24">
 <a:CreationDate>1791331147</a:CreationDate>
 <a:ModificationDate>1791332998</a:ModificationDate>
-<a:Rect>((-669,-16671), (16344,-8263))</a:Rect>
-<a:ListOfPoints>((-269,-8663),(15944,-8663),(15944,-16271))</a:ListOfPoints>
+<a:Rect>((-669,-16671), (15256,-8263))</a:Rect>
+<a:ListOfPoints>((-269,-8663),(14856,-8663),(14856,-16271))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>0</a:ArrowStyle>
 <a:LineColor>16744448</a:LineColor>
@@ -1574,8 +1574,8 @@ Shadow=0</a:DisplayPreferences>
 <o:DependencySymbol Id="o27">
 <a:CreationDate>1791331578</a:CreationDate>
 <a:ModificationDate>1791333464</a:ModificationDate>
-<a:Rect>((17975,-4023), (44752,-2278))</a:Rect>
-<a:ListOfPoints>((18375,-3323),(44352,-3323))</a:ListOfPoints>
+<a:Rect>((17975,-4022), (44752,-2622))</a:Rect>
+<a:ListOfPoints>((18375,-3322),(44352,-3322))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
 <a:LineColor>16744576</a:LineColor>
@@ -1595,8 +1595,8 @@ Shadow=0</a:DisplayPreferences>
 <a:CreationDate>1791331826</a:CreationDate>
 <a:ModificationDate>1791333037</a:ModificationDate>
 <a:CenterTextOffset>(3450, 600)</a:CenterTextOffset>
-<a:Rect>((4000,-26544), (13366,-13685))</a:Rect>
-<a:ListOfPoints>((4400,-26144),(4400,-14771),(12966,-14771))</a:ListOfPoints>
+<a:Rect>((4000,-26544), (9533,-14071))</a:Rect>
+<a:ListOfPoints>((4400,-26144),(4400,-14771),(9133,-14771))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
 <a:LineColor>16744576</a:LineColor>
@@ -1617,8 +1617,8 @@ Shadow=0</a:DisplayPreferences>
 <a:CreationDate>1791332226</a:CreationDate>
 <a:ModificationDate>1791333725</a:ModificationDate>
 <a:CenterTextOffset>(-975, 1350)</a:CenterTextOffset>
-<a:Rect>((11036,-37294), (16568,-16246))</a:Rect>
-<a:ListOfPoints>((11436,-36894),(15106,-36894),(15106,-16646))</a:ListOfPoints>
+<a:Rect>((11036,-37294), (13945,-16246))</a:Rect>
+<a:ListOfPoints>((11436,-36894),(13245,-36894),(13245,-16646))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
 <a:LineColor>16744576</a:LineColor>
@@ -1639,8 +1639,8 @@ Shadow=0</a:DisplayPreferences>
 <a:CreationDate>1791332230</a:CreationDate>
 <a:ModificationDate>1791333061</a:ModificationDate>
 <a:CenterTextOffset>(3000, 1800)</a:CenterTextOffset>
-<a:Rect>((16397,-42018), (25742,-17296))</a:Rect>
-<a:ListOfPoints>((25342,-41618),(17097,-41618),(17097,-17696))</a:ListOfPoints>
+<a:Rect>((16371,-42018), (25742,-17296))</a:Rect>
+<a:ListOfPoints>((25342,-41618),(17071,-41618),(17071,-17696))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
 <a:LineColor>16744576</a:LineColor>
@@ -1661,8 +1661,8 @@ Shadow=0</a:DisplayPreferences>
 <a:CreationDate>1791332459</a:CreationDate>
 <a:ModificationDate>1791333069</a:ModificationDate>
 <a:CenterTextOffset>(3525, 1350)</a:CenterTextOffset>
-<a:Rect>((17951,-33443), (26427,-17943))</a:Rect>
-<a:ListOfPoints>((26027,-33043),(18651,-33043),(18651,-18343))</a:ListOfPoints>
+<a:Rect>((19357,-33443), (26427,-17943))</a:Rect>
+<a:ListOfPoints>((26027,-33043),(20057,-33043),(20057,-18343))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
 <a:LineColor>16744576</a:LineColor>
@@ -1703,8 +1703,8 @@ Shadow=0</a:DisplayPreferences>
 <a:CreationDate>1791333293</a:CreationDate>
 <a:ModificationDate>1791333354</a:ModificationDate>
 <a:CenterTextOffset>(10875, 825)</a:CenterTextOffset>
-<a:Rect>((21007,-16821), (48161,-7225))</a:Rect>
-<a:ListOfPoints>((21407,-16421),(21407,-8536),(34736,-8536),(34736,-9736),(42891,-9736))</a:ListOfPoints>
+<a:Rect>((24953,-16821), (43291,-8136))</a:Rect>
+<a:ListOfPoints>((25353,-16421),(25353,-8536),(34736,-8536),(34736,-9736),(42891,-9736))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
 <a:LineColor>16744576</a:LineColor>
@@ -1724,7 +1724,7 @@ Shadow=0</a:DisplayPreferences>
 <o:DependencySymbol Id="o48">
 <a:CreationDate>1791333323</a:CreationDate>
 <a:ModificationDate>1791333323</a:ModificationDate>
-<a:Rect>((16725,-16899), (43641,-15154))</a:Rect>
+<a:Rect>((16725,-16899), (43641,-15499))</a:Rect>
 <a:ListOfPoints>((17125,-16199),(43241,-16199))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
@@ -1745,8 +1745,8 @@ Shadow=0</a:DisplayPreferences>
 <a:CreationDate>1791333325</a:CreationDate>
 <a:ModificationDate>1791333685</a:ModificationDate>
 <a:CenterTextOffset>(11100, 750)</a:CenterTextOffset>
-<a:Rect>((21055,-23867), (42979,-15796))</a:Rect>
-<a:ListOfPoints>((21455,-16196),(21455,-23167),(42579,-23167))</a:ListOfPoints>
+<a:Rect>((25046,-23867), (42979,-15796))</a:Rect>
+<a:ListOfPoints>((25446,-16196),(25446,-23167),(42579,-23167))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
 <a:LineColor>16744576</a:LineColor>
@@ -1766,7 +1766,7 @@ Shadow=0</a:DisplayPreferences>
 <o:DependencySymbol Id="o54">
 <a:CreationDate>1791337203</a:CreationDate>
 <a:ModificationDate>1791337203</a:ModificationDate>
-<a:Rect>((19024,3531), (36639,5271))</a:Rect>
+<a:Rect>((19024,3531), (36639,4931))</a:Rect>
 <a:ListOfPoints>((19424,4231),(36239,4231))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
@@ -1913,7 +1913,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 <a:CreationDate>1791330238</a:CreationDate>
 <a:ModificationDate>1791332981</a:ModificationDate>
 <a:IconMode>-1</a:IconMode>
-<a:Rect>((13553,-5922), (23197,-522))</a:Rect>
+<a:Rect>((11092,-5921), (25658,-521))</a:Rect>
 <a:LineColor>16744448</a:LineColor>
 <a:LineWidth>1</a:LineWidth>
 <a:FillColor>16777152</a:FillColor>
@@ -1932,7 +1932,7 @@ LABL 0 Arial,8,N</a:FontList>
 <a:CreationDate>1791331021</a:CreationDate>
 <a:ModificationDate>1791332998</a:ModificationDate>
 <a:IconMode>-1</a:IconMode>
-<a:Rect>((12106,-18971), (22144,-13571))</a:Rect>
+<a:Rect>((7480,-18971), (26770,-13571))</a:Rect>
 <a:LineColor>16744448</a:LineColor>
 <a:LineWidth>1</a:LineWidth>
 <a:FillColor>16777152</a:FillColor>
@@ -2288,8 +2288,8 @@ LABL 0 Arial,8,N</a:FontList>
 <c:Actors>
 <o:Actor Id="o58">
 <a:ObjectID>0A491545-411C-4B37-BBEF-A8A6A91C4A86</a:ObjectID>
-<a:Name>Cliente Consola</a:Name>
-<a:Code>Cliente_Consola</a:Code>
+<a:Name>Administrador TI / Monster</a:Name>
+<a:Code>Administrador_TI_Monster</a:Code>
 <a:CreationDate>1622769702</a:CreationDate>
 <a:Creator>MeatPuppets</a:Creator>
 <a:ModificationDate>1791329637</a:ModificationDate>
@@ -2297,8 +2297,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Actor>
 <o:Actor Id="o59">
 <a:ObjectID>55751418-C828-482E-A3A1-79DE13B3CB38</a:ObjectID>
-<a:Name>Cliente Escritorio</a:Name>
-<a:Code>Cliente_Escritorio</a:Code>
+<a:Name>Cajero (Ventanilla)</a:Name>
+<a:Code>Cajero_Ventanilla</a:Code>
 <a:CreationDate>1622769703</a:CreationDate>
 <a:Creator>MeatPuppets</a:Creator>
 <a:ModificationDate>1791329637</a:ModificationDate>
@@ -2306,8 +2306,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Actor>
 <o:Actor Id="o60">
 <a:ObjectID>C0DF2AC8-A707-4F14-BFC0-A54F5FBEDCE1</a:ObjectID>
-<a:Name>Cliente Web</a:Name>
-<a:Code>Cliente_Web</a:Code>
+<a:Name>Gerente de Sucursal</a:Name>
+<a:Code>Gerente_Sucursal</a:Code>
 <a:CreationDate>1622769704</a:CreationDate>
 <a:Creator>MeatPuppets</a:Creator>
 <a:ModificationDate>1791329637</a:ModificationDate>
@@ -2315,8 +2315,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Actor>
 <o:Actor Id="o61">
 <a:ObjectID>77890F57-C464-4193-8C34-8DC54108DCFB</a:ObjectID>
-<a:Name>Cliente Móvil</a:Name>
-<a:Code>Cliente_Movil</a:Code>
+<a:Name>Cliente Titular</a:Name>
+<a:Code>Cliente_Titular</a:Code>
 <a:CreationDate>1622769705</a:CreationDate>
 <a:Creator>MeatPuppets</a:Creator>
 <a:ModificationDate>1791329637</a:ModificationDate>
@@ -2324,8 +2324,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Actor>
 <o:Actor Id="o62">
 <a:ObjectID>B98DAE70-1347-4C0D-8BB4-30A986D2E50C</a:ObjectID>
-<a:Name>Usuario</a:Name>
-<a:Code>Usuario</a:Code>
+<a:Name>Usuario Bancario</a:Name>
+<a:Code>Usuario_Bancario</a:Code>
 <a:CreationDate>1622769705</a:CreationDate>
 <a:Creator>MeatPuppets</a:Creator>
 <a:ModificationDate>1791331281</a:ModificationDate>
@@ -2335,8 +2335,8 @@ LABL 0 Arial,8,N</a:FontList>
 <c:UseCases>
 <o:UseCase Id="o57">
 <a:ObjectID>80CAA617-CC1F-42B0-BEC6-C5F05239D7A4</a:ObjectID>
-<a:Name>Iniciar Sesion</a:Name>
-<a:Code>Iniciar_Sesion</a:Code>
+<a:Name>Iniciar Sesion de Ventanilla</a:Name>
+<a:Code>Iniciar_Sesion_Ventanilla</a:Code>
 <a:CreationDate>1622769698</a:CreationDate>
 <a:Creator>MeatPuppets</a:Creator>
 <a:ModificationDate>1791337207</a:ModificationDate>
@@ -2344,8 +2344,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:UseCase>
 <o:UseCase Id="o64">
 <a:ObjectID>73C53BF7-866E-4BD4-9888-1B5418F7533F</a:ObjectID>
-<a:Name>Consultar Catalogo</a:Name>
-<a:Code>Consultar_Catalogo</a:Code>
+<a:Name>Obtener Cuentas por Sucursal</a:Name>
+<a:Code>Obtener_Cuentas_por_Sucursal</a:Code>
 <a:CreationDate>1622769698</a:CreationDate>
 <a:Creator>MeatPuppets</a:Creator>
 <a:ModificationDate>1791331590</a:ModificationDate>
@@ -2353,8 +2353,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:UseCase>
 <o:UseCase Id="o65">
 <a:ObjectID>EB245321-97E1-4A2B-A39A-6599535FA588</a:ObjectID>
-<a:Name>Realizar Conversion</a:Name>
-<a:Code>Realizar_Conversion</a:Code>
+<a:Name>Registrar Movimiento (DepÃ³sito / Retiro)</a:Name>
+<a:Code>Registrar_Movimiento</a:Code>
 <a:CreationDate>1622769698</a:CreationDate>
 <a:Creator>MeatPuppets</a:Creator>
 <a:ModificationDate>1791333363</a:ModificationDate>
@@ -2362,8 +2362,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:UseCase>
 <o:UseCase Id="o66">
 <a:ObjectID>DD980135-D552-4C38-9122-25351CA61A68</a:ObjectID>
-<a:Name>Consultar Unidades por Categoria</a:Name>
-<a:Code>Consultar_Unidades_por_Categoria</a:Code>
+<a:Name>Obtener Movimientos de Cuenta</a:Name>
+<a:Code>Obtener_Movimientos_de_Cuenta</a:Code>
 <a:CreationDate>1622769698</a:CreationDate>
 <a:Creator>MeatPuppets</a:Creator>
 <a:ModificationDate>1791331590</a:ModificationDate>
@@ -2371,8 +2371,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:UseCase>
 <o:UseCase Id="o67">
 <a:ObjectID>1ABBB1E3-878D-453A-B675-CCF180E9ED51</a:ObjectID>
-<a:Name>Validar Token Seguridad</a:Name>
-<a:Code>Validar_Token_Seguridad</a:Code>
+<a:Name>Autenticar Personal en MariaDB</a:Name>
+<a:Code>Autenticar_Personal_MariaDB</a:Code>
 <a:CreationDate>1791331613</a:CreationDate>
 <a:Creator>MeatPuppets</a:Creator>
 <a:ModificationDate>1791333358</a:ModificationDate>
@@ -2380,8 +2380,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:UseCase>
 <o:UseCase Id="o68">
 <a:ObjectID>601CFD13-18A9-444A-A9CD-CFD3C44F9AE1</a:ObjectID>
-<a:Name>Validar Datos Conversion</a:Name>
-<a:Code>Validar_Datos_Conversion</a:Code>
+<a:Name>Validar Saldo y ExclusiÃ³n Mutua</a:Name>
+<a:Code>Validar_Saldo_Exclusion_Mutua</a:Code>
 <a:CreationDate>1791331662</a:CreationDate>
 <a:Creator>MeatPuppets</a:Creator>
 <a:ModificationDate>1791333349</a:ModificationDate>
@@ -2389,8 +2389,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:UseCase>
 <o:UseCase Id="o69">
 <a:ObjectID>250B9502-C0E4-4669-9A1D-DAF081193F4B</a:ObjectID>
-<a:Name>Generar Respuesta Estructurada</a:Name>
-<a:Code>Generar_Respuesta_Estructurada</a:Code>
+<a:Name>Notificar Estado MashUp (Verde/Rojo)</a:Name>
+<a:Code>Notificar_Estado_MashUp</a:Code>
 <a:CreationDate>1791331724</a:CreationDate>
 <a:Creator>MeatPuppets</a:Creator>
 <a:ModificationDate>1791333363</a:ModificationDate>
@@ -2398,8 +2398,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:UseCase>
 <o:UseCase Id="o70">
 <a:ObjectID>D6E3C7CC-ED51-4D75-A2C6-97F393344986</a:ObjectID>
-<a:Name>Gestionar Token Invalido</a:Name>
-<a:Code>Gestionar_Token_Invalido</a:Code>
+<a:Name>Gestionar Error AutenticaciÃ³n 401</a:Name>
+<a:Code>Gestionar_Error_Autenticacion_401</a:Code>
 <a:CreationDate>1791331772</a:CreationDate>
 <a:Creator>MeatPuppets</a:Creator>
 <a:ModificationDate>1791331831</a:ModificationDate>
@@ -2407,8 +2407,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:UseCase>
 <o:UseCase Id="o71">
 <a:ObjectID>77D3B61A-915D-4022-B004-1E86E0E38621</a:ObjectID>
-<a:Name>Gestionar Und No Soportada</a:Name>
-<a:Code>Gestionar_Und_No_Soportada</a:Code>
+<a:Name>Gestionar Saldo Insuficiente 400</a:Name>
+<a:Code>Gestionar_Saldo_Insuficiente_400</a:Code>
 <a:CreationDate>1791332205</a:CreationDate>
 <a:Creator>MeatPuppets</a:Creator>
 <a:ModificationDate>1791332743</a:ModificationDate>
@@ -2416,8 +2416,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:UseCase>
 <o:UseCase Id="o72">
 <a:ObjectID>6FD50721-9B40-4A6F-8FD7-2824FB2B4D5A</a:ObjectID>
-<a:Name>Gestionar Datos Incosistentes</a:Name>
-<a:Code>Gestionar_Datos_Incosistentes</a:Code>
+<a:Name>Gestionar Bloqueo de Cuenta</a:Name>
+<a:Code>Gestionar_Bloqueo_Cuenta</a:Code>
 <a:CreationDate>1791332206</a:CreationDate>
 <a:Creator>MeatPuppets</a:Creator>
 <a:ModificationDate>1791332736</a:ModificationDate>
@@ -2425,8 +2425,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:UseCase>
 <o:UseCase Id="o73">
 <a:ObjectID>F0965B29-17CC-4332-824B-B410A604E9A4</a:ObjectID>
-<a:Name>Gestionar Sesion Expirada</a:Name>
-<a:Code>Gestionar_Sesion_Expirada</a:Code>
+<a:Name>Desbloqueo Manual por Superadmin</a:Name>
+<a:Code>Desbloqueo_Manual_Superadmin</a:Code>
 <a:CreationDate>1791332446</a:CreationDate>
 <a:Creator>MeatPuppets</a:Creator>
 <a:ModificationDate>1791332729</a:ModificationDate>
@@ -2434,8 +2434,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:UseCase>
 <o:UseCase Id="o74">
 <a:ObjectID>E9EBC727-5989-4AAB-AF55-698D6C26E929</a:ObjectID>
-<a:Name>Generar Token Seguridad</a:Name>
-<a:Code>Generar_Token_Seguridad</a:Code>
+<a:Name>Generar Sesion Segura y Auditoria</a:Name>
+<a:Code>Generar_Sesion_Segura_Auditoria</a:Code>
 <a:CreationDate>1791331613</a:CreationDate>
 <a:Creator>MeatPuppets</a:Creator>
 <a:ModificationDate>1791337207</a:ModificationDate>

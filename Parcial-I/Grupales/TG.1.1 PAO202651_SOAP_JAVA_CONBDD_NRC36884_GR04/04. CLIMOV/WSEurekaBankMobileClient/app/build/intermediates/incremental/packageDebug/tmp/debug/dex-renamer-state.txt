@@ -1,0 +1,16 @@
+#Thu Oct 29 15:47:12 ECT 2026
+base.0=C\:\\Users\\MeatPuppets\\Desktop\\Grupo4-NRC36884\\Parcial-I\\Grupales\\TG.1.1 PAO202651_SOAP_JAVA_CONBDD_NRC36884_GR04\\04. CLIMOV\\WSEurekaBankMobileClient\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
+base.1=C\:\\Users\\MeatPuppets\\Desktop\\Grupo4-NRC36884\\Parcial-I\\Grupales\\TG.1.1 PAO202651_SOAP_JAVA_CONBDD_NRC36884_GR04\\04. CLIMOV\\WSEurekaBankMobileClient\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
+base.2=C\:\\Users\\MeatPuppets\\Desktop\\Grupo4-NRC36884\\Parcial-I\\Grupales\\TG.1.1 PAO202651_SOAP_JAVA_CONBDD_NRC36884_GR04\\04. CLIMOV\\WSEurekaBankMobileClient\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\14\\classes.dex
+base.3=C\:\\Users\\MeatPuppets\\Desktop\\Grupo4-NRC36884\\Parcial-I\\Grupales\\TG.1.1 PAO202651_SOAP_JAVA_CONBDD_NRC36884_GR04\\04. CLIMOV\\WSEurekaBankMobileClient\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\3\\classes.dex
+base.4=C\:\\Users\\MeatPuppets\\Desktop\\Grupo4-NRC36884\\Parcial-I\\Grupales\\TG.1.1 PAO202651_SOAP_JAVA_CONBDD_NRC36884_GR04\\04. CLIMOV\\WSEurekaBankMobileClient\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\8\\classes.dex
+path.0=classes.dex
+path.1=0/classes.dex
+path.2=14/classes.dex
+path.3=3/classes.dex
+path.4=8/classes.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex
+renamed.2=classes3.dex
+renamed.3=classes4.dex
+renamed.4=classes5.dex

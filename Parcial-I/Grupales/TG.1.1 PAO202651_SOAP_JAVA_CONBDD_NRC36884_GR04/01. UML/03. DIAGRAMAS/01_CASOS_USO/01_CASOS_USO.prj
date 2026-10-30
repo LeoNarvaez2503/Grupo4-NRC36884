@@ -583,7 +583,7 @@ LABL 0 Arial,8,N</a:FontList>
 <a:GradientFillMode>65</a:GradientFillMode>
 <a:CustomPictureType>4</a:CustomPictureType>
 <a:CustomTextMode>1</a:CustomTextMode>
-<a:CustomPictureID>5C21A85E-4065-4454-A5B1-C2A30B8AA06F</a:CustomPictureID>
+<a:CustomPictureID>20C1B037-82C5-4E9F-9392-2A846168B839</a:CustomPictureID>
 <a:GradientEndColor>16777215</a:GradientEndColor>
 <a:KeepAspect>1</a:KeepAspect>
 <c:Object>
@@ -606,7 +606,7 @@ LABL 0 Arial,8,N</a:FontList>
 <a:GradientFillMode>65</a:GradientFillMode>
 <a:CustomPictureType>4</a:CustomPictureType>
 <a:CustomTextMode>1</a:CustomTextMode>
-<a:CustomPictureID>5C21A85E-4065-4454-A5B1-C2A30B8AA06F</a:CustomPictureID>
+<a:CustomPictureID>20C1B037-82C5-4E9F-9392-2A846168B839</a:CustomPictureID>
 <a:GradientEndColor>16777215</a:GradientEndColor>
 <a:KeepAspect>1</a:KeepAspect>
 <c:Object>
@@ -629,7 +629,7 @@ LABL 0 Arial,8,N</a:FontList>
 <a:GradientFillMode>65</a:GradientFillMode>
 <a:CustomPictureType>4</a:CustomPictureType>
 <a:CustomTextMode>1</a:CustomTextMode>
-<a:CustomPictureID>5C21A85E-4065-4454-A5B1-C2A30B8AA06F</a:CustomPictureID>
+<a:CustomPictureID>20C1B037-82C5-4E9F-9392-2A846168B839</a:CustomPictureID>
 <a:GradientEndColor>16777215</a:GradientEndColor>
 <a:KeepAspect>1</a:KeepAspect>
 <c:Object>
@@ -725,13 +725,13 @@ LABL 0 Arial,8,N</a:FontList>
 </o:ModelDocument>
 <o:ModelDocument Id="o5">
 <a:ObjectID>92D77F82-266A-4CB3-A7FE-3941E00CA068</a:ObjectID>
-<a:Name>CU_Cambiar_Contraseña</a:Name>
+<a:Name>CU_Cambiar_Contrasenia</a:Name>
 <a:Code>CU_Cambiar_Contrasena</a:Code>
 <a:CreationDate>0</a:CreationDate>
 <a:Creator/>
 <a:ModificationDate>1623033814</a:ModificationDate>
 <a:Modifier>MeatPuppets</a:Modifier>
-<a:Location>file:///%[PRJ_ROOT_DIR]%/CU_Cambiar_Contraseña.oom</a:Location>
+<a:Location>file:///%[PRJ_ROOT_DIR]%/CU_Cambiar_Contrasenia.oom</a:Location>
 <a:Extension>oom</a:Extension>
 <a:ModelDocument.ModelID>8B3EA080-015A-47FB-AE64-0C885533A5EC</a:ModelDocument.ModelID>
 <a:ModelClassID>18112060-1A4B-11D1-83D9-444553540000</a:ModelClassID>

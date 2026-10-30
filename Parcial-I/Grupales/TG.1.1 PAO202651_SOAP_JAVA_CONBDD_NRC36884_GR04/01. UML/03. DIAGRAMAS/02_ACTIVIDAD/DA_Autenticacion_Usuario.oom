@@ -980,7 +980,7 @@ IndxFKName=%REFR%_FK
 IndxThreshold=
 ColnFKName=%.3:PARENT%_%COLUMN%
 ColnFKNameUse=No</a:ModelOptionsText>
-<a:RepositoryFilename>%[PRJ_ROOT_DIR]%\DA_Autenticacion_Usuario.oom</a:RepositoryFilename>
+<a:RepositoryFilename>C:\Users\MeatPuppets\Desktop\Grupo4-NRC36884\Parcial-I\Grupales\TG.1.1 PAO202651_SOAP_JAVA_CONBDD_NRC36884_GR04\01. UML\03. DIAGRAMAS\02_ACTIVIDAD\DA_Autenticacion_Usuario.oom</a:RepositoryFilename>
 <c:ObjectLanguage>
 <o:Shortcut Id="o3">
 <a:ObjectID>F4DC58A6-D409-4349-A3AF-688F81186D4D</a:ObjectID>
@@ -1163,7 +1163,7 @@ ColnFKNameUse=No</a:ModelOptionsText>
 <c:Activities>
 <o:Activity Id="o7">
 <a:ObjectID>5BF4CD67-43CA-4B8C-A125-3231F92FBB27</a:ObjectID>
-<a:Name>Ingresar credenciales y datos de conversión</a:Name>
+<a:Name>Ingresar codigo empleado y clave SHA-256</a:Name>
 <a:Code>Ingresar_credenciales_y_datos_de_conversion</a:Code>
 <a:CreationDate>1776578038</a:CreationDate>
 <a:Creator>ariel</a:Creator>
@@ -1176,7 +1176,7 @@ ColnFKNameUse=No</a:ModelOptionsText>
 </o:Activity>
 <o:Activity Id="o10">
 <a:ObjectID>1E41B36D-0198-4A7B-A1B0-74056ACA1099</a:ObjectID>
-<a:Name>Enviar petición XML (SOAP Request)</a:Name>
+<a:Name>Enviar solicitud SOAP de autenticacion</a:Name>
 <a:Code>Enviar_peticion_XML__SOAP_Request_</a:Code>
 <a:CreationDate>1776578344</a:CreationDate>
 <a:Creator>ariel</a:Creator>
@@ -1189,7 +1189,7 @@ ColnFKNameUse=No</a:ModelOptionsText>
 </o:Activity>
 <o:Activity Id="o12">
 <a:ObjectID>2A8C4875-4301-42A5-8FF3-EAB817C96E35</a:ObjectID>
-<a:Name>Recibir petición y extraer credenciales/Token</a:Name>
+<a:Name>Consultar credenciales en tabla Empleado de MariaDB</a:Name>
 <a:Code>Recibir_peticion_y_extraer_credenciales_Token</a:Code>
 <a:CreationDate>1776578484</a:CreationDate>
 <a:Creator>ariel</a:Creator>
@@ -1202,7 +1202,7 @@ ColnFKNameUse=No</a:ModelOptionsText>
 </o:Activity>
 <o:Activity Id="o16">
 <a:ObjectID>2693BF50-ED87-41A8-8843-D1BE9C4B5A93</a:ObjectID>
-<a:Name>Generar SOAP Fault: Credenciales incorrectas</a:Name>
+<a:Name>Generar SOAP Fault: Credenciales incorrectas (Error 401)</a:Name>
 <a:Code>Generar_SOAP_Fault__Acceso_Denegado_</a:Code>
 <a:CreationDate>1776578722</a:CreationDate>
 <a:Creator>ariel</a:Creator>
@@ -1212,7 +1212,7 @@ ColnFKNameUse=No</a:ModelOptionsText>
 </o:Activity>
 <o:Activity Id="o20">
 <a:ObjectID>4D631BBB-BC78-4CA9-8BBE-E5BA00F891FF</a:ObjectID>
-<a:Name>Identificar tipo de conversión solicitada (Longitud, Masa, Temperatura)</a:Name>
+<a:Name>Verificar estado ACTIVO de empleado y cargar sucursal</a:Name>
 <a:Code>Identificar_tipo_de_conversion_solicitada__Longitud,_Masa,_Temperatura_</a:Code>
 <a:CreationDate>1776578860</a:CreationDate>
 <a:Creator>ariel</a:Creator>
@@ -1225,7 +1225,7 @@ ColnFKNameUse=No</a:ModelOptionsText>
 </o:Activity>
 <o:Activity Id="o22">
 <a:ObjectID>97F65EAC-A5D0-404E-87D4-F31E9311F736</a:ObjectID>
-<a:Name>Ejecutar fórmula matemática correspondiente</a:Name>
+<a:Name>Generar sesion bancaria y registrar login en auditoria</a:Name>
 <a:Code>Ejecutar_formula_matematica_correspondiente</a:Code>
 <a:CreationDate>1776579405</a:CreationDate>
 <a:Creator>ariel</a:Creator>
@@ -1238,7 +1238,7 @@ ColnFKNameUse=No</a:ModelOptionsText>
 </o:Activity>
 <o:Activity Id="o24">
 <a:ObjectID>259717A4-78B5-43C7-AEA2-4A1A22D4C197</a:ObjectID>
-<a:Name>Retornar token al cliente consumidor</a:Name>
+<a:Name>Retornar datos de empleado y sesion autorizada</a:Name>
 <a:Code>Generar_respuesta_XML__SOAP_Response__con_el_resultado</a:Code>
 <a:CreationDate>1776579434</a:CreationDate>
 <a:Creator>ariel</a:Creator>
@@ -1251,7 +1251,7 @@ ColnFKNameUse=No</a:ModelOptionsText>
 </o:Activity>
 <o:Activity Id="o26">
 <a:ObjectID>07C20AF7-2565-40F6-AFCD-3D2ABB712131</a:ObjectID>
-<a:Name>Cliente: Almacenar token en sesion y habilitar conversor</a:Name>
+<a:Name>Cliente: Cargar interfaz de Ventanilla y habilitar MashUp</a:Name>
 <a:Code>Extraer_resultado_del_XML_y_mostrar_en_interfaz</a:Code>
 <a:CreationDate>1776579468</a:CreationDate>
 <a:Creator>ariel</a:Creator>
@@ -1266,7 +1266,7 @@ ColnFKNameUse=No</a:ModelOptionsText>
 <c:Decisions>
 <o:Decision Id="o14">
 <a:ObjectID>0795E85E-16A2-47B6-9051-33C4DF686C8E</a:ObjectID>
-<a:Name>¿Credenciales válidas?</a:Name>
+<a:Name>Credenciales validas en MariaDB?</a:Name>
 <a:Code>¿Credenciales_validas?</a:Code>
 <a:CreationDate>1776578569</a:CreationDate>
 <a:Creator>ariel</a:Creator>
@@ -1280,7 +1280,7 @@ ColnFKNameUse=No</a:ModelOptionsText>
 <c:OrganizationUnits>
 <o:OrganizationUnit Id="o29">
 <a:ObjectID>4F5603FD-5C21-4C03-BA0B-D5289869E3D6</a:ObjectID>
-<a:Name>Cliente (Web/Móvil/Escritorio/Consola)</a:Name>
+<a:Name>Cajero (Ventanilla / MashUp UI)</a:Name>
 <a:Code>Cliente__Web_Movil_Escritorio_Consola_</a:Code>
 <a:CreationDate>1776577525</a:CreationDate>
 <a:Creator>ariel</a:Creator>
@@ -1289,7 +1289,7 @@ ColnFKNameUse=No</a:ModelOptionsText>
 </o:OrganizationUnit>
 <o:OrganizationUnit Id="o30">
 <a:ObjectID>F18F2FE5-27A6-4CE1-997A-D9C9B2FA2309</a:ObjectID>
-<a:Name>Servidor Payara SOAP (ManejadorAutenticacion / WSConversorUnidades)</a:Name>
+<a:Name>Servidor EurekaBank SOAP (Autenticacion / MariaDB 10.11)</a:Name>
 <a:Code>Servidor__Payara___Web_Service_SOAP__</a:Code>
 <a:CreationDate>1776577775</a:CreationDate>
 <a:Creator>ariel</a:Creator>
@@ -1921,7 +1921,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <o:FlowSymbol Id="o40">
 <a:CreationDate>1776578845</a:CreationDate>
 <a:ModificationDate>1776580510</a:ModificationDate>
-<a:Rect>((8919,-7765), (15271,-5565))</a:Rect>
+<a:Rect>((8919,-7765), (15271,-6138))</a:Rect>
 <a:ListOfPoints>((9319,-6538),(11885,-6538),(11885,-7140),(14871,-7140))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>1</a:ArrowStyle>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+<f:metadata>
+    <f:event type="preRenderView" listener="#{dashboardView.verificarSesion}" />
+</f:metadata>
+<h:head>
+    <meta charset="UTF-8"/>
+    <title>Monitor MashUp &amp; Operaciones - EurekaBank Web (GR04)</title>
+    <style>
+        body { margin: 0; font-family: 'Segoe UI', Roboto, Arial, sans-serif; background: #f1f5f9; color: #0f172a; }
+        .topbar {
+            background: #0f172a; color: #f8fafc; padding: 14px 26px;
+            display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 3px solid #38bdf8;
+        }
+        .topbar-left { display: flex; align-items: center; gap: 14px; }
+        .topbar-title { font-size: 18px; font-weight: 700; color: #38bdf8; }
+        .topbar-sub { font-size: 12px; color: #cbd5e1; }
+        .container { max-width: 1360px; margin: 20px auto; padding: 0 20px; display: grid; grid-template-columns: 2.1fr 1fr; gap: 20px; }
+        .card { background: #ffffff; border-radius: 12px; border: 1px solid #cbd5e1; padding: 18px 20px; box-shadow: 0 2px 8px rgba(15,23,42,0.05); margin-bottom: 18px; }
+        .card h3 { margin: 0 0 14px 0; font-size: 16px; color: #0f172a; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; }
+        .kpi-row { display: flex; gap: 14px; margin-bottom: 14px; }
+        .kpi { flex: 1; padding: 10px 14px; border-radius: 8px; font-weight: 700; font-size: 13px; }
+        .kpi-green { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+        .kpi-red { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+        .filter-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+        .input { padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; }
+        .input-full { width: 100%; box-sizing: border-box; padding: 9px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; margin-bottom: 10px; }
+        .lbl { display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 4px; }
+        table.bank-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        table.bank-table th { background: #f8fafc; color: #334155; text-align: left; padding: 9px 10px; border-bottom: 2px solid #cbd5e1; }
+        table.bank-table td { padding: 9px 10px; border-bottom: 1px solid #e2e8f0; }
+        .badge-verde { background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 999px; font-weight: 700; font-size: 12px; display: inline-block; }
+        .badge-rojo { background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 999px; font-weight: 700; font-size: 12px; display: inline-block; }
+        .btn { padding: 8px 14px; border: none; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer; color: #fff; }
+        .btn-blue { background: #2563eb; }
+        .btn-green { background: #16a34a; width: 100%; margin-bottom: 8px; padding: 10px; }
+        .btn-red { background: #dc2626; width: 100%; margin-bottom: 8px; padding: 10px; }
+        .btn-indigo { background: #4f46e5; width: 100%; margin-bottom: 8px; padding: 10px; }
+        .btn-slate { background: #475569; width: 100%; padding: 9px; }
+        .btn-sm { background: #0ea5e9; padding: 5px 10px; font-size: 12px; border-radius: 5px; border: none; color: #fff; cursor: pointer; }
+        .alert-ok { background: #dcfce7; color: #166534; border: 1px solid #86efac; padding: 10px 12px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; font-weight: 600; }
+        .alert-err { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; padding: 10px 12px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; font-weight: 600; }
+    </style>
+</h:head>
+<h:body>
+    <h:form id="topForm">
+        <div class="topbar">
+            <div class="topbar-left">
+                <h:graphicImage value="/images/sullivan.png" width="46" height="46" alt="Monster" />
+                <div>
+                    <div class="topbar-title">EUREKABANK - SUPERVISIÓN MASHUP &amp; BANCA WEB (GR04)</div>
+                    <div class="topbar-sub">
+                        Operador: #{loginView.sesion.nombreCompleto} (#{loginView.sesion.rol}) |
+                        Dominio: ec.edu.monster | Sincronización AJAX Activa (2.5s)
+                    </div>
+                </div>
+            </div>
+            <div style="display:flex; gap:10px; align-items:center;">
+                <span style="font-size:13px; color:#cbd5e1;">Ventanilla:</span>
+                <h:selectOneMenu value="#{loginView.ventanilla}" styleClass="input">
+                    <f:selectItem itemValue="1" itemLabel="Ventanilla 1" />
+                    <f:selectItem itemValue="2" itemLabel="Ventanilla 2" />
+                    <f:selectItem itemValue="3" itemLabel="Ventanilla 3" />
+                    <f:selectItem itemValue="4" itemLabel="Ventanilla 4" />
+                    <f:ajax execute="@this" />
+                </h:selectOneMenu>
+                <h:commandButton value="Cerrar Sesión" action="#{loginView.logout}" styleClass="btn btn-slate" style="width:auto;" />
+            </div>
+        </div>
+    </h:form>
+
+    <div class="container">
+        <div>
+            <h:form id="formMashup">
+                <div class="card">
+                    <h3>Semáforo de Concurrencia MashUp en Tiempo Real (VERDE = Libre | ROJO = En Proceso)</h3>
+
+                    <div class="filter-bar">
+                        <h:outputLabel value="Sucursal:" style="font-weight:600; font-size:13px;" />
+                        <h:selectOneMenu value="#{dashboardView.sucursalSeleccionada}" styleClass="input">
+                            <f:selectItem itemValue="0" itemLabel="0 - Todas las Sucursales" />
+                            <f:selectItems value="#{dashboardView.sucursales}" var="s"
+                                           itemValue="#{s.idSucursal}" itemLabel="#{s.codigo} - #{s.nombre} (#{s.ciudad})" />
+                            <f:ajax listener="#{dashboardView.filtrarSucursal}" render="panelMashup" />
+                        </h:selectOneMenu>
+
+                        <h:inputText value="#{dashboardView.filtroBusqueda}" styleClass="input"
+                                     pt:placeholder="Cuenta o DNI..." xmlns:pt="jakarta.faces.passthrough" />
+                        <h:commandButton value="Buscar" action="#{dashboardView.buscarCuenta}" styleClass="btn btn-blue">
+                            <f:ajax execute="@form" render="panelMashup :formExtracto :formOperaciones" />
+                        </h:commandButton>
+                        <h:commandButton value="Ver Todas" action="#{dashboardView.limpiarFiltro}" styleClass="btn btn-slate" style="width:auto;">
+                            <f:ajax execute="@this" render="@form" />
+                        </h:commandButton>
+
+                        <!-- Botón oculto disparado automáticamente cada 2.5s para sincronización MashUp en vivo -->
+                        <h:commandButton id="btnPollMashup" value="poll" action="#{dashboardView.sincronizarMashup}" style="display:none;">
+                            <f:ajax execute="@this" render="panelMashup" />
+                        </h:commandButton>
+                    </div>
+
+                    <h:panelGroup id="panelMashup" layout="block">
+                        <div class="kpi-row">
+                            <div class="kpi kpi-green">● Cuentas Libres (VERDE): #{dashboardView.totalCuentasVerdes}</div>
+                            <div class="kpi kpi-red">● Cuentas Bloqueadas en Ventanilla (ROJO): #{dashboardView.totalCuentasRojas}</div>
+                        </div>
+
+                        <h:dataTable value="#{dashboardView.cuentas}" var="c" styleClass="bank-table">
+                            <h:column>
+                                <f:facet name="header">Cuenta</f:facet>
+                                <strong>#{c.numeroCuenta}</strong>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Titular</f:facet>
+                                #{c.titularCompleto}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">DNI</f:facet>
+                                #{c.dniCliente}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Sucursal</f:facet>
+                                #{c.nombreSucursal}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Saldo (USD)</f:facet>
+                                $ <h:outputText value="#{c.saldo}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Semáforo MashUp</f:facet>
+                                <h:panelGroup rendered="#{c.disponibilidadMashup eq 'ROJO'}">
+                                    <span class="badge-rojo">● ROJO (OCUPADA V#{c.ventanillaBloqueo})</span>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{c.disponibilidadMashup ne 'ROJO'}">
+                                    <span class="badge-verde">● VERDE (LIBRE)</span>
+                                </h:panelGroup>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Acción</f:facet>
+                                <h:commandButton value="Seleccionar / Extracto" action="#{dashboardView.seleccionarCuenta(c.numeroCuenta)}" styleClass="btn-sm">
+                                    <f:ajax execute="@this" render=":formExtracto :formOperaciones" />
+                                </h:commandButton>
+                            </h:column>
+                        </h:dataTable>
+                    </h:panelGroup>
+                </div>
+            </h:form>
+
+            <h:form id="formExtracto">
+                <div class="card">
+                    <h3>Extracto Cronológico de Movimientos — Cuenta: #{dashboardView.cuentaSeleccionada}</h3>
+                    <h:dataTable value="#{dashboardView.movimientos}" var="m" styleClass="bank-table">
+                        <h:column>
+                            <f:facet name="header">Nro. Operación</f:facet>
+                            #{m.numeroOperacion}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Tipo</f:facet>
+                            <strong>#{m.tipo}</strong>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Monto</f:facet>
+                            $ <h:outputText value="#{m.monto}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Saldo Resultante</f:facet>
+                            $ <h:outputText value="#{m.saldoResultante}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Ventanilla / Responsable</f:facet>
+                            V#{m.ventanilla} - #{m.nombreEmpleado}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Fecha / Hora</f:facet>
+                            #{m.fechaHora}
+                        </h:column>
+                    </h:dataTable>
+                </div>
+            </h:form>
+        </div>
+
+        <div>
+            <h:form id="formOperaciones">
+                <div class="card">
+                    <h3>Operaciones Transaccionales ACID</h3>
+
+                    <h:panelGroup rendered="#{not empty dashboardView.mensajeAlerta}">
+                        <div class="#{dashboardView.exitoAlerta ? 'alert-ok' : 'alert-err'}">
+                            #{dashboardView.mensajeAlerta}
+                        </div>
+                    </h:panelGroup>
+
+                    <h:outputLabel value="Cuenta Objetivo / Origen:" styleClass="lbl" />
+                    <h:inputText value="#{dashboardView.cuentaSeleccionada}" styleClass="input-full" />
+
+                    <h:outputLabel value="Cuenta Destino (para Transferencia):" styleClass="lbl" />
+                    <h:inputText value="#{dashboardView.cuentaDestino}" styleClass="input-full" />
+
+                    <h:outputLabel value="Importe Monetario (USD):" styleClass="lbl" />
+                    <h:inputText value="#{dashboardView.montoOperacion}" styleClass="input-full" />
+
+                    <h:commandButton value="Registrar Depósito (+)" action="#{dashboardView.ejecutarDeposito}" styleClass="btn btn-green">
+                        <f:ajax execute="@form" render="@form :formMashup:panelMashup :formExtracto" />
+                    </h:commandButton>
+
+                    <h:commandButton value="Registrar Retiro (-)" action="#{dashboardView.ejecutarRetiro}" styleClass="btn btn-red">
+                        <f:ajax execute="@form" render="@form :formMashup:panelMashup :formExtracto" />
+                    </h:commandButton>
+
+                    <h:commandButton value="Ejecutar Transferencia" action="#{dashboardView.ejecutarTransferencia}" styleClass="btn btn-indigo">
+                        <f:ajax execute="@form" render="@form :formMashup:panelMashup :formExtracto" />
+                    </h:commandButton>
+
+                    <hr style="border:none; border-top:1px solid #e2e8f0; margin:14px 0;" />
+
+                    <h:commandButton value="Desbloquear Cuenta (Superadmin Monster)" action="#{dashboardView.ejecutarDesbloqueo}" styleClass="btn btn-slate">
+                        <f:ajax execute="@form" render="@form :formMashup:panelMashup" />
+                    </h:commandButton>
+                </div>
+            </h:form>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        setInterval(function () {
+            var btn = document.getElementById('formMashup:btnPollMashup');
+            if (btn) {
+                btn.click();
+            }
+        }, 2500);
+    </script>
+</h:body>
+</html>

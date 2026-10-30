@@ -980,7 +980,7 @@ IndxFKName=%REFR%_FK
 IndxThreshold=
 ColnFKName=%.3:PARENT%_%COLUMN%
 ColnFKNameUse=No</a:ModelOptionsText>
-<a:RepositoryFilename>%[PRJ_ROOT_DIR]%\DS_05_CONVERTIR_TEMPERATURA.oom</a:RepositoryFilename>
+<a:RepositoryFilename>C:\Users\MeatPuppets\Desktop\Grupo4-NRC36884\Parcial-I\Grupales\TG.1.1 PAO202651_SOAP_JAVA_CONBDD_NRC36884_GR04\01. UML\03. DIAGRAMAS\03_SECUENCIA\DS_05_CONVERTIR_TEMPERATURA.oom</a:RepositoryFilename>
 <c:ObjectLanguage>
 <o:Shortcut Id="o3">
 <a:ObjectID>4A350A93-DA65-4BC3-838F-302567C67518</a:ObjectID>
@@ -1491,7 +1491,7 @@ Shadow=0</a:DisplayPreferences>
 <o:MessageSymbol Id="o7">
 <a:CreationDate>1776652609</a:CreationDate>
 <a:ModificationDate>1776652609</a:ModificationDate>
-<a:Rect>((-24790,-29763), (-8558,-27043))</a:Rect>
+<a:Rect>((-24790,-29763), (-8558,-28363))</a:Rect>
 <a:ListOfPoints>((-8958,-29063),(-24390,-29063))</a:ListOfPoints>
 <a:ArrowStyle>8</a:ArrowStyle>
 <a:LineColor>12615808</a:LineColor>
@@ -1940,7 +1940,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:ModificationDate>1776652609</a:ModificationDate>
 <a:CenterTextOffset>(0, -27)</a:CenterTextOffset>
 <a:CenterTextWidth>10133</a:CenterTextWidth>
-<a:Rect>((-24790,18933), (-8390,21551))</a:Rect>
+<a:Rect>((-24790,18933), (-8390,20183))</a:Rect>
 <a:ListOfPoints>((-24390,19558),(-8790,19558))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>12615808</a:LineColor>
@@ -1963,7 +1963,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:ModificationDate>1776652609</a:ModificationDate>
 <a:CenterTextOffset>(0, -27)</a:CenterTextOffset>
 <a:CenterTextWidth>12061</a:CenterTextWidth>
-<a:Rect>((-24790,21883), (-8390,24501))</a:Rect>
+<a:Rect>((-24790,21883), (-8390,23133))</a:Rect>
 <a:ListOfPoints>((-24390,22508),(-8790,22508))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>12615808</a:LineColor>
@@ -1987,7 +1987,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:ModificationDate>1776652609</a:ModificationDate>
 <a:CenterTextOffset>(224, 5)</a:CenterTextOffset>
 <a:CenterTextWidth>12615</a:CenterTextWidth>
-<a:Rect>((-24790,24574), (-8390,27224))</a:Rect>
+<a:Rect>((-24790,24574), (-8390,25824))</a:Rect>
 <a:ListOfPoints>((-24390,25199),(-8790,25199))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>12615808</a:LineColor>
@@ -2011,7 +2011,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:ModificationDate>1776652609</a:ModificationDate>
 <a:CenterTextOffset>(900, -242)</a:CenterTextOffset>
 <a:CenterTextWidth>13011</a:CenterTextWidth>
-<a:Rect>((-24790,27718), (-8390,30121))</a:Rect>
+<a:Rect>((-24790,27718), (-8390,28968))</a:Rect>
 <a:ListOfPoints>((-24390,28343),(-8790,28343))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>12615808</a:LineColor>
@@ -2196,8 +2196,8 @@ DISPNAME 0 Arial,8,N</a:FontList>
 <c:Actors>
 <o:Actor Id="o69">
 <a:ObjectID>5540608C-44CF-4141-B9EB-3394D5859A24</a:ObjectID>
-<a:Name>Usuario</a:Name>
-<a:Code>Usuario</a:Code>
+<a:Name>Cajero (Ventanilla)</a:Name>
+<a:Code>Cajero_Ventanilla</a:Code>
 <a:CreationDate>1607390037</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
 <a:ModificationDate>1776652609</a:ModificationDate>
@@ -2207,8 +2207,8 @@ DISPNAME 0 Arial,8,N</a:FontList>
 <c:Model.Objects>
 <o:UMLObject Id="o63">
 <a:ObjectID>6DD94BA3-CE10-41DC-8574-6CF4343C73C8</a:ObjectID>
-<a:Name>CONVERSION_CONTROLADOR</a:Name>
-<a:Code>CONVERSION_CONTROLADOR</a:Code>
+<a:Name>EUREKA_CONTROLADOR</a:Name>
+<a:Code>EUREKA_CONTROLADOR</a:Code>
 <a:CreationDate>1607390037</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
 <a:ModificationDate>1776652609</a:ModificationDate>
@@ -2216,8 +2216,8 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:UMLObject>
 <o:UMLObject Id="o65">
 <a:ObjectID>14014430-9415-4181-8F87-9C1E3484F1DE</a:ObjectID>
-<a:Name>CLIENTE_SOAP_CONVERSOR</a:Name>
-<a:Code>CLIENTE_SOAP_CONVERSOR</a:Code>
+<a:Name>CLIENTE_SOAP_EUREKABANK</a:Name>
+<a:Code>CLIENTE_SOAP_EUREKABANK</a:Code>
 <a:CreationDate>1607390037</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
 <a:ModificationDate>1776652609</a:ModificationDate>
@@ -2225,8 +2225,8 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:UMLObject>
 <o:UMLObject Id="o67">
 <a:ObjectID>7D76832D-EA67-405C-8C01-5CED5BC82915</a:ObjectID>
-<a:Name>WSCONVERSORUNIDADES</a:Name>
-<a:Code>WSCONVERSORUNIDADES</a:Code>
+<a:Name>WSEUREKABANK</a:Name>
+<a:Code>WSEUREKABANK</a:Code>
 <a:CreationDate>1607390037</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
 <a:ModificationDate>1776652609</a:ModificationDate>
@@ -2236,7 +2236,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 <c:Messages>
 <o:Message Id="o61">
 <a:ObjectID>E4A21E2D-07B1-4ADF-9950-BACDB7F1EAAF</a:ObjectID>
-<a:Name>APLICACION selecciona tipo TEMPERATURA</a:Name>
+<a:Name>Cajero selecciona operacion DEPOSITO (003)</a:Name>
 <a:Code>APLICACION_selecciona_tipo_MASA</a:Code>
 <a:CreationDate>1776647626</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2253,7 +2253,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o59">
 <a:ObjectID>612D656E-DC88-4DF1-ACC0-0B34BF756AFA</a:ObjectID>
-<a:Name>APLICACION ingresa valor a convertir</a:Name>
+<a:Name>Ingresa cuenta destino e importe a depositar</a:Name>
 <a:Code>APLICACION_ingresa_valor_a_convertir</a:Code>
 <a:CreationDate>1776647750</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2270,7 +2270,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o57">
 <a:ObjectID>C006DA12-9989-42B2-8771-848CB6B8A0A6</a:ObjectID>
-<a:Name>APLICACION selecciona unidad inicial</a:Name>
+<a:Name>Inicia transaccion atomica (START TRANSACTION)</a:Name>
 <a:Code>APLICACION_selecciona_unidad_inicial</a:Code>
 <a:CreationDate>1776647957</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2287,7 +2287,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o55">
 <a:ObjectID>297FCF24-D03B-4062-9D7A-384E7DEE0524</a:ObjectID>
-<a:Name>APLICACION selecciona unidad final</a:Name>
+<a:Name>SELECT FOR UPDATE bloquea cuenta y adquiere lock</a:Name>
 <a:Code>APLICACION_selecciona_unidad_final</a:Code>
 <a:CreationDate>1776647975</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2304,7 +2304,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o53">
 <a:ObjectID>12849039-6706-4786-BE1F-FC76D43D82E5</a:ObjectID>
-<a:Name>recibe solicitud convertir</a:Name>
+<a:Name>recibe solicitud registrarDeposito</a:Name>
 <a:Code>recibe_solicitud_convertir</a:Code>
 <a:CreationDate>1776648351</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2322,7 +2322,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o51">
 <a:ObjectID>CA0812B2-1703-49EA-96A5-B80733182A49</a:ObjectID>
-<a:Name>valida modelo no nulo</a:Name>
+<a:Name>UPDATE Cuenta SET dec_cuensaldo = dec_cuensaldo + importe</a:Name>
 <a:Code>valida_modelo_no_nulo</a:Code>
 <a:CreationDate>1776648376</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2340,7 +2340,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o49">
 <a:ObjectID>5F706ACE-E199-4E4D-A26B-FE76413CE439</a:ObjectID>
-<a:Name>valida tipo de conversion</a:Name>
+<a:Name>INSERT INTO Movimiento (deposito) y COMMIT transaccion</a:Name>
 <a:Code>valida_tipo_de_conversion</a:Code>
 <a:CreationDate>1776648418</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2536,7 +2536,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o25">
 <a:ObjectID>8BC8DE14-288B-4951-B336-5D85AC8665BE</a:ObjectID>
-<a:Name>UnidadMapper.toTemperatura para origen</a:Name>
+<a:Name>Verifica acreditacion en MariaDB</a:Name>
 <a:Code>UnidadMapper_toTemperatura_para_origen</a:Code>
 <a:CreationDate>1776650329</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2554,7 +2554,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o23">
 <a:ObjectID>CEF69B06-C95F-44E3-8BAA-71FD7CB16EFA</a:ObjectID>
-<a:Name>UnidadMapper.toTemperatura para destino</a:Name>
+<a:Name>Mapea transaccion a MovimientoDTO</a:Name>
 <a:Code>UnidadMapper_toTemperatura_para_destino</a:Code>
 <a:CreationDate>1776650341</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2572,7 +2572,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o21">
 <a:ObjectID>C2799F5B-64F4-4326-96E3-0AA0FC5BB8B9</a:ObjectID>
-<a:Name>delega a ServicioConversor de temperatura</a:Name>
+<a:Name>delega a EurekaService.registrarDeposito</a:Name>
 <a:Code>delega_a_ServicioConversor_de_temperatura</a:Code>
 <a:CreationDate>1776650349</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2625,7 +2625,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o13">
 <a:ObjectID>C906F90F-4897-4691-8879-5E2FA629F66E</a:ObjectID>
-<a:Name>retorna resultado convertido</a:Name>
+<a:Name>retorna nuevo saldo confirmado al controlador</a:Name>
 <a:Code>retorna_resultado_convertido</a:Code>
 <a:CreationDate>1776650561</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2642,7 +2642,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o10">
 <a:ObjectID>CEAE2011-DBF6-46C2-98B9-774286230F45</a:ObjectID>
-<a:Name>APLICACION muestra resultado de temperatura</a:Name>
+<a:Name>Ventanilla actualiza saldo y activa semaforo MashUp VERDE</a:Name>
 <a:Code>APLICACION_muestra_resultado_de_temperatura</a:Code>
 <a:CreationDate>1776650585</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2681,7 +2681,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 <a:Code>WSDLJava</a:Code>
 <a:CreationDate>1622316627</a:CreationDate>
 <a:Creator>johanaaracely.herre</a:Creator>
-<a:ModificationDate>1793127004</a:ModificationDate>
+<a:ModificationDate>1793126871</a:ModificationDate>
 <a:Modifier>MeatPuppets</a:Modifier>
 <a:TargetModelURL>file:///%[XEM]%/WSDLJ2EE.xem</a:TargetModelURL>
 <a:TargetModelID>C8F5F7B2-CF9D-4E98-8301-959BB6E86C8A</a:TargetModelID>

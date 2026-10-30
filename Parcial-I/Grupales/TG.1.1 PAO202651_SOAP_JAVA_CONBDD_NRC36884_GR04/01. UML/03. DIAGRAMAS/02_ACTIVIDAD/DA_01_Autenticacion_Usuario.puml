@@ -1,0 +1,22 @@
+﻿@startuml
+title DA_01: Diagrama de Actividad - AutenticaciÃ³n de Usuario
+start
+:Usuario ingresa Usuario y Clave en la interfaz;
+:Cliente emite peticiÃ³n al servicio (SOAP/REST);
+:Servicio intercepta y extrae credenciales;
+:Conectar con MariaDB (Docker/Podman);
+:Ejecutar consulta SELECT sobre tabla Empleado/Usuario;
+
+if (Â¿Usuario existe y hash de clave coincide?) then (SÃ­)
+    :Generar identificador de sesiÃ³n / Token;
+    :Obtener rol, permisos y sucursal asignada;
+    :Retornar respuesta exitosa (200 OK / LoginResponse);
+    :Cliente habilita menÃº segÃºn perfil de usuario;
+    stop
+else (No)
+    :Registrar auditorÃ­a de intento fallido;
+    :Retornar error (401 Unauthorized / SOAPFault);
+    :Cliente muestra alerta: "Credenciales Incorrectas";
+    stop
+endif
+@enduml

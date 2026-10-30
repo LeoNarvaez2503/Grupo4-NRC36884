@@ -1,36 +1,28 @@
 ﻿@startuml
-title "DS_09_ERROR_VALIDACION_400 (REST)"
+title "DS_09_ERROR_VALIDACION_400"
 autonumber
 
 actor "Usuario" as Usuario
-participant "CONVERSION_VISTA" as Vista
-participant "CONVERSION_CONTROLADOR" as Controlador
-participant "CLIENTE_REST_CONVERSOR\n(ConversorService)" as ClienteRest
-participant "CONVERSOR_RESOURCE\n(/api/conversor)" as ConversorResource
-participant "ADMINISTRADOR_TOKEN" as TokenMgr
-participant "UNIDAD_MAPPER" as Mapper
+participant "CONVERSION_VISTA" as ConversionVista
+participant "CONVERSION_CONTROLADOR" as ConversionControlador
+participant "CLIENTE_SOAP_CONVERSOR" as ClienteSoap
+participant "MANEJADOR_AUTENTICACION" as ManejadorAutenticacion
+participant "WSCONVERSORUNIDADES" as WSConversorUnidades
+participant "UNIDAD_MAPPER" as UnidadMapper
 
-Usuario -> Vista: Ingresa unidad no soportada ("LIBRA_ESTERLINA")
-Vista -> Controlador: solicitarConversionMasa(10, "LIBRA_ESTERLINA", "KILOGRAMO")
-Controlador -> ClienteRest: convertirMasa(10, "LIBRA_ESTERLINA", "KILOGRAMO")
-activate ClienteRest
+Usuario -> ConversionVista: Ingresa unidad no soportada
+ConversionVista -> ConversionControlador: solicitarConversionMasa(valor, unidadOrigenInvalida, unidadDestino)
+ConversionControlador -> ClienteSoap: convertirMasa(token, valor, unidadOrigenInvalida, unidadDestino)
 
-ClienteRest -> ConversorResource: HTTP POST /api/conversor/masa\nHeader Authorization: Bearer <token>\n{"valor": 10, "unidadInicial": "LIBRA_ESTERLINA", "unidadFinal": "KILOGRAMO"}
-activate ConversorResource
+ClienteSoap -> ManejadorAutenticacion: SOAP convertirMasa(...)\nSOAP Header token
+ManejadorAutenticacion --> WSConversorUnidades: solicitud autorizada
 
-ConversorResource -> TokenMgr: validarToken(token)
-TokenMgr --> ConversorResource: true (autorizado)
+WSConversorUnidades -> UnidadMapper: toMasa(unidadOrigenInvalida)
+UnidadMapper --> WSConversorUnidades: RuntimeException("Unidad de masa invalida: ...")
+WSConversorUnidades --> ClienteSoap: Fault de validacion (equivalente logico a 400)
 
-ConversorResource -> Mapper: toMasa("LIBRA_ESTERLINA")
-activate Mapper
-Mapper --> ConversorResource: IllegalArgumentException("Unidad de masa no valida: LIBRA_ESTERLINA")
-deactivate Mapper
+ClienteSoap --> ConversionControlador: error de validacion
+ConversionControlador --> ConversionVista: mostrar mensaje de validacion
+ConversionVista --> Usuario: solicitar correccion de datos
 
-ConversorResource --> ClienteRest: HTTP 400 Bad Request\n{"error": "Unidad de masa no valida: LIBRA_ESTERLINA"}
-deactivate ConversorResource
-
-ClienteRest --> Controlador: HttpBadRequestException(400, "Unidad no valida")
-deactivate ClienteRest
-Controlador --> Vista: mostrarErrorValidacion("La unidad ingresada no es soportada por el sistema")
-Vista --> Usuario: Mostrar alerta: corregir seleccion de unidades
 @enduml

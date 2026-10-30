@@ -1,0 +1,57 @@
+﻿@startuml
+autonumber
+title DS_04: Registrar DepÃ³sito Monetario AtÃ³mico con Bloqueo Pesimista
+
+actor "Cajero (Ventanilla)" as Cajero
+participant "Cliente Swing / WPF" as UI
+participant "TransaccionService" as Service
+participant "CuentaDAO" as CDAO
+participant "MovimientoDAO" as MDAO
+participant "MashUpNotifier" as Notifier
+database "MariaDB (Docker/Podman)" as DB
+
+Cajero -> UI: 1. Ingresar Cuenta, Monto a Depositar
+activate UI
+UI -> Service: 2. registrarDeposito(cuenta, monto, codEmpleado)
+activate Service
+
+Service -> DB: 3. Iniciar TransacciÃ³n (setAutoCommit=false)
+activate DB
+
+Service -> CDAO: 4. bloquearYObtenerCuenta(cuenta)
+activate CDAO
+CDAO -> DB: 5. SELECT dec_cuensaldo, chr_cuenestado FROM Cuenta WHERE chr_cuencodigo = ? FOR UPDATE
+DB --> CDAO: 6. Saldo actual y estado
+CDAO --> Service: 7. Objeto Cuenta bloqueada
+deactivate CDAO
+
+Service -> Notifier: 8. notificarEstado(cuenta, "ROJO_EN_PROCESO")
+activate Notifier
+Notifier --> UI: 9. Evento MashUp: Cuenta en ROJO en pantallas externas
+deactivate Notifier
+
+Service -> CDAO: 10. actualizarSaldo(cuenta, saldoActual + monto)
+activate CDAO
+CDAO -> DB: 11. UPDATE Cuenta SET dec_cuensaldo = ?, int_cuencontmov = int_cuencontmov + 1 WHERE chr_cuencodigo = ?
+CDAO --> Service: 12. Filas afectadas: 1
+deactivate CDAO
+
+Service -> MDAO: 13. registrarMovimiento(cuenta, monto, 'DEP', codEmpleado)
+activate MDAO
+MDAO -> DB: 14. INSERT INTO Movimiento (chr_cuencodigo, int_movinumero, dtt_movifecha, chr_emplcodigo, chr_tipocodigo, dec_moviimporte) VALUES (...)
+MDAO --> Service: 15. Movimiento registrado con ID
+deactivate MDAO
+
+Service -> DB: 16. COMMIT
+deactivate DB
+
+Service -> Notifier: 17. notificarEstado(cuenta, "VERDE_DISPONIBLE")
+activate Notifier
+Notifier --> UI: 18. Evento MashUp: Cuenta en VERDE en pantallas externas
+deactivate Notifier
+
+Service --> UI: 19. TransaccionResponse (NumOperacion, SaldoActual, Exito)
+deactivate Service
+UI --> Cajero: 20. Desplegar comprobante de depÃ³sito exitoso
+deactivate UI
+@enduml

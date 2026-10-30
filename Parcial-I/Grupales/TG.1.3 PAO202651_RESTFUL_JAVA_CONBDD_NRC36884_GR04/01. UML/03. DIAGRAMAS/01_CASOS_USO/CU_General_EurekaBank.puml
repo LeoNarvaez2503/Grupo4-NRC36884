@@ -1,0 +1,47 @@
+﻿@startuml
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+skinparam usecase {
+    BackgroundColor LightCyan
+    BorderColor DarkBlue
+    ArrowColor Navy
+}
+
+title CU_GENERAL: Sistema Transaccional Bancario "EurekaBank" con MashUp de Concurrencia
+
+left to right direction
+
+actor "Cajero (Ventanilla)" as Cajero
+actor "Cliente Final" as Cliente
+actor "Gerente de Sucursal" as Gerente
+actor "Administrador TI / Monster" as Admin
+
+rectangle "EurekaBank Service Layer" {
+    usecase "CU01: Iniciar SesiÃ³n\n(Autenticar Usuario)" as CU01
+    usecase "CU02: Obtener Cuentas por Sucursal\n(con Titular y Disponibilidad)" as CU02
+    usecase "CU03: Obtener Movimientos\n(Historial CronolÃ³gico)" as CU03
+    usecase "CU04: Registrar Movimiento\n(DepÃ³sito / Retiro AtÃ³mico)" as CU04
+    usecase "CU05: Monitorear Estado MashUp\n(SemÃ¡foro Verde / Rojo)" as CU05
+    usecase "CU06: Desbloqueo Manual\n(Superadmin Monster)" as CU06
+
+    CU02 ..> CU01 : <<include>>
+    CU03 ..> CU01 : <<include>>
+    CU04 ..> CU01 : <<include>>
+    CU05 ..> CU01 : <<include>>
+    CU06 ..> CU01 : <<include>>
+}
+
+Cajero --> CU04 : ejecuta depÃ³sitos y retiros
+Cajero --> CU03 : consulta movimientos de cuenta
+
+Cliente --> CU03 : consulta extracto propio
+Cliente --> CU05 : visualiza estado (Verde/Rojo)
+
+Gerente --> CU02 : consulta cuentas de sucursal
+Gerente --> CU05 : monitorea carga en ventanillas
+
+Admin --> CU02 : auditorÃ­a de cuentas
+Admin --> CU03 : auditorÃ­a de transacciones
+Admin --> CU06 : desbloqueo de contingencia
+
+@enduml

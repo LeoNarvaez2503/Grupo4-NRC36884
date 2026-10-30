@@ -1,0 +1,21 @@
+version: "3.9"
+
+# Configuracion de persistencia local contenerizada (Docker / Podman) - Grupo 04 (GR04)
+# Contenedor activo compatible: mysql-db (puerto 3306:3306, usuario root, clave admin)
+services:
+  mysql-db:
+    image: docker.io/library/mysql:latest
+    container_name: mysql-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: eurekabank_db
+      TZ: America/Guayaquil
+    ports:
+      - "3306:3306"
+    volumes:
+      - eurekabank_mysql_data:/var/lib/mysql
+      - ./eureka_bank.sql:/docker-entrypoint-initdb.d/01_eureka_bank.sql:ro
+
+volumes:
+  eurekabank_mysql_data:

@@ -1,0 +1,27 @@
+﻿@startuml
+autonumber
+title DS_02: Consulta de Cuentas por Sucursal con Datos de Titular
+
+actor "Gerente / Admin" as User
+participant "Cliente Web / Consola" as UI
+participant "CuentaService" as Service
+participant "CuentaDAO" as DAO
+database "MariaDB (Docker/Podman)" as DB
+
+User -> UI: 1. Seleccionar Sucursal (chr_sucucodigo)
+activate UI
+UI -> Service: 2. getCuentasPorSucursal(codSucursal)
+activate Service
+Service -> DAO: 3. listarCuentasTitular(codSucursal)
+activate DAO
+DAO -> DB: 4. SELECT c.chr_cuencodigo, c.dec_cuensaldo, c.chr_cuenestado,\ncl.vch_clienombre, cl.vch_cliepaterno\nFROM Cuenta c INNER JOIN Cliente cl ON c.chr_cliecodigo = cl.chr_cliecodigo\nWHERE c.chr_sucucodigo = ?
+activate DB
+DB --> DAO: 5. ResultSet con Cuentas y Titulares
+deactivate DB
+DAO --> Service: 6. List<CuentaDTO>
+deactivate DAO
+Service --> UI: 7. Response JSON/XML (Listado de Cuentas con SemÃ¡foro)
+deactivate Service
+UI --> User: 8. Renderizar Tabla de Cuentas con Indicador Verde/Rojo
+deactivate UI
+@enduml

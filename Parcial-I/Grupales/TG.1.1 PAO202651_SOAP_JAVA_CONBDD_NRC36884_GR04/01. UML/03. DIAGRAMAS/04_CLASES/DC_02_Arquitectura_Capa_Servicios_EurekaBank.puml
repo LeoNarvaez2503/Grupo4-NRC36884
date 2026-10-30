@@ -1,0 +1,77 @@
+﻿@startuml
+title DC_02: Diagrama de Clases - Capa de Servicios, DAO, DTO y Concurrencia
+
+interface IEurekaService {
+    + autenticar(usuario: String, clave: String): LoginResponse
+    + obtenerCuentasPorSucursal(codSucursal: String): List<CuentaDTO>
+    + obtenerMovimientos(codCuenta: String): List<MovimientoDTO>
+    + registrarDeposito(cuenta: String, monto: BigDecimal, codEmpleado: String): TransaccionResponse
+    + registrarRetiro(cuenta: String, monto: BigDecimal, codEmpleado: String): TransaccionResponse
+    + consultarEstadoMashUp(cuenta: String): EstadoCuentaDTO
+}
+
+class EurekaServiceImpl {
+    - cuentaDAO: CuentaDAO
+    - movimientoDAO: MovimientoDAO
+    - empleadoDAO: EmpleadoDAO
+    - lockManager: ConcurrencyLockManager
+    + autenticar(...)
+    + registrarDeposito(...)
+    + registrarRetiro(...)
+}
+
+class CuentaDAO {
+    - conexionBD: ConexionBD
+    + obtenerCuentaConBloqueo(codigo: String, conn: Connection): Cuenta
+    + actualizarSaldo(codigo: String, nuevoSaldo: BigDecimal, conn: Connection): boolean
+    + listarPorSucursal(codSucursal: String): List<CuentaDTO>
+}
+
+class MovimientoDAO {
+    - conexionBD: ConexionBD
+    + insertar(movimiento: Movimiento, conn: Connection): boolean
+    + listarPorCuenta(codCuenta: String): List<MovimientoDTO>
+}
+
+class EmpleadoDAO {
+    - conexionBD: ConexionBD
+    + validarCredenciales(usuario: String, hashClave: String): Empleado
+}
+
+class ConcurrencyLockManager {
+    - estadosCuentas: ConcurrentHashMap<String, EstadoCuentaEnum>
+    + bloquearCuenta(cuenta: String): void
+    + liberarCuenta(cuenta: String): void
+    + getEstado(cuenta: String): EstadoCuentaEnum
+}
+
+enum EstadoCuentaEnum {
+    DISPONIBLE_VERDE
+    BLOQUEADO_ROJO
+    INACTIVO_GRIS
+}
+
+class LoginResponse {
+    - token: String
+    - codEmpleado: String
+    - rol: String
+    - codSucursal: String
+}
+
+class TransaccionResponse {
+    - numOperacion: int
+    - saldoFinal: BigDecimal
+    - exito: boolean
+    - mensaje: String
+}
+
+IEurekaService <|.. EurekaServiceImpl
+EurekaServiceImpl --> CuentaDAO
+EurekaServiceImpl --> MovimientoDAO
+EurekaServiceImpl --> EmpleadoDAO
+EurekaServiceImpl --> ConcurrencyLockManager
+ConcurrencyLockManager --> EstadoCuentaEnum
+EurekaServiceImpl ..> LoginResponse
+EurekaServiceImpl ..> TransaccionResponse
+
+@enduml

@@ -1,0 +1,81 @@
+﻿@startuml
+title DC_01: Diagrama de Clases - Modelo de Dominio y Entidades (EurekaBank)
+
+class Cliente {
+    - chr_cliecodigo: String
+    - vch_cliepaterno: String
+    - vch_cliematerno: String
+    - vch_clienombre: String
+    - chr_cliedni: String
+    - vch_clieciudad: String
+    - vch_cliedireccion: String
+    - vch_clietelefono: String
+    - vch_clieemail: String
+    + getNombreCompleto(): String
+}
+
+class Cuenta {
+    - chr_cuencodigo: String
+    - chr_monecodigo: String
+    - chr_sucucodigo: String
+    - chr_emplcreacuenta: String
+    - dec_cuensaldo: BigDecimal
+    - dtt_cuenfechacreacion: Date
+    - chr_cuenestado: String
+    - int_cuencontmov: int
+    - chr_cuenclave: String
+    + estaActiva(): boolean
+    + tieneSaldoSuficiente(monto: BigDecimal): boolean
+}
+
+class Movimiento {
+    - chr_cuencodigo: String
+    - int_movinumero: int
+    - dtt_movifecha: Timestamp
+    - chr_emplcodigo: String
+    - chr_tipocodigo: String
+    - dec_moviimporte: BigDecimal
+    - chr_cuenreferencia: String
+}
+
+class TipoMovimiento {
+    - chr_tipocodigo: String
+    - vch_tipodescripcion: String
+    - vch_tipoaccion: String
+    - vch_tipoestado: String
+}
+
+class Empleado {
+    - chr_emplcodigo: String
+    - vch_emplpaterno: String
+    - vch_emplmaterno: String
+    - vch_emplnombre: String
+    - vch_emplciudad: String
+    - vch_empldireccion: String
+    - vch_emplusuario: String
+    - vch_emplclave: String
+    + esSuperAdmin(): boolean
+}
+
+class Sucursal {
+    - chr_sucucodigo: String
+    - vch_sucunombre: String
+    - vch_sucuciudad: String
+    - vch_sucudireccion: String
+    - int_sucucontcuenta: int
+}
+
+class Moneda {
+    - chr_monecodigo: String
+    - vch_monedescripcion: String
+}
+
+Cliente "1" -- "0..*" Cuenta : es titular de >
+Cuenta "1" -- "0..*" Movimiento : registra >
+TipoMovimiento "1" -- "0..*" Movimiento : clasifica >
+Empleado "1" -- "0..*" Movimiento : procesa >
+Sucursal "1" -- "0..*" Cuenta : radica en >
+Moneda "1" -- "0..*" Cuenta : se expresa en >
+Empleado "1" -- "0..*" Cuenta : crea >
+
+@enduml

@@ -1,0 +1,38 @@
+﻿@startuml
+title DA_02: Diagrama de Actividad - Registrar Movimiento Transaccional (ExclusiÃ³n Mutua)
+start
+:Cajero ingresa Cuenta, Monto y Tipo (DepÃ³sito/Retiro);
+:Cliente envÃ­a peticiÃ³n transaccional;
+:Backend abre transacciÃ³n JDBC (setAutoCommit=false);
+:Ejecutar SELECT dec_cuensaldo, chr_cuenestado\nFROM Cuenta WHERE chr_cuencodigo = ? FOR UPDATE;
+:Disparar evento MashUp: Estado de Cuenta = ROJO (Bloqueada);
+
+if (Â¿Cuenta se encuentra en estado ACTIVO?) then (SÃ­)
+    if (Â¿Tipo de OperaciÃ³n es RETIRO?) then (SÃ­)
+        if (Â¿dec_cuensaldo >= Monto Solicitado?) then (SÃ­)
+            :Calcular nuevo saldo: dec_cuensaldo - Monto;
+        else (No: Fondos Insuficientes)
+            :Ejecutar ROLLBACK en MariaDB;
+            :Disparar evento MashUp: Estado = VERDE;
+            :Retornar Error "Fondos Insuficientes para el Retiro";
+            stop
+        endif
+    else (Es DEPÃ“SITO)
+        :Calcular nuevo saldo: dec_cuensaldo + Monto;
+    endif
+
+    :UPDATE Cuenta SET dec_cuensaldo = nuevoSaldo,\nint_cuencontmov = int_cuencontmov + 1;
+    :Generar nÃºmero correlativo de operaciÃ³n;
+    :INSERT INTO Movimiento (chr_cuencodigo, int_movinumero,\ndtt_movifecha, chr_emplcodigo, chr_tipocodigo, dec_moviimporte);
+    :Ejecutar COMMIT en MariaDB;
+    :Disparar evento MashUp: Estado = VERDE (Libre);
+    :Retornar Comprobante con NÃºmero de OperaciÃ³n;
+    :Cliente imprime / muestra comprobante exitoso;
+    stop
+else (No: Cuenta Inactiva/Cancelada)
+    :Ejecutar ROLLBACK en MariaDB;
+    :Disparar evento MashUp: Estado = VERDE;
+    :Retornar Error "La Cuenta no estÃ¡ activa";
+    stop
+endif
+@enduml

@@ -1,0 +1,66 @@
+﻿@startuml
+autonumber
+title DS_06: Escenario CrÃ­tico: Concurrencia SimultÃ¡nea de 3 Cajeros sobre la MISMA Cuenta
+
+actor "Cajero 1\n(Ventanilla 1)" as C1
+actor "Cajero 2\n(Ventanilla 2)" as C2
+actor "Cajero 3\n(Ventanilla 3)" as C3
+participant "EurekaBank Backend" as Server
+participant "MashUp Broadcaster" as MashUp
+database "MariaDB (Docker/Podman)\nInnoDB Lock Engine" as DB
+
+== Solicitud Concurrente Cuasi-SimultÃ¡nea ==
+C1 -> Server: 1. retirar(Cuenta="00100001", Monto=100)
+activate Server
+C2 -> Server: 2. retirar(Cuenta="00100001", Monto=150)
+activate Server
+C3 -> Server: 3. depositar(Cuenta="00100001", Monto=200)
+activate Server
+
+== AdquisiciÃ³n de Bloqueo por Cajero 1 ==
+Server -> DB: 4. [Hilo C1] SELECT dec_cuensaldo FROM Cuenta WHERE chr_cuencodigo='00100001' FOR UPDATE
+activate DB
+DB --> Server: 5. [Hilo C1] Bloqueo EXCLUSIVO Adquirido (Saldo=$500)
+Server -> MashUp: 6. Publicar: Cuenta "00100001" = ROJO (Bloqueada)
+MashUp --> C2: SemÃ¡foro ROJO (Ocupada en Ventanilla 1)
+MashUp --> C3: SemÃ¡foro ROJO (Ocupada en Ventanilla 1)
+
+== Cajeros 2 y 3 en Cola de Bloqueo / Espera AtÃ³mica ==
+Server -> DB: 7. [Hilo C2] SELECT ... FOR UPDATE (Espera en cola InnoDB)
+Server -> DB: 8. [Hilo C3] SELECT ... FOR UPDATE (Espera en cola InnoDB)
+
+== Cajero 1 procesa y confirma su transacciÃ³n ==
+Server -> DB: 9. [Hilo C1] UPDATE Cuenta SET dec_cuensaldo = 400
+Server -> DB: 10. [Hilo C1] INSERT INTO Movimiento (Retiro $100)
+Server -> DB: 11. [Hilo C1] COMMIT (Libera Bloqueo)
+deactivate DB
+Server --> C1: 12. Retiro Exitoso (Nuevo Saldo: $400)
+deactivate Server
+
+== Cajero 2 despierta y adquiere el Bloqueo con Saldo Actualizado ==
+activate DB
+DB --> Server: 13. [Hilo C2] Bloqueo Adquirido. Saldo leÃ­do = $400 (NO $500!)
+Server -> MashUp: 14. Publicar: Cuenta "00100001" = ROJO (Ocupada Ventanilla 2)
+Server -> DB: 15. [Hilo C2] UPDATE Cuenta SET dec_cuensaldo = 250 (400 - 150)
+Server -> DB: 16. [Hilo C2] INSERT INTO Movimiento (Retiro $150)
+Server -> DB: 17. [Hilo C2] COMMIT (Libera Bloqueo)
+deactivate DB
+Server --> C2: 18. Retiro Exitoso (Nuevo Saldo: $250)
+deactivate Server
+
+== Cajero 3 despierta y procesa el DepÃ³sito con Saldo Consistente ==
+activate DB
+DB --> Server: 19. [Hilo C3] Bloqueo Adquirido. Saldo leÃ­do = $250
+Server -> MashUp: 20. Publicar: Cuenta "00100001" = ROJO (Ocupada Ventanilla 3)
+Server -> DB: 21. [Hilo C3] UPDATE Cuenta SET dec_cuensaldo = 450 (250 + 200)
+Server -> DB: 22. [Hilo C3] INSERT INTO Movimiento (DepÃ³sito $200)
+Server -> DB: 23. [Hilo C3] COMMIT (Libera Bloqueo)
+deactivate DB
+Server -> MashUp: 24. Publicar: Cuenta "00100001" = VERDE (Libre)
+Server --> C3: 25. DepÃ³sito Exitoso (Nuevo Saldo: $450)
+deactivate Server
+
+MashUp --> C1: SemÃ¡foro VERDE (Disponible)
+MashUp --> C2: SemÃ¡foro VERDE (Disponible)
+MashUp --> C3: SemÃ¡foro VERDE (Disponible)
+@enduml

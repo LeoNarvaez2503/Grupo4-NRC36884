@@ -980,7 +980,7 @@ IndxFKName=%REFR%_FK
 IndxThreshold=
 ColnFKName=%.3:PARENT%_%COLUMN%
 ColnFKNameUse=No</a:ModelOptionsText>
-<a:RepositoryFilename>%[PRJ_ROOT_DIR]%\WS_ConUni_DC.oom</a:RepositoryFilename>
+<a:RepositoryFilename>C:\Users\MeatPuppets\Desktop\Grupo4-NRC36884\Parcial-I\Grupales\TG.1.1 PAO202651_SOAP_JAVA_CONBDD_NRC36884_GR04\01. UML\03. DIAGRAMAS\04_CLASES\WS_ConUni_DC.oom</a:RepositoryFilename>
 <c:ObjectLanguage>
 <o:Shortcut Id="o3">
 <a:ObjectID>7897AAC3-A6BD-4188-A7F4-76846569B3CF</a:ObjectID>
@@ -4120,8 +4120,8 @@ LABL 0 Arial,8,N</a:FontList>
 <c:Classes>
 <o:Class Id="o39">
 <a:ObjectID>3B17FE0A-FC09-411E-A556-1E6D8B0F0CB2</a:ObjectID>
-<a:Name>UnidadMapper</a:Name>
-<a:Code>UnidadMapper</a:Code>
+<a:Name>EurekaMapper</a:Name>
+<a:Code>EurekaMapper</a:Code>
 <a:CreationDate>1776474486</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474486</a:ModificationDate>
@@ -4134,8 +4134,8 @@ LABL 0 Arial,8,N</a:FontList>
 <c:Operations>
 <o:Operation Id="o40">
 <a:ObjectID>C184E259-1278-4DC1-8575-CD4D0245C528</a:ObjectID>
-<a:Name>toLongitud</a:Name>
-<a:Code>toLongitud</a:Code>
+<a:Name>toCuentaDTO</a:Name>
+<a:Code>toCuentaDTO</a:Code>
 <a:CreationDate>1776474486</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474486</a:ModificationDate>
@@ -4165,8 +4165,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Operation>
 <o:Operation Id="o42">
 <a:ObjectID>1A65E74E-200D-4753-B817-0207E9917559</a:ObjectID>
-<a:Name>toMasa</a:Name>
-<a:Code>toMasa</a:Code>
+<a:Name>toMovimientoDTO</a:Name>
+<a:Code>toMovimientoDTO</a:Code>
 <a:CreationDate>1776474486</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474486</a:ModificationDate>
@@ -4196,8 +4196,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Operation>
 <o:Operation Id="o44">
 <a:ObjectID>8E127E05-B0AD-4452-8510-203CE74AD1DA</a:ObjectID>
-<a:Name>toTemperatura</a:Name>
-<a:Code>toTemperatura</a:Code>
+<a:Name>toEmpleadoDTO</a:Name>
+<a:Code>toEmpleadoDTO</a:Code>
 <a:CreationDate>1776474486</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474486</a:ModificationDate>
@@ -4868,8 +4868,8 @@ LABL 0 Arial,8,N</a:FontList>
 <c:Classes>
 <o:Class Id="o48">
 <a:ObjectID>DB2A53E2-8C52-47A5-885D-3A2E12F3FC76</a:ObjectID>
-<a:Name>ConversorLongitudPrueba</a:Name>
-<a:Code>ConversorLongitudPrueba</a:Code>
+<a:Name>TestConcurrenciaCajeros</a:Name>
+<a:Code>TestConcurrenciaCajeros</a:Code>
 <a:CreationDate>1776474486</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474486</a:ModificationDate>
@@ -4938,8 +4938,8 @@ import java.util.Scanner;
 </o:Class>
 <o:Class Id="o50">
 <a:ObjectID>09819BC1-028B-40F9-AFC3-22999A377D7C</a:ObjectID>
-<a:Name>ConversorMasaPrueba</a:Name>
-<a:Code>ConversorMasaPrueba</a:Code>
+<a:Name>TestDepositoAtomico</a:Name>
+<a:Code>TestDepositoAtomico</a:Code>
 <a:CreationDate>1776474486</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474486</a:ModificationDate>
@@ -5008,8 +5008,8 @@ import java.util.Scanner;
 </o:Class>
 <o:Class Id="o52">
 <a:ObjectID>F78CD9F9-EE22-40D4-9F3D-E380439E9D0F</a:ObjectID>
-<a:Name>ConversorTemperaturaPrueba</a:Name>
-<a:Code>ConversorTemperaturaPrueba</a:Code>
+<a:Name>TestRetiroSaldoInsuficiente</a:Name>
+<a:Code>TestRetiroSaldoInsuficiente</a:Code>
 <a:CreationDate>1776474486</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474486</a:ModificationDate>
@@ -6331,8 +6331,8 @@ LABL 0 Arial,8,N</a:FontList>
 <c:Classes>
 <o:Class Id="o67">
 <a:ObjectID>17A7852D-D68A-441E-B77F-C4DF215558FF</a:ObjectID>
-<a:Name>AdministradorTokens</a:Name>
-<a:Code>AdministradorTokens</a:Code>
+<a:Name>GestorSeguridadEureka</a:Name>
+<a:Code>GestorSeguridadEureka</a:Code>
 <a:CreationDate>1776474486</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474486</a:ModificationDate>
@@ -6410,8 +6410,8 @@ import java.util.UUID;
 </o:Class>
 <o:Class Id="o72">
 <a:ObjectID>9E7B038D-B7F6-4893-B45F-677FB9A4C320</a:ObjectID>
-<a:Name>AdministradorCredenciales</a:Name>
-<a:Code>AdministradorCredenciales</a:Code>
+<a:Name>AutenticadorMariaDB</a:Name>
+<a:Code>AutenticadorMariaDB</a:Code>
 <a:CreationDate>0</a:CreationDate>
 <a:Creator/>
 <a:ModificationDate>0</a:ModificationDate>
@@ -6420,8 +6420,8 @@ import java.util.UUID;
 <c:Operations>
 <o:Operation Id="o73">
 <a:ObjectID>862CC1BA-AE03-4363-AC01-F11A310459E5</a:ObjectID>
-<a:Name>validarUsuario</a:Name>
-<a:Code>validarUsuario</a:Code>
+<a:Name>validarEmpleado</a:Name>
+<a:Code>validarEmpleado</a:Code>
 <a:CreationDate>0</a:CreationDate>
 <a:Creator/>
 <a:ModificationDate>0</a:ModificationDate>
@@ -6430,8 +6430,8 @@ import java.util.UUID;
 </o:Operation>
 <o:Operation Id="o74">
 <a:ObjectID>68F8470B-66FA-4949-B530-F1112BD146A2</a:ObjectID>
-<a:Name>cambiarContrasenia</a:Name>
-<a:Code>cambiarContrasenia</a:Code>
+<a:Name>desbloquearEmpleado</a:Name>
+<a:Code>desbloquearEmpleado</a:Code>
 <a:CreationDate>0</a:CreationDate>
 <a:Creator/>
 <a:ModificationDate>0</a:ModificationDate>
@@ -6462,8 +6462,8 @@ import java.util.UUID;
 </o:Class>
 <o:Class Id="o77">
 <a:ObjectID>3F4F510B-6FDB-4B59-8077-DE870E0A1739</a:ObjectID>
-<a:Name>AdministradorToken</a:Name>
-<a:Code>AdministradorToken</a:Code>
+<a:Name>AuditoriaBancaria</a:Name>
+<a:Code>AuditoriaBancaria</a:Code>
 <a:CreationDate>0</a:CreationDate>
 <a:Creator/>
 <a:ModificationDate>0</a:ModificationDate>
@@ -7111,12 +7111,13 @@ LABL 0 Arial,8,N</a:FontList>
 <c:Classes>
 <o:Class Id="o84">
 <a:ObjectID>79597323-1518-42F6-8B87-153641874096</a:ObjectID>
-<a:Name>ServicioConversor</a:Name>
-<a:Code>ServicioConversor</a:Code>
+<a:Name>EurekaService</a:Name>
+<a:Code>EurekaService</a:Code>
 <a:CreationDate>1776474486</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474486</a:ModificationDate>
 <a:Modifier>dario</a:Modifier>
+<a:Comment>Servicio de negocio con logica transaccional atomica y SELECT FOR UPDATE.</a:Comment>
 <a:UseParentNamespace>0</a:UseParentNamespace>
 <a:Class.Type>G</a:Class.Type>
 <a:Classifier.Header>
@@ -7140,8 +7141,8 @@ LABL 0 Arial,8,N</a:FontList>
 <c:Operations>
 <o:Operation Id="o86">
 <a:ObjectID>030DC549-ABC8-4CD5-A865-B9AD7CB1DDD9</a:ObjectID>
-<a:Name>ServicioConversor</a:Name>
-<a:Code>ServicioConversor</a:Code>
+<a:Name>EurekaService</a:Name>
+<a:Code>EurekaService</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
@@ -7169,8 +7170,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Operation>
 <o:Operation Id="o88">
 <a:ObjectID>6EE93726-001C-42EB-B89E-D03D1B0128C7</a:ObjectID>
-<a:Name>convertir</a:Name>
-<a:Code>convertir</a:Code>
+<a:Name>procesarTransaccion</a:Name>
+<a:Code>procesarTransaccion</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
@@ -8712,12 +8713,13 @@ LABL 0 Arial,8,N</a:FontList>
 <c:Classes>
 <o:Class Id="o124">
 <a:ObjectID>E84DB76A-3FF6-4F9B-BE9A-AC554126E3DF</a:ObjectID>
-<a:Name>UnidadLongitud</a:Name>
-<a:Code>UnidadLongitud</a:Code>
+<a:Name>TipoMovimiento</a:Name>
+<a:Code>TipoMovimiento</a:Code>
 <a:CreationDate>1776474486</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474486</a:ModificationDate>
 <a:Modifier>dario</a:Modifier>
+<a:Comment>003: Deposito (+), 004: Retiro (-)</a:Comment>
 <a:Stereotype>Enum</a:Stereotype>
 <a:UseParentNamespace>0</a:UseParentNamespace>
 <a:Classifier.Header>
@@ -8727,8 +8729,8 @@ LABL 0 Arial,8,N</a:FontList>
 <c:Attributes>
 <o:Attribute Id="o129">
 <a:ObjectID>584C8F3B-665F-4377-A896-8803A9CD5C2E</a:ObjectID>
-<a:Name>MILIMETRO</a:Name>
-<a:Code>MILIMETRO</a:Code>
+<a:Name>DEPOSITO_003</a:Name>
+<a:Code>DEPOSITO_003</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
@@ -8739,8 +8741,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Attribute>
 <o:Attribute Id="o130">
 <a:ObjectID>266621DA-2CE5-4A4D-9F71-AA1128E3649B</a:ObjectID>
-<a:Name>CENTIMETRO</a:Name>
-<a:Code>CENTIMETRO</a:Code>
+<a:Name>RETIRO_004</a:Name>
+<a:Code>RETIRO_004</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
@@ -8789,8 +8791,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Class>
 <o:Class Id="o126">
 <a:ObjectID>9F12CABF-CE2D-46D1-842C-0A5210D0D41D</a:ObjectID>
-<a:Name>UnidadMasa</a:Name>
-<a:Code>UnidadMasa</a:Code>
+<a:Name>EstadoCuenta</a:Name>
+<a:Code>EstadoCuenta</a:Code>
 <a:CreationDate>1776474486</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474486</a:ModificationDate>
@@ -8804,8 +8806,8 @@ LABL 0 Arial,8,N</a:FontList>
 <c:Attributes>
 <o:Attribute Id="o134">
 <a:ObjectID>AB6A34EC-74E9-4B3B-A2E8-07849B75A403</a:ObjectID>
-<a:Name>MILIGRAMO</a:Name>
-<a:Code>MILIGRAMO</a:Code>
+<a:Name>ACTIVA</a:Name>
+<a:Code>ACTIVA</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
@@ -8816,8 +8818,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Attribute>
 <o:Attribute Id="o135">
 <a:ObjectID>75582A05-8F6A-4425-A029-6C1C046ED8AB</a:ObjectID>
-<a:Name>GRAMO</a:Name>
-<a:Code>GRAMO</a:Code>
+<a:Name>BLOQUEADA</a:Name>
+<a:Code>BLOQUEADA</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
@@ -8828,8 +8830,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Attribute>
 <o:Attribute Id="o136">
 <a:ObjectID>CA24241B-FF3F-41BC-878C-5A27CD0B182E</a:ObjectID>
-<a:Name>KILOGRAMO</a:Name>
-<a:Code>KILOGRAMO</a:Code>
+<a:Name>CANCELADA</a:Name>
+<a:Code>CANCELADA</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
@@ -8866,8 +8868,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Class>
 <o:Class Id="o128">
 <a:ObjectID>36DA9A89-5320-4191-914B-0EAE05E8FD52</a:ObjectID>
-<a:Name>UnidadTemperatura</a:Name>
-<a:Code>UnidadTemperatura</a:Code>
+<a:Name>Moneda</a:Name>
+<a:Code>Moneda</a:Code>
 <a:CreationDate>1776474486</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474486</a:ModificationDate>
@@ -8881,8 +8883,8 @@ LABL 0 Arial,8,N</a:FontList>
 <c:Attributes>
 <o:Attribute Id="o139">
 <a:ObjectID>A2501C56-A76D-4F33-AAD0-4A16501FCFBE</a:ObjectID>
-<a:Name>CELSIUS</a:Name>
-<a:Code>CELSIUS</a:Code>
+<a:Name>SOLES_01</a:Name>
+<a:Code>SOLES_01</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
@@ -8893,8 +8895,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Attribute>
 <o:Attribute Id="o140">
 <a:ObjectID>F7E5056D-2A78-4D4E-9D92-97F3EFE15C34</a:ObjectID>
-<a:Name>FAHRENHEIT</a:Name>
-<a:Code>FAHRENHEIT</a:Code>
+<a:Name>DOLARES_02</a:Name>
+<a:Code>DOLARES_02</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
@@ -8938,12 +8940,13 @@ LABL 0 Arial,8,N</a:FontList>
 <c:Classes>
 <o:Class Id="o113">
 <a:ObjectID>6349B919-9070-4907-93C6-32E8006A417E</a:ObjectID>
-<a:Name>ConversorLongitud</a:Name>
-<a:Code>ConversorLongitud</a:Code>
+<a:Name>Cuenta</a:Name>
+<a:Code>Cuenta</a:Code>
 <a:CreationDate>1776474486</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474486</a:ModificationDate>
 <a:Modifier>dario</a:Modifier>
+<a:Comment>Entidad de dominio que representa una cuenta bancaria en MariaDB.</a:Comment>
 <a:UseParentNamespace>0</a:UseParentNamespace>
 <a:Classifier.Header>
                             </a:Classifier.Header>
@@ -8953,13 +8956,13 @@ import java.util.Map;
 <c:Attributes>
 <o:Attribute Id="o143">
 <a:ObjectID>6810165A-47F4-4064-A597-0AB90BDD7B65</a:ObjectID>
-<a:Name>factores</a:Name>
-<a:Code>factores</a:Code>
+<a:Name>dec_cuensaldo</a:Name>
+<a:Code>dec_cuensaldo</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
 <a:Modifier>dario</a:Modifier>
-<a:DataType>Map&lt;UnidadLongitud, Double&gt;</a:DataType>
+<a:DataType>double</a:DataType>
 <a:Attribute.Visibility>-</a:Attribute.Visibility>
 <a:InitialValue>Map.of(
         UnidadLongitud.MILIMETRO, 0.001,
@@ -8974,8 +8977,8 @@ import java.util.Map;
 <c:Operations>
 <o:Operation Id="o144">
 <a:ObjectID>87215632-2A68-4240-B366-F441E12FD83D</a:ObjectID>
-<a:Name>ConversorLongitud</a:Name>
-<a:Code>ConversorLongitud</a:Code>
+<a:Name>Cuenta</a:Name>
+<a:Code>Cuenta</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
@@ -8989,8 +8992,8 @@ import java.util.Map;
 </o:Operation>
 <o:Operation Id="o145">
 <a:ObjectID>9557AF2B-EFDD-4B83-9A59-6808C48AA2EA</a:ObjectID>
-<a:Name>convertir</a:Name>
-<a:Code>convertir</a:Code>
+<a:Name>actualizarSaldo</a:Name>
+<a:Code>actualizarSaldo</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
@@ -9057,12 +9060,13 @@ import java.util.Map;
 </o:Class>
 <o:Class Id="o116">
 <a:ObjectID>D157428C-5F21-4B2C-8CED-A7B70D84A583</a:ObjectID>
-<a:Name>ConversorMasa</a:Name>
-<a:Code>ConversorMasa</a:Code>
+<a:Name>Movimiento</a:Name>
+<a:Code>Movimiento</a:Code>
 <a:CreationDate>1776474486</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474486</a:ModificationDate>
 <a:Modifier>dario</a:Modifier>
+<a:Comment>Entidad de dominio que registra cada deposito o retiro.</a:Comment>
 <a:UseParentNamespace>0</a:UseParentNamespace>
 <a:Classifier.Header>
                             </a:Classifier.Header>
@@ -9072,13 +9076,13 @@ import java.util.Map;
 <c:Attributes>
 <o:Attribute Id="o150">
 <a:ObjectID>AB9591C9-3863-43FF-BD3C-61CB2E487B68</a:ObjectID>
-<a:Name>factores</a:Name>
-<a:Code>factores</a:Code>
+<a:Name>dec_moviimporte</a:Name>
+<a:Code>dec_moviimporte</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
 <a:Modifier>dario</a:Modifier>
-<a:DataType>Map&lt;UnidadMasa, Double&gt;</a:DataType>
+<a:DataType>double</a:DataType>
 <a:Attribute.Visibility>-</a:Attribute.Visibility>
 <a:InitialValue>Map.of(
         UnidadMasa.MILIGRAMO, 0.001,
@@ -9093,8 +9097,8 @@ import java.util.Map;
 <c:Operations>
 <o:Operation Id="o151">
 <a:ObjectID>5AA242C8-9416-46AC-AD89-F49DC6CD3AF6</a:ObjectID>
-<a:Name>ConversorMasa</a:Name>
-<a:Code>ConversorMasa</a:Code>
+<a:Name>Movimiento</a:Name>
+<a:Code>Movimiento</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
@@ -9108,8 +9112,8 @@ import java.util.Map;
 </o:Operation>
 <o:Operation Id="o152">
 <a:ObjectID>F30704AB-D4FB-45FF-AF52-1230757AAA1E</a:ObjectID>
-<a:Name>convertir</a:Name>
-<a:Code>convertir</a:Code>
+<a:Name>generarMovimiento</a:Name>
+<a:Code>generarMovimiento</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
@@ -9176,12 +9180,13 @@ import java.util.Map;
 </o:Class>
 <o:Class Id="o118">
 <a:ObjectID>CD1E1A10-AEEC-4027-A68F-9BCFD3D8E02F</a:ObjectID>
-<a:Name>ConversorTemperatura</a:Name>
-<a:Code>ConversorTemperatura</a:Code>
+<a:Name>Cliente</a:Name>
+<a:Code>Cliente</a:Code>
 <a:CreationDate>1776474486</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474486</a:ModificationDate>
 <a:Modifier>dario</a:Modifier>
+<a:Comment>Entidad de dominio para clientes titulares del banco.</a:Comment>
 <a:UseParentNamespace>0</a:UseParentNamespace>
 <a:Classifier.Header>
                             </a:Classifier.Header>
@@ -9194,8 +9199,8 @@ import static ec.edu.monster.utilidades.enums.UnidadTemperatura.RANKINE;
 <c:Operations>
 <o:Operation Id="o157">
 <a:ObjectID>7ADAA515-1278-4874-B579-4B5F5845236C</a:ObjectID>
-<a:Name>ConversorTemperatura</a:Name>
-<a:Code>ConversorTemperatura</a:Code>
+<a:Name>Cliente</a:Name>
+<a:Code>Cliente</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
@@ -9209,8 +9214,8 @@ import static ec.edu.monster.utilidades.enums.UnidadTemperatura.RANKINE;
 </o:Operation>
 <o:Operation Id="o158">
 <a:ObjectID>3FF9E742-F1BC-4F56-AE53-452400056B1C</a:ObjectID>
-<a:Name>convertir</a:Name>
-<a:Code>convertir</a:Code>
+<a:Name>obtenerNombreCompleto</a:Name>
+<a:Code>obtenerNombreCompleto</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
@@ -11121,12 +11126,13 @@ import java.util.Set;
 <c:Classes>
 <o:Class Id="o173">
 <a:ObjectID>B90A6711-F0CC-4A38-8ADA-71BC5628F5CB</a:ObjectID>
-<a:Name>WSConversorUnidades</a:Name>
-<a:Code>WSConversorUnidades</a:Code>
+<a:Name>WSEurekaBank</a:Name>
+<a:Code>WSEurekaBank</a:Code>
 <a:CreationDate>1776474486</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474486</a:ModificationDate>
 <a:Modifier>dario</a:Modifier>
+<a:Comment>Servicio Web SOAP/RESTful para operaciones bancarias y consulta de cuentas.</a:Comment>
 <a:UseParentNamespace>0</a:UseParentNamespace>
 <a:Classifier.Header>
                             </a:Classifier.Header>
@@ -11255,8 +11261,8 @@ import jakarta.jws.HandlerChain;
 </o:Operation>
 <o:Operation Id="o210">
 <a:ObjectID>7ACF7AB2-98B7-44ED-BAC9-E10117C13EC5</a:ObjectID>
-<a:Name>convertirLongitud</a:Name>
-<a:Code>convertirLongitud</a:Code>
+<a:Name>obtenerCuentasPorSucursal</a:Name>
+<a:Code>obtenerCuentasPorSucursal</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
@@ -11349,8 +11355,8 @@ import jakarta.jws.HandlerChain;
 </o:Operation>
 <o:Operation Id="o218">
 <a:ObjectID>CDF2EF1C-11CA-4C84-B75C-D8EE5BC97837</a:ObjectID>
-<a:Name>convertirMasa</a:Name>
-<a:Code>convertirMasa</a:Code>
+<a:Name>obtenerMovimientos</a:Name>
+<a:Code>obtenerMovimientos</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
@@ -11443,8 +11449,8 @@ import jakarta.jws.HandlerChain;
 </o:Operation>
 <o:Operation Id="o226">
 <a:ObjectID>776B7AFB-9F95-4A09-8A25-513EF302E183</a:ObjectID>
-<a:Name>convertirTemperatura</a:Name>
-<a:Code>convertirTemperatura</a:Code>
+<a:Name>registrarDeposito</a:Name>
+<a:Code>registrarDeposito</a:Code>
 <a:CreationDate>1776474487</a:CreationDate>
 <a:Creator>dario</a:Creator>
 <a:ModificationDate>1776474487</a:ModificationDate>
@@ -11537,8 +11543,8 @@ import jakarta.jws.HandlerChain;
 </o:Operation>
 <o:Operation Id="o234">
 <a:ObjectID>5091F0D9-06F8-48BA-A393-7713EB2E3A4F</a:ObjectID>
-<a:Name>cambiarContrasenia</a:Name>
-<a:Code>cambiarContrasenia</a:Code>
+<a:Name>registrarRetiro</a:Name>
+<a:Code>registrarRetiro</a:Code>
 <a:CreationDate>0</a:CreationDate>
 <a:Creator/>
 <a:ModificationDate>0</a:ModificationDate>

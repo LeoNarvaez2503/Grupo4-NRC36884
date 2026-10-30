@@ -1,0 +1,281 @@
+﻿<?xml version='1.0' encoding='UTF-8'?><!-- Published by XML-WS Runtime (https://github.com/eclipse-ee4j/metro-jax-ws). Runtime's version is Eclipse Metro/4.0.4.payara-p1 (FISH-10142-Metro-4.0.4-fa01c0b; 2025-07-11T17:44:37+0100) XMLWS-Impl/4.0.3 XMLWS-API/4.0.2 XMLB-Impl/4.0.5 XMLB-API/4.0.2 git-revision#fa01c0b. --><xs:schema xmlns:tns="http://ws.monster.edu.ec/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://ws.monster.edu.ec/">
+
+<xs:element name="autenticarUsuario" type="tns:autenticarUsuario"/>
+
+<xs:element name="autenticarUsuarioResponse" type="tns:autenticarUsuarioResponse"/>
+
+<xs:element name="bloquearCuentaManual" type="tns:bloquearCuentaManual"/>
+
+<xs:element name="bloquearCuentaManualResponse" type="tns:bloquearCuentaManualResponse"/>
+
+<xs:element name="consultarCuentasPorCliente" type="tns:consultarCuentasPorCliente"/>
+
+<xs:element name="consultarCuentasPorClienteResponse" type="tns:consultarCuentasPorClienteResponse"/>
+
+<xs:element name="consultarEstadoMashUp" type="tns:consultarEstadoMashUp"/>
+
+<xs:element name="consultarEstadoMashUpResponse" type="tns:consultarEstadoMashUpResponse"/>
+
+<xs:element name="consultarExtracto" type="tns:consultarExtracto"/>
+
+<xs:element name="consultarExtractoResponse" type="tns:consultarExtractoResponse"/>
+
+<xs:element name="depositar" type="tns:depositar"/>
+
+<xs:element name="depositarResponse" type="tns:depositarResponse"/>
+
+<xs:element name="desbloquearCuenta" type="tns:desbloquearCuenta"/>
+
+<xs:element name="desbloquearCuentaResponse" type="tns:desbloquearCuentaResponse"/>
+
+<xs:element name="listarCuentasPorSucursal" type="tns:listarCuentasPorSucursal"/>
+
+<xs:element name="listarCuentasPorSucursalResponse" type="tns:listarCuentasPorSucursalResponse"/>
+
+<xs:element name="listarSucursales" type="tns:listarSucursales"/>
+
+<xs:element name="listarSucursalesResponse" type="tns:listarSucursalesResponse"/>
+
+<xs:element name="obtenerCuentaPorNumero" type="tns:obtenerCuentaPorNumero"/>
+
+<xs:element name="obtenerCuentaPorNumeroResponse" type="tns:obtenerCuentaPorNumeroResponse"/>
+
+<xs:element name="retirar" type="tns:retirar"/>
+
+<xs:element name="retirarResponse" type="tns:retirarResponse"/>
+
+<xs:element name="transferir" type="tns:transferir"/>
+
+<xs:element name="transferirResponse" type="tns:transferirResponse"/>
+
+<xs:complexType name="retirar">
+<xs:sequence>
+<xs:element name="numeroCuenta" type="xs:string" minOccurs="0"/>
+<xs:element name="monto" type="xs:double"/>
+<xs:element name="empleadoId" type="xs:int"/>
+<xs:element name="ventanilla" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="retirarResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:operacionRespuestaDTO" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="operacionRespuestaDTO">
+<xs:sequence>
+<xs:element name="codigo" type="xs:string" minOccurs="0"/>
+<xs:element name="exito" type="xs:boolean"/>
+<xs:element name="fechaHora" type="xs:string" minOccurs="0"/>
+<xs:element name="mensaje" type="xs:string" minOccurs="0"/>
+<xs:element name="monto" type="xs:double"/>
+<xs:element name="numeroCuenta" type="xs:string" minOccurs="0"/>
+<xs:element name="numeroOperacion" type="xs:string" minOccurs="0"/>
+<xs:element name="saldoActual" type="xs:double"/>
+<xs:element name="saldoAnterior" type="xs:double"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="desbloquearCuenta">
+<xs:sequence>
+<xs:element name="numeroCuenta" type="xs:string" minOccurs="0"/>
+<xs:element name="usuarioAdmin" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="desbloquearCuentaResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:operacionRespuestaDTO" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="consultarEstadoMashUp">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="consultarEstadoMashUpResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:cuentaDetalleDTO" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="cuentaDetalleDTO">
+<xs:sequence>
+<xs:element name="apellidoCliente" type="xs:string" minOccurs="0"/>
+<xs:element name="bloqueadoPor" type="xs:string" minOccurs="0"/>
+<xs:element name="ciudadSucursal" type="xs:string" minOccurs="0"/>
+<xs:element name="disponibilidadMashup" type="xs:string" minOccurs="0"/>
+<xs:element name="dniCliente" type="xs:string" minOccurs="0"/>
+<xs:element name="emailCliente" type="xs:string" minOccurs="0"/>
+<xs:element name="estadoCuenta" type="xs:string" minOccurs="0"/>
+<xs:element name="idCliente" type="xs:int"/>
+<xs:element name="idSucursal" type="xs:int"/>
+<xs:element name="moneda" type="xs:string" minOccurs="0"/>
+<xs:element name="nombreCliente" type="xs:string" minOccurs="0"/>
+<xs:element name="nombreSucursal" type="xs:string" minOccurs="0"/>
+<xs:element name="numeroCuenta" type="xs:string" minOccurs="0"/>
+<xs:element name="saldo" type="xs:double"/>
+<xs:element name="ventanillaBloqueo" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="autenticarUsuario">
+<xs:sequence>
+<xs:element name="usuario" type="xs:string" minOccurs="0"/>
+<xs:element name="clave" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="autenticarUsuarioResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:authRespuestaDTO" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="authRespuestaDTO">
+<xs:sequence>
+<xs:element name="autenticado" type="xs:boolean"/>
+<xs:element name="idEmpleado" type="xs:int"/>
+<xs:element name="idSucursal" type="xs:int"/>
+<xs:element name="mensaje" type="xs:string" minOccurs="0"/>
+<xs:element name="nombreCompleto" type="xs:string" minOccurs="0"/>
+<xs:element name="nombreSucursal" type="xs:string" minOccurs="0"/>
+<xs:element name="rol" type="xs:string" minOccurs="0"/>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+<xs:element name="usuario" type="xs:string" minOccurs="0"/>
+<xs:element name="ventanilla" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtenerCuentaPorNumero">
+<xs:sequence>
+<xs:element name="numeroCuenta" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtenerCuentaPorNumeroResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:cuentaDetalleDTO" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="transferir">
+<xs:sequence>
+<xs:element name="cuentaOrigen" type="xs:string" minOccurs="0"/>
+<xs:element name="cuentaDestino" type="xs:string" minOccurs="0"/>
+<xs:element name="monto" type="xs:double"/>
+<xs:element name="empleadoId" type="xs:int"/>
+<xs:element name="ventanilla" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="transferirResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:operacionRespuestaDTO" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="bloquearCuentaManual">
+<xs:sequence>
+<xs:element name="numeroCuenta" type="xs:string" minOccurs="0"/>
+<xs:element name="ventanilla" type="xs:int"/>
+<xs:element name="usuario" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="bloquearCuentaManualResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:operacionRespuestaDTO" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="listarCuentasPorSucursal">
+<xs:sequence>
+<xs:element name="sucursalId" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="listarCuentasPorSucursalResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:cuentaDetalleDTO" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="listarSucursales">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="listarSucursalesResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:sucursalDTO" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sucursalDTO">
+<xs:sequence>
+<xs:element name="ciudad" type="xs:string" minOccurs="0"/>
+<xs:element name="codigo" type="xs:string" minOccurs="0"/>
+<xs:element name="direccion" type="xs:string" minOccurs="0"/>
+<xs:element name="idSucursal" type="xs:int"/>
+<xs:element name="nombre" type="xs:string" minOccurs="0"/>
+<xs:element name="totalCuentas" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="consultarExtracto">
+<xs:sequence>
+<xs:element name="numeroCuenta" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="consultarExtractoResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:movimientoDTO" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="movimientoDTO">
+<xs:sequence>
+<xs:element name="cuentaReferencia" type="xs:string" minOccurs="0"/>
+<xs:element name="descripcion" type="xs:string" minOccurs="0"/>
+<xs:element name="fechaHora" type="xs:string" minOccurs="0"/>
+<xs:element name="idEmpleado" type="xs:int"/>
+<xs:element name="idMovimiento" type="xs:int"/>
+<xs:element name="monto" type="xs:double"/>
+<xs:element name="nombreEmpleado" type="xs:string" minOccurs="0"/>
+<xs:element name="numeroCuenta" type="xs:string" minOccurs="0"/>
+<xs:element name="numeroOperacion" type="xs:string" minOccurs="0"/>
+<xs:element name="saldoResultante" type="xs:double"/>
+<xs:element name="tipo" type="xs:string" minOccurs="0"/>
+<xs:element name="ventanilla" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="depositar">
+<xs:sequence>
+<xs:element name="numeroCuenta" type="xs:string" minOccurs="0"/>
+<xs:element name="monto" type="xs:double"/>
+<xs:element name="empleadoId" type="xs:int"/>
+<xs:element name="ventanilla" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="depositarResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:operacionRespuestaDTO" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="consultarCuentasPorCliente">
+<xs:sequence>
+<xs:element name="dni" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="consultarCuentasPorClienteResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:cuentaDetalleDTO" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

@@ -980,7 +980,7 @@ IndxFKName=%REFR%_FK
 IndxThreshold=
 ColnFKName=%.3:PARENT%_%COLUMN%
 ColnFKNameUse=No</a:ModelOptionsText>
-<a:RepositoryFilename>%[PRJ_ROOT_DIR]%\DS_03_CONVERTIR_LONGITUD.oom</a:RepositoryFilename>
+<a:RepositoryFilename>C:\Users\MeatPuppets\Desktop\Grupo4-NRC36884\Parcial-I\Grupales\TG.1.1 PAO202651_SOAP_JAVA_CONBDD_NRC36884_GR04\01. UML\03. DIAGRAMAS\03_SECUENCIA\DS_03_CONVERTIR_LONGITUD.oom</a:RepositoryFilename>
 <c:ObjectLanguage>
 <o:Shortcut Id="o3">
 <a:ObjectID>416520EA-966D-4F1C-95F9-DE28238972E8</a:ObjectID>
@@ -1491,7 +1491,7 @@ Shadow=0</a:DisplayPreferences>
 <o:MessageSymbol Id="o7">
 <a:CreationDate>1776650585</a:CreationDate>
 <a:ModificationDate>1776650585</a:ModificationDate>
-<a:Rect>((-24790,-28923), (-7811,-26203))</a:Rect>
+<a:Rect>((-24790,-28923), (-7811,-27523))</a:Rect>
 <a:ListOfPoints>((-8211,-28223),(-24390,-28223))</a:ListOfPoints>
 <a:ArrowStyle>8</a:ArrowStyle>
 <a:LineColor>12615808</a:LineColor>
@@ -1936,7 +1936,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:ModificationDate>1776650391</a:ModificationDate>
 <a:CenterTextOffset>(0, -27)</a:CenterTextOffset>
 <a:CenterTextWidth>10133</a:CenterTextWidth>
-<a:Rect>((-24790,19773), (-7643,22391))</a:Rect>
+<a:Rect>((-24790,19773), (-7643,21023))</a:Rect>
 <a:ListOfPoints>((-24390,20398),(-8043,20398))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>12615808</a:LineColor>
@@ -1959,7 +1959,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:ModificationDate>1776650391</a:ModificationDate>
 <a:CenterTextOffset>(0, -27)</a:CenterTextOffset>
 <a:CenterTextWidth>12061</a:CenterTextWidth>
-<a:Rect>((-24790,22723), (-7643,25341))</a:Rect>
+<a:Rect>((-24790,22723), (-7643,23973))</a:Rect>
 <a:ListOfPoints>((-24390,23348),(-8043,23348))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>12615808</a:LineColor>
@@ -1983,7 +1983,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:ModificationDate>1776650391</a:ModificationDate>
 <a:CenterTextOffset>(224, 5)</a:CenterTextOffset>
 <a:CenterTextWidth>12615</a:CenterTextWidth>
-<a:Rect>((-24790,25414), (-7643,28064))</a:Rect>
+<a:Rect>((-24790,25414), (-7643,26664))</a:Rect>
 <a:ListOfPoints>((-24390,26039),(-8043,26039))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>12615808</a:LineColor>
@@ -2007,7 +2007,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:ModificationDate>1776650556</a:ModificationDate>
 <a:CenterTextOffset>(1334, -222)</a:CenterTextOffset>
 <a:CenterTextWidth>13011</a:CenterTextWidth>
-<a:Rect>((-24790,28558), (-7643,30981))</a:Rect>
+<a:Rect>((-24790,28558), (-7643,29808))</a:Rect>
 <a:ListOfPoints>((-24390,29183),(-8043,29183))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>12615808</a:LineColor>
@@ -2192,8 +2192,8 @@ DISPNAME 0 Arial,8,N</a:FontList>
 <c:Actors>
 <o:Actor Id="o69">
 <a:ObjectID>5632CA3A-C0EA-4962-919D-CD8BB8F4BADE</a:ObjectID>
-<a:Name>Usuario</a:Name>
-<a:Code>Usuario</a:Code>
+<a:Name>Cajero (Ventanilla)</a:Name>
+<a:Code>Cajero_Ventanilla</a:Code>
 <a:CreationDate>1607390037</a:CreationDate>
 <a:Creator>johanaaracely.herre</a:Creator>
 <a:ModificationDate>1622316984</a:ModificationDate>
@@ -2203,8 +2203,8 @@ DISPNAME 0 Arial,8,N</a:FontList>
 <c:Model.Objects>
 <o:UMLObject Id="o63">
 <a:ObjectID>0EF28B38-7997-4402-BC37-4A5415146026</a:ObjectID>
-<a:Name>CONVERSION_CONTROLADOR</a:Name>
-<a:Code>CONVERSION_CONTROLADOR</a:Code>
+<a:Name>EUREKA_CONTROLADOR</a:Name>
+<a:Code>EUREKA_CONTROLADOR</a:Code>
 <a:CreationDate>1607390037</a:CreationDate>
 <a:Creator>johanaaracely.herre</a:Creator>
 <a:ModificationDate>1622316984</a:ModificationDate>
@@ -2212,8 +2212,8 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:UMLObject>
 <o:UMLObject Id="o65">
 <a:ObjectID>2803E425-7B08-4130-BBF8-E8C44422DDDE</a:ObjectID>
-<a:Name>CLIENTE_SOAP_CONVERSOR</a:Name>
-<a:Code>CLIENTE_SOAP_CONVERSOR</a:Code>
+<a:Name>CLIENTE_SOAP_EUREKABANK</a:Name>
+<a:Code>CLIENTE_SOAP_EUREKABANK</a:Code>
 <a:CreationDate>1607390037</a:CreationDate>
 <a:Creator>johanaaracely.herre</a:Creator>
 <a:ModificationDate>1622316984</a:ModificationDate>
@@ -2221,8 +2221,8 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:UMLObject>
 <o:UMLObject Id="o67">
 <a:ObjectID>5EBBFF2F-AD3A-45DB-AE4F-BE3C2C09A186</a:ObjectID>
-<a:Name>WSCONVERSORUNIDADES</a:Name>
-<a:Code>WSCONVERSORUNIDADES</a:Code>
+<a:Name>WSEUREKABANK</a:Name>
+<a:Code>WSEUREKABANK</a:Code>
 <a:CreationDate>1607390037</a:CreationDate>
 <a:Creator>johanaaracely.herre</a:Creator>
 <a:ModificationDate>1622316984</a:ModificationDate>
@@ -2232,7 +2232,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 <c:Messages>
 <o:Message Id="o61">
 <a:ObjectID>AFD863CE-8A5A-463B-AC7E-F8B96F0D8A79</a:ObjectID>
-<a:Name>APLICACION selecciona tipo LONGITUD</a:Name>
+<a:Name>Cajero selecciona sucursal bancaria</a:Name>
 <a:Code>APLICACION_selecciona_tipo_LONGITUD</a:Code>
 <a:CreationDate>1776647626</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2249,7 +2249,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o59">
 <a:ObjectID>3585AF45-E43C-4E6A-902D-763D3A0A1C66</a:ObjectID>
-<a:Name>APLICACION ingresa valor a convertir</a:Name>
+<a:Name>Solicita catalogo de cuentas activas</a:Name>
 <a:Code>APLICACION_ingresa_valor_a_convertir</a:Code>
 <a:CreationDate>1776647750</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2266,7 +2266,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o57">
 <a:ObjectID>568E904C-665C-4356-82B5-8E65606FDA94</a:ObjectID>
-<a:Name>APLICACION selecciona unidad inicial</a:Name>
+<a:Name>Ejecuta SELECT FROM Cuenta WHERE chr_sucucodigo = ?</a:Name>
 <a:Code>APLICACION_selecciona_unidad_inicial</a:Code>
 <a:CreationDate>1776647957</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2283,7 +2283,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o55">
 <a:ObjectID>CA00A6C5-9DF5-4995-BF32-1737478E4025</a:ObjectID>
-<a:Name>APLICACION selecciona unidad final</a:Name>
+<a:Name>Retorna catalogo de cuentas con saldos y estados</a:Name>
 <a:Code>APLICACION_selecciona_unidad_final</a:Code>
 <a:CreationDate>1776647975</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2300,7 +2300,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o53">
 <a:ObjectID>A00AFEB7-34F9-40C9-B451-6586279AF72D</a:ObjectID>
-<a:Name>recibe solicitud convertir</a:Name>
+<a:Name>recibe solicitud de consulta de cuentas</a:Name>
 <a:Code>recibe_solicitud_convertir</a:Code>
 <a:CreationDate>1776648351</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2318,7 +2318,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o51">
 <a:ObjectID>9AC34B46-CDE1-4868-B283-510DA3F0D9FC</a:ObjectID>
-<a:Name>valida modelo no nulo</a:Name>
+<a:Name>valida codigo de sucursal existente en MariaDB</a:Name>
 <a:Code>valida_modelo_no_nulo</a:Code>
 <a:CreationDate>1776648376</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2336,7 +2336,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o49">
 <a:ObjectID>93A78F12-A574-47AB-8D99-DE0B063130F8</a:ObjectID>
-<a:Name>valida tipo de conversion</a:Name>
+<a:Name>valida permisos de cajero sobre sucursal</a:Name>
 <a:Code>valida_tipo_de_conversion</a:Code>
 <a:CreationDate>1776648418</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2568,7 +2568,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o21">
 <a:ObjectID>FE0D5838-3F8A-426F-A4A8-DFE65434F4AD</a:ObjectID>
-<a:Name>delega a ServicioConversor de longitud</a:Name>
+<a:Name>delega a EurekaService.obtenerCuentasPorSucursal</a:Name>
 <a:Code>delega_a_ServicioConversor_de_longitud</a:Code>
 <a:CreationDate>1776650349</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2586,7 +2586,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o19">
 <a:ObjectID>4581AD4A-4AC0-46C7-8184-43B99BDB59EB</a:ObjectID>
-<a:Name>ConversorLongitud calcula valor en base y valor destino</a:Name>
+<a:Name>CuentaDAO mapea registros a lista CuentaDTO</a:Name>
 <a:Code>ConversorLongitud_calcula_valor_en_base_y_valor_destino</a:Code>
 <a:CreationDate>1776650356</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2604,7 +2604,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o16">
 <a:ObjectID>A55FAE66-B300-4924-8987-EA884B96B62E</a:ObjectID>
-<a:Name>retorna resultado convertido</a:Name>
+<a:Name>retorna lista de cuentas activas al controlador</a:Name>
 <a:Code>retorna_resultado_convertido</a:Code>
 <a:CreationDate>1776650514</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2621,7 +2621,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o13">
 <a:ObjectID>ACDE14D9-A68F-4DB7-A59B-8A17895AE28B</a:ObjectID>
-<a:Name>retorna resultado al controlador</a:Name>
+<a:Name>retorna lista de cuentas DTO a la vista</a:Name>
 <a:Code>retorna_resultado_al_controlador</a:Code>
 <a:CreationDate>1776650561</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2638,7 +2638,7 @@ DISPNAME 0 Arial,8,N</a:FontList>
 </o:Message>
 <o:Message Id="o10">
 <a:ObjectID>DDEF5F54-1CCD-4440-91EF-BBF2A0CF3C36</a:ObjectID>
-<a:Name>APLICACION muestra resultado de longitud</a:Name>
+<a:Name>Ventanilla presenta tabla de cuentas disponibles</a:Name>
 <a:Code>APLICACION_muestra_resultado_de_longitud</a:Code>
 <a:CreationDate>1776650585</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>

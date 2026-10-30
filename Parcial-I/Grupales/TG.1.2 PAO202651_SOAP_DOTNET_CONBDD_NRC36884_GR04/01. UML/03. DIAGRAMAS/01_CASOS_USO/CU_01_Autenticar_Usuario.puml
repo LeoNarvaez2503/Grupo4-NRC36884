@@ -1,0 +1,15 @@
+﻿@startuml
+title CU01: Iniciar SesiÃ³n (Autenticar Usuario)
+actor "Usuario\n(Empleado / Cliente)" as User
+rectangle "Sistema EurekaBank" {
+    usecase "CU01: Iniciar SesiÃ³n" as CU_Login
+    usecase "Validar Credenciales\ncontra MariaDB" as CU_Valida
+    usecase "Generar Token / SesiÃ³n" as CU_Token
+    usecase "Mostrar Error 401\nCredenciales InvÃ¡lidas" as CU_Error
+
+    CU_Login ..> CU_Valida : <<include>>
+    CU_Valida ..> CU_Token : <<include>>
+    CU_Valida ..> CU_Error : <<extend>>
+}
+User --> CU_Login
+@enduml

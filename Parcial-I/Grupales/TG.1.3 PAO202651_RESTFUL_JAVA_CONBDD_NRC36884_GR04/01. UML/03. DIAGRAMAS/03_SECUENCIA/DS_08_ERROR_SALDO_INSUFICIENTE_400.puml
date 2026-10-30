@@ -1,0 +1,41 @@
+﻿@startuml
+autonumber
+title DS_08: Manejo de Error Transaccional por Saldo Insuficiente (Rollback Inmediato)
+
+actor "Cajero (Ventanilla)" as Cajero
+participant "Cliente UI" as UI
+participant "TransaccionService" as Service
+participant "CuentaDAO" as DAO
+participant "MashUpNotifier" as Notifier
+database "MariaDB (Docker/Podman)" as DB
+
+Cajero -> UI: 1. Solicitar Retiro por $800 (Cuenta con Saldo: $300)
+activate UI
+UI -> Service: 2. registrarRetiro(cuenta="00100001", monto=800)
+activate Service
+Service -> DB: 3. Iniciar TransacciÃ³n (setAutoCommit=false)
+activate DB
+Service -> DAO: 4. SELECT dec_cuensaldo FROM Cuenta WHERE chr_cuencodigo = ? FOR UPDATE
+activate DAO
+DAO -> DB: 5. Ejecutar SELECT FOR UPDATE
+DB --> DAO: 6. dec_cuensaldo = 300.00
+DAO --> Service: 7. Saldo = 300.00
+deactivate DAO
+
+Service -> Notifier: 8. notificarEstado(cuenta, "ROJO")
+
+Service -> Service: 9. Validar regla: Saldo (300) >= Monto (800) -> FALSE
+
+Service -> DB: 10. ROLLBACK (Anular cambios)
+deactivate DB
+
+Service -> Notifier: 11. notificarEstado(cuenta, "VERDE")
+activate Notifier
+Notifier --> UI: 12. SemÃ¡foro restaurado a VERDE
+deactivate Notifier
+
+Service --> UI: 13. ExcepciÃ³n / HTTP 400 Bad Request:\n"Fondos Insuficientes para realizar la operaciÃ³n"
+deactivate Service
+UI --> Cajero: 14. Alerta en pantalla: "OperaciÃ³n Rechazada: Saldo Insuficiente"
+deactivate UI
+@enduml

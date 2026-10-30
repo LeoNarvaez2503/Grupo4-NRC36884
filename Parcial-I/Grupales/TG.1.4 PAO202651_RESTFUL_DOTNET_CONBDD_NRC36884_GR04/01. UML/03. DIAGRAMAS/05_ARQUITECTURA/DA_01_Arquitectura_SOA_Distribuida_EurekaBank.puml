@@ -1,0 +1,59 @@
+﻿@startuml
+skinparam componentStyle uml2
+title DA_01: Diagrama de Arquitectura SOA Multicapa con Persistencia Local en Contenedor
+
+package "Capa de PresentaciÃ³n (Clientes Multicanal)" {
+    [Cliente Escritorio (Java Swing / WPF)] as UI_Desktop
+    [Cliente Web (Jakarta Faces JSF / Blazor)] as UI_Web
+    [Cliente MÃ³vil (Android Java / MAUI)] as UI_Mobile
+    [Cliente Consola (Terminal CLI)] as UI_Cli
+}
+
+package "Capa de IntegraciÃ³n y Middleware SOA" {
+    package "Endpoint Gateway" {
+        [Servicio Web SOAP (JAX-WS / CoreWCF)] as WS_SOAP
+        [API Web RESTful (JAX-RS / ASP.NET Web API)] as WS_REST
+    }
+    
+    package "Capa de LÃ³gica del Negocio (Backend)" {
+        [MÃ³dulo de Seguridad y Tokens] as SecurityModule
+        [Motor Transaccional ACID] as TransaccionalModule
+        [Sincronizador MashUp (SemÃ¡foro Verde/Rojo)] as MashUpModule
+    }
+    
+    package "Capa de Acceso a Datos (DAO / ORM)" {
+        [CuentaDAO / MovimientoDAO / EmpleadoDAO] as DAOs
+        [Pool de Conexiones JDBC / ADO.NET] as ConnectionPool
+    }
+}
+
+node "Entorno Contenerizado (Docker / Podman)" {
+    database "MariaDB Server 10.11+ (InnoDB Engine)" as DB_Container {
+        folder "Esquema: EurekaBank" {
+            [Tablas: Cuenta, Cliente, Movimiento, Empleado, Sucursal] as Tables
+        }
+    }
+}
+
+storage "Almacenamiento Persistente en Host" {
+    folder "./data/mariadb_data" as HostVolume
+}
+
+UI_Desktop --> WS_SOAP : HTTP/S (SOAP Envelope XML)
+UI_Web --> WS_REST : HTTP/S (JSON Payload)
+UI_Mobile --> WS_REST : HTTP/S (JSON Payload)
+UI_Cli --> WS_SOAP : HTTP/S (SOAP XML)
+
+WS_SOAP --> SecurityModule
+WS_SOAP --> TransaccionalModule
+WS_REST --> SecurityModule
+WS_REST --> TransaccionalModule
+
+TransaccionalModule --> MashUpModule : actualiza semÃ¡foro
+TransaccionalModule --> DAOs : operaciones atÃ³micas
+DAOs --> ConnectionPool
+ConnectionPool --> DB_Container : TCP/IP (puerto 3306)
+
+DB_Container ..> HostVolume : volumen montado (-v /var/lib/mysql)
+
+@enduml

@@ -1,0 +1,19 @@
+﻿@startuml
+title CU04: Registrar Movimiento Transaccional (ExclusiÃ³n Mutua)
+actor "Cajero (Ventanilla)" as Cajero
+rectangle "EurekaBank Service Layer" {
+    usecase "CU04: Registrar Movimiento" as CU_Reg
+    usecase "Bloquear Cuenta\n(SELECT FOR UPDATE)" as CU_Lock
+    usecase "Validar Fondos\n(si es Retiro)" as CU_Fondos
+    usecase "Actualizar Saldo\n(UPDATE Cuenta)" as CU_Update
+    usecase "Registrar OperaciÃ³n\n(INSERT Movimiento)" as CU_Insert
+    usecase "Notificar SemÃ¡foro MashUp\n(Rojo -> Verde)" as CU_MashUp
+
+    CU_Reg ..> CU_Lock : <<include>>
+    CU_Reg ..> CU_Fondos : <<include>>
+    CU_Reg ..> CU_Update : <<include>>
+    CU_Reg ..> CU_Insert : <<include>>
+    CU_Reg ..> CU_MashUp : <<include>>
+}
+Cajero --> CU_Reg
+@enduml

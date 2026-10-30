@@ -1,0 +1,24 @@
+﻿@startuml
+title DA_03: Diagrama de Actividad - SincronizaciÃ³n y SemÃ¡foro MashUp en Tiempo Real
+start
+:Cliente Web (Gerente) o MÃ³vil (Cliente) abre vista de Cuentas;
+:Realizar consulta de estado de disponibilidad;
+if (Â¿Cuenta libre y sin transacciÃ³n en curso?) then (SÃ­)
+    :Pintar indicador en VERDE (#28A745);\n"Cuenta Disponible para Operaciones";
+else (No: Bloqueada por Ventanilla)
+    :Pintar indicador en ROJO (#DC3545);\n"Cuenta en Proceso Transaccional";
+endif
+
+fork
+    :Ventanilla Cajero inicia transacciÃ³n;
+    :Motor aplica bloqueo pesimista en MariaDB;
+    :Emitir notificaciÃ³n de cambio a ROJO;
+    :Pantallas externas refrescan indicador a ROJO;
+fork again
+    :Ventanilla Cajero finaliza (COMMIT / ROLLBACK);
+    :Motor libera bloqueo pesimista en MariaDB;
+    :Emitir notificaciÃ³n de cambio a VERDE;
+    :Pantallas externas refrescan indicador a VERDE;
+end fork
+stop
+@enduml

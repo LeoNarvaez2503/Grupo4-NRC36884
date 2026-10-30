@@ -1,0 +1,50 @@
+﻿CASO DE ESTUDIO
+Se desea desarrollar una aplicaciÃ³n para facilitar y comprender el proceso de una entidad financiera, sus movimientos y cÃ³mo trabaja. El "Eureka Bank" es una entidad financiera que requiere modernizar su plataforma tecnolÃ³gica para centralizar y asegurar sus operaciones transaccionales. Actualmente, el banco maneja informaciÃ³n crÃ­tica sobre Clientes, Cuentas de Ahorro, Movimientos Monetarios y Empleados, pero necesita una capa de servicios robusta que permita la interoperabilidad entre sus diferentes canales de atenciÃ³n como pueden ser cajeros, Ventanilla y Banca Web. El funcionamiento operativo del banco que debe automatizar el sistema es el siguiente:
+
+1. GestiÃ³n de Seguridad: El acceso a las operaciones sensibles estÃ¡ restringido. Todo empleado (Cajero, Gerente) debe autenticarse contra una base de datos centralizada para obtener permisos, dirigidos por el superadmin Monster.
+2. Operatividad de Cuentas: Los clientes poseen cuentas bancarias asociadas a una sucursal especÃ­fica. El sistema debe ser capaz de identificar no solo el saldo, sino tambiÃ©n los datos del titular y el estado de la cuenta.
+3. Transaccionalidad (DepÃ³sitos y Retiros):
+- Cuando un cliente realiza un depÃ³sito, el sistema debe identificar la cuenta, registrar la entrada de dinero y actualizar el saldo acumulado de forma atÃ³mica.
+- Cuando se solicita un retiro, el sistema debe validar estrictamente que el saldo disponible sea mayor o igual al monto solicitado. Si la validaciÃ³n es exitosa, se debita el monto y se genera un nÃºmero de operaciÃ³n Ãºnico.
+4. AuditorÃ­a e Historial: Cada operaciÃ³n (movimiento) queda registrada con fecha, hora, empleado responsable y tipo de movimiento. Los clientes pueden solicitar un extracto (historial) para visualizar sus Ãºltimos movimientos ordenados cronolÃ³gicamente.
+5. GestiÃ³n de Concurrencia y MashUp: Para la atenciÃ³n al pÃºblico, el banco dispone de cuatro ventanillas (cajeros) que operan simultÃ¡neamente. El sistema debe gestionar el acceso concurrente en tiempo real:
+- Cuenta disponible (libre): Se visualiza en color verde, indicando que es apta para transacciones.
+- Cuenta en proceso (bloqueada): Se visualiza en color rojo, indicando que otro cajero estÃ¡ operando sobre ella.
+- Escenario CrÃ­tico: Si tres clientes acuden a diferentes ventanillas (Cajeros 1, 2 y 3) para operar sobre la misma cuenta al mismo tiempo, el sistema debe bloquear el acceso a los demÃ¡s mientras uno procesa la transacciÃ³n, manteniendo la consistencia del saldo.
+
+El sistema serÃ¡ desarrollado con NetBeans como IDE, y MarÃ­a DB como base de datos. Adicionalmente, el proyecto tÃ©cnico implica desarrollar esta lÃ³gica en una arquitectura SOA (Service Oriented Architecture) usando Servicios Web SOAP con Java (JAX-WS), desplegando la base de datos MariaDB localmente en un entorno contenerizado con Docker/Podman para garantizar aislamiento, portabilidad y alta disponibilidad.
+
+
+
+1.	IntroducciÃ³n
+Este documento de EspecificaciÃ³n de Requerimientos de Software, ERS, ha sido elaborado siguiendo los lineamientos de la norma IEEE 830, adaptada para proyectos de integraciÃ³n de servicios. Constituye la documentaciÃ³n tÃ©cnica fundamental previa al desarrollo e implementaciÃ³n de la capa de servicios del sistema Eureka Bank. El documento detalla la arquitectura, las interfaces y los comportamientos funcionales necesarios para construir una soluciÃ³n bancaria basada en el protocolo SOAP, incluyendo ahora los mecanismos de sincronizaciÃ³n necesarios para el manejo de mÃºltiples terminales de cajero operando en tiempo real.
+
+
+2.	PropÃ³sito
+El propÃ³sito principal de este documento es definir, listar y detallar exhaustivamente los requerimientos funcionales y no funcionales del sistema "Eureka Bank Service Layer". Este documento sirve como la fuente de verdad Ãºnica para los desarrolladores Java, los arquitectos de base de datos y los gestores del proyecto. Su objetivo es eliminar la ambigÃ¼edad en la lÃ³gica de negocio bancaria, estableciendo claramente cÃ³mo deben comportarse los servicios web ante transacciones financieras crÃ­ticas y situaciones de acceso concurrente, asegurando que todos los Stakeholders tengan una visiÃ³n unificada del producto final a desplegarse localmente en contenedores Docker/Podman. 
+Este documento servirÃ¡ como guÃ­a maestra para:
+â€¢	Los desarrolladores del servicio SOAP en Java (Backend) para implementar el control de estados de cuenta.
+â€¢	Los desarrolladores de las interfaces de usuario (Java Swing, Web, Consola, Android) para integrar las alertas visuales de bloqueo.
+â€¢	Los arquitectos de infraestructura encargados del despliegue y el equipo de QA para validar la integridad de los datos bajo estrÃ©s de mÃºltiples usuarios.
+Es principalmente preparado para establecer el escenario para la fase de diseÃ±o del proyecto. El entregable que estÃ¡ siendo elaborado es la primera versiÃ³n del documento de visiÃ³n para el proyecto enfocado en el sistema de â€œEureka Bankâ€.
+
+
+3.	Alcance
+El presente trabajo se centra en la construcciÃ³n del sistema Transaccional de Eureka Bank, tomando en cuenta su desarrollo Backend y Frontend, es decir, su lÃ³gica Full Stack. El sistema automatizarÃ¡ la comunicaciÃ³n entre las interfaces de usuario (Frontend) y los datos persistidos en el contenedor local de MariaDB (Docker/Podman).
+La implementaciÃ³n del sistema, una vez finalizada tendrÃ¡ como beneficios la gestiÃ³n de los siguientes mÃ³dulos:
+
+
+1.	CAPA DE SERVICIOS (Backend):
+El presente trabajo se centra en la construcciÃ³n del sistema Transaccional de Eureka Bank, tomando en cuenta su desarrollo Backend y Frontend, es decir, su lÃ³gica Full Stack. El sistema automatizarÃ¡ la comunicaciÃ³n entre las interfaces de usuario (Frontend) y los datos persistidos en el contenedor local de MariaDB (Docker/Podman)
+
+2.	CAPA DE DATOS (Local Contenerizada):
+GestiÃ³n de MariaDB en contenedor Docker/Podman con mapeo de volumen local con soporte para transacciones atÃ³micas.
+
+3.	CAPA DE CLIENTE (Multicanal)
+Cliente Web y MÃ³vil: AplicaciÃ³n Java optimizada para cajeros, con indicadores dinÃ¡micos de estado (Verde/Rojo) para reflejar la disponibilidad de las cuentas.
+Cliente Consola y Escritorio: Para consultas y administraciÃ³n remota.
+
+El sistema permitirÃ¡ realizar funciones crÃ­ticas en todas las plataformas: AutenticaciÃ³n, Consulta de saldos, Reportes de sucursal y ejecuciÃ³n de transacciones con bloqueo automÃ¡tico de seguridad para garantizar que ningÃºn saldo sea modificado errÃ³neamente por operaciones simultÃ¡neas.
+
+
+

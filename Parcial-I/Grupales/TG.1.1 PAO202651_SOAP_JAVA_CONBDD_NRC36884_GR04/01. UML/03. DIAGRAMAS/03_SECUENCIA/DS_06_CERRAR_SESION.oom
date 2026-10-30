@@ -980,7 +980,7 @@ IndxFKName=%REFR%_FK
 IndxThreshold=
 ColnFKName=%.3:PARENT%_%COLUMN%
 ColnFKNameUse=No</a:ModelOptionsText>
-<a:RepositoryFilename>%[PRJ_ROOT_DIR]%\DS_06_CERRAR_SESION.oom</a:RepositoryFilename>
+<a:RepositoryFilename>C:\Users\MeatPuppets\Desktop\Grupo4-NRC36884\Parcial-I\Grupales\TG.1.1 PAO202651_SOAP_JAVA_CONBDD_NRC36884_GR04\01. UML\03. DIAGRAMAS\03_SECUENCIA\DS_06_CERRAR_SESION.oom</a:RepositoryFilename>
 <c:Keywords>
 <o:Keyword Id="o3">
 <a:ObjectID>E7E3F05E-BF27-4F25-9108-3E2831ECDE12</a:ObjectID>
@@ -1500,7 +1500,7 @@ Shadow=0</a:DisplayPreferences>
 <o:MessageSymbol Id="o8">
 <a:CreationDate>1776655633</a:CreationDate>
 <a:ModificationDate>1776655633</a:ModificationDate>
-<a:Rect>((-24397,-12280), (24370,-10535))</a:Rect>
+<a:Rect>((-24397,-12280), (24370,-10880))</a:Rect>
 <a:ListOfPoints>((23970,-11580),(-23997,-11580))</a:ListOfPoints>
 <a:ArrowStyle>8</a:ArrowStyle>
 <a:LineColor>12615808</a:LineColor>
@@ -1523,7 +1523,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:CreationDate>1776655602</a:CreationDate>
 <a:ModificationDate>1776655702</a:ModificationDate>
 <a:CenterTextOffset>(4800, -420)</a:CenterTextOffset>
-<a:Rect>((-13703,-8405), (1996,-5780))</a:Rect>
+<a:Rect>((-13703,-8405), (-9303,-5780))</a:Rect>
 <a:ListOfPoints>((-13303,-6180),(-9703,-6180),(-9703,-7780),(-13303,-7780))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>12615808</a:LineColor>
@@ -1589,7 +1589,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <o:MessageSymbol Id="o20">
 <a:CreationDate>1776655182</a:CreationDate>
 <a:ModificationDate>1776655702</a:ModificationDate>
-<a:Rect>((-13703,-4885), (24028,-3215))</a:Rect>
+<a:Rect>((-13703,-4885), (24028,-3635))</a:Rect>
 <a:ListOfPoints>((-13303,-4260),(23628,-4260))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>12615808</a:LineColor>
@@ -1682,7 +1682,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:ModificationDate>1776655836</a:ModificationDate>
 <a:CenterTextOffset>(-24, 756)</a:CenterTextOffset>
 <a:CenterTextWidth>10753</a:CenterTextWidth>
-<a:Rect>((-13570,6005), (-752,11356))</a:Rect>
+<a:Rect>((-13570,6005), (-752,7255))</a:Rect>
 <a:ListOfPoints>((-13170,6630),(-1152,6630))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>12615808</a:LineColor>
@@ -1706,7 +1706,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:ModificationDate>1776655777</a:ModificationDate>
 <a:CenterTextOffset>(-395, 56)</a:CenterTextOffset>
 <a:CenterTextWidth>10671</a:CenterTextWidth>
-<a:Rect>((-24397,2105), (-12903,4806))</a:Rect>
+<a:Rect>((-24397,2105), (-12903,3355))</a:Rect>
 <a:ListOfPoints>((-23997,2730),(-13303,2730))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>12615808</a:LineColor>
@@ -1729,7 +1729,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:CreationDate>1776654651</a:CreationDate>
 <a:ModificationDate>1776655790</a:ModificationDate>
 <a:CenterTextWidth>9051</a:CenterTextWidth>
-<a:Rect>((-24397,6253), (-13010,8898))</a:Rect>
+<a:Rect>((-24397,6253), (-13010,7503))</a:Rect>
 <a:ListOfPoints>((-13410,6878),(-23997,6878))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>12615808</a:LineColor>
@@ -1753,7 +1753,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:ModificationDate>1776654689</a:ModificationDate>
 <a:CenterTextOffset>(-95, 172)</a:CenterTextOffset>
 <a:CenterTextWidth>11151</a:CenterTextWidth>
-<a:Rect>((-24397,9785), (-12903,12602))</a:Rect>
+<a:Rect>((-24397,9785), (-12903,11035))</a:Rect>
 <a:ListOfPoints>((-23997,10410),(-13303,10410))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>12615808</a:LineColor>
@@ -1984,8 +1984,8 @@ DISPNAME 0 Arial,8,U</a:FontList>
 <c:Model.Objects>
 <o:UMLObject Id="o42">
 <a:ObjectID>2F4A31F1-7FF2-4869-88DD-45195BAB2FC4</a:ObjectID>
-<a:Name>Usuario</a:Name>
-<a:Code>Usuario</a:Code>
+<a:Name>Cajero (Ventanilla)</a:Name>
+<a:Code>Cajero_Ventanilla</a:Code>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:Creator>jorge</a:Creator>
 <a:ModificationDate>1776655784</a:ModificationDate>
@@ -1993,8 +1993,8 @@ DISPNAME 0 Arial,8,U</a:FontList>
 </o:UMLObject>
 <o:UMLObject Id="o44">
 <a:ObjectID>CBD0E82C-2892-4CE7-B265-0D397E63C54D</a:ObjectID>
-<a:Name>CONVERSION_VISTA</a:Name>
-<a:Code>CONVERSION_VISTA</a:Code>
+<a:Name>VENTANILLA_VISTA</a:Name>
+<a:Code>VENTANILLA_VISTA</a:Code>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:Creator>jorge</a:Creator>
 <a:ModificationDate>1540913976</a:ModificationDate>
@@ -2014,8 +2014,8 @@ DISPNAME 0 Arial,8,U</a:FontList>
 </o:UMLObject>
 <o:UMLObject Id="o48">
 <a:ObjectID>9AF14F34-ECEC-4AA5-98CD-2E0F34241A92</a:ObjectID>
-<a:Name>CLIENTE_SOAP_CONVERSOR</a:Name>
-<a:Code>CLIENTE_SOAP_CONVERSOR</a:Code>
+<a:Name>CLIENTE_SOAP_EUREKABANK</a:Name>
+<a:Code>CLIENTE_SOAP_EUREKABANK</a:Code>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:Creator>jorge</a:Creator>
 <a:ModificationDate>1540913976</a:ModificationDate>
@@ -2034,7 +2034,7 @@ DISPNAME 0 Arial,8,U</a:FontList>
 <c:Messages>
 <o:Message Id="o40">
 <a:ObjectID>63EE6B0A-4A84-49EA-827F-CCFCA6214741</a:ObjectID>
-<a:Name>APLICACION pulsa boton cerrar sesion</a:Name>
+<a:Name>Cajero selecciona operacion RETIRO (004)</a:Name>
 <a:Code>APLICACION_pulsa_boton_cerrar_sesion</a:Code>
 <a:CreationDate>1776654514</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2051,7 +2051,7 @@ DISPNAME 0 Arial,8,U</a:FontList>
 </o:Message>
 <o:Message Id="o38">
 <a:ObjectID>7CD043D9-7BB8-4335-9276-0E0D9AD38631</a:ObjectID>
-<a:Name>solicita confirmacion al usuario</a:Name>
+<a:Name>Ingresa cuenta origen e importe a retirar</a:Name>
 <a:Code>solicita_confirmacion_al_usuario</a:Code>
 <a:CreationDate>1776654651</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2068,7 +2068,7 @@ DISPNAME 0 Arial,8,U</a:FontList>
 </o:Message>
 <o:Message Id="o36">
 <a:ObjectID>447C7D7A-DE4E-4DAB-8C13-64C6CF46BD2F</a:ObjectID>
-<a:Name>APLICACION confirma cerrar sesion</a:Name>
+<a:Name>Inicia transaccion: SELECT FOR UPDATE en MariaDB</a:Name>
 <a:Code>APLICACION_confirma_cerrar_sesion</a:Code>
 <a:CreationDate>1776654723</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2085,7 +2085,7 @@ DISPNAME 0 Arial,8,U</a:FontList>
 </o:Message>
 <o:Message Id="o34">
 <a:ObjectID>046810EA-F564-41FB-997F-4048770944F7</a:ObjectID>
-<a:Name>CONVERSION_VISTA invoca loginControlador.cerrarSesionLocal</a:Name>
+<a:Name>Valida saldo suficiente (saldo mayor o igual al importe)</a:Name>
 <a:Code>CONVERSION_VISTA_invoca_loginControlador_cerrarSesionLocal</a:Code>
 <a:CreationDate>1776654818</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2102,7 +2102,7 @@ DISPNAME 0 Arial,8,U</a:FontList>
 </o:Message>
 <o:Message Id="o31">
 <a:ObjectID>37534706-A25F-4CB6-89B9-FDE2D49E4940</a:ObjectID>
-<a:Name>LOGIN_CONTROLADOR delega cierre en clienteSoap.cerrarSesionLocal</a:Name>
+<a:Name>UPDATE Cuenta SET dec_cuensaldo = dec_cuensaldo - importe</a:Name>
 <a:Code>LOGIN_CONTROLADOR_delega_cierre_en_clienteSoap_cerrarSesionLocal</a:Code>
 <a:CreationDate>1776654878</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>
@@ -2119,7 +2119,7 @@ DISPNAME 0 Arial,8,U</a:FontList>
 </o:Message>
 <o:Message Id="o29">
 <a:ObjectID>22EC10E2-965A-4536-950C-9EED802F0E4D</a:ObjectID>
-<a:Name>asigna token a null</a:Name>
+<a:Name>INSERT INTO Movimiento (retiro), COMMIT y actualiza MashUp</a:Name>
 <a:Code>asigna_token_a_null</a:Code>
 <a:CreationDate>1776654930</a:CreationDate>
 <a:Creator>Jhon Santos</a:Creator>

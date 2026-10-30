@@ -1,0 +1,36 @@
+﻿@startuml
+autonumber
+title DS_01: Inicio de SesiÃ³n y AutenticaciÃ³n Centralizada
+
+actor "Usuario" as User
+participant "Cliente (UI)" as UI
+participant "AuthService / Controller" as Service
+participant "EmpleadoDAO" as DAO
+database "MariaDB (Docker/Podman)" as DB
+
+User -> UI: 1. Ingresar usuario y clave
+activate UI
+UI -> Service: 2. autenticar(usuario, clave)
+activate Service
+Service -> DAO: 3. validarCredenciales(usuario, clave)
+activate DAO
+DAO -> DB: 4. SELECT * FROM Empleado WHERE vch_emplusuario = ?
+activate DB
+DB --> DAO: 5. Registro Empleado (con hash clave y cargo)
+deactivate DB
+
+alt Credenciales VÃ¡lidas
+    DAO --> Service: 6. Empleado autenticado
+    Service -> Service: 7. Generar Token / ID SesiÃ³n
+    Service --> UI: 8. LoginResponse (Token, Rol, Permisos, Sucursal)
+    UI --> User: 9. Acceso Concedido y Carga de MenÃº
+else Credenciales InvÃ¡lidas
+    DAO --> Service: 6. null / Exception
+    Service --> UI: 7. Error 401 / SOAPFault: "Credenciales InvÃ¡lidas"
+    UI --> User: 8. Notificar "Usuario o Clave Incorrectos"
+end
+
+deactivate DAO
+deactivate Service
+deactivate UI
+@enduml

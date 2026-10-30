@@ -980,7 +980,7 @@ IndxFKName=%REFR%_FK
 IndxThreshold=
 ColnFKName=%.3:PARENT%_%COLUMN%
 ColnFKNameUse=No</a:ModelOptionsText>
-<a:RepositoryFilename>%[PRJ_ROOT_DIR]%\DS_01_INICIALIZAR_CLIENTE_SOAP.oom</a:RepositoryFilename>
+<a:RepositoryFilename>C:\Users\MeatPuppets\Desktop\Grupo4-NRC36884\Parcial-I\Grupales\TG.1.1 PAO202651_SOAP_JAVA_CONBDD_NRC36884_GR04\01. UML\03. DIAGRAMAS\03_SECUENCIA\DS_01_INICIALIZAR_CLIENTE_SOAP.oom</a:RepositoryFilename>
 <c:ObjectLanguage>
 <o:Shortcut Id="o3">
 <a:ObjectID>E466F1F0-3760-4905-9BD2-FEB8911BA505</a:ObjectID>
@@ -1490,7 +1490,7 @@ Shadow=0</a:DisplayPreferences>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:ModificationDate>1776642032</a:ModificationDate>
 <a:CenterTextOffset>(-120, 962)</a:CenterTextOffset>
-<a:Rect>((-24398,11210), (-13443,13918))</a:Rect>
+<a:Rect>((-24398,11210), (-13443,12610))</a:Rect>
 <a:ListOfPoints>((-23998,11910),(-13843,11910))</a:ListOfPoints>
 <a:ArrowStyle>8</a:ArrowStyle>
 <a:LineColor>128</a:LineColor>
@@ -1513,7 +1513,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:ModificationDate>1776642032</a:ModificationDate>
 <a:CenterTextOffset>(120, 466)</a:CenterTextOffset>
-<a:Rect>((-14243,10205), (-2013,13316))</a:Rect>
+<a:Rect>((-14243,10205), (-2013,11455))</a:Rect>
 <a:ListOfPoints>((-13843,10830),(-2413,10830))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>128</a:LineColor>
@@ -1536,7 +1536,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:ModificationDate>1776642214</a:ModificationDate>
 <a:CenterTextOffset>(300, 532)</a:CenterTextOffset>
-<a:Rect>((-2813,5525), (11278,8702))</a:Rect>
+<a:Rect>((-2813,5525), (11278,6775))</a:Rect>
 <a:ListOfPoints>((-2413,6150),(10878,6150))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>128</a:LineColor>
@@ -1559,7 +1559,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:ModificationDate>1776642164</a:ModificationDate>
 <a:CenterTextOffset>(0, 596)</a:CenterTextOffset>
-<a:Rect>((-14243,5900), (-2013,9216))</a:Rect>
+<a:Rect>((-14243,5900), (-2013,7300))</a:Rect>
 <a:ListOfPoints>((-13843,6600),(-2413,6600))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
@@ -1630,7 +1630,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:ModificationDate>1776643474</a:ModificationDate>
 <a:CenterTextOffset>(4052, 3189)</a:CenterTextOffset>
 <a:CenterTextWidth>13483</a:CenterTextWidth>
-<a:Rect>((10478,-8538), (25505,-2875))</a:Rect>
+<a:Rect>((10478,-8538), (14878,-5838))</a:Rect>
 <a:ListOfPoints>((10878,-6238),(14478,-6238),(14478,-7838),(10878,-7838))</a:ListOfPoints>
 <a:ArrowStyle>8</a:ArrowStyle>
 <a:LineColor>128</a:LineColor>
@@ -1653,7 +1653,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:ModificationDate>1776642959</a:ModificationDate>
 <a:CenterTextOffset>(-954, 684)</a:CenterTextOffset>
-<a:Rect>((10478,-12997), (27628,-9593))</a:Rect>
+<a:Rect>((10478,-12997), (27628,-11597))</a:Rect>
 <a:ListOfPoints>((10878,-12297),(27228,-12297))</a:ListOfPoints>
 <a:ArrowStyle>8</a:ArrowStyle>
 <a:LineColor>128</a:LineColor>
@@ -1676,7 +1676,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:ModificationDate>1776643018</a:ModificationDate>
 <a:CenterTextOffset>(-54, 381)</a:CenterTextOffset>
-<a:Rect>((10478,-16569), (27628,-13468))</a:Rect>
+<a:Rect>((10478,-16569), (27628,-15169))</a:Rect>
 <a:ListOfPoints>((10878,-15869),(27228,-15869))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>8</a:ArrowStyle>
@@ -1700,7 +1700,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:ModificationDate>1776643488</a:ModificationDate>
 <a:CenterTextOffset>(-268, 508)</a:CenterTextOffset>
-<a:Rect>((10478,-20163), (27628,-17010))</a:Rect>
+<a:Rect>((10478,-20163), (27628,-18913))</a:Rect>
 <a:ListOfPoints>((27228,-19538),(10878,-19538))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>128</a:LineColor>
@@ -1723,7 +1723,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:ModificationDate>1776643063</a:ModificationDate>
 <a:CenterTextOffset>(3819, 55)</a:CenterTextOffset>
-<a:Rect>((10478,-26310), (25919,-22812))</a:Rect>
+<a:Rect>((10478,-26310), (15150,-22812))</a:Rect>
 <a:ListOfPoints>((10878,-23212),(14750,-23212),(14750,-25685),(10878,-25685))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>128</a:LineColor>
@@ -1747,7 +1747,7 @@ DESTINATION 0 Arial,8,N</a:FontList>
 <a:ModificationDate>1776643499</a:ModificationDate>
 <a:CenterTextOffset>(453, -3103)</a:CenterTextOffset>
 <a:CenterTextWidth>13057</a:CenterTextWidth>
-<a:Rect>((-2813,-29705), (11435,-26049))</a:Rect>
+<a:Rect>((-2813,-27299), (11278,-26049))</a:Rect>
 <a:ListOfPoints>((10878,-26674),(-2413,-26674))</a:ListOfPoints>
 <a:ArrowStyle>1</a:ArrowStyle>
 <a:LineColor>128</a:LineColor>
@@ -1979,8 +1979,8 @@ DISPNAME 0 Arial,8,U</a:FontList>
 <c:Model.Objects>
 <o:UMLObject Id="o38">
 <a:ObjectID>2F4A31F1-7FF2-4869-88DD-45195BAB2FC4</a:ObjectID>
-<a:Name>Usuario</a:Name>
-<a:Code>Usuario</a:Code>
+<a:Name>Cajero (Ventanilla)</a:Name>
+<a:Code>Cajero_Ventanilla</a:Code>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:Creator>jorge</a:Creator>
 <a:ModificationDate>1540913976</a:ModificationDate>
@@ -2006,8 +2006,8 @@ DISPNAME 0 Arial,8,U</a:FontList>
 </o:UMLObject>
 <o:UMLObject Id="o46">
 <a:ObjectID>9AF14F34-ECEC-4AA5-98CD-2E0F34241A92</a:ObjectID>
-<a:Name>CLIENTE_SOAP_CONVERSOR</a:Name>
-<a:Code>CLIENTE_SOAP_CONVERSOR</a:Code>
+<a:Name>CLIENTE_SOAP_EUREKABANK</a:Name>
+<a:Code>CLIENTE_SOAP_EUREKABANK</a:Code>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:Creator>jorge</a:Creator>
 <a:ModificationDate>1540913976</a:ModificationDate>
@@ -2015,8 +2015,8 @@ DISPNAME 0 Arial,8,U</a:FontList>
 </o:UMLObject>
 <o:UMLObject Id="o49">
 <a:ObjectID>DB5659BB-2705-4396-A3C4-5CC6BF91E952</a:ObjectID>
-<a:Name>WSCONVERSORUNIDADES</a:Name>
-<a:Code>WSCONVERSORUNIDADES</a:Code>
+<a:Name>WSEUREKABANK</a:Name>
+<a:Code>WSEUREKABANK</a:Code>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:Creator>jorge</a:Creator>
 <a:ModificationDate>1540913976</a:ModificationDate>
@@ -2026,7 +2026,7 @@ DISPNAME 0 Arial,8,U</a:FontList>
 <c:Messages>
 <o:Message Id="o36">
 <a:ObjectID>7F923D8C-C3DB-421B-9A08-FB133DA94A42</a:ObjectID>
-<a:Name>guarda endpointActivo y retorna puerto inicializado</a:Name>
+<a:Name>guarda endpointActivo y retorna EurekaServicePort inicializado</a:Name>
 <a:Code>guarda_endpointActivo_y_retorna_puerto_inicializado</a:Code>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:Creator>jorge</a:Creator>
@@ -2043,7 +2043,7 @@ DISPNAME 0 Arial,8,U</a:FontList>
 </o:Message>
 <o:Message Id="o34">
 <a:ObjectID>C8DA4C98-D0A7-4DC0-B626-35FAD8D1B23E</a:ObjectID>
-<a:Name>configura cliente con header SOAP token</a:Name>
+<a:Name>configura cliente con credenciales y timeout SOAP</a:Name>
 <a:Code>configura_cliente_con_SOAP_token</a:Code>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:Creator>jorge</a:Creator>
@@ -2093,7 +2093,7 @@ DISPNAME 0 Arial,8,U</a:FontList>
 </o:Message>
 <o:Message Id="o28">
 <a:ObjectID>BDACAD0E-DFDA-46DC-9B87-1B1DDEF07D61</a:ObjectID>
-<a:Name>inicializarClienteSoap arma endpoint y candidatos WSDL</a:Name>
+<a:Name>inicializarClienteSoap arma endpoint WSDL EurekaBank</a:Name>
 <a:Code>inicializarClienteSoap_arma_endpoint_y_candidatos_WSDL</a:Code>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:Creator>jorge</a:Creator>
@@ -2141,7 +2141,7 @@ DISPNAME 0 Arial,8,U</a:FontList>
 </o:Message>
 <o:Message Id="o21">
 <a:ObjectID>B82E3B6A-EE11-4E2E-9FAC-CABF37F5FBF7</a:ObjectID>
-<a:Name>ClienteSoapConversor llama inicializarClienteSoap</a:Name>
+<a:Name>ClienteSoapEurekaBank llama inicializarClienteSoap</a:Name>
 <a:Code>ClienteSoapConversor_llama_inicializarClienteSoap</a:Code>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:Creator>jorge</a:Creator>
@@ -2174,7 +2174,7 @@ DISPNAME 0 Arial,8,U</a:FontList>
 </o:Message>
 <o:Message Id="o16">
 <a:ObjectID>2365D72A-FEAD-4961-A94B-A992322E1AD1</a:ObjectID>
-<a:Name>LoginControlador crea ClienteSoapConversor</a:Name>
+<a:Name>LoginControlador crea ClienteSoapEurekaBank</a:Name>
 <a:Code>LoginControlador_crea_ClienteSoapConversor</a:Code>
 <a:CreationDate>1540913976</a:CreationDate>
 <a:Creator>jorge</a:Creator>
