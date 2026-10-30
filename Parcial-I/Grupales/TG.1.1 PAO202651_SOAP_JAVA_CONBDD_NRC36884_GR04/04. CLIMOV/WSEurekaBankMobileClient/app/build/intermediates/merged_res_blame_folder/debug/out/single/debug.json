@@ -8,6 +8,10 @@
         "source": "ec.edu.monster.climov.app-main-33:/mipmap-anydpi-v26/ic_launcher_round.xml"
     },
     {
+        "merged": "ec.edu.monster.climov.app-merged_res-31:/drawable_sullivan2.png.flat",
+        "source": "ec.edu.monster.climov.app-main-33:/drawable/sullivan2.png"
+    },
+    {
         "merged": "ec.edu.monster.climov.app-merged_res-31:/drawable_monster_sulley.png.flat",
         "source": "ec.edu.monster.climov.app-main-33:/drawable/monster_sulley.png"
     },

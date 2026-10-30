@@ -7,9 +7,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Clase Java para operacionRespuestaDTO complex type.
+ * <p>Java class for operacionRespuestaDTO complex type.
  * 
- * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>{@code
  * <complexType name="operacionRespuestaDTO">
@@ -58,7 +58,7 @@ public class OperacionRespuestaDTO {
     protected double saldoAnterior;
 
     /**
-     * Obtiene el valor de la propiedad codigo.
+     * Gets the value of the codigo property.
      * 
      * @return
      *     possible object is
@@ -70,7 +70,7 @@ public class OperacionRespuestaDTO {
     }
 
     /**
-     * Define el valor de la propiedad codigo.
+     * Sets the value of the codigo property.
      * 
      * @param value
      *     allowed object is
@@ -82,7 +82,7 @@ public class OperacionRespuestaDTO {
     }
 
     /**
-     * Obtiene el valor de la propiedad exito.
+     * Gets the value of the exito property.
      * 
      */
     public boolean isExito() {
@@ -90,7 +90,7 @@ public class OperacionRespuestaDTO {
     }
 
     /**
-     * Define el valor de la propiedad exito.
+     * Sets the value of the exito property.
      * 
      */
     public void setExito(boolean value) {
@@ -98,7 +98,7 @@ public class OperacionRespuestaDTO {
     }
 
     /**
-     * Obtiene el valor de la propiedad fechaHora.
+     * Gets the value of the fechaHora property.
      * 
      * @return
      *     possible object is
@@ -110,7 +110,7 @@ public class OperacionRespuestaDTO {
     }
 
     /**
-     * Define el valor de la propiedad fechaHora.
+     * Sets the value of the fechaHora property.
      * 
      * @param value
      *     allowed object is
@@ -122,7 +122,7 @@ public class OperacionRespuestaDTO {
     }
 
     /**
-     * Obtiene el valor de la propiedad mensaje.
+     * Gets the value of the mensaje property.
      * 
      * @return
      *     possible object is
@@ -134,7 +134,7 @@ public class OperacionRespuestaDTO {
     }
 
     /**
-     * Define el valor de la propiedad mensaje.
+     * Sets the value of the mensaje property.
      * 
      * @param value
      *     allowed object is
@@ -146,7 +146,7 @@ public class OperacionRespuestaDTO {
     }
 
     /**
-     * Obtiene el valor de la propiedad monto.
+     * Gets the value of the monto property.
      * 
      */
     public double getMonto() {
@@ -154,7 +154,7 @@ public class OperacionRespuestaDTO {
     }
 
     /**
-     * Define el valor de la propiedad monto.
+     * Sets the value of the monto property.
      * 
      */
     public void setMonto(double value) {
@@ -162,7 +162,7 @@ public class OperacionRespuestaDTO {
     }
 
     /**
-     * Obtiene el valor de la propiedad numeroCuenta.
+     * Gets the value of the numeroCuenta property.
      * 
      * @return
      *     possible object is
@@ -174,7 +174,7 @@ public class OperacionRespuestaDTO {
     }
 
     /**
-     * Define el valor de la propiedad numeroCuenta.
+     * Sets the value of the numeroCuenta property.
      * 
      * @param value
      *     allowed object is
@@ -186,7 +186,7 @@ public class OperacionRespuestaDTO {
     }
 
     /**
-     * Obtiene el valor de la propiedad numeroOperacion.
+     * Gets the value of the numeroOperacion property.
      * 
      * @return
      *     possible object is
@@ -198,7 +198,7 @@ public class OperacionRespuestaDTO {
     }
 
     /**
-     * Define el valor de la propiedad numeroOperacion.
+     * Sets the value of the numeroOperacion property.
      * 
      * @param value
      *     allowed object is
@@ -210,7 +210,7 @@ public class OperacionRespuestaDTO {
     }
 
     /**
-     * Obtiene el valor de la propiedad saldoActual.
+     * Gets the value of the saldoActual property.
      * 
      */
     public double getSaldoActual() {
@@ -218,7 +218,7 @@ public class OperacionRespuestaDTO {
     }
 
     /**
-     * Define el valor de la propiedad saldoActual.
+     * Sets the value of the saldoActual property.
      * 
      */
     public void setSaldoActual(double value) {
@@ -226,7 +226,7 @@ public class OperacionRespuestaDTO {
     }
 
     /**
-     * Obtiene el valor de la propiedad saldoAnterior.
+     * Gets the value of the saldoAnterior property.
      * 
      */
     public double getSaldoAnterior() {
@@ -234,7 +234,7 @@ public class OperacionRespuestaDTO {
     }
 
     /**
-     * Define el valor de la propiedad saldoAnterior.
+     * Sets the value of the saldoAnterior property.
      * 
      */
     public void setSaldoAnterior(double value) {

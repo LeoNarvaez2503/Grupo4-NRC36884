@@ -14,13 +14,16 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -99,12 +102,25 @@ public class DashboardView extends JFrame {
         // Barra Superior
         JPanel topBar = new JPanel(new BorderLayout(12, 6));
         topBar.setBackground(new Color(15, 23, 42));
-        topBar.setBorder(BorderFactory.createEmptyBorder(12, 16, 12, 16));
+        topBar.setBorder(BorderFactory.createEmptyBorder(10, 16, 10, 16));
+
+        JPanel leftTop = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        leftTop.setOpaque(false);
+
+        JLabel lblLogoTop = new JLabel();
+        URL imgTopUrl = getClass().getClassLoader().getResource("images/sullivan2.png");
+        if (imgTopUrl != null) {
+            Image img = new ImageIcon(imgTopUrl).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+            lblLogoTop.setIcon(new ImageIcon(img));
+        }
+        leftTop.add(lblLogoTop);
 
         JLabel lblUser = new JLabel("EUREKABANK GR04  |  Operador: " + s.getNombreCompleto() + " (" + s.getRol() + ")");
         lblUser.setFont(new Font("Segoe UI", Font.BOLD, 15));
         lblUser.setForeground(Color.WHITE);
-        topBar.add(lblUser, BorderLayout.WEST);
+        leftTop.add(lblUser);
+
+        topBar.add(leftTop, BorderLayout.WEST);
 
         JPanel rightTop = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         rightTop.setOpaque(false);
@@ -260,7 +276,33 @@ public class DashboardView extends JFrame {
         form.add(btnDesbloquear, gbc);
 
         tabs.addTab("Operaciones ACID", form);
-        panel.add(tabs, BorderLayout.NORTH);
+
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(Color.WHITE);
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(0, 4, 6, 4));
+
+        JLabel lblMascota = new JLabel();
+        URL imgOpUrl = getClass().getClassLoader().getResource("images/sullivan.png");
+        if (imgOpUrl != null) {
+            Image imgOp = new ImageIcon(imgOpUrl).getImage().getScaledInstance(36, 36, Image.SCALE_SMOOTH);
+            lblMascota.setIcon(new ImageIcon(imgOp));
+        }
+        JLabel lblHeaderOp = new JLabel(" EurekaBank Terminal Operativa");
+        lblHeaderOp.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        lblHeaderOp.setForeground(new Color(30, 41, 59));
+
+        JPanel innerHeader = new JPanel(new FlowLayout(FlowLayout.RIGHT, 6, 0));
+        innerHeader.setOpaque(false);
+        innerHeader.add(lblHeaderOp);
+        innerHeader.add(lblMascota);
+        headerPanel.add(innerHeader, BorderLayout.EAST);
+
+        JPanel northPanel = new JPanel(new BorderLayout());
+        northPanel.setOpaque(false);
+        northPanel.add(headerPanel, BorderLayout.NORTH);
+        northPanel.add(tabs, BorderLayout.CENTER);
+
+        panel.add(northPanel, BorderLayout.NORTH);
 
         txtBitacora.setEditable(false);
         txtBitacora.setLineWrap(true);

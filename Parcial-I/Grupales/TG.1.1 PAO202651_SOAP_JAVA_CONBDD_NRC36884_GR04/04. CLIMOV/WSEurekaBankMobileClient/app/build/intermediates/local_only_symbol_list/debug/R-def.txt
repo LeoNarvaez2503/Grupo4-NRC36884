@@ -13,6 +13,7 @@ drawable edittext_border
 drawable ic_launcher_foreground
 drawable monster_sulley
 drawable sullivan
+drawable sullivan2
 id btnDeposito
 id btnDesbloquear
 id btnExtracto

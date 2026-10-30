@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Capa Vista (Patrón MVC Tradicional): Backing Bean JSF para dashboard.xhtml.
@@ -134,6 +137,43 @@ public class DashboardView implements Serializable {
 
     public void ejecutarDesbloqueo() {
         procesar(loginView.getControlador().desbloquearCuenta(cuentaSeleccionada));
+    }
+
+    public void simularConcurrenciaTresVentanillas() {
+        if (loginView == null || !loginView.isAutenticado()) {
+            return;
+        }
+        final String cta = (cuentaSeleccionada != null && !cuentaSeleccionada.isBlank()) ? cuentaSeleccionada.trim() : "001-0001";
+        AppControlador ctrl = loginView.getControlador();
+        ExecutorService pool = Executors.newFixedThreadPool(3);
+        try {
+            List<Future<String>> futuros = new ArrayList<>();
+            for (int v = 1; v <= 3; v++) {
+                final int vent = v;
+                futuros.add(pool.submit(() -> {
+                    if (vent > 1) {
+                        Thread.sleep(220L * vent);
+                    }
+                    ResultadoOperacion r = ctrl.depositarDesdeVentanilla(cta, 20.00, vent);
+                    return "[Ventanilla " + vent + "] " + (r.isExito() ? "ÉXITO: " : "BLOQUEADA: ") + r.getMensaje();
+                }));
+            }
+            StringBuilder resumen = new StringBuilder("Escenario Crítico 3 Ventanillas sobre " + cta + ":\n");
+            for (Future<String> f : futuros) {
+                resumen.append(f.get()).append("\n");
+            }
+            this.mensajeAlerta = resumen.toString();
+            this.exitoAlerta = true;
+        } catch (Exception ex) {
+            this.mensajeAlerta = "Error en simulación: " + ex.getMessage();
+            this.exitoAlerta = false;
+        } finally {
+            pool.shutdownNow();
+        }
+        sincronizarMashup();
+        if (cuentaSeleccionada != null && !cuentaSeleccionada.isBlank()) {
+            this.movimientos = loginView.getControlador().obtenerExtracto(cuentaSeleccionada);
+        }
     }
 
     private void procesar(ResultadoOperacion res) {
