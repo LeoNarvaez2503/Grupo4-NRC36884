@@ -1,9 +1,9 @@
-﻿using ec.edu.monster.model;
+using ec.edu.monster.model;
 
 namespace ec.edu.monster.controller
 {
     /// <summary>
-    /// Capa Controlador (MVC Tradicional puro) para el Cliente MÃ³vil .NET MAUI (SOAP).
+    /// Capa Controlador (MVC Tradicional puro) para el Cliente Movil .NET MAUI (RESTful).
     /// </summary>
     public class AppControlador
     {
@@ -51,6 +51,8 @@ namespace ec.edu.monster.controller
 
         public OperacionModel Desbloquear(string cta) =>
             _modelo.DesbloquearCuenta(cta, SesionActual?.Usuario ?? "Monster");
+
+        public MashupModel ConsultarEstadoMashUp(string cta) =>
+            _modelo.ConsultarEstadoMashUp(cta);
     }
 }
-

@@ -1,4 +1,4 @@
-﻿@model ec.edu.monster.model.DashboardWebModel
+@model ec.edu.monster.model.DashboardWebModel
 @{
     Layout = null;
 }
@@ -6,7 +6,7 @@
 <html lang="es">
 <head>
     <meta charset="utf-8" />
-    <title>Monitor MashUp &amp; Operaciones â€” EurekaBank Web RESTful .NET (GR04)</title>
+    <title>Monitor MashUp &amp; Operaciones &mdash; EurekaBank Web RESTful .NET (GR04)</title>
     <style>
         body { margin:0; font-family:'Segoe UI',Roboto,sans-serif; background:#f1f5f9; color:#0f172a; }
         .topbar { background:#0f172a; color:#f8fafc; padding:14px 26px; display:flex; align-items:center; justify-content:space-between; border-bottom:3px solid #38bdf8; }
@@ -49,7 +49,7 @@
         <div class="topbar-left">
             <img src="/images/sullivan.png" width="44" height="44" alt="Monster" />
             <div>
-                <div class="topbar-title">EUREKABANK â€” SUPERVISIÃ“N MASHUP &amp; BANCA WEB (RESTful .NET - GR04)</div>
+                <div class="topbar-title">EUREKABANK &mdash; SUPERVISI&Oacute;N MASHUP &amp; BANCA WEB (RESTful .NET - GR04)</div>
                 <div class="topbar-sub">
                     Operador: @Model.Sesion.NombreCompleto (@Model.Sesion.Rol) | Dominio: ec.edu.monster | Monitoreo en Tiempo Real (0.9s)
                 </div>
@@ -70,14 +70,14 @@
                     }
                 }
             </select>
-            <a href="/Login/Logout" class="btn btn-slate">Cerrar SesiÃ³n</a>
+            <a href="/Login/Logout" class="btn btn-slate">Cerrar Sesi&oacute;n</a>
         </div>
     </div>
 
     <div class="container">
         <div>
             <div class="card">
-                <h3>SemÃ¡foro de Concurrencia MashUp en Tiempo Real (VERDE = Libre | ROJO = Ocupado en Ventanilla)</h3>
+                <h3>Sem&aacute;foro de Concurrencia MashUp en Tiempo Real (VERDE = Libre | ROJO = Ocupado en Ventanilla)</h3>
                 <div class="filter-bar">
                     <label style="font-weight:700; font-size:13px;">Sucursal:</label>
                     <select id="selSucursal" class="input" onchange="sincronizarMashup()">
@@ -93,8 +93,8 @@
                 </div>
 
                 <div class="kpi-row">
-                    <div id="kpiVerdes" class="kpi kpi-green">â— Cuentas Libres (VERDE): @Model.TotalVerdes</div>
-                    <div id="kpiRojas" class="kpi kpi-red">â— Cuentas Ocupadas en Ventanilla (ROJO): @Model.TotalRojas</div>
+                    <div id="kpiVerdes" class="kpi kpi-green">&bull; Cuentas Libres (VERDE): @Model.TotalVerdes</div>
+                    <div id="kpiRojas" class="kpi kpi-red">&bull; Cuentas Ocupadas en Ventanilla (ROJO): @Model.TotalRojas</div>
                 </div>
 
                 <table class="bank-table">
@@ -105,8 +105,8 @@
                             <th>DNI</th>
                             <th>Sucursal</th>
                             <th>Saldo USD</th>
-                            <th>SemÃ¡foro MashUp</th>
-                            <th>AcciÃ³n</th>
+                            <th>Sem&aacute;foro MashUp</th>
+                            <th>Acci&oacute;n</th>
                         </tr>
                     </thead>
                     <tbody id="tbodyCuentas">
@@ -121,11 +121,11 @@
                                 <td>
                                     @if (c.EstadoMashup == "ROJO")
                                     {
-                                        <span class="badge-rojo">ðŸ”´ @c.EtiquetaSemaforo</span>
+                                        <span class="badge-rojo">&#128308; @c.EtiquetaSemaforo</span>
                                     }
                                     else
                                     {
-                                        <span class="badge-verde">ðŸŸ¢ VERDE (Libre)</span>
+                                        <span class="badge-verde">&#128994; VERDE (Libre)</span>
                                     }
                                 </td>
                                 <td><button type="button" class="btn-sm" onclick="seleccionarCuenta('@c.NumeroCuenta')">Usar / Extracto</button></td>
@@ -136,12 +136,12 @@
             </div>
 
             <div class="card">
-                <h3>Extracto CronolÃ³gico de Movimientos â€” Cuenta <span id="lblCuentaExt">@Model.CuentaSeleccionada</span></h3>
+                <h3>Extracto Cronol&oacute;gico de Movimientos &mdash; Cuenta <span id="lblCuentaExt">@Model.CuentaSeleccionada</span></h3>
                 <table class="bank-table">
                     <thead>
                         <tr>
                             <th>Fecha / Hora</th>
-                            <th>NÂ° OperaciÃ³n</th>
+                            <th>N&deg; Operaci&oacute;n</th>
                             <th>Tipo</th>
                             <th>Ventanilla</th>
                             <th>Monto</th>
@@ -179,14 +179,14 @@
                 <label class="lbl">Monto USD ($):</label>
                 <input type="text" id="inpMonto" class="input-full" value="50.00" />
 
-                <button type="button" class="btn btn-green" onclick="ejecutarOperacion('DEPOSITO')">ACREDITAR DEPÃ“SITO (+)</button>
+                <button type="button" class="btn btn-green" onclick="ejecutarOperacion('DEPOSITO')">ACREDITAR DEP&Oacute;SITO (+)</button>
                 <button type="button" class="btn btn-red" onclick="ejecutarOperacion('RETIRO')">PROCESAR RETIRO (-)</button>
-                <button type="button" class="btn btn-indigo" onclick="ejecutarOperacion('TRANSFERENCIA')">EJECUTAR TRANSFERENCIA (â‡„)</button>
-                <button type="button" class="btn btn-amber" onclick="ejecutarOperacion('SIMULAR3')">âš¡ SIMULAR 3 VENTANILLAS SIMULTÃNEAS</button>
+                <button type="button" class="btn btn-indigo" onclick="ejecutarOperacion('TRANSFERENCIA')">EJECUTAR TRANSFERENCIA (&#8644;)</button>
+                <button type="button" class="btn btn-amber" onclick="ejecutarOperacion('SIMULAR3')">&#9889; SIMULAR 3 VENTANILLAS SIMULT&Aacute;NEAS</button>
 
                 <div style="display:flex; gap:8px; margin-top:6px;">
-                    <button type="button" class="btn btn-red" style="margin:0;" onclick="ejecutarOperacion('BLOQUEAR')">ðŸ”’ Retener ROJO</button>
-                    <button type="button" class="btn btn-green" style="margin:0; background:#0d9488;" onclick="ejecutarOperacion('DESBLOQUEAR')">ðŸ”“ Liberar VERDE</button>
+                    <button type="button" class="btn btn-red" style="margin:0;" onclick="ejecutarOperacion('BLOQUEAR')">&#128274; Retener ROJO</button>
+                    <button type="button" class="btn btn-green" style="margin:0; background:#0d9488;" onclick="ejecutarOperacion('DESBLOQUEAR')">&#128275; Liberar VERDE</button>
                 </div>
             </div>
         </div>
@@ -220,15 +220,15 @@
                 if (!resp.ok) return;
                 const data = await resp.json();
 
-                document.getElementById('kpiVerdes').textContent = `â— Cuentas Libres (VERDE): ${data.verdes}`;
-                document.getElementById('kpiRojas').textContent = `â— Cuentas Ocupadas en Ventanilla (ROJO): ${data.rojas}`;
+                document.getElementById('kpiVerdes').innerHTML = '&bull; Cuentas Libres (VERDE): ' + data.verdes;
+                document.getElementById('kpiRojas').innerHTML = '&bull; Cuentas Ocupadas en Ventanilla (ROJO): ' + data.rojas;
 
                 const tb = document.getElementById('tbodyCuentas');
                 tb.innerHTML = data.cuentas.map(c => {
                     const esRojo = c.estadoMashup === 'ROJO';
                     const badge = esRojo
-                        ? `<span class="badge-rojo">ðŸ”´ ${c.etiqueta}</span>`
-                        : `<span class="badge-verde">ðŸŸ¢ VERDE (Libre)</span>`;
+                        ? `<span class="badge-rojo">&#128308; ${c.etiqueta}</span>`
+                        : `<span class="badge-verde">&#128994; VERDE (Libre)</span>`;
                     return `<tr class="${esRojo ? 'row-rojo' : ''}">
                         <td><strong>${c.numeroCuenta}</strong></td>
                         <td>${c.titular}</td>
@@ -263,7 +263,7 @@
             cuentaActivaExtracto = cta;
             document.getElementById('lblCuentaExt').textContent = cta;
 
-            mostrarAlerta('alert-proc', `â³ Ejecutando ${tipo} sobre ${cta} en Ventanilla ${vent}... Observe el cambio inmediato a ROJO (Ocupado).`);
+            mostrarAlerta('alert-proc', '\u23F3 Ejecutando ' + tipo + ' sobre ' + cta + ' en Ventanilla ' + vent + '... Observe el cambio inmediato a ROJO (Ocupado).');
 
             const form = new URLSearchParams();
             form.append('tipo', tipo);
@@ -278,7 +278,7 @@
                 body: form.toString()
             });
 
-            // Disparo inmediato a los 250ms y 600ms para reflejar ROJO instantÃ¡neamente
+            // Disparo inmediato a los 250ms y 650ms para reflejar ROJO instantáneamente
             setTimeout(sincronizarMashup, 250);
             setTimeout(sincronizarMashup, 650);
 
@@ -292,4 +292,3 @@
     </script>
 </body>
 </html>
-

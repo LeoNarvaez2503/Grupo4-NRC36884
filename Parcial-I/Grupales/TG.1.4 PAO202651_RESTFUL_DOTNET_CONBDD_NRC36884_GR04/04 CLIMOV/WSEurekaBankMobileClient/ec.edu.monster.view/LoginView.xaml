@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ec.edu.monster.view.LoginView"
-             Title="EurekaBank MÃ³vil â€” RESTful .NET"
+             Title="EurekaBank Movil - RESTful .NET"
              BackgroundColor="#0F172A">
     <ScrollView>
         <VerticalStackLayout Padding="24" Spacing="14" VerticalOptions="Center" MaximumWidthRequest="440">
@@ -12,16 +12,16 @@
                 </Border.StrokeShape>
                 <VerticalStackLayout Spacing="12">
                     <Image Source="sullivan.png" HeightRequest="84" WidthRequest="84" HorizontalOptions="Center" />
-                    <Label Text="EUREKABANK â€” BANCA MÃ“VIL" FontSize="19" FontAttributes="Bold" TextColor="#0F172A" HorizontalOptions="Center" />
+                    <Label Text="EUREKABANK - BANCA MOVIL" FontSize="19" FontAttributes="Bold" TextColor="#0F172A" HorizontalOptions="Center" />
                     <Label Text="Cliente .NET MAUI (RESTful) | MVC: ec.edu.monster" FontSize="12" TextColor="#64748B" HorizontalOptions="Center" />
 
                     <Label Text="Usuario Operador:" FontSize="12" FontAttributes="Bold" TextColor="#334155" />
                     <Entry x:Name="TxtUsuario" Text="Monster" TextColor="#0F172A" BackgroundColor="#F8FAFC" />
 
-                    <Label Text="ContraseÃ±a:" FontSize="12" FontAttributes="Bold" TextColor="#334155" />
+                    <Label Text="Contrasena:" FontSize="12" FontAttributes="Bold" TextColor="#334155" />
                     <Entry x:Name="TxtClave" Text="Monster9" IsPassword="True" TextColor="#0F172A" BackgroundColor="#F8FAFC" />
 
-                    <Label Text="Ventanilla MÃ³vil:" FontSize="12" FontAttributes="Bold" TextColor="#334155" />
+                    <Label Text="Ventanilla Movil:" FontSize="12" FontAttributes="Bold" TextColor="#334155" />
                     <Picker x:Name="PckVentanilla" TextColor="#0F172A" BackgroundColor="#F8FAFC">
                         <Picker.Items>
                             <x:String>Ventanilla 1</x:String>
@@ -31,11 +31,11 @@
                         </Picker.Items>
                     </Picker>
 
-                    <Label Text="Endpoint Servidor SOAP (.NET):" FontSize="12" FontAttributes="Bold" TextColor="#334155" />
+                    <Label Text="Endpoint Servidor RESTful (.NET):" FontSize="12" FontAttributes="Bold" TextColor="#334155" />
                     <Entry x:Name="TxtEndpoint" FontSize="12" TextColor="#0F172A" BackgroundColor="#F8FAFC" />
 
                     <Button x:Name="BtnIngresar"
-                            Text="INGRESAR A BANCA MÃ“VIL"
+                            Text="INGRESAR A BANCA MOVIL"
                             BackgroundColor="#2563EB"
                             TextColor="White"
                             FontAttributes="Bold"
@@ -49,4 +49,3 @@
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
-

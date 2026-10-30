@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using ec.edu.monster.controller;
 using ec.edu.monster.model;
 
@@ -25,7 +25,7 @@ namespace ec.edu.monster.view
             {
                 Console.Write("\nUsuario (ej. Monster): ");
                 string usr = Console.ReadLine()?.Trim() ?? "";
-                Console.Write("ContraseÃ±a: ");
+                Console.Write("Contrasena: ");
                 string pwd = Console.ReadLine()?.Trim() ?? "";
 
                 var login = _controlador.IniciarSesion(usr, pwd);
@@ -49,27 +49,27 @@ namespace ec.edu.monster.view
                 Console.WriteLine("\n=====================================================================");
                 Console.WriteLine($" EUREKABANK CONSOLA RESTful .NET | Ventanilla {_controlador.VentanillaActiva} | Operador: {_controlador.SesionActual.Usuario}");
                 Console.WriteLine("=====================================================================");
-                Console.WriteLine(" 1. Monitorear SemÃ¡foro MashUp de Cuentas (VERDE / ROJO)");
-                Console.WriteLine(" 2. Consultar Cuenta por NÃºmero o DNI");
+                Console.WriteLine(" 1. Monitorear Semaforo MashUp de Cuentas (VERDE / ROJO)");
+                Console.WriteLine(" 2. Consultar Cuenta por Numero o DNI");
                 Console.WriteLine(" 3. Consultar Extracto Bancario");
-                Console.WriteLine(" 4. Realizar DepÃ³sito");
+                Console.WriteLine(" 4. Realizar Deposito");
                 Console.WriteLine(" 5. Realizar Retiro");
                 Console.WriteLine(" 6. Realizar Transferencia entre Cuentas");
-                Console.WriteLine(" 7. Simular Concurrencia CrÃ­tica (3 Ventanillas SimultÃ¡neas)");
+                Console.WriteLine(" 7. Simular Concurrencia Critica (3 Ventanillas Simultaneas)");
                 Console.WriteLine(" 8. Cambiar Ventanilla Activa (1..4)");
                 Console.WriteLine(" 9. Desbloquear Cuenta (Superadmin Monster / Gerencia)");
                 Console.WriteLine(" 0. Salir");
-                Console.Write("Seleccione una opciÃ³n: ");
+                Console.Write("Seleccione una opcion: ");
 
                 switch (Console.ReadLine()?.Trim())
                 {
                     case "1": ImprimirCuentas(_controlador.ObtenerCuentasPorSucursal(0)); break;
                     case "2":
-                        Console.Write("Ingrese NÃºmero de Cuenta o DNI: ");
+                        Console.Write("Ingrese Numero de Cuenta o DNI: ");
                         ImprimirCuentas(_controlador.BuscarCuentasPorCliente(Console.ReadLine() ?? ""));
                         break;
                     case "3":
-                        Console.Write("NÃºmero de Cuenta (ej. 001-0001): ");
+                        Console.Write("Numero de Cuenta (ej. 001-0001): ");
                         ImprimirExtracto(_controlador.ObtenerExtracto(Console.ReadLine() ?? ""));
                         break;
                     case "4":
@@ -118,13 +118,13 @@ namespace ec.edu.monster.view
             Console.WriteLine($"[DEMO] Resultado Login: Autenticado={login.Autenticado} | Usuario={login.NombreCompleto} | Rol={login.Rol}");
             if (!login.Autenticado) Environment.Exit(1);
 
-            Console.WriteLine("\n[DEMO] 2. Estado inicial de cuentas y SemÃ¡foro MashUp:");
+            Console.WriteLine("\n[DEMO] 2. Estado inicial de cuentas y Semaforo MashUp:");
             ImprimirCuentas(_controlador.ObtenerCuentasPorSucursal(0));
 
-            Console.WriteLine("\n[DEMO] 3. Prueba CrÃ­tica de Concurrencia (3 Ventanillas SimultÃ¡neas sobre 001-0001):");
+            Console.WriteLine("\n[DEMO] 3. Prueba Critica de Concurrencia (3 Ventanillas Simultaneas sobre 001-0001):");
             SimularTresVentanillas("001-0001");
 
-            Console.WriteLine("\n[DEMO] 4. Estado final de cuentas tras liberar semÃ¡foro (VERDE):");
+            Console.WriteLine("\n[DEMO] 4. Estado final de cuentas tras liberar semaforo (VERDE):");
             ImprimirCuentas(_controlador.ObtenerCuentasPorSucursal(0));
         }
 
@@ -153,7 +153,7 @@ namespace ec.edu.monster.view
 
         private static void ImprimirCuentas(List<CuentaModel> cuentas)
         {
-            Console.WriteLine($"{"CUENTA",-10} | {"TITULAR",-24} | {"SALDO",-11} | {"SEMÃFORO MASHUP",-28}");
+            Console.WriteLine($"{"CUENTA",-10} | {"TITULAR",-24} | {"SALDO",-11} | {"SEMAFORO MASHUP",-28}");
             Console.WriteLine(new string('-', 82));
             foreach (var c in cuentas)
             {
@@ -177,4 +177,3 @@ namespace ec.edu.monster.view
         }
     }
 }
-
