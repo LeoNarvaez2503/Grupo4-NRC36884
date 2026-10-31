@@ -35,6 +35,8 @@ public class ServidorApp {
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(PUERTO), 0);
         server.createContext("/api/credito", new CreditoHandler());
+        server.createContext("/WS_BanQuito_Java_REST/api/credito", new CreditoHandler());
+        server.createContext("/WS_BanQuito_Java_REST", new RootHandler());
         server.createContext("/", new RootHandler());
         server.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
         server.start();
@@ -70,6 +72,25 @@ public class ServidorApp {
             String method = exchange.getRequestMethod();
 
             try {
+                // Info base si consulta /api/credito o /api/credito/
+                if ("GET".equalsIgnoreCase(method) && (path.endsWith("/api/credito") || path.endsWith("/api/credito/"))) {
+                    responderJson(exchange, 200, Map.of(
+                            "servicio", "BanQuito Core - Módulo de Crédito RESTful",
+                            "estado", "ACTIVO",
+                            "nrc", "36884",
+                            "grupo", "04",
+                            "endpoints", List.of(
+                                    "GET /api/credito/clientes",
+                                    "GET /api/credito/es-sujeto/{cedula}",
+                                    "GET /api/credito/monto-maximo/{codCliente}",
+                                    "POST /api/credito/otorgar",
+                                    "GET /api/credito/tabla-amortizacion/{codCredito}",
+                                    "GET /api/credito/simular?monto=450&cuotas=6"
+                            )
+                    ));
+                    return;
+                }
+
                 // GET /api/credito/es-sujeto/{cedula} o /api/credito/verificar/{cedula}
                 if ("GET".equalsIgnoreCase(method) && (path.contains("/es-sujeto/") || path.contains("/verificar/"))) {
                     String[] parts = path.split("/");

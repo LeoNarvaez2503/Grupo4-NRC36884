@@ -17,6 +17,7 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Recurso RESTful de Crédito BanQuito - NRC 36884 Grupo 04.
@@ -28,6 +29,24 @@ import java.util.List;
 public class CreditoResource {
 
     private final CreditoService service = new CreditoService();
+
+    @GET
+    public Response infoServicio() {
+        return Response.ok(Map.of(
+                "servicio", "BanQuito Core - Módulo de Crédito RESTful",
+                "estado", "ACTIVO",
+                "nrc", "36884",
+                "grupo", "04",
+                "endpoints", List.of(
+                        "GET /api/credito/clientes",
+                        "GET /api/credito/es-sujeto/{cedula}",
+                        "GET /api/credito/monto-maximo/{codCliente}",
+                        "POST /api/credito/otorgar",
+                        "GET /api/credito/tabla-amortizacion/{codCredito}",
+                        "GET /api/credito/simular?monto=450&cuotas=6"
+                )
+        )).build();
+    }
 
     // =========================================================================
     // ÍTEM 5: Valida si una persona es sujeto de crédito en base a su cédula
