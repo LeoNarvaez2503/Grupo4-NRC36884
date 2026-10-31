@@ -1,0 +1,62 @@
+@startuml Diagrama_Arquitectura
+!theme plain
+skinparam componentStyle rectangle
+skinparam shadowing true
+
+title Arquitectura Completa de Integración - BanQuito & Comercializadora Celulares (Java RESTful)
+
+cloud "Dispositivos Clientes" {
+    node "Navegador Web (Usuario / Operador)" as Browser {
+        artifact "UI Web Reactiva\n(HTML5 + Bootstrap 5 + JS Fetch)" as WebUI
+    }
+}
+
+package "Nodo Comercializadora (Servidor Web :8090)" {
+    component [ComercializadoraApp] as AppComercializadora
+    component [CatalogoDAO] as CatDAO
+    component [FacturaDAO] as FacDAO
+    component [FacturacionService] as FacServ
+    component [BanQuitoRestClient] as RestClient
+}
+
+package "Nodo Core Bancario BanQuito (Servidor REST :8080)" {
+    component [ServidorApp / JAX-RS Endpoint] as RestServer
+    component [CreditoResource] as CredResource
+    component [CreditoService] as CredServ
+    component [ClienteDAO] as CliDAO
+    component [CreditoDAO] as CredDAO
+}
+
+database "Persistencia Relacional (MySQL 8.0 en Podman :3306)" {
+    database "comercializadora_db" as DB_Comercializadora {
+        [TELEFONO_CELULAR]
+        [FACTURA]
+    }
+    database "banquito_db" as DB_BanQuito {
+        [CLIENTE]
+        [CUENTA]
+        [MOVIMIENTO]
+        [CREDITO]
+        [TABLA_AMORTIZACION]
+    }
+}
+
+WebUI <--> AppComercializadora : HTTP / AJAX (JSON)\nPuerto :8090
+AppComercializadora --> FacServ
+FacServ --> CatDAO
+FacServ --> FacDAO
+FacServ --> RestClient
+
+CatDAO --> DB_Comercializadora : JDBC (Puerto 3306)
+FacDAO --> DB_Comercializadora : JDBC (Puerto 3306)
+
+RestClient <--> RestServer : Protocolo RESTful / JSON\nHTTP GET / POST (Puerto :8080)
+
+RestServer --> CredResource
+CredResource --> CredServ
+CredServ --> CliDAO
+CredServ --> CredDAO
+
+CliDAO --> DB_BanQuito : JDBC (Puerto 3306)
+CredDAO --> DB_BanQuito : JDBC (Puerto 3306)
+@enduml

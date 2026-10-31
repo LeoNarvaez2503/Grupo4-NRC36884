@@ -1,0 +1,17 @@
+version: "3.9"
+
+# Persistencia MySQL Contenerizada - Examen Complexivo
+# Banco BanQuito (Módulo Crédito) y Comercializadora Celulares
+services:
+  mysql-db:
+    image: docker.io/library/mysql:latest
+    container_name: mysql-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      TZ: America/Guayaquil
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./01_banquito_core.sql:/docker-entrypoint-initdb.d/01_banquito_core.sql:ro
+      - ./02_comercializadora.sql:/docker-entrypoint-initdb.d/02_comercializadora.sql:ro

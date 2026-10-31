@@ -1,0 +1,40 @@
+@startuml DiagramaCasosUso_BanQuito
+left to right direction
+skinparam packageStyle rectangle
+skinparam shadowing true
+skinparam monochrome false
+
+actor "Cliente / Solicitante" as Cliente
+actor "Comercializadora de Celulares" as Comercializadora << External System >>
+actor "Oficial de Crédito BanQuito" as Oficial
+
+rectangle "Banco BanQuito - Módulo de Crédito" {
+    usecase "CU01: Verificar Sujeto de Crédito" as CU01
+    usecase "CU02: Calcular Monto Máximo de Crédito" as CU02
+    usecase "CU03: Otorgar Crédito y Generar Amortización" as CU03
+    usecase "CU04: Consultar Tabla de Amortización" as CU04
+    usecase "CU05: Simular Cuota Fija Mensual" as CU05
+
+    usecase "Validar Existencia como Cliente" as Sub01
+    usecase "Verificar Depósitos en Último Mes" as Sub02
+    usecase "Verificar Edad y Género" as Sub03
+    usecase "Verificar Inexistencia de Crédito Activo" as Sub04
+
+    CU01 ..> Sub01 : <<include>>
+    CU01 ..> Sub02 : <<include>>
+    CU01 ..> Sub03 : <<include>>
+    CU01 ..> Sub04 : <<include>>
+
+    CU03 ..> CU01 : <<include>>
+    CU03 ..> CU02 : <<include>>
+}
+
+Comercializadora --> CU01 : REST API (/es-sujeto)
+Comercializadora --> CU02 : REST API (/monto-maximo)
+Comercializadora --> CU03 : REST API (/otorgar)
+Comercializadora --> CU04 : REST API (/tabla-amortizacion)
+Comercializadora --> CU05 : REST API (/simular)
+
+Cliente --> Comercializadora : Solicita Crédito para Celular
+Oficial --> CU04 : Auditoría y Consulta
+@enduml

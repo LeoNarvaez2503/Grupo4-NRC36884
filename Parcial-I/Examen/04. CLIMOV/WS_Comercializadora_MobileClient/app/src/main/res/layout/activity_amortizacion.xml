@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Consultas BanQuito Crédito"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/etCedulaConsulta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Cédula a verificar en BanQuito"
+            android:text="1710000001"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/btnVerificarSujeto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Verificar Sujeto de Crédito"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/etCodCreditoConsulta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Código de Crédito (ej. 1)"
+            android:text="1"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/btnConsultarTabla"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Consultar Tabla de Amortización"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/tvResultadoConsulta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Resultados de consulta aparecerán aquí..."
+            android:textSize="13sp"
+            android:layout_marginBottom="12dp" />
+
+        <LinearLayout
+            android:id="@+id/layoutTablaConsulta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+    </LinearLayout>
+</ScrollView>

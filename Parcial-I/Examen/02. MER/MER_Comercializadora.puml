@@ -1,0 +1,39 @@
+@startuml MER_Comercializadora
+!theme plain
+skinparam linetype ortho
+skinparam roundcorner 5
+
+entity "TELEFONO_CELULAR" as tel {
+    * COD_TELEFONO : INT <<PK>> (Auto_Increment)
+    --
+    * MARCA : VARCHAR(50)
+    * MODELO : VARCHAR(100)
+    * PRECIO : NUMERIC(10,2)
+    * CARACTERISTICAS : TEXT
+    IMAGEN_URL : VARCHAR(255)
+    * ESTADO : VARCHAR(20) [DISPONIBLE | INACTIVO]
+}
+
+entity "FACTURA" as fac {
+    * NUM_FACTURA : INT <<PK>> (Auto_Increment)
+    --
+    * NUMERO_COMPROBANTE : VARCHAR(50) <<UNIQUE>>
+    * FECHA : DATETIME
+    COD_CLIENTE_BANCO : INT <<FK>> [BanQuito]
+    * CEDULA_CLIENTE : VARCHAR(20)
+    * NOMBRE_CLIENTE : VARCHAR(100)
+    * COD_TELEFONO : INT <<FK>>
+    * MODELO_TELEFONO : VARCHAR(100)
+    * PRECIO_UNITARIO : NUMERIC(10,2)
+    * FORMA_PAGO : VARCHAR(20) [EFECTIVO | CREDITO_DIRECTO]
+    * PORCENTAJE_DESCUENTO : NUMERIC(5,2) [42.00 para Efectivo]
+    * VALOR_DESCUENTO : NUMERIC(10,2)
+    * TOTAL_PAGAR : NUMERIC(10,2)
+    COD_CREDITO_BANCO : INT <<FK>> [BanQuito]
+    NUM_CUOTAS : INT [3 a 18 meses]
+    VALOR_CUOTA : NUMERIC(10,2)
+    OBSERVACION : VARCHAR(255)
+}
+
+tel ||--o{ fac : "se vende en (1..N)"
+@enduml
