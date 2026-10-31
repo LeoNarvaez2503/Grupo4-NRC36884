@@ -40,17 +40,26 @@
         .btn-green { background: #16a34a; width: 100%; margin-bottom: 8px; padding: 10px; }
         .btn-red { background: #dc2626; width: 100%; margin-bottom: 8px; padding: 10px; }
         .btn-indigo { background: #4f46e5; width: 100%; margin-bottom: 8px; padding: 10px; }
+        .btn-purple { background: #7c3aed; width: 100%; margin-bottom: 8px; padding: 10px; }
         .btn-slate { background: #475569; width: 100%; padding: 9px; }
         .btn-sm { background: #0ea5e9; padding: 5px 10px; font-size: 12px; border-radius: 5px; border: none; color: #fff; cursor: pointer; }
-        .alert-ok { background: #dcfce7; color: #166534; border: 1px solid #86efac; padding: 10px 12px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; font-weight: 600; }
-        .alert-err { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; padding: 10px 12px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; font-weight: 600; }
+        .alert-ok { background: #dcfce7; color: #166534; border: 1px solid #86efac; padding: 10px 12px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; font-weight: 600; white-space: pre-line; }
+        .alert-err { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; padding: 10px 12px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; font-weight: 600; white-space: pre-line; }
+        @keyframes pulse-red {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.85; }
+        }
+        .pulse-rojo {
+            animation: pulse-red 0.9s infinite ease-in-out;
+            box-shadow: 0 0 10px rgba(220, 38, 38, 0.45);
+        }
     </style>
 </h:head>
 <h:body>
     <h:form id="topForm">
         <div class="topbar">
             <div class="topbar-left">
-                <h:graphicImage value="/images/sullivan.png" width="46" height="46" alt="Monster" />
+                <h:graphicImage value="/images/sullivan2.png" width="48" height="48" alt="Monster EurekaBank" />
                 <div>
                     <div class="topbar-title">EUREKABANK - SUPERVISIÓN MASHUP &amp; BANCA WEB (GR04)</div>
                     <div class="topbar-sub">
@@ -61,7 +70,7 @@
             </div>
             <div style="display:flex; gap:10px; align-items:center;">
                 <span style="font-size:13px; color:#cbd5e1;">Ventanilla:</span>
-                <h:selectOneMenu value="#{loginView.ventanilla}" styleClass="input">
+                <h:selectOneMenu id="selVentanilla" value="#{loginView.ventanilla}" styleClass="input">
                     <f:selectItem itemValue="1" itemLabel="Ventanilla 1" />
                     <f:selectItem itemValue="2" itemLabel="Ventanilla 2" />
                     <f:selectItem itemValue="3" itemLabel="Ventanilla 3" />
@@ -186,7 +195,10 @@
         <div>
             <h:form id="formOperaciones">
                 <div class="card">
-                    <h3>Operaciones Transaccionales ACID</h3>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <h3 style="margin:0;">Operaciones Transaccionales ACID</h3>
+                        <h:graphicImage value="/images/sullivan.png" width="40" height="40" alt="Monster Pose" />
+                    </div>
 
                     <h:panelGroup rendered="#{not empty dashboardView.mensajeAlerta}">
                         <div class="#{dashboardView.exitoAlerta ? 'alert-ok' : 'alert-err'}">
@@ -195,23 +207,31 @@
                     </h:panelGroup>
 
                     <h:outputLabel value="Cuenta Objetivo / Origen:" styleClass="lbl" />
-                    <h:inputText value="#{dashboardView.cuentaSeleccionada}" styleClass="input-full" />
+                    <h:inputText id="txtCuentaOrigen" value="#{dashboardView.cuentaSeleccionada}" styleClass="input-full" />
 
                     <h:outputLabel value="Cuenta Destino (para Transferencia):" styleClass="lbl" />
-                    <h:inputText value="#{dashboardView.cuentaDestino}" styleClass="input-full" />
+                    <h:inputText id="txtCuentaDestino" value="#{dashboardView.cuentaDestino}" styleClass="input-full" />
 
                     <h:outputLabel value="Importe Monetario (USD):" styleClass="lbl" />
-                    <h:inputText value="#{dashboardView.montoOperacion}" styleClass="input-full" />
+                    <h:inputText id="txtMonto" value="#{dashboardView.montoOperacion}" styleClass="input-full" />
 
-                    <h:commandButton value="Registrar Depósito (+)" action="#{dashboardView.ejecutarDeposito}" styleClass="btn btn-green">
+                    <h:commandButton value="Registrar Depósito (+)" action="#{dashboardView.ejecutarDeposito}" styleClass="btn btn-green"
+                                     onclick="marcarEnRojo(false);">
                         <f:ajax execute="@form" render="@form :formMashup:panelMashup :formExtracto" />
                     </h:commandButton>
 
-                    <h:commandButton value="Registrar Retiro (-)" action="#{dashboardView.ejecutarRetiro}" styleClass="btn btn-red">
+                    <h:commandButton value="Registrar Retiro (-)" action="#{dashboardView.ejecutarRetiro}" styleClass="btn btn-red"
+                                     onclick="marcarEnRojo(false);">
                         <f:ajax execute="@form" render="@form :formMashup:panelMashup :formExtracto" />
                     </h:commandButton>
 
-                    <h:commandButton value="Ejecutar Transferencia" action="#{dashboardView.ejecutarTransferencia}" styleClass="btn btn-indigo">
+                    <h:commandButton value="Ejecutar Transferencia" action="#{dashboardView.ejecutarTransferencia}" styleClass="btn btn-indigo"
+                                     onclick="marcarEnRojo(true);">
+                        <f:ajax execute="@form" render="@form :formMashup:panelMashup :formExtracto" />
+                    </h:commandButton>
+
+                    <h:commandButton value="Simular 3 Ventanillas Simultáneas" action="#{dashboardView.simularConcurrenciaTresVentanillas}" styleClass="btn btn-purple"
+                                     onclick="marcarEnRojo(false);">
                         <f:ajax execute="@form" render="@form :formMashup:panelMashup :formExtracto" />
                     </h:commandButton>
 
@@ -226,12 +246,38 @@
     </div>
 
     <script type="text/javascript">
+        function marcarEnRojo(esTransferencia) {
+            try {
+                var ctaOrigInput = document.getElementById('formOperaciones:txtCuentaOrigen');
+                var ctaDestInput = document.getElementById('formOperaciones:txtCuentaDestino');
+                var orig = ctaOrigInput ? ctaOrigInput.value.trim() : '';
+                var dest = (esTransferencia &amp;&amp; ctaDestInput) ? ctaDestInput.value.trim() : '';
+
+                var selVent = document.getElementById('topForm:selVentanilla');
+                var vNum = selVent ? selVent.value : '1';
+
+                var rows = document.querySelectorAll('#formMashup table tbody tr');
+                rows.forEach(function(r) {
+                    var tds = r.querySelectorAll('td');
+                    if (tds.length >= 6) {
+                        var ctaVal = tds[0].innerText.trim();
+                        if (ctaVal === orig || (dest &amp;&amp; ctaVal === dest)) {
+                            var cellMashup = tds[5];
+                            cellMashup.innerHTML = '&lt;span class="badge-rojo pulse-rojo"&gt;● ROJO (OCUPADA V' + vNum + ')&lt;/span&gt;';
+                        }
+                    }
+                });
+            } catch (e) {
+                console.error("Error al marcar semáforo:", e);
+            }
+        }
+
         setInterval(function () {
             var btn = document.getElementById('formMashup:btnPollMashup');
             if (btn) {
                 btn.click();
             }
-        }, 2500);
+        }, 1200);
     </script>
 </h:body>
 </html>

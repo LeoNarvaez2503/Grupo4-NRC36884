@@ -1,6 +1,7 @@
 package ec.edu.monster.climov.view;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -45,8 +46,13 @@ public class LoginView extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         tvEstadoLogin = findViewById(R.id.tvEstadoLogin);
 
-        etHost.setText(ConfiguracionConexion.getHost());
-        etPuerto.setText(String.valueOf(ConfiguracionConexion.getPuerto()));
+        SharedPreferences sp = getSharedPreferences("EurekaBankPrefs", MODE_PRIVATE);
+        String savedHost = sp.getString("server_host", ConfiguracionConexion.getHost());
+        int savedPort = sp.getInt("server_port", ConfiguracionConexion.getPuerto());
+
+        etHost.setText(savedHost);
+        etPuerto.setText(String.valueOf(savedPort));
+        ConfiguracionConexion.configurar(savedHost, savedPort);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item,
@@ -74,6 +80,9 @@ public class LoginView extends AppCompatActivity {
 
         controlador.configurarServidor(host, puerto);
         controlador.setVentanillaActiva(ventanilla);
+
+        SharedPreferences sp = getSharedPreferences("EurekaBankPrefs", MODE_PRIVATE);
+        sp.edit().putString("server_host", host).putInt("server_port", puerto).apply();
         btnLogin.setEnabled(false);
         tvEstadoLogin.setText("Conectando con servidor EurekaBank...");
 
