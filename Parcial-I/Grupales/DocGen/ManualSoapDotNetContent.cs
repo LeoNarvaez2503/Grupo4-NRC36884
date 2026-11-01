@@ -1,0 +1,2023 @@
+using System;
+using System.Collections.Generic;
+using System.Xml.Linq;
+using static DocGen.DocHelpers;
+
+namespace DocGen
+{
+    public static class ManualSoapDotNetContent
+    {
+        public static List<XElement> BuildElements()
+        {
+            var list = new List<XElement>();
+
+            // =========================================================================
+            // SECCIÓN 1: INTRODUCCIÓN
+            // =========================================================================
+            list.Add(Heading1("1 INTRODUCCION"));
+            list.Add(Paragraph("Un servicio web fundamentado en SOAP (Simple Object Access Protocol) dentro del ecosistema moderno de Microsoft .NET (.NET 10) representa una solución empresarial estandarizada, de tipado rígido y alta confiabilidad para la interoperabilidad de datos entre aplicaciones corporativas distribuidas. Con la evolución de la plataforma .NET unificada hacia versiones modernas y multiplataforma, la tecnología tradicional Windows Communication Foundation (WCF) fue adaptada y continuada a través de CoreWCF, una implementación oficial de código abierto respaldada por Microsoft y la comunidad técnica que permite hospedar servicios web SOAP sobre el servidor web modular Kestrel y ASP.NET Core, conservando la compatibilidad de contratos de servicio ([ServiceContract]), contratos de datos ([DataContract]) y enlaces de transporte estandarizados como BasicHttpBinding sobre HTTP/1.1 y HTTP/2."));
+            list.Add(Paragraph("En el ámbito financiero transaccional (Core Banking), las operaciones bancarias ejecutadas sobre cuentas corrientes y de ahorros (tales como la recepción y acreditación de depósitos en efectivo, retiros en ventanilla y transferencias interbancarias o intrabancarias) demandan el estricto cumplimiento de las propiedades ACID (Atomicidad, Consistencia, Aislamiento y Durabilidad). Cuando múltiples ventanillas de atención física o canales de autoservicio digital interactúan de forma simultánea sobre los mismos registros de cuenta, pueden surgir graves condiciones de carrera (race conditions), lecturas sucias (dirty reads) y anomalías contables que ponen en riesgo la solidez financiera de la institución. Para prevenir de raíz estas incidencias, el presente proyecto implementa el sistema EurekaBank con soporte de bloqueo pesimista (SELECT ... FOR UPDATE) a nivel del motor relacional InnoDB en MySQL/MariaDB y un módulo reactivo de exclusión mutua denominado Semáforo MashUp de Concurrencia en tiempo real."));
+            list.Add(Paragraph("El componente servidor central se hospeda de forma ligera y eficiente sobre el runtime de .NET 10 utilizando CoreWCF 1.8.0 y Kestrel en el puerto TCP 5120, publicando su contrato WSDL en la ruta estándar /EurekaBankWS.svc?wsdl. Por su parte, la persistencia de la información bancaria se gestiona a través de un contenedor local de base de datos MySQL 8.0 orquestado mediante Podman o Docker Compose, asegurando total portabilidad, aislamiento del entorno anfitrión e inicialización determinista mediante el script relacional eureka_bank.sql."));
+            list.Add(Paragraph("Para el consumo y presentación de los servicios SOAP, se aplica con máxima rigurosidad el patrón arquitectónico Modelo-Vista-Controlador (MVC Tradicional Puro), implementando exclusivamente las capas Model, View y Controller sin capas intermedias superfluas ni frameworks de inyección externa innecesarios. Se desarrollan cuatro clientes totalmente heterogéneos bajo el lenguaje C#: un Cliente de Consola interactivo con renderizado de secuencias ANSI y simulación multi-hilo de 3 ventanillas simultáneas, un Cliente de Escritorio de alto rendimiento con Windows Forms y cuadrícula cromática DataGridView, un Cliente Móvil nativo para la plataforma Android desarrollado con .NET MAUI y un Cliente Web responsivo desarrollado sobre ASP.NET Core MVC con vistas Razor y sondeo reactivo en tiempo real (polling a 0.9 segundos). Todo el sistema opera bajo el dominio institucional unificado ec.edu.monster y respeta las credenciales maestras autorizadas (usuario: Monster, contraseña: Monster9), satisfaciendo los requerimientos de ingeniería de software establecidos para el Grupo 04 (GR04)."));
+
+            // =========================================================================
+            // SECCIÓN 2: OBJETIVOS
+            // =========================================================================
+            list.Add(Heading1("2 OBJETIVOS"));
+            list.Add(Heading2("2.1 Objetivo General"));
+            list.Add(Paragraph("Diseñar, implementar, desplegar y documentar un sistema bancario distribuido y transaccional denominado EurekaBank, fundamentado en servicios web SOAP hospedados en ASP.NET Core Kestrel mediante CoreWCF bajo la plataforma .NET 10, con persistencia relacional ACID en MySQL sobre contenedores locales (Docker/Podman), desacoplado mediante el patrón arquitectónico MVC Tradicional puro en todos sus niveles y consumido concurrentemente por cuatro clientes heterogéneos (Consola, Escritorio Windows Forms, Móvil .NET MAUI y Web ASP.NET Core MVC) con soporte de monitoreo reactivo mediante Semáforo MashUp en tiempo real."));
+
+            list.Add(Heading2("2.2 Objetivos Específicos"));
+            list.Add(BulletParagraph("1.", "Configurar y desplegar el motor relacional de base de datos MySQL 8.0 en un contenedor local mediante Podman/Docker Compose, inicializando el esquema completo de tablas bancarias, restricciones de integridad referencial, registros de auditoría y la tabla control_mashup de concurrencia mediante el script eureka_bank.sql."));
+            list.Add(BulletParagraph("2.", "Construir la capa de persistencia relacional y control transaccional del servidor SOAP en C# (EurekaBankBddModel.cs), utilizando el driver MySqlConnector para ejecutar transacciones con aislamiento y bloqueo de filas pesimista (SELECT ... FOR UPDATE), verificando credenciales con encriptación BCrypt ($2a$10$)."));
+            list.Add(BulletParagraph("3.", "Diseñar e implementar el componente Gestor de Concurrencia MashUp (ConcurrenciaMashupModel.cs), administrando la alternancia del semáforo cromático (VERDE para cuentas libres y ROJO para cuentas en operación transaccional activa en ventanilla) con persistencia directa en base de datos."));
+            list.Add(BulletParagraph("4.", "Implementar y publicar el endpoint SOAP (WS_EurekaBank_DotNet_SOAP) mediante CoreWCF en .NET 10, exponiendo la interfaz de contrato IEurekaBankSoapContrato con BasicHttpBinding y publicando el contrato WSDL accesible bajo el puerto 5120 y dominio institucional ec.edu.monster."));
+            list.Add(BulletParagraph("5.", "Desarrollar el Cliente de Consola (WSEurekaBankConsoleClient) bajo el patrón MVC Tradicional, consumiendo el servicio SOAP mediante ChannelFactory<IEurekaBankSoapContrato>, incorporando interfaces de terminal estructuradas con colores ANSI y una rutina multi-hilo de simulación de 3 ventanillas simultáneas para verificar la exclusión mutua."));
+            list.Add(BulletParagraph("6.", "Construir el Cliente de Escritorio (WSEurekaBankDesktopClient) mediante Windows Forms en C#, presentando un DataGridView con colores dinámicos (verde claro para cuentas disponibles y rojo suave para cuentas ocupadas), temporizador de refresco periódico y ejecución de transacciones bancarias asíncronas con async/await."));
+            list.Add(BulletParagraph("7.", "Implementar el Cliente Móvil (WSEurekaBankMobileClient) utilizando la plataforma multiplataforma .NET MAUI en C#, consumiendo el endpoint SOAP a través de ChannelFactory con resolución de red para emulador Android (10.0.2.2) y presentando vistas XAML reactivas con tarjetas cromáticas de semáforo."));
+            list.Add(BulletParagraph("8.", "Desarrollar el Cliente Web (WSEurekaBankWebClient) sobre ASP.NET Core MVC con vistas Razor, implementando controladores desacoplados, autenticación mediante cookies seguras y sondeo asíncrono AJAX en JavaScript cada 0.9 segundos para reflejar en tiempo real la concurrencia entre ventanillas sin recargar la página."));
+
+            // =========================================================================
+            // SECCIÓN 3: MARCO TEÓRICO
+            // =========================================================================
+            list.Add(Heading1("3 MARCO TEORICO"));
+            list.Add(Heading2("3.1 Servicios Web SOAP en .NET Moderno y Proyecto CoreWCF"));
+            list.Add(Paragraph("El protocolo SOAP (Simple Object Access Protocol) es una especificación estándar de mensajería basada en XML aprobada por el consorcio W3C para habilitar la comunicación entre aplicaciones heterogéneas. En las versiones clásicas de Microsoft .NET Framework (versiones 3.0 a 4.8), Windows Communication Foundation (WCF) constituía el marco de trabajo principal para construir arquitecturas orientadas a servicios (SOA). Sin embargo, con el advenimiento de .NET Core y su posterior unificación a partir de .NET 6 hasta .NET 10, los componentes de servidor de WCF no fueron incorporados en el runtime estándar, el cual priorizó APIs HTTP/REST y gRPC."));
+            list.Add(Paragraph("Para solventar esta limitación en organizaciones financieras y bancarias con inversiones sustanciales en contratos WSDL y clientes SOAP, la fundación .NET Foundation lanzó CoreWCF. CoreWCF es una reimplementación moderna y de código abierto de los servicios WCF compilada sobre el pipeline de ASP.NET Core y el servidor Kestrel. CoreWCF permite utilizar las anotaciones declarativas estándar de WCF como [ServiceContract], [OperationContract], [DataContract] y [DataMember], proporcionando enlaces modernos como BasicHttpBinding, WSHttpBinding y NetTcpBinding. CoreWCF traslada las ventajas de rendimiento, bajo consumo de memoria y ejecución multiplataforma (Linux, macOS, Windows) de .NET 10 a los servicios web SOAP empresariales."));
+
+            list.Add(Heading2("3.2 Protocolo SOAP, Envelope XML y Contrato WSDL"));
+            list.Add(Paragraph("La comunicación en SOAP se realiza mediante documentos XML altamente estructurados denominados SOAP Envelopes. La anatomía formal de un sobre SOAP se compone de:"));
+            list.Add(BulletParagraph("• Envelope:", "Elemento raíz que define el espacio de nombres estándar (http://schemas.xmlsoap.org/soap/envelope/ para SOAP 1.1) y encapsula todos los elementos del mensaje."));
+            list.Add(BulletParagraph("• Header (Cabecera):", "Elemento opcional utilizado para transmitir metadatos de infraestructura y contexto de seguridad (tales como tokens de autenticación WS-Security, identificadores de correlación transaccional o directivas mustUnderstand)."));
+            list.Add(BulletParagraph("• Body (Cuerpo):", "Contenedor obligatorio que aloja la carga útil (payload) de negocio, conteniendo los parámetros de la operación invocada o la respuesta generada por el servidor. En caso de suscitarse un fallo interno, el Body contiene una estructura tipada denominada SOAP Fault (con faultcode, faultstring y detail)."));
+            list.Add(Paragraph("El contrato del servicio se describe formalmente mediante el Lenguaje de Descripción de Servicios Web (WSDL). El WSDL expone los esquemas XSD de los tipos de datos, los mensajes de solicitud y respuesta, las interfaces de operaciones (portType), los protocolos de serialización y enlace (binding) y la dirección de red o URL del endpoint (service/port)."));
+
+            list.Add(Heading2("3.3 Patrón Arquitectónico MVC Tradicional en el Ecosistema .NET"));
+            list.Add(Paragraph("El patrón Modelo-Vista-Controlador (MVC Tradicional) divide la responsabilidad de un sistema de software en tres componentes fundamentales y desacoplados:"));
+            list.Add(BulletParagraph("• Modelo (Model):", "Encapsula la estructura de datos del dominio, las entidades de negocio y la persistencia o interacción con el servicio SOAP remoto (EurekaBankSoapModel.cs). En la arquitectura de cliente delgado, el modelo no contiene reglas de negocio financieras ni conexión directa a bases de datos, sino que actúa como proxy cliente de comunicación remota."));
+            list.Add(BulletParagraph("• Vista (View):", "Es la encargada de presentar los datos de forma visual al usuario y capturar los eventos o entradas del operador (interfaces de consola, formularios de Windows Forms, páginas Razor en ASP.NET Core o páginas XAML en .NET MAUI). La vista no procesa datos ni realiza llamadas de red directamente; delega toda acción al controlador."));
+            list.Add(BulletParagraph("• Controlador (Controller):", "Coordina el flujo de ejecución entre la vista y el modelo. Recibe las interacciones del operador desde la vista, valida los parámetros de entrada, invoca las operaciones del modelo y actualiza la vista con el resultado de la operación."));
+            list.Add(Paragraph("En cumplimiento estricto con las directrices de la cátedra de Ingeniería de Software, no se incorporan capas adicionales de servicios intermedios (como Application Services, Service Layers o Unit of Work externos) que desvirtúen el patrón MVC Tradicional Puro."));
+
+            list.Add(Heading2("3.4 Concurrencia Transaccional ACID y Bloqueo Pesimista en Motores Relacionales"));
+            list.Add(Paragraph("En un sistema bancario que atiende transacciones simultáneas desde múltiples ventanillas físicas y canales remotos, las propiedades ACID garantizan que el balance de las cuentas se mantenga íntegro en todo momento:"));
+            list.Add(BulletParagraph("• Atomicidad:", "La transacción bancaria es una unidad indivisible: o se aplican todas sus operaciones (débito, crédito y registro en auditoría) o no se aplica ninguna, revirtiendo el estado mediante ROLLBACK."));
+            list.Add(BulletParagraph("• Consistencia:", "Una transacción solo puede transformar la base de datos de un estado válido a otro estado válido, respetando las restricciones de saldo no negativo, tipos de datos y claves foráneas."));
+            list.Add(BulletParagraph("• Aislamiento:", "Las operaciones concurrentes no interfieren entre sí. Para evitar la sobreescritura de balances por lecturas concurrentes obsoletas, el sistema implementa bloqueo pesimista a nivel de fila mediante sentencias SQL SELECT saldo FROM cuenta WHERE numero_cuenta = @cta FOR UPDATE, bloqueando la fila hasta que la transacción confirme con COMMIT."));
+            list.Add(BulletParagraph("• Durabilidad:", "Una vez confirmada la transacción mediante COMMIT, los cambios persisten de manera irreversible en el almacenamiento secundario, resistiendo caídas de energía o fallos del servidor."));
+
+            list.Add(Heading2("3.5 Mecanismo MashUp de Monitoreo Cromático para Ventanillas"));
+            list.Add(Paragraph("El Semáforo MashUp de Concurrencia es un componente visual y distribuido que refleja en tiempo real el estado operacional de cada cuenta bancaria del sistema:"));
+            list.Add(BulletParagraph("• Estado VERDE (Libre):", "Indica que la cuenta bancaria está disponible para ser consultada o para iniciar una transacción desde cualquier ventanilla autorizada."));
+            list.Add(BulletParagraph("• Estado ROJO (Ocupada en Ventanilla):", "Indica que un cajero u operador bancario está procesando una transacción activa de depósito, retiro o transferencia sobre la cuenta. Durante el intervalo transaccional (delimitado por un retardo simulado de 4.5 segundos para propósitos pedagógicos), ninguna otra ventanilla puede operar sobre dicha cuenta, retornando un mensaje de advertencia y exclusión mutua."));
+
+            list.Add(Heading2("3.6 Tecnologías de Interfaz de Usuario en C# (.NET 10)"));
+            list.Add(Paragraph("Para demostrar la interoperabilidad del servicio SOAP en .NET, se implementan cuatro tecnologías de cliente heterogéneas:"));
+            list.Add(BulletParagraph("• Consola Interactiva ANSI:", "Aplicación ligera de línea de comandos en C# que utiliza códigos de escape ANSI (\\x1b[32m para verde y \\x1b[31m para rojo) y tablas formateadas para operar en entornos de servidor o terminales Linux/Windows."));
+            list.Add(BulletParagraph("• Windows Forms (WinForms):", "Marco de trabajo maduro y de alto rendimiento para el desarrollo de interfaces de usuario de escritorio en Windows, empleando cuadrículas DataGridView con estilos cromáticos condicionales y temporizadores System.Windows.Forms.Timer."));
+            list.Add(BulletParagraph("• .NET MAUI (Multi-platform App UI):", "Plataforma moderna y unificada de Microsoft para crear aplicaciones cliente nativas en Android, iOS, macOS y Windows desde una única base de código en C#, empleando XAML para el diseño declarativo de pantallas y CollectionView para listas reactivas."));
+            list.Add(BulletParagraph("• ASP.NET Core MVC (Web):", "Marco web robusto basado en el motor de renderizado Razor, complementado con peticiones asíncronas de sondeo en JavaScript (AJAX fetch cada 0.9 segundos) para actualizar el estado del semáforo cromático sin recargar la página."));
+
+            // =========================================================================
+            // SECCIÓN 4: GUÍA TÉCNICA DE INSTALACIÓN, CONFIGURACIÓN Y DESARROLLO
+            // =========================================================================
+            list.Add(Heading1("4 GUIA TECNICA DE INSTALACION, CONFIGURACION Y DESARROLLO PASO A PASO"));
+
+            // 4.1 Infraestructura de Base de Datos
+            list.Add(Heading2("4.1 Configuración de la Infraestructura de Base de Datos Contenerizada"));
+            list.Add(Paragraph("El almacenamiento de datos bancarios de EurekaBank se encapsula en un contenedor MySQL 8.0 gestionado mediante Podman o Docker Compose. Esta arquitectura asegura que el motor de base de datos se ejecute en un entorno reproducible y aislado, vinculando un volumen local para la persistencia física de los archivos y montando el script de inicialización SQL en el directorio /docker-entrypoint-initdb.d/ para su ejecución automática en el primer arranque."));
+
+            list.Add(TableCaption(1, "Archivo de Orquestación de Contenedores docker-compose.yml"));
+            list.Add(CodeBox("""
+version: "3.9"
+
+# Configuración de persistencia local contenerizada (Docker / Podman) - Grupo 04 (GR04)
+# Contenedor activo compatible: mysql-db (puerto 3306:3306, usuario root, clave admin)
+services:
+  mysql-db:
+    image: docker.io/library/mysql:latest
+    container_name: mysql-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: eurekabank_db
+      TZ: America/Guayaquil
+    ports:
+      - "3306:3306"
+    volumes:
+      - eurekabank_mysql_data:/var/lib/mysql
+      - ./eureka_bank.sql:/docker-entrypoint-initdb.d/01_eureka_bank.sql:ro
+
+volumes:
+  eurekabank_mysql_data:
+"""));
+
+            list.Add(Paragraph("Para iniciar el contenedor de base de datos relacional en segundo plano, se abre una terminal de PowerShell o bash en el directorio 03. BDD y se ejecuta:"));
+            list.Add(CodeBox("podman compose up -d\n# O alternativamente con Docker:\ndocker compose up -d"));
+
+            list.Add(Paragraph("A continuación, se presenta el script SQL completo eureka_bank.sql, conteniendo la totalidad de las sentencias DDL para la creación de las tablas relacionales y las sentencias DML para la inserción de los datos semilla (seeders), incluyendo los operadores con contraseña encriptada en BCrypt para 'Monster9':"));
+
+            list.Add(TableCaption(2, "Script SQL Completo DDL y Datos Semilla eureka_bank.sql"));
+            list.Add(CodeBox("""
+-- =============================================================================
+-- SISTEMA BANCARIO TRANSACCIONAL EUREKABANK - GRUPO 04 (GR04)
+-- DOMINIO: ec.edu.monster | MOTOR: MySQL / MariaDB (Docker / Podman Local :3306)
+-- CREDENCIAL MAESTRA: Usuario = Monster | Contraseña = Monster9
+-- =============================================================================
+
+DROP DATABASE IF EXISTS eurekabank_db;
+CREATE DATABASE eurekabank_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE eurekabank_db;
+
+-- 1. Tabla: sucursal
+CREATE TABLE sucursal (
+    id_sucursal INT AUTO_INCREMENT PRIMARY KEY,
+    codigo VARCHAR(10) NOT NULL UNIQUE,
+    nombre VARCHAR(100) NOT NULL,
+    ciudad VARCHAR(100) NOT NULL,
+    direccion VARCHAR(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 2. Tabla: empleado (Autenticación y Auditoría de 4 Ventanillas + Gerencia + Superadmin Monster)
+CREATE TABLE empleado (
+    id_empleado INT AUTO_INCREMENT PRIMARY KEY,
+    usuario VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    nombre_completo VARCHAR(150) NOT NULL,
+    rol ENUM('Superadmin Monster', 'Gerente', 'Cajero') NOT NULL,
+    id_sucursal INT NOT NULL DEFAULT 1,
+    ventanilla INT DEFAULT NULL,
+    FOREIGN KEY (id_sucursal) REFERENCES sucursal(id_sucursal)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 3. Tabla: cliente
+CREATE TABLE cliente (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    dni VARCHAR(20) NOT NULL UNIQUE,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    direccion VARCHAR(200),
+    telefono VARCHAR(20),
+    email VARCHAR(100)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 4. Tabla: cuenta (Soporta bloqueo pesimista SELECT ... FOR UPDATE)
+CREATE TABLE cuenta (
+    numero_cuenta VARCHAR(20) PRIMARY KEY,
+    moneda VARCHAR(10) NOT NULL DEFAULT 'USD',
+    saldo DECIMAL(12, 2) NOT NULL DEFAULT 0.00,
+    id_cliente INT NOT NULL,
+    id_sucursal INT NOT NULL,
+    estado ENUM('Activa', 'Bloqueada') NOT NULL DEFAULT 'Activa',
+    fecha_apertura TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
+    FOREIGN KEY (id_sucursal) REFERENCES sucursal(id_sucursal)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 5. Tabla: control_mashup (Semáforo Cromático en Tiempo Real: VERDE = Libre, ROJO = Ocupada en Ventanilla)
+CREATE TABLE control_mashup (
+    numero_cuenta VARCHAR(20) PRIMARY KEY,
+    estado_mashup ENUM('VERDE', 'ROJO') NOT NULL DEFAULT 'VERDE',
+    ventanilla INT DEFAULT NULL,
+    bloqueado_por VARCHAR(100) DEFAULT NULL,
+    actualizado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (numero_cuenta) REFERENCES cuenta(numero_cuenta) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 6. Tabla: movimiento (Auditoría e Historial Cronológico ACID)
+CREATE TABLE movimiento (
+    id_movimiento INT AUTO_INCREMENT PRIMARY KEY,
+    numero_operacion VARCHAR(50) NOT NULL UNIQUE,
+    numero_cuenta VARCHAR(20) NOT NULL,
+    id_empleado INT NOT NULL,
+    ventanilla INT DEFAULT 1,
+    tipo VARCHAR(40) NOT NULL,
+    monto DECIMAL(12, 2) NOT NULL,
+    saldo_resultante DECIMAL(12, 2) NOT NULL,
+    cuenta_referencia VARCHAR(20) DEFAULT NULL,
+    descripcion VARCHAR(200) DEFAULT NULL,
+    fecha_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (numero_cuenta) REFERENCES cuenta(numero_cuenta),
+    FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- =============================================================================
+-- DATOS SEMILLA (SEEDERS) - CREDENCIALES: Monster / Monster9
+-- Hash BCrypt verificado para 'Monster9': $2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK
+-- =============================================================================
+
+INSERT INTO sucursal (codigo, nombre, ciudad, direccion) VALUES
+('001', 'Sucursal Matriz ESPE', 'Sangolquí', 'Av. Gral. Rumiñahui s/n'),
+('002', 'Sucursal Norte La Carolina', 'Quito', 'Av. Amazonas y Naciones Unidas'),
+('003', 'Sucursal Centro Financiero', 'Guayaquil', 'Av. 9 de Octubre y Malecón');
+
+INSERT INTO empleado (usuario, password, nombre_completo, rol, id_sucursal, ventanilla) VALUES
+('Monster',  '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'James P. Sullivan (Monster Admin)', 'Superadmin Monster', 1, 1),
+('cajero1',  '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'Alejandro Flores (Ventanilla 1)',   'Cajero',             1, 1),
+('cajero2',  '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'Anthony Morales (Ventanilla 2)',    'Cajero',             1, 2),
+('cajero3',  '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'Leonardo Narváez (Ventanilla 3)',   'Cajero',             1, 3),
+('cajero4',  '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'Mike Wazowski (Ventanilla 4)',      'Cajero',             2, 4),
+('gerente1', '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'María López (Gerente Sucursal)',    'Gerente',            1, NULL);
+
+INSERT INTO cliente (dni, nombre, apellido, direccion, telefono, email) VALUES
+('1700000001', 'James P.',  'Sullivan', 'Monstropolis Av. Central 101', '0991000001', 'monster@monster.edu.ec'),
+('1712345678', 'Alejandro', 'Flores',   'Av. Gral. Rumiñahui, Sangolquí', '0992345678', 'acflores@espe.edu.ec'),
+('1723456789', 'Anthony',   'Morales',  'Av. América, Quito',           '0993456789', 'aamorales@espe.edu.ec'),
+('1734567890', 'Leonardo',  'Narváez',  'Av. 6 de Diciembre, Quito',    '0994567890', 'lvnarvaez@espe.edu.ec'),
+('1745678901', 'Carlos',    'García',   'Av. Amazonas 450, Quito',      '0995678901', 'carlos.garcia@correo.com'),
+('1756789012', 'Ana',       'Torres',   'Av. 9 de Octubre, Guayaquil',  '0996789012', 'ana.torres@correo.com');
+
+INSERT INTO cuenta (numero_cuenta, moneda, saldo, id_cliente, id_sucursal, estado) VALUES
+('001-0001', 'USD', 2500.00, 1, 1, 'Activa'),
+('001-0002', 'USD', 1800.00, 2, 1, 'Activa'),
+('001-0003', 'USD', 3200.50, 3, 1, 'Activa'),
+('001-0004', 'USD',  950.00, 4, 1, 'Activa'),
+('002-0001', 'USD', 4100.00, 5, 2, 'Activa'),
+('003-0001', 'USD', 1500.00, 6, 3, 'Activa');
+
+INSERT INTO control_mashup (numero_cuenta, estado_mashup, ventanilla, bloqueado_por) VALUES
+('001-0001', 'VERDE', NULL, NULL),
+('001-0002', 'VERDE', NULL, NULL),
+('001-0003', 'VERDE', NULL, NULL),
+('001-0004', 'VERDE', NULL, NULL),
+('002-0001', 'VERDE', NULL, NULL),
+('003-0001', 'VERDE', NULL, NULL);
+
+INSERT INTO movimiento (numero_operacion, numero_cuenta, id_empleado, ventanilla, tipo, monto, saldo_resultante, cuenta_referencia, descripcion, fecha_hora) VALUES
+('APE-100001', '001-0001', 1, 1, 'Deposito', 2000.00, 2000.00, NULL, 'Apertura de cuenta ahorro Monster', DATE_SUB(NOW(), INTERVAL 3 DAY)),
+('DEP-100002', '001-0001', 2, 1, 'Deposito',  500.00, 2500.00, NULL, 'Depósito en efectivo Ventanilla 1', DATE_SUB(NOW(), INTERVAL 1 DAY)),
+('APE-100003', '001-0002', 1, 1, 'Deposito', 2000.00, 2000.00, NULL, 'Apertura de cuenta ahorro',         DATE_SUB(NOW(), INTERVAL 2 DAY)),
+('RET-100004', '001-0002', 3, 2, 'Retiro',    200.00, 1800.00, NULL, 'Retiro por ventanilla 2',           DATE_SUB(NOW(), INTERVAL 12 HOUR)),
+('APE-100005', '001-0003', 1, 1, 'Deposito', 3200.50, 3200.50, NULL, 'Apertura de cuenta ahorro',         DATE_SUB(NOW(), INTERVAL 2 DAY)),
+('APE-100006', '001-0004', 4, 3, 'Deposito',  950.00,  950.00, NULL, 'Apertura de cuenta ahorro',         DATE_SUB(NOW(), INTERVAL 1 DAY)),
+('APE-100007', '002-0001', 5, 4, 'Deposito', 4100.00, 4100.00, NULL, 'Apertura Sucursal Norte',           DATE_SUB(NOW(), INTERVAL 1 DAY)),
+('APE-100008', '003-0001', 1, 1, 'Deposito', 1500.00, 1500.00, NULL, 'Apertura Sucursal Guayaquil',       DATE_SUB(NOW(), INTERVAL 1 DAY));
+"""));
+
+            list.Add(TableCaption(3, "Diccionario de Datos del Esquema Relacional EurekaBank"));
+            list.Add(TechnicalTable(
+                new[] { "Tabla", "Clave Primaria", "Descripción Técnica y Propósito Bancario", "Relaciones Foráneas" },
+                new[] { 1600, 1500, 3904, 1500 },
+                new List<string[]>
+                {
+                    new[] { "sucursal", "id_sucursal", "Catálogo de agencias bancarias físicas (001 Matriz ESPE, 002 Norte La Carolina, 003 Centro Financiero).", "Ninguna" },
+                    new[] { "empleado", "id_empleado", "Operadores y cajeros con contraseñas encriptadas en BCrypt ($2a$10$). Incluye credencial maestra Monster/Monster9.", "id_sucursal -> sucursal" },
+                    new[] { "cliente", "id_cliente", "Datos demográficos y contacto de titulares de cuentas con validación de DNI.", "Ninguna" },
+                    new[] { "cuenta", "numero_cuenta", "Cuentas bancarias de ahorros/corrientes en USD con saldo DECIMAL(12,2) y bloqueo SELECT FOR UPDATE.", "id_cliente -> cliente, id_sucursal -> sucursal" },
+                    new[] { "control_mashup", "numero_cuenta", "Semáforo cromático de concurrencia en tiempo real (VERDE = Libre, ROJO = Ocupada con operador y timestamp).", "numero_cuenta -> cuenta (ON DELETE CASCADE)" },
+                    new[] { "movimiento", "id_movimiento", "Historial cronológico de transacciones ACID (Depósito, Retiro, Transferencia) con número de operación y ventanilla.", "numero_cuenta -> cuenta, id_empleado -> empleado" }
+                }
+            ));
+
+            list.Add(FigureCaption(1, "Esquema de Base de Datos Relacional EurekaBank en Contenedor Podman/Docker"));
+            list.Add(ScreenshotBox(
+                1,
+                "Esquema de Base de Datos Relacional EurekaBank en Contenedor Podman/Docker",
+                "Consola de comandos PowerShell / Podman CLI y herramienta DBeaver o HeidiSQL.",
+                "Comando de ejecución: podman compose up -d dentro del directorio 03. BDD.",
+                "Ejecutar 'podman ps' para verificar el contenedor mysql-db y 'SELECT COUNT(*) FROM cuenta;' en DBeaver.",
+                "Contenedor en estado Up (puerto 3306 activo) y las 6 tablas del esquema eurekabank_db pobladas con datos de prueba iniciales."
+            ));
+
+            // 4.2 Servidor CoreWCF
+            list.Add(Heading2("4.2 Creación del Proyecto Servidor SOAP CoreWCF en .NET 10"));
+            list.Add(Paragraph("Para la construcción del servidor SOAP central, se utiliza el SDK de .NET 10 y el framework web Kestrel. Desde la terminal de comandos o Visual Studio 2026/2022, se genera un proyecto web vacío mediante el comando:"));
+            list.Add(CodeBox("dotnet new web -n WS_EurekaBank_DotNet_SOAP\ncd WS_EurekaBank_DotNet_SOAP"));
+
+            list.Add(Paragraph("A continuación, se instalan los paquetes NuGet necesarios para el soporte de servicios WCF, conectividad nativa a MySQL y validación criptográfica BCrypt:"));
+            list.Add(CodeBox("dotnet add package CoreWCF.Http --version 1.8.0\ndotnet add package CoreWCF.Primitives --version 1.8.0\ndotnet add package MySqlConnector --version 2.5.0\ndotnet add package BCrypt.Net-Next --version 4.0.3"));
+
+            list.Add(TableCaption(4, "Descriptor de Proyecto Servidor CoreWCF WS_EurekaBank_DotNet_SOAP.csproj"));
+            list.Add(CodeBox("""
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>ec.edu.monster</RootNamespace>
+    <AssemblyName>WS_EurekaBank_DotNet_SOAP</AssemblyName>
+    <NoWarn>$(NoWarn);NU1902;NU1903;NU1904</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CoreWCF.Http" Version="1.8.0" />
+    <PackageReference Include="CoreWCF.Primitives" Version="1.8.0" />
+    <PackageReference Include="MySqlConnector" Version="2.5.0" />
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+  </ItemGroup>
+</Project>
+"""));
+
+            list.Add(FigureCaption(2, "Creación y Estructura del Proyecto Servidor CoreWCF en Visual Studio / CLI"));
+            list.Add(ScreenshotBox(
+                2,
+                "Creación y Estructura del Proyecto Servidor CoreWCF en Visual Studio / CLI",
+                "Visual Studio 2026 / Visual Studio 2022 Community o terminal PowerShell con .NET 10 SDK.",
+                "Creación del proyecto ASP.NET Core Empty 'WS_EurekaBank_DotNet_SOAP' agregando los paquetes NuGet de CoreWCF.",
+                "Verificar la instalación de paquetes con 'dotnet list package' y la compilación exitosa mediante 'dotnet build'.",
+                "Compilación limpia sin errores ni advertencias, generando el ensamblado WS_EurekaBank_DotNet_SOAP.dll en net10.0."
+            ));
+
+            // 4.3 Organización Modular MVC
+            list.Add(Heading2("4.3 Organización Modular de Namespaces del Servidor (MVC Tradicional)"));
+            list.Add(Paragraph("En estricta observancia del patrón arquitectónico MVC Tradicional Puro, el proyecto servidor organiza su código fuente bajo el espacio de nombres institucional ec.edu.monster en tres capas fundamentales:"));
+
+            list.Add(TableCaption(5, "Estructura de Namespaces y Responsabilidades del Servidor SOAP (MVC Tradicional)"));
+            list.Add(TechnicalTable(
+                new[] { "Namespace", "Archivo Principal", "Responsabilidad en el Patrón MVC Tradicional" },
+                new[] { 2200, 2400, 3904 },
+                new List<string[]>
+                {
+                    new[] { "ec.edu.monster.model", "EurekaBankBddModel.cs", "Modelo relacional ACID: conexión MySQL, bloqueo SELECT FOR UPDATE, transacciones y BCrypt." },
+                    new[] { "ec.edu.monster.model", "ConcurrenciaMashupModel.cs", "Gestión de exclusión mutua y persistencia del semáforo MashUp (VERDE / ROJO) en base de datos." },
+                    new[] { "ec.edu.monster.model", "ModelosDominio.cs", "Contratos de datos ([DataContract]): CuentaModel, MovimientoModel, OperacionModel, UsuarioModel." },
+                    new[] { "ec.edu.monster.controller", "EurekaBankSoapController.cs", "Controlador SOAP: define IEurekaBankSoapContrato ([ServiceContract]) y atiende peticiones WCF." },
+                    new[] { "ec.edu.monster.view", "EstadoServidorView.cs", "Vista web HTML generada en el endpoint raíz / para diagnóstico y monitoreo de estado." }
+                }
+            ));
+
+            list.Add(FigureCaption(3, "Explorador de Soluciones y Organización Modular MVC del Servidor en Visual Studio"));
+            list.Add(ScreenshotBox(
+                3,
+                "Explorador de Soluciones y Organización Modular MVC del Servidor en Visual Studio",
+                "Entorno de Desarrollo Visual Studio 2026 / 2022 Community.",
+                "Ventana 'Explorador de soluciones' con el proyecto WS_EurekaBank_DotNet_SOAP expandido.",
+                "Desplegar las carpetas ec.edu.monster.controller, ec.edu.monster.model y ec.edu.monster.view.",
+                "Visualización ordenada de los namespaces con todos los archivos .cs compilados sin errores."
+            ));
+
+            // 4.4 Modelos de Dominio y Persistencia
+            list.Add(Heading2("4.4 Modelos de Dominio y Capa de Persistencia Relacional"));
+            list.Add(Paragraph("Los modelos de datos que viajan a través del protocolo SOAP deben decorarse con los atributos de serialización [DataContract] y [DataMember] para asegurar su transformación exacta en tipos de esquema XSD dentro del WSDL:"));
+
+            list.Add(TableCaption(6, "Modelos de Dominio y Contratos de Datos ModelosDominio.cs"));
+            list.Add(CodeBox("""
+using System.Runtime.Serialization;
+
+namespace ec.edu.monster.model
+{
+    [DataContract(Namespace = "http://ws.monster.edu.ec/")]
+    public class UsuarioModel
+    {
+        [DataMember(Order = 1)] public bool Autenticado { get; set; }
+        [DataMember(Order = 2)] public int IdEmpleado { get; set; }
+        [DataMember(Order = 3)] public string Usuario { get; set; } = string.Empty;
+        [DataMember(Order = 4)] public string NombreCompleto { get; set; } = string.Empty;
+        [DataMember(Order = 5)] public string Rol { get; set; } = string.Empty;
+        [DataMember(Order = 6)] public int IdSucursal { get; set; }
+        [DataMember(Order = 7)] public int Ventanilla { get; set; }
+        [DataMember(Order = 8)] public string Token { get; set; } = string.Empty;
+        [DataMember(Order = 9)] public string Mensaje { get; set; } = string.Empty;
+    }
+
+    [DataContract(Namespace = "http://ws.monster.edu.ec/")]
+    public class CuentaModel
+    {
+        [DataMember(Order = 1)] public string NumeroCuenta { get; set; } = string.Empty;
+        [DataMember(Order = 2)] public string Moneda { get; set; } = "USD";
+        [DataMember(Order = 3)] public double Saldo { get; set; }
+        [DataMember(Order = 4)] public string EstadoCuenta { get; set; } = "Activa";
+        [DataMember(Order = 5)] public int IdCliente { get; set; }
+        [DataMember(Order = 6)] public string DniCliente { get; set; } = string.Empty;
+        [DataMember(Order = 7)] public string NombreCliente { get; set; } = string.Empty;
+        [DataMember(Order = 8)] public string ApellidoCliente { get; set; } = string.Empty;
+        [DataMember(Order = 9)] public string TelefonoCliente { get; set; } = string.Empty;
+        [DataMember(Order = 10)] public string EmailCliente { get; set; } = string.Empty;
+        [DataMember(Order = 11)] public int IdSucursal { get; set; }
+        [DataMember(Order = 12)] public string NombreSucursal { get; set; } = string.Empty;
+        [DataMember(Order = 13)] public string EstadoMashup { get; set; } = "VERDE";
+        [DataMember(Order = 14)] public int VentanillaOcupada { get; set; }
+        [DataMember(Order = 15)] public string BloqueadoPor { get; set; } = string.Empty;
+
+        public string TitularCompleto => $"{NombreCliente} {ApellidoCliente}".Trim();
+    }
+
+    [DataContract(Namespace = "http://ws.monster.edu.ec/")]
+    public class OperacionModel
+    {
+        [DataMember(Order = 1)] public bool Exito { get; set; }
+        [DataMember(Order = 2)] public string Codigo { get; set; } = string.Empty;
+        [DataMember(Order = 3)] public string Mensaje { get; set; } = string.Empty;
+        [DataMember(Order = 4)] public string NumeroOperacion { get; set; } = string.Empty;
+        [DataMember(Order = 5)] public string NumeroCuenta { get; set; } = string.Empty;
+        [DataMember(Order = 6)] public double SaldoAnterior { get; set; }
+        [DataMember(Order = 7)] public double MontoOperacion { get; set; }
+        [DataMember(Order = 8)] public double SaldoActual { get; set; }
+        [DataMember(Order = 9)] public string EstadoMashup { get; set; } = "VERDE";
+        [DataMember(Order = 10)] public int Ventanilla { get; set; }
+        [DataMember(Order = 11)] public string FechaHora { get; set; } = string.Empty;
+    }
+}
+"""));
+
+            list.Add(Paragraph("La clase EurekaBankBddModel.cs encapsula toda la lógica de persistencia ACID mediante el driver MySqlConnector. Implementa transacciones con MySqlTransaction y bloqueo pesimista en sentencias críticas:"));
+
+            list.Add(TableCaption(7, "Capa de Persistencia Relacional y Transacciones ACID EurekaBankBddModel.cs"));
+            list.Add(CodeBox("""
+using System.Data;
+using MySqlConnector;
+
+namespace ec.edu.monster.model
+{
+    public class EurekaBankBddModel
+    {
+        public static string ConnectionString { get; set; } =
+            "Server=127.0.0.1;Port=3306;Database=eurekabank_db;User ID=root;Password=admin;SslMode=None;AllowPublicKeyRetrieval=True;";
+        public static int LockDelayMs { get; set; } = 4500;
+
+        public UsuarioModel AutenticarUsuario(string usuario, string clave)
+        {
+            try
+            {
+                using var con = new MySqlConnection(ConnectionString);
+                con.Open();
+                const string sql = @"
+                    SELECT id_empleado, usuario, password, nombre_completo, rol, id_sucursal, COALESCE(ventanilla, 1)
+                    FROM empleado WHERE LOWER(usuario) = LOWER(@usr) LIMIT 1;";
+                using var cmd = new MySqlCommand(sql, con);
+                cmd.Parameters.AddWithValue("@usr", usuario.Trim());
+                using var rd = cmd.ExecuteReader();
+                if (!rd.Read())
+                    return new UsuarioModel { Autenticado = false, Mensaje = "Credenciales inválidas." };
+
+                string hash = rd.GetString(2);
+                bool ok = hash.StartsWith("$2") ? BCrypt.Net.BCrypt.Verify(clave, hash) : clave == hash;
+                if (!ok)
+                    return new UsuarioModel { Autenticado = false, Mensaje = "Contraseña incorrecta." };
+
+                return new UsuarioModel
+                {
+                    Autenticado = true,
+                    IdEmpleado = rd.GetInt32(0),
+                    Usuario = rd.GetString(1),
+                    NombreCompleto = rd.GetString(3),
+                    Rol = rd.GetString(4),
+                    IdSucursal = rd.GetInt32(5),
+                    Ventanilla = rd.GetInt32(6),
+                    Token = $"MONSTER-DOTNET-{Guid.NewGuid():N}",
+                    Mensaje = "Autenticación exitosa en EurekaBank (.NET)."
+                };
+            }
+            catch (Exception ex)
+            {
+                return new UsuarioModel { Autenticado = false, Mensaje = "Error de BDD: " + ex.Message };
+            }
+        }
+
+        public OperacionModel Depositar(string numeroCuenta, double monto, int idEmpleado, int ventanilla)
+        {
+            if (monto <= 0)
+                return new OperacionModel { Exito = false, Codigo = "MONTO_INVALIDO", Mensaje = "El monto debe ser positivo." };
+
+            var lockRes = ConcurrenciaMashupModel.AdquirirBloqueo(numeroCuenta, ventanilla, $"Cajero {idEmpleado}");
+            if (!lockRes.Exito) return lockRes;
+
+            try
+            {
+                using var con = new MySqlConnection(ConnectionString);
+                con.Open();
+                using var tran = con.BeginTransaction(IsolationLevel.ReadCommitted);
+
+                // Bloqueo pesimista a nivel de fila
+                const string sqlCta = "SELECT saldo, estado FROM cuenta WHERE numero_cuenta = @cta FOR UPDATE;";
+                using var cmdCta = new MySqlCommand(sqlCta, con, tran);
+                cmdCta.Parameters.AddWithValue("@cta", numeroCuenta);
+                using var rd = cmdCta.ExecuteReader();
+                if (!rd.Read())
+                    return new OperacionModel { Exito = false, Mensaje = "Cuenta no encontrada." };
+
+                decimal saldoActual = rd.GetDecimal(0);
+                string estado = rd.GetString(1);
+                rd.Close();
+
+                if (!string.Equals(estado, "Activa", StringComparison.OrdinalIgnoreCase))
+                    return new OperacionModel { Exito = false, Mensaje = "Cuenta inactiva o bloqueada." };
+
+                // Retardo pedagógico para observar semáforo ROJO en tiempo real
+                if (LockDelayMs > 0) Thread.Sleep(LockDelayMs);
+
+                decimal nuevoSaldo = saldoActual + (decimal)monto;
+                const string sqlUpd = "UPDATE cuenta SET saldo = @sal WHERE numero_cuenta = @cta;";
+                using var cmdUpd = new MySqlCommand(sqlUpd, con, tran);
+                cmdUpd.Parameters.AddWithValue("@sal", nuevoSaldo);
+                cmdUpd.Parameters.AddWithValue("@cta", numeroCuenta);
+                cmdUpd.ExecuteNonQuery();
+
+                string opNum = $"DEP-{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}";
+                const string sqlMov = @"INSERT INTO movimiento (numero_operacion, numero_cuenta, id_empleado, ventanilla, tipo, monto, saldo_resultante, descripcion)
+                                        VALUES (@op, @cta, @emp, @ven, 'Deposito', @mon, @res, 'Depósito en efectivo');";
+                using var cmdMov = new MySqlCommand(sqlMov, con, tran);
+                cmdMov.Parameters.AddWithValue("@op", opNum);
+                cmdMov.Parameters.AddWithValue("@cta", numeroCuenta);
+                cmdMov.Parameters.AddWithValue("@emp", idEmpleado);
+                cmdMov.Parameters.AddWithValue("@ven", ventanilla);
+                cmdMov.Parameters.AddWithValue("@mon", monto);
+                cmdMov.Parameters.AddWithValue("@res", nuevoSaldo);
+                cmdMov.ExecuteNonQuery();
+
+                tran.Commit();
+                return new OperacionModel
+                {
+                    Exito = true,
+                    Codigo = "OK",
+                    Mensaje = "Depósito acreditado exitosamente.",
+                    NumeroOperacion = opNum,
+                    NumeroCuenta = numeroCuenta,
+                    SaldoAnterior = (double)saldoActual,
+                    MontoOperacion = monto,
+                    SaldoActual = (double)nuevoSaldo,
+                    Ventanilla = ventanilla,
+                    EstadoMashup = "VERDE"
+                };
+            }
+            finally
+            {
+                ConcurrenciaMashupModel.LiberarBloqueo(numeroCuenta);
+            }
+        }
+    }
+}
+"""));
+
+            list.Add(Paragraph("El gestor de concurrencia ConcurrenciaMashupModel.cs administra el semáforo y la exclusión mutua de ventanillas bancarias:"));
+
+            list.Add(TableCaption(8, "Gestor de Exclusión Mutua y Semáforo ConcurrenciaMashupModel.cs"));
+            list.Add(CodeBox("""
+using MySqlConnector;
+
+namespace ec.edu.monster.model
+{
+    public static class ConcurrenciaMashupModel
+    {
+        public static string ConnectionString { get; set; } = EurekaBankBddModel.ConnectionString;
+        private static readonly object _syncRoot = new();
+
+        public static OperacionModel AdquirirBloqueo(string numeroCuenta, int ventanilla, string operador)
+        {
+            lock (_syncRoot)
+            {
+                try
+                {
+                    using var con = new MySqlConnection(ConnectionString);
+                    con.Open();
+                    const string sqlVer = "SELECT estado_mashup, ventanilla, bloqueado_por FROM control_mashup WHERE numero_cuenta = @cta;";
+                    using var cmdVer = new MySqlCommand(sqlVer, con);
+                    cmdVer.Parameters.AddWithValue("@cta", numeroCuenta);
+                    using var rd = cmdVer.ExecuteReader();
+                    if (rd.Read())
+                    {
+                        string estado = rd.GetString(0);
+                        int ventOcup = rd.IsDBNull(1) ? 0 : rd.GetInt32(1);
+                        string opOcup = rd.IsDBNull(2) ? "" : rd.GetString(2);
+                        rd.Close();
+
+                        if (estado == "ROJO")
+                        {
+                            return new OperacionModel
+                            {
+                                Exito = false,
+                                Codigo = "CUENTA_BLOQUEADA",
+                                Mensaje = $"La cuenta {numeroCuenta} está en uso (ROJO) por Ventanilla {ventOcup} ({opOcup}).",
+                                EstadoMashup = "ROJO"
+                            };
+                        }
+                    }
+                    else
+                    {
+                        rd.Close();
+                    }
+
+                    const string sqlUpd = @"INSERT INTO control_mashup (numero_cuenta, estado_mashup, ventanilla, bloqueado_por)
+                                            VALUES (@cta, 'ROJO', @ven, @op)
+                                            ON DUPLICATE KEY UPDATE estado_mashup = 'ROJO', ventanilla = @ven, bloqueado_por = @op;";
+                    using var cmdUpd = new MySqlCommand(sqlUpd, con);
+                    cmdUpd.Parameters.AddWithValue("@cta", numeroCuenta);
+                    cmdUpd.Parameters.AddWithValue("@ven", ventanilla);
+                    cmdUpd.Parameters.AddWithValue("@op", operador);
+                    cmdUpd.ExecuteNonQuery();
+
+                    return new OperacionModel { Exito = true, EstadoMashup = "ROJO" };
+                }
+                catch (Exception ex)
+                {
+                    return new OperacionModel { Exito = false, Mensaje = "Fallo de concurrencia: " + ex.Message };
+                }
+            }
+        }
+
+        public static void LiberarBloqueo(string numeroCuenta)
+        {
+            lock (_syncRoot)
+            {
+                try
+                {
+                    using var con = new MySqlConnection(ConnectionString);
+                    con.Open();
+                    const string sql = "UPDATE control_mashup SET estado_mashup = 'VERDE', ventanilla = NULL, bloqueado_por = NULL WHERE numero_cuenta = @cta;";
+                    using var cmd = new MySqlCommand(sql, con);
+                    cmd.Parameters.AddWithValue("@cta", numeroCuenta);
+                    cmd.ExecuteNonQuery();
+                }
+                catch { }
+            }
+        }
+    }
+}
+"""));
+
+            // 4.5 Contrato e Implementación del Servicio SOAP
+            list.Add(Heading2("4.5 Contrato e Implementación del Servicio SOAP CoreWCF"));
+            list.Add(Paragraph("En CoreWCF, el contrato del servicio se define a través de una interfaz de C# decorada con el atributo [ServiceContract] y cada método expuesto con [OperationContract]. La clase controladora EurekaBankSoapController implementa dicho contrato delegando las operaciones al modelo relacional:"));
+
+            list.Add(TableCaption(9, "Contrato e Implementación del Servicio SOAP EurekaBankSoapController.cs"));
+            list.Add(CodeBox("""
+using CoreWCF;
+using ec.edu.monster.model;
+
+namespace ec.edu.monster.controller
+{
+    [ServiceContract(Namespace = "http://ws.monster.edu.ec/", Name = "EurekaBankWS")]
+    public interface IEurekaBankSoapContrato
+    {
+        [OperationContract] UsuarioModel AutenticarUsuario(string usuario, string clave);
+        [OperationContract] List<SucursalModel> ListarSucursales();
+        [OperationContract] List<CuentaModel> ListarCuentasPorSucursal(int sucursalId);
+        [OperationContract] CuentaModel? ObtenerCuentaPorNumero(string numeroCuenta);
+        [OperationContract] List<CuentaModel> ConsultarCuentasPorCliente(string dni);
+        [OperationContract] List<MovimientoModel> ConsultarExtracto(string numeroCuenta);
+        [OperationContract] OperacionModel Depositar(string numeroCuenta, double monto, int idEmpleado, int ventanilla);
+        [OperationContract] OperacionModel Retirar(string numeroCuenta, double monto, int idEmpleado, int ventanilla);
+        [OperationContract] OperacionModel Transferir(string cuentaOrigen, string cuentaDestino, double monto, int idEmpleado, int ventanilla);
+        [OperationContract] OperacionModel ConsultarEstadoMashUp(string numeroCuenta);
+        [OperationContract] OperacionModel DesbloquearCuenta(string numeroCuenta, string usuarioAdmin);
+        [OperationContract] OperacionModel BloquearCuentaManual(string numeroCuenta, int ventanilla, string usuario);
+    }
+
+    [ServiceBehavior(
+        IncludeExceptionDetailInFaults = true,
+        InstanceContextMode = InstanceContextMode.Single,
+        ConcurrencyMode = ConcurrencyMode.Multiple)]
+    public class EurekaBankSoapController : IEurekaBankSoapContrato
+    {
+        private readonly EurekaBankBddModel _modelo = new();
+
+        public UsuarioModel AutenticarUsuario(string usuario, string clave) => _modelo.AutenticarUsuario(usuario, clave);
+        public List<SucursalModel> ListarSucursales() => _modelo.ListarSucursales();
+        public List<CuentaModel> ListarCuentasPorSucursal(int sucursalId) => _modelo.ListarCuentasPorSucursal(sucursalId);
+        public CuentaModel? ObtenerCuentaPorNumero(string numeroCuenta) => _modelo.ObtenerCuentaPorNumero(numeroCuenta);
+        public List<CuentaModel> ConsultarCuentasPorCliente(string dni) => _modelo.ConsultarCuentasPorCliente(dni);
+        public List<MovimientoModel> ConsultarExtracto(string numeroCuenta) => _modelo.ConsultarExtracto(numeroCuenta);
+        public OperacionModel Depositar(string numeroCuenta, double monto, int idEmpleado, int ventanilla) =>
+            _modelo.Depositar(numeroCuenta, monto, idEmpleado, ventanilla);
+        public OperacionModel Retirar(string numeroCuenta, double monto, int idEmpleado, int ventanilla) =>
+            _modelo.Retirar(numeroCuenta, monto, idEmpleado, ventanilla);
+        public OperacionModel Transferir(string origen, string destino, double monto, int idEmpleado, int ventanilla) =>
+            _modelo.Transferir(origen, destino, monto, idEmpleado, ventanilla);
+        public OperacionModel ConsultarEstadoMashUp(string numeroCuenta) => _modelo.ConsultarEstadoMashUp(numeroCuenta);
+        public OperacionModel DesbloquearCuenta(string numeroCuenta, string usuarioAdmin) => _modelo.DesbloquearCuenta(numeroCuenta, usuarioAdmin);
+        public OperacionModel BloquearCuentaManual(string numeroCuenta, int ventanilla, string usuario) => _modelo.BloquearCuentaManual(numeroCuenta, ventanilla, usuario);
+    }
+}
+"""));
+
+            // 4.6 Configuración de Kestrel y Endpoints
+            list.Add(Heading2("4.6 Configuración del Host Kestrel y Endpoints CoreWCF"));
+            list.Add(Paragraph("El archivo appsettings.json configura la URL de escucha en el puerto TCP 5120, los parámetros de conexión a MySQL y el retardo pedagógico del semáforo:"));
+
+            list.Add(TableCaption(10, "Archivo de Configuración de Entorno appsettings.json"));
+            list.Add(CodeBox("""
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "Urls": "http://0.0.0.0:5120",
+  "EurekaBank": {
+    "ConnectionString": "Server=127.0.0.1;Port=3306;Database=eurekabank_db;User ID=root;Password=admin;SslMode=None;AllowPublicKeyRetrieval=True;",
+    "LockDelayMs": 4500
+  }
+}
+"""));
+
+            list.Add(Paragraph("El punto de entrada Program.cs inicializa el contenedor de inyección de dependencias, registra los servicios de CoreWCF, habilita la publicación de metadatos WSDL mediante ServiceMetadataBehavior y mapea el endpoint SOAP /EurekaBankWS.svc:"));
+
+            list.Add(TableCaption(11, "Configuración de Kestrel, Metadatos y Endpoints CoreWCF Program.cs"));
+            list.Add(CodeBox("""
+using CoreWCF;
+using CoreWCF.Channels;
+using CoreWCF.Configuration;
+using CoreWCF.Description;
+using ec.edu.monster.controller;
+using ec.edu.monster.model;
+using ec.edu.monster.view;
+
+var builder = WebApplication.CreateBuilder(args);
+
+string? connStr = builder.Configuration["EurekaBank:ConnectionString"];
+if (!string.IsNullOrWhiteSpace(connStr))
+{
+    EurekaBankBddModel.ConnectionString = connStr;
+    ConcurrenciaMashupModel.ConnectionString = connStr;
+}
+if (int.TryParse(builder.Configuration["EurekaBank:LockDelayMs"], out int delayMs))
+{
+    EurekaBankBddModel.LockDelayMs = delayMs;
+}
+
+builder.Services.AddServiceModelServices();
+builder.Services.AddServiceModelMetadata();
+builder.Services.AddSingleton<EurekaBankSoapController>();
+
+var app = builder.Build();
+
+app.UseServiceModel(serviceBuilder =>
+{
+    serviceBuilder.AddService<EurekaBankSoapController>(options =>
+    {
+        options.DebugBehavior.IncludeExceptionDetailInFaults = true;
+    });
+
+    var binding = new BasicHttpBinding(BasicHttpSecurityMode.None)
+    {
+        MaxReceivedMessageSize = 10 * 1024 * 1024
+    };
+
+    serviceBuilder.AddServiceEndpoint<EurekaBankSoapController, IEurekaBankSoapContrato>(
+        binding, "/EurekaBankWS.svc");
+
+    var metadataBehavior = app.Services.GetRequiredService<ServiceMetadataBehavior>();
+    metadataBehavior.HttpGetEnabled = true;
+});
+
+app.MapGet("/", () =>
+{
+    var bdd = new EurekaBankBddModel();
+    var cuentas = bdd.ListarCuentasPorSucursal(0);
+    return Results.Content(EstadoServidorView.RenderizarHtml(cuentas), "text/html; charset=utf-8");
+});
+
+app.Run();
+"""));
+
+            list.Add(TableCaption(12, "Vista HTML de Diagnóstico del Servidor EstadoServidorView.cs"));
+            list.Add(CodeBox("""
+using System.Text;
+using ec.edu.monster.model;
+
+namespace ec.edu.monster.view
+{
+    public static class EstadoServidorView
+    {
+        public static string RenderizarHtml(List<CuentaModel> cuentas)
+        {
+            var sb = new StringBuilder();
+            sb.Append("<!DOCTYPE html><html><head><meta charset='utf-8'/><title>EurekaBank SOAP .NET 10</title>");
+            sb.Append("<style>body{font-family:sans-serif;background:#0f172a;color:#f8fafc;padding:24px;}");
+            sb.Append(".card{background:#1e293b;padding:20px;border-radius:8px;max-width:900px;margin:auto;}");
+            sb.Append("table{width:100%;border-collapse:collapse;margin-top:16px;}th,td{padding:8px 12px;border:1px solid #334155;}");
+            sb.Append(".badge-green{background:#166534;color:#dcfce7;padding:4px 8px;border-radius:4px;}");
+            sb.Append(".badge-red{background:#991b1b;color:#fee2e2;padding:4px 8px;border-radius:4px;}</style></head><body>");
+            sb.Append("<div class='card'><h2>EurekaBank CoreWCF SOAP Server (.NET 10)</h2>");
+            sb.Append("<p>Dominio: <b>ec.edu.monster</b> | WSDL: <a style='color:#38bdf8' href='/EurekaBankWS.svc?wsdl'>/EurekaBankWS.svc?wsdl</a></p>");
+            sb.Append("<table><tr><th>Cuenta</th><th>Titular</th><th>Saldo</th><th>Semáforo MashUp</th></tr>");
+            foreach (var c in cuentas)
+            {
+                string cls = c.EstadoMashup == "ROJO" ? "badge-red" : "badge-green";
+                sb.Append($"<tr><td>{c.NumeroCuenta}</td><td>{c.TitularCompleto}</td><td>${c.Saldo:F2}</td><td><span class='{cls}'>{c.EstadoMashup}</span></td></tr>");
+            }
+            sb.Append("</table></div></body></html>");
+            return sb.ToString();
+        }
+    }
+}
+"""));
+
+            list.Add(FigureCaption(4, "Contrato WSDL Publicado en Kestrel (http://localhost:5120/EurekaBankWS.svc?wsdl)"));
+            list.Add(ScreenshotBox(
+                4,
+                "Contrato WSDL Publicado en Kestrel (http://localhost:5120/EurekaBankWS.svc?wsdl)",
+                "Navegador web Google Chrome o Microsoft Edge.",
+                "Navegar a la URL: http://localhost:5120/EurekaBankWS.svc?wsdl con el servidor Kestrel en ejecución.",
+                "Inspeccionar el documento XML generado automáticamente por CoreWCF.",
+                "Estructura XML conteniendo wsdl:definitions, el targetNamespace http://ws.monster.edu.ec/, esquemas de tipos complejos y operaciones transaccionales."
+            ));
+
+            list.Add(FigureCaption(5, "Interfaz Web de Diagnóstico del Servidor en el Puerto 5120"));
+            list.Add(ScreenshotBox(
+                5,
+                "Interfaz Web de Diagnóstico del Servidor en el Puerto 5120",
+                "Navegador web Google Chrome o Microsoft Edge.",
+                "Navegar a la URL raíz del servidor: http://localhost:5120/.",
+                "Verificar la tabla de cuentas bancarias y el enlace directo al WSDL.",
+                "Página web de diagnóstico renderizando el estado de Kestrel, el listado de cuentas con saldo inicial y los semáforos en VERDE."
+            ));
+
+            // 4.7 Desarrollo del Cliente Consola
+            list.Add(Heading2("4.7 Desarrollo del Cliente de Consola (WSEurekaBankConsoleClient)"));
+            list.Add(Paragraph("El Cliente Consola es una aplicación ejecutable en .NET 10 diseñada para terminales bancarias y tareas de diagnóstico. Consume el servicio SOAP mediante ChannelFactory<IEurekaBankSoapContrato> sin generar stubs pesados, utilizando la librería estándar System.ServiceModel.Primitives:"));
+
+            list.Add(FigureCaption(6, "Creación del Proyecto Cliente Consola en Visual Studio / CLI"));
+            list.Add(ScreenshotBox(
+                6,
+                "Creación del Proyecto Cliente Consola en Visual Studio / CLI",
+                "Terminal PowerShell con .NET 10 SDK o Visual Studio 2026/2022.",
+                "Comando de creación: dotnet new console -n WSEurekaBankConsoleClient.",
+                "Instalar los paquetes System.ServiceModel.Http y System.ServiceModel.Primitives versión 8.1.2.",
+                "Proyecto creado con target framework net10.0 y referencias de NuGet resueltas."
+            ));
+
+            list.Add(TableCaption(13, "Descriptor de Proyecto Cliente Consola WSEurekaBankConsoleClient.csproj"));
+            list.Add(CodeBox("""
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>ec.edu.monster</RootNamespace>
+    <AssemblyName>WSEurekaBankConsoleClient</AssemblyName>
+    <NoWarn>$(NoWarn);NU1901;NU1902;NU1903;NU1904</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
+  </ItemGroup>
+</Project>
+"""));
+
+            list.Add(TableCaption(14, "Modelo de Consumo SOAP ChannelFactory EurekaBankSoapModel.cs (Consola)"));
+            list.Add(CodeBox("""
+using System.ServiceModel;
+
+namespace ec.edu.monster.model
+{
+    public class EurekaBankSoapModel
+    {
+        public string EndpointUrl { get; set; } = "http://localhost:5120/EurekaBankWS.svc";
+
+        private T Ejecutar<T>(Func<IEurekaBankSoapContrato, T> accion)
+        {
+            var binding = new BasicHttpBinding(BasicHttpSecurityMode.None)
+            {
+                MaxReceivedMessageSize = 10 * 1024 * 1024,
+                SendTimeout = TimeSpan.FromSeconds(30),
+                ReceiveTimeout = TimeSpan.FromSeconds(30)
+            };
+            using var factory = new ChannelFactory<IEurekaBankSoapContrato>(binding, new EndpointAddress(EndpointUrl));
+            var canal = factory.CreateChannel();
+            try
+            {
+                var res = accion(canal);
+                ((IClientChannel)canal).Close();
+                return res;
+            }
+            catch
+            {
+                ((IClientChannel)canal).Abort();
+                throw;
+            }
+        }
+
+        public UsuarioModel Autenticar(string usuario, string clave)
+        {
+            try { return Ejecutar(c => c.AutenticarUsuario(usuario, clave)); }
+            catch (Exception ex) { return new UsuarioModel { Autenticado = false, Mensaje = "Error SOAP: " + ex.Message }; }
+        }
+
+        public List<CuentaModel> ListarCuentasPorSucursal(int sucursalId)
+        {
+            try { return Ejecutar(c => c.ListarCuentasPorSucursal(sucursalId)); }
+            catch { return new List<CuentaModel>(); }
+        }
+
+        public OperacionModel Depositar(string cuenta, double monto, int idEmpleado, int ventanilla)
+        {
+            try { return Ejecutar(c => c.Depositar(cuenta, monto, idEmpleado, ventanilla)); }
+            catch (Exception ex) { return new OperacionModel { Exito = false, Mensaje = "Error SOAP: " + ex.Message }; }
+        }
+
+        public OperacionModel Transferir(string origen, string destino, double monto, int idEmpleado, int ventanilla)
+        {
+            try { return Ejecutar(c => c.Transferir(origen, destino, monto, idEmpleado, ventanilla)); }
+            catch (Exception ex) { return new OperacionModel { Exito = false, Mensaje = "Error SOAP: " + ex.Message }; }
+        }
+    }
+}
+"""));
+
+            list.Add(TableCaption(15, "Controlador de Flujo de la Aplicación Consola AppControlador.cs"));
+            list.Add(CodeBox("""
+using ec.edu.monster.model;
+
+namespace ec.edu.monster.controller
+{
+    public class AppControlador
+    {
+        private readonly EurekaBankSoapModel _modelo = new();
+        public UsuarioModel? SesionActual { get; private set; }
+        public int VentanillaActiva { get; set; } = 1;
+
+        public UsuarioModel IniciarSesion(string usuario, string clave)
+        {
+            var res = _modelo.Autenticar(usuario, clave);
+            if (res.Autenticado)
+            {
+                SesionActual = res;
+                if (res.Ventanilla >= 1 && res.Ventanilla <= 4)
+                    VentanillaActiva = res.Ventanilla;
+            }
+            return res;
+        }
+
+        public void CerrarSesion() => SesionActual = null;
+        public List<CuentaModel> ObtenerCuentasPorSucursal(int sucId) => _modelo.ListarCuentasPorSucursal(sucId);
+        public OperacionModel Depositar(string cuenta, double monto) =>
+            _modelo.Depositar(cuenta, monto, SesionActual?.IdEmpleado ?? 1, VentanillaActiva);
+        public OperacionModel Transferir(string origen, string destino, double monto) =>
+            _modelo.Transferir(origen, destino, monto, SesionActual?.IdEmpleado ?? 1, VentanillaActiva);
+    }
+}
+"""));
+
+            list.Add(TableCaption(16, "Vista de Interfaz de Consola y Semáforo ANSI ConsolaView.cs"));
+            list.Add(CodeBox("""
+using ec.edu.monster.controller;
+using ec.edu.monster.model;
+
+namespace ec.edu.monster.view
+{
+    public class ConsolaView
+    {
+        private readonly AppControlador _controlador = new();
+
+        public void Ejecutar()
+        {
+            Console.Clear();
+            Console.WriteLine("====================================================");
+            Console.WriteLine("  EUREKABANK - CLIENTE CONSOLA SOAP .NET 10 (GR04)  ");
+            Console.WriteLine("====================================================");
+            Console.Write("Usuario: ");
+            string? usr = Console.ReadLine();
+            Console.Write("Contraseña: ");
+            string? pwd = Console.ReadLine();
+
+            var login = _controlador.IniciarSesion(usr ?? "", pwd ?? "");
+            if (!login.Autenticado)
+            {
+                Console.WriteLine("\u001b[31m[ERROR] " + login.Mensaje + "\u001b[0m");
+                return;
+            }
+
+            Console.WriteLine($"\u001b[32m[OK] Bienvenido {login.NombreCompleto} ({login.Rol})\u001b[0m");
+            MostrarMenuPrincipal();
+        }
+
+        private void MostrarMenuPrincipal()
+        {
+            while (true)
+            {
+                Console.WriteLine("\n--- MENU TRANSACCIONAL ---");
+                Console.WriteLine("1. Listar Cuentas Bancarias (Semáforo MashUp)");
+                Console.WriteLine("2. Realizar Depósito en Efectivo");
+                Console.WriteLine("3. Realizar Transferencia entre Cuentas");
+                Console.WriteLine("4. Simulación Concurrente de 3 Ventanillas");
+                Console.WriteLine("5. Salir");
+                Console.Write("Seleccione opción: ");
+                string? opc = Console.ReadLine();
+                if (opc == "5") break;
+
+                switch (opc)
+                {
+                    case "1": ListarCuentas(); break;
+                    case "2": RealizarDeposito(); break;
+                    case "4": SimularVentanillasConcurrentes(); break;
+                }
+            }
+        }
+
+        private void ListarCuentas()
+        {
+            var cuentas = _controlador.ObtenerCuentasPorSucursal(0);
+            Console.WriteLine("\n----------------------------------------------------------------------");
+            Console.WriteLine("CUENTA    | TITULAR                 | SALDO      | ESTADO SEMAFORO");
+            Console.WriteLine("----------------------------------------------------------------------");
+            foreach (var c in cuentas)
+            {
+                string tag = c.EstadoMashup == "ROJO"
+                    ? $"\u001b[31mROJO (Vent. {c.VentanillaOcupada})\u001b[0m"
+                    : "\u001b[32mVERDE (Libre)\u001b[0m";
+                Console.WriteLine($"{c.NumeroCuenta,-9} | {c.TitularCompleto,-23} | ${c.Saldo,9:F2} | {tag}");
+            }
+        }
+
+        private void RealizarDeposito()
+        {
+            Console.Write("Número de Cuenta: ");
+            string cta = Console.ReadLine() ?? "";
+            Console.Write("Monto USD: ");
+            double.TryParse(Console.ReadLine(), out double monto);
+
+            var res = _controlador.Depositar(cta, monto);
+            if (res.Exito)
+                Console.WriteLine($"\u001b[32m[EXITO] Operación: {res.NumeroOperacion} | Nuevo Saldo: ${res.SaldoActual:F2}\u001b[0m");
+            else
+                Console.WriteLine($"\u001b[31m[FALLO] {res.Mensaje}\u001b[0m");
+        }
+
+        private void SimularVentanillasConcurrentes()
+        {
+            Console.WriteLine("\n[SIMULACION] Lanzando 3 ventanillas simultáneas sobre la cuenta 001-0001...");
+            Parallel.For(1, 4, v =>
+            {
+                var ctrl = new AppControlador();
+                ctrl.VentanillaActiva = v;
+                var res = ctrl.Depositar("001-0001", 10.0 * v);
+                Console.WriteLine($"Ventanilla {v}: {(res.Exito ? "PROCESADA" : "BLOQUEADA (ROJO) - " + res.Mensaje)}");
+            });
+        }
+    }
+}
+"""));
+
+            list.Add(TableCaption(17, "Punto de Entrada del Cliente Consola Program.cs"));
+            list.Add(CodeBox("""
+using ec.edu.monster.view;
+
+var view = new ConsolaView();
+view.Ejecutar();
+"""));
+
+            list.Add(FigureCaption(7, "Ejecución del Cliente Consola e Inicio de Sesión de Operador (Monster)"));
+            list.Add(ScreenshotBox(
+                7,
+                "Ejecución del Cliente Consola e Inicio de Sesión de Operador (Monster)",
+                "Consola de comandos PowerShell o Terminal de Windows.",
+                "Ejecutar 'dotnet run' dentro de 04. CLICON/WSEurekaBankConsoleClient.",
+                "Ingresar credenciales: Usuario 'Monster' y Contraseña 'Monster9'.",
+                "Autenticación exitosa mostrando mensaje de bienvenida con el nombre del operador y rol Superadmin Monster."
+            ));
+
+            list.Add(FigureCaption(8, "Consulta de Cuentas Bancarias con Semáforo MashUp en Consola"));
+            list.Add(ScreenshotBox(
+                8,
+                "Consulta de Cuentas Bancarias con Semáforo MashUp en Consola",
+                "Consola de comandos en ejecución.",
+                "Seleccionar la opción 1 del menú principal 'Listar Cuentas Bancarias'.",
+                "Observar la salida formateada con secuencias de escape ANSI.",
+                "Tabla con las cuentas (001-0001 a 003-0001) mostrando titulares, saldos en USD y estado VERDE (Libre)."
+            ));
+
+            list.Add(FigureCaption(9, "Simulación de 3 Ventanillas Simultáneas en Cliente Consola"));
+            list.Add(ScreenshotBox(
+                9,
+                "Simulación de 3 Ventanillas Simultáneas en Cliente Consola",
+                "Consola de comandos en ejecución.",
+                "Seleccionar la opción 4 del menú 'Simulación Concurrente de 3 Ventanillas'.",
+                "Disparar peticiones simultáneas sobre la cuenta 001-0001.",
+                "Una ventanilla adquiere el bloqueo (estado ROJO) y procesa la transacción, mientras las otras dos reciben mensaje de exclusión mutua."
+            ));
+
+            // 4.8 Desarrollo del Cliente Escritorio Windows Forms
+            list.Add(Heading2("4.8 Desarrollo del Cliente de Escritorio (WSEurekaBankDesktopClient)"));
+            list.Add(Paragraph("El Cliente de Escritorio se desarrolla sobre Windows Forms en .NET 10 (TargetFramework: net10.0-windows). Incorpora formularios interactivos, validaciones numéricas, un DataGridView con renderizado de colores en tiempo real y temporizadores asíncronos para refresco periódico:"));
+
+            list.Add(TableCaption(18, "Descriptor de Proyecto Cliente Escritorio WSEurekaBankDesktopClient.csproj"));
+            list.Add(CodeBox("""
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>ec.edu.monster</RootNamespace>
+    <AssemblyName>WSEurekaBankDesktopClient</AssemblyName>
+    <NoWarn>$(NoWarn);NU1901;NU1902;NU1903;NU1904</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
+  </ItemGroup>
+</Project>
+"""));
+
+            list.Add(TableCaption(19, "Modelo SOAP en Cliente Escritorio EurekaBankSoapModel.cs (WinForms)"));
+            list.Add(CodeBox("""
+using System.ServiceModel;
+
+namespace ec.edu.monster.model
+{
+    public class EurekaBankSoapModel
+    {
+        public string EndpointUrl { get; set; } = "http://localhost:5120/EurekaBankWS.svc";
+
+        private T Ejecutar<T>(Func<IEurekaBankSoapContrato, T> accion)
+        {
+            var binding = new BasicHttpBinding(BasicHttpSecurityMode.None)
+            {
+                MaxReceivedMessageSize = 10 * 1024 * 1024,
+                SendTimeout = TimeSpan.FromSeconds(30),
+                ReceiveTimeout = TimeSpan.FromSeconds(30)
+            };
+            using var factory = new ChannelFactory<IEurekaBankSoapContrato>(binding, new EndpointAddress(EndpointUrl));
+            var canal = factory.CreateChannel();
+            try
+            {
+                var res = accion(canal);
+                ((IClientChannel)canal).Close();
+                return res;
+            }
+            catch
+            {
+                ((IClientChannel)canal).Abort();
+                throw;
+            }
+        }
+
+        public UsuarioModel Autenticar(string usr, string pwd) => Ejecutar(c => c.AutenticarUsuario(usr, pwd));
+        public List<SucursalModel> ListarSucursales() => Ejecutar(c => c.ListarSucursales());
+        public List<CuentaModel> ListarCuentasPorSucursal(int sucId) => Ejecutar(c => c.ListarCuentasPorSucursal(sucId));
+        public OperacionModel Depositar(string cta, double mon, int emp, int ven) => Ejecutar(c => c.Depositar(cta, mon, emp, ven));
+        public OperacionModel Transferir(string ori, string des, double mon, int emp, int ven) => Ejecutar(c => c.Transferir(ori, des, mon, emp, ven));
+    }
+}
+"""));
+
+            list.Add(TableCaption(20, "Controlador de Escritorio AppControlador.cs"));
+            list.Add(CodeBox("""
+using ec.edu.monster.model;
+
+namespace ec.edu.monster.controller
+{
+    public class AppControlador
+    {
+        private readonly EurekaBankSoapModel _modelo = new();
+        public UsuarioModel? SesionActual { get; private set; }
+        public int VentanillaActiva { get; set; } = 1;
+
+        public UsuarioModel IniciarSesion(string usuario, string clave)
+        {
+            var res = _modelo.Autenticar(usuario, clave);
+            if (res.Autenticado)
+            {
+                SesionActual = res;
+                if (res.Ventanilla >= 1 && res.Ventanilla <= 4)
+                    VentanillaActiva = res.Ventanilla;
+            }
+            return res;
+        }
+
+        public List<SucursalModel> ObtenerSucursales() => _modelo.ListarSucursales();
+        public List<CuentaModel> ObtenerCuentasPorSucursal(int sucId) => _modelo.ListarCuentasPorSucursal(sucId);
+        public OperacionModel Depositar(string cta, double monto) =>
+            _modelo.Depositar(cta, monto, SesionActual?.IdEmpleado ?? 1, VentanillaActiva);
+        public OperacionModel Transferir(string ori, string des, double monto) =>
+            _modelo.Transferir(ori, des, monto, SesionActual?.IdEmpleado ?? 1, VentanillaActiva);
+    }
+}
+"""));
+
+            list.Add(TableCaption(21, "Formulario de Autenticación de Ventanilla LoginView.cs"));
+            list.Add(CodeBox("""
+using System.Drawing;
+using System.Windows.Forms;
+using ec.edu.monster.controller;
+
+namespace ec.edu.monster.view
+{
+    public class LoginView : Form
+    {
+        private readonly AppControlador _controlador = new();
+        private TextBox _txtUsuario = new();
+        private TextBox _txtClave = new();
+        private ComboBox _cboVentanilla = new();
+        private Button _btnLogin = new();
+        private Label _lblError = new();
+
+        public LoginView()
+        {
+            Text = "EurekaBank - Inicio de Sesión (.NET 10)";
+            Size = new Size(420, 360);
+            StartPosition = FormStartPosition.CenterScreen;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+
+            var pnl = new Panel { Dock = DockStyle.Fill, Padding = new Padding(24) };
+            var lblTitulo = new Label { Text = "SISTEMA BANCARIO EUREKABANK", Font = new Font("Segoe UI", 12, FontStyle.Bold), AutoSize = true, Top = 16, Left = 24 };
+            
+            var lblUsr = new Label { Text = "Usuario Operador:", Top = 64, Left = 24, AutoSize = true };
+            _txtUsuario = new TextBox { Top = 88, Left = 24, Width = 350, Text = "Monster" };
+
+            var lblPwd = new Label { Text = "Contraseña:", Top = 124, Left = 24, AutoSize = true };
+            _txtClave = new TextBox { Top = 148, Left = 24, Width = 350, PasswordChar = '•', Text = "Monster9" };
+
+            var lblVen = new Label { Text = "Ventanilla:", Top = 184, Left = 24, AutoSize = true };
+            _cboVentanilla = new ComboBox { Top = 208, Left = 24, Width = 350, DropDownStyle = ComboBoxStyle.DropDownList };
+            _cboVentanilla.Items.AddRange(new object[] { "Ventanilla 1", "Ventanilla 2", "Ventanilla 3", "Ventanilla 4" });
+            _cboVentanilla.SelectedIndex = 0;
+
+            _btnLogin = new Button { Text = "INGRESAR AL SISTEMA", Top = 252, Left = 24, Width = 350, Height = 36, BackColor = Color.FromArgb(30, 58, 138), ForeColor = Color.White };
+            _btnLogin.Click += BtnLogin_Click;
+
+            pnl.Controls.AddRange(new Control[] { lblTitulo, lblUsr, _txtUsuario, lblPwd, _txtClave, lblVen, _cboVentanilla, _btnLogin });
+            Controls.Add(pnl);
+        }
+
+        private void BtnLogin_Click(object? sender, EventArgs e)
+        {
+            var res = _controlador.IniciarSesion(_txtUsuario.Text.Trim(), _txtClave.Text.Trim());
+            if (res.Autenticado)
+            {
+                _controlador.VentanillaActiva = _cboVentanilla.SelectedIndex + 1;
+                Hide();
+                var dash = new DashboardView(_controlador);
+                dash.FormClosed += (s, ev) => Close();
+                dash.Show();
+            }
+            else
+            {
+                MessageBox.Show(res.Mensaje, "Error de Acceso", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+    }
+}
+"""));
+
+            list.Add(TableCaption(22, "Formulario Principal con DataGridView Cromático DashboardView.cs"));
+            list.Add(CodeBox("""
+using System.Drawing;
+using System.Windows.Forms;
+using ec.edu.monster.controller;
+using ec.edu.monster.model;
+
+namespace ec.edu.monster.view
+{
+    public class DashboardView : Form
+    {
+        private readonly AppControlador _controlador;
+        private DataGridView _gridCuentas = new();
+        private System.Windows.Forms.Timer _timer = new();
+
+        public DashboardView(AppControlador controlador)
+        {
+            _controlador = controlador;
+            Text = $"EurekaBank Dashboard - Ventanilla {_controlador.VentanillaActiva} ({_controlador.SesionActual?.NombreCompleto})";
+            Size = new Size(1000, 650);
+            StartPosition = FormStartPosition.CenterScreen;
+
+            ConfigurarColumnasCuentas();
+            RefrescarCuentas();
+
+            _timer.Interval = 1000;
+            _timer.Tick += (s, e) => RefrescarCuentas();
+            _timer.Start();
+        }
+
+        private void ConfigurarColumnasCuentas()
+        {
+            _gridCuentas.Dock = DockStyle.Fill;
+            _gridCuentas.Columns.Add("NumeroCuenta", "Cuenta");
+            _gridCuentas.Columns.Add("Titular", "Titular");
+            _gridCuentas.Columns.Add("Dni", "DNI");
+            _gridCuentas.Columns.Add("Sucursal", "Sucursal");
+            _gridCuentas.Columns.Add("Saldo", "Saldo USD");
+            _gridCuentas.Columns.Add("Semaforo", "Semáforo MashUp");
+            _gridCuentas.ReadOnly = true;
+            _gridCuentas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            Controls.Add(_gridCuentas);
+        }
+
+        private void RefrescarCuentas()
+        {
+            var cuentas = _controlador.ObtenerCuentasPorSucursal(0);
+            _gridCuentas.Rows.Clear();
+            foreach (var c in cuentas)
+            {
+                bool esRojo = string.Equals(c.EstadoMashup, "ROJO", StringComparison.OrdinalIgnoreCase);
+                int idx = _gridCuentas.Rows.Add(
+                    c.NumeroCuenta, c.TitularCompleto, c.DniCliente, c.NombreSucursal,
+                    $"${c.Saldo:F2}", esRojo ? $"🔴 ROJO (Vent. {c.VentanillaOcupada})" : "🟢 VERDE (Libre)");
+
+                var fila = _gridCuentas.Rows[idx];
+                fila.DefaultCellStyle.BackColor = esRojo ? Color.FromArgb(254, 226, 226) : Color.FromArgb(240, 253, 244);
+                fila.DefaultCellStyle.ForeColor = esRojo ? Color.FromArgb(153, 27, 27) : Color.FromArgb(20, 83, 45);
+            }
+        }
+    }
+}
+"""));
+
+            list.Add(FigureCaption(10, "Interfaz Gráfica de Autenticación de Ventanilla en Windows Forms (LoginView)"));
+            list.Add(ScreenshotBox(
+                10,
+                "Interfaz Gráfica de Autenticación de Ventanilla en Windows Forms (LoginView)",
+                "Cliente de Escritorio Windows Forms (net10.0-windows).",
+                "Formulario modal LoginView con campos de usuario, clave y selección de ventanilla.",
+                "Digitar 'Monster', contraseña 'Monster9', seleccionar Ventanilla 1 y presionar 'INGRESAR AL SISTEMA'.",
+                "Cierre del formulario de inicio de sesión y apertura inmediata del Dashboard principal bancario."
+            ));
+
+            list.Add(FigureCaption(11, "Panel Principal del Dashboard Bancario con DataGridView y Semáforo Cromático en Tiempo Real"));
+            list.Add(ScreenshotBox(
+                11,
+                "Panel Principal del Dashboard Bancario con DataGridView y Semáforo Cromático en Tiempo Real",
+                "Formulario principal DashboardView.",
+                "Cuadrícula DataGridView mostrando todas las cuentas bancarias con datos sincronizados.",
+                "Comprobar las filas de cuentas resaltadas en verde claro (#F0FDF4) con insignia '🟢 VERDE (Libre)'.",
+                "Visualización fluida con actualización periódica de saldos y semáforos sin parpadeo de interfaz."
+            ));
+
+            list.Add(FigureCaption(12, "Ejecución de Transacción de Depósito en Cliente Escritorio"));
+            list.Add(ScreenshotBox(
+                12,
+                "Ejecución de Transacción de Depósito en Cliente Escritorio",
+                "Panel lateral de Operaciones Transaccionales en DashboardView.",
+                "Cuenta: '001-0001', Monto: '150.00' USD.",
+                "Hacer clic en el botón 'ACREDITAR DEPÓSITO (+)'.",
+                "La fila cambia temporalmente a rojo durante la transacción y al finalizar muestra el saldo incrementado con mensaje de confirmación."
+            ));
+
+            list.Add(FigureCaption(13, "Ejecución de Operación de Transferencia con Verificación ACID en Escritorio"));
+            list.Add(ScreenshotBox(
+                13,
+                "Ejecución de Operación de Transferencia con Verificación ACID en Escritorio",
+                "Formulario de Transferencia entre Cuentas en DashboardView.",
+                "Origen: '001-0001', Destino: '001-0002', Monto: '100.00' USD.",
+                "Hacer clic en 'EJECUTAR TRANSFERENCIA' verificando la atomicidad de débito y crédito.",
+                "Actualización simultánea de ambas cuentas con reducción de saldo en la cuenta origen e incremento en la cuenta destino."
+            ));
+
+            // 4.9 Desarrollo del Cliente Móvil .NET MAUI
+            list.Add(Heading2("4.9 Desarrollo del Cliente Móvil (.NET MAUI)"));
+            list.Add(Paragraph("El Cliente Móvil se desarrolla sobre .NET MAUI (Multi-platform App UI) en .NET 10, optimizado para ejecutarse nativamente en el emulador y dispositivos físicos Android. Utiliza vistas XAML declarativas, enlace de datos en C# puro bajo MVC y manejo de la dirección IP de loopback del emulador Android (10.0.2.2:5120):"));
+
+            list.Add(FigureCaption(14, "Creación y Estructura del Proyecto Móvil .NET MAUI en Visual Studio"));
+            list.Add(ScreenshotBox(
+                14,
+                "Creación y Estructura del Proyecto Móvil .NET MAUI en Visual Studio",
+                "Visual Studio 2026/2022 con la carga de trabajo de desarrollo móvil .NET MAUI.",
+                "Proyecto 'WSEurekaBankMobileClient' con las carpetas ec.edu.monster.controller, ec.edu.monster.model y ec.edu.monster.view.",
+                "Compilación del proyecto para la plataforma net10.0-android.",
+                "Estructura de archivos XAML y .xaml.cs compilando sin errores para la plataforma Android."
+            ));
+
+            list.Add(TableCaption(23, "Descriptor de Proyecto Cliente Móvil WSEurekaBankMobileClient.csproj"));
+            list.Add(CodeBox("""
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-android;net10.0-windows10.0.19041.0</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <RootNamespace>ec.edu.monster</RootNamespace>
+    <AssemblyName>WSEurekaBankMobileClient</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
+  </ItemGroup>
+</Project>
+"""));
+
+            list.Add(TableCaption(24, "Configuración de Arranque de la Aplicación Móvil MauiProgram.cs"));
+            list.Add(CodeBox("""
+namespace ec.edu.monster
+{
+    public static class MauiProgram
+    {
+        public static MauiApp CreateMauiApp()
+        {
+            var builder = MauiApp.CreateBuilder();
+            builder
+                .UseMauiApp<App>()
+                .ConfigureFonts(fonts =>
+                {
+                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                });
+
+            return builder.Build();
+        }
+    }
+}
+"""));
+
+            list.Add(TableCaption(25, "Modelo de Invocación SOAP en Dispositivo Móvil EurekaBankSoapModel.cs (MAUI)"));
+            list.Add(CodeBox("""
+using System.ServiceModel;
+using Microsoft.Maui.Devices;
+
+namespace ec.edu.monster.model
+{
+    public class EurekaBankSoapModel
+    {
+        public string EndpointUrl { get; set; } =
+            DeviceInfo.Platform == DevicePlatform.Android
+                ? "http://10.0.2.2:5120/EurekaBankWS.svc"
+                : "http://localhost:5120/EurekaBankWS.svc";
+
+        private T Ejecutar<T>(Func<IEurekaBankSoapContrato, T> accion)
+        {
+            var binding = new BasicHttpBinding(BasicHttpSecurityMode.None)
+            {
+                MaxReceivedMessageSize = 10 * 1024 * 1024,
+                SendTimeout = TimeSpan.FromSeconds(30),
+                ReceiveTimeout = TimeSpan.FromSeconds(30)
+            };
+            using var factory = new ChannelFactory<IEurekaBankSoapContrato>(binding, new EndpointAddress(EndpointUrl));
+            var canal = factory.CreateChannel();
+            try
+            {
+                var res = accion(canal);
+                ((IClientChannel)canal).Close();
+                return res;
+            }
+            catch
+            {
+                ((IClientChannel)canal).Abort();
+                throw;
+            }
+        }
+
+        public UsuarioModel Autenticar(string usr, string pwd) => Ejecutar(c => c.AutenticarUsuario(usr, pwd));
+        public List<CuentaModel> ListarCuentas() => Ejecutar(c => c.ListarCuentasPorSucursal(0));
+        public OperacionModel Depositar(string cta, double mon, int emp, int ven) => Ejecutar(c => c.Depositar(cta, mon, emp, ven));
+    }
+}
+"""));
+
+            list.Add(TableCaption(26, "Controlador de la Aplicación Móvil AppControlador.cs"));
+            list.Add(CodeBox("""
+using ec.edu.monster.model;
+
+namespace ec.edu.monster.controller
+{
+    public class AppControlador
+    {
+        private readonly EurekaBankSoapModel _modelo = new();
+        public UsuarioModel? SesionActual { get; private set; }
+        public int VentanillaActiva { get; set; } = 1;
+
+        public UsuarioModel IniciarSesion(string usuario, string clave)
+        {
+            var res = _modelo.Autenticar(usuario, clave);
+            if (res.Autenticado)
+            {
+                SesionActual = res;
+                if (res.Ventanilla >= 1 && res.Ventanilla <= 4)
+                    VentanillaActiva = res.Ventanilla;
+            }
+            return res;
+        }
+
+        public List<CuentaModel> ObtenerCuentas() => _modelo.ListarCuentas();
+        public OperacionModel Depositar(string cta, double monto) =>
+            _modelo.Depositar(cta, monto, SesionActual?.IdEmpleado ?? 1, VentanillaActiva);
+    }
+}
+"""));
+
+            list.Add(TableCaption(27, "Vista XAML de Inicio de Sesión Móvil LoginView.xaml y LoginView.xaml.cs"));
+            list.Add(CodeBox("""
+<!-- LoginView.xaml -->
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ec.edu.monster.view.LoginView"
+             Title="EurekaBank Mobile">
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="16">
+            <Label Text="EUREKABANK MOBILE" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" />
+            <Entry x:Name="TxtUsuario" Placeholder="Usuario Operador" Text="Monster" />
+            <Entry x:Name="TxtClave" Placeholder="Contraseña" IsPassword="True" Text="Monster9" />
+            <Picker x:Name="PkrVentanilla" Title="Seleccionar Ventanilla">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Ventanilla 1</x:String>
+                        <x:String>Ventanilla 2</x:String>
+                        <x:String>Ventanilla 3</x:String>
+                        <x:String>Ventanilla 4</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+            <Button Text="INICIAR SESIÓN" Clicked="OnLoginClicked" BackgroundColor="#1E3A8A" TextColor="White" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
+"""));
+
+            list.Add(TableCaption(28, "Vista XAML del Monitor de Cuentas Móvil DashboardView.xaml y DashboardView.xaml.cs"));
+            list.Add(CodeBox("""
+<!-- DashboardView.xaml -->
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ec.edu.monster.view.DashboardView"
+             Title="Dashboard Móvil">
+    <Grid RowDefinitions="Auto,*">
+        <VerticalStackLayout Grid.Row="0" Padding="16" BackgroundColor="#F1F5F9">
+            <Label x:Name="LblInfo" Text="Operador: Monster" FontAttributes="Bold" />
+        </VerticalStackLayout>
+        <CollectionView Grid.Row="1" x:Name="ListCuentas" SelectionMode="Single">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="8,4" Padding="12" CornerRadius="8" BorderColor="#CBD5E1">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout Grid.Column="0">
+                                <Label Text="{Binding NumeroCuenta}" FontAttributes="Bold" />
+                                <Label Text="{Binding TitularCompleto}" />
+                                <Label Text="{Binding Saldo, StringFormat='Saldo: ${0:F2}'}" TextColor="#16A34A" />
+                            </VerticalStackLayout>
+                            <Frame Grid.Column="1" BackgroundColor="{Binding ColorBadge}" Padding="8,4" CornerRadius="4">
+                                <Label Text="{Binding EstadoMashup}" TextColor="White" FontSize="12" />
+                            </Frame>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
+"""));
+
+            list.Add(FigureCaption(15, "Pantalla de Autenticación y Ventanilla en Emulador Android (.NET MAUI)"));
+            list.Add(ScreenshotBox(
+                15,
+                "Pantalla de Autenticación y Ventanilla en Emulador Android (.NET MAUI)",
+                "Emulador Android (Pixel 7 / Android 14 API 34).",
+                "Pantalla de login de la app WSEurekaBankMobileClient.",
+                "Ingresar 'Monster', 'Monster9', seleccionar 'Ventanilla 1' y pulsar 'INICIAR SESIÓN'.",
+                "Validación de credenciales con el host SOAP (10.0.2.2:5120) y transición hacia el Dashboard de cuentas."
+            ));
+
+            list.Add(FigureCaption(16, "Monitoreo de Cuentas y Operaciones Transaccionales en Cliente Móvil"));
+            list.Add(ScreenshotBox(
+                16,
+                "Monitoreo de Cuentas y Operaciones Transaccionales en Cliente Móvil",
+                "Pantalla DashboardView en el emulador Android.",
+                "Lista CollectionView mostrando las cuentas bancarias con tarjetas formateadas.",
+                "Verificar la tarjeta con insignia verde 'VERDE' y actualización tras ejecutar un depósito.",
+                "Presentación clara de saldos y confirmación de exclusión mutua cuando otra ventanilla opera la cuenta."
+            ));
+
+            // 4.10 Desarrollo del Cliente Web ASP.NET Core MVC
+            list.Add(Heading2("4.10 Desarrollo del Cliente Web (ASP.NET Core MVC)"));
+            list.Add(Paragraph("El Cliente Web se construye con ASP.NET Core MVC en .NET 10, implementando controladores dedicados (LoginController y DashboardController), vistas Razor y sondeo reactivo en tiempo real mediante JavaScript (fetch periódico cada 0.9 segundos):"));
+
+            list.Add(TableCaption(29, "Descriptor de Proyecto Cliente Web WSEurekaBankWebClient.csproj"));
+            list.Add(CodeBox("""
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>ec.edu.monster</RootNamespace>
+    <AssemblyName>WSEurekaBankWebClient</AssemblyName>
+    <NoWarn>$(NoWarn);NU1901;NU1902;NU1903;NU1904</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
+  </ItemGroup>
+</Project>
+"""));
+
+            list.Add(TableCaption(30, "Configuración del Pipeline Web y Middleware ASP.NET Core Program.cs"));
+            list.Add(CodeBox("""
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllersWithViews();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+}
+
+app.UseStaticFiles();
+app.UseRouting();
+app.UseSession();
+app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Login}/{action=Index}/{id?}");
+
+app.Run();
+"""));
+
+            list.Add(TableCaption(31, "Modelo SOAP en Cliente Web EurekaBankSoapModel.cs (MVC)"));
+            list.Add(CodeBox("""
+using System.ServiceModel;
+
+namespace ec.edu.monster.model
+{
+    public class EurekaBankSoapModel
+    {
+        public string EndpointUrl { get; set; } = "http://localhost:5120/EurekaBankWS.svc";
+
+        private T Ejecutar<T>(Func<IEurekaBankSoapContrato, T> accion)
+        {
+            var binding = new BasicHttpBinding(BasicHttpSecurityMode.None)
+            {
+                MaxReceivedMessageSize = 10 * 1024 * 1024,
+                SendTimeout = TimeSpan.FromSeconds(30),
+                ReceiveTimeout = TimeSpan.FromSeconds(30)
+            };
+            using var factory = new ChannelFactory<IEurekaBankSoapContrato>(binding, new EndpointAddress(EndpointUrl));
+            var canal = factory.CreateChannel();
+            try
+            {
+                var res = accion(canal);
+                ((IClientChannel)canal).Close();
+                return res;
+            }
+            catch
+            {
+                ((IClientChannel)canal).Abort();
+                throw;
+            }
+        }
+
+        public UsuarioModel Autenticar(string usr, string pwd) => Ejecutar(c => c.AutenticarUsuario(usr, pwd));
+        public List<CuentaModel> ListarCuentas(int sucId) => Ejecutar(c => c.ListarCuentasPorSucursal(sucId));
+        public List<MovimientoModel> ConsultarExtracto(string cta) => Ejecutar(c => c.ConsultarExtracto(cta));
+        public OperacionModel Depositar(string cta, double mon, int emp, int ven) => Ejecutar(c => c.Depositar(cta, mon, emp, ven));
+        public OperacionModel Transferir(string ori, string des, double mon, int emp, int ven) => Ejecutar(c => c.Transferir(ori, des, mon, emp, ven));
+    }
+}
+"""));
+
+            list.Add(TableCaption(32, "Controlador Web de Autenticación LoginController.cs"));
+            list.Add(CodeBox("""
+using Microsoft.AspNetCore.Mvc;
+using ec.edu.monster.controller;
+
+namespace ec.edu.monster.controller
+{
+    public class LoginController : Controller
+    {
+        private readonly AppControlador _controlador = new();
+
+        [HttpGet]
+        public IActionResult Index() => View("~/ec.edu.monster.view/Login/Index.cshtml");
+
+        [HttpPost]
+        public IActionResult Autenticar(string usuario, string clave, int ventanilla = 1)
+        {
+            var res = _controlador.IniciarSesion(usuario, clave);
+            if (res.Autenticado)
+            {
+                res.Ventanilla = ventanilla;
+                AppControlador.GuardarSesionCookie(Response, res);
+                return RedirectToAction("Index", "Dashboard");
+            }
+            ViewBag.Error = res.Mensaje;
+            return View("~/ec.edu.monster.view/Login/Index.cshtml");
+        }
+
+        [HttpGet]
+        public IActionResult Salir()
+        {
+            AppControlador.BorrarSesionCookie(Response);
+            return RedirectToAction("Index");
+        }
+    }
+}
+"""));
+
+            list.Add(TableCaption(33, "Controlador Web del Dashboard Transaccional DashboardController.cs"));
+            list.Add(CodeBox("""
+using Microsoft.AspNetCore.Mvc;
+using ec.edu.monster.model;
+
+namespace ec.edu.monster.controller
+{
+    public class DashboardController : Controller
+    {
+        private readonly AppControlador _controlador = new();
+
+        [HttpGet]
+        public IActionResult Index(int sucursalId = 0, string filtro = "", string cuenta = "001-0001")
+        {
+            var sesion = AppControlador.LeerSesionCookie(Request);
+            if (sesion == null) return RedirectToAction("Index", "Login");
+
+            var cuentas = _controlador.ObtenerCuentasPorSucursal(sucursalId);
+            var vm = new DashboardWebModel
+            {
+                Sesion = sesion,
+                VentanillaActiva = sesion.Ventanilla,
+                Cuentas = cuentas,
+                Extracto = _controlador.ObtenerExtracto(cuenta),
+                CuentaSeleccionada = cuenta
+            };
+            return View("~/ec.edu.monster.view/Dashboard/Index.cshtml", vm);
+        }
+
+        [HttpGet]
+        public IActionResult EstadoMashup(int sucursalId = 0)
+        {
+            var cuentas = _controlador.ObtenerCuentasPorSucursal(sucursalId);
+            return Json(new
+            {
+                verdes = cuentas.Count(c => c.EstadoMashup != "ROJO"),
+                rojas = cuentas.Count(c => c.EstadoMashup == "ROJO"),
+                cuentas = cuentas.Select(c => new
+                {
+                    c.NumeroCuenta, c.TitularCompleto, c.DniCliente, c.NombreSucursal,
+                    c.Saldo, c.EstadoMashup, c.VentanillaOcupada, c.BloqueadoPor
+                })
+            });
+        }
+
+        [HttpPost]
+        public IActionResult Depositar(string cuenta, double monto)
+        {
+            var sesion = AppControlador.LeerSesionCookie(Request);
+            if (sesion == null) return Unauthorized();
+            var res = _controlador.Depositar(cuenta, monto);
+            return Json(res);
+        }
+    }
+}
+"""));
+
+            list.Add(TableCaption(34, "ViewModel de Pantallas y Filtros Web WebPantallasModel.cs"));
+            list.Add(CodeBox("""
+using ec.edu.monster.model;
+
+namespace ec.edu.monster.model
+{
+    public class DashboardWebModel
+    {
+        public UsuarioModel Sesion { get; set; } = new();
+        public int VentanillaActiva { get; set; } = 1;
+        public int SucursalSeleccionada { get; set; }
+        public string Filtro { get; set; } = string.Empty;
+        public string CuentaSeleccionada { get; set; } = "001-0001";
+        public List<SucursalModel> Sucursales { get; set; } = new();
+        public List<CuentaModel> Cuentas { get; set; } = new();
+        public List<MovimientoModel> Extracto { get; set; } = new();
+    }
+}
+"""));
+
+            list.Add(TableCaption(35, "Plantilla Razor de Inicio de Sesión Login/Index.cshtml"));
+            list.Add(CodeBox("""
+@model ec.edu.monster.model.UsuarioModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>EurekaBank Web - Inicio de Sesión</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-light d-flex align-items-center min-vh-100">
+    <div class="container" style="max-width: 420px;">
+        <div class="card shadow border-0 p-4">
+            <h4 class="text-center font-weight-bold text-primary mb-3">EUREKABANK WEB</h4>
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger py-2">@ViewBag.Error</div>
+            }
+            <form method="post" action="/Login/Autenticar">
+                <div class="mb-3">
+                    <label class="form-label">Usuario Operador:</label>
+                    <input type="text" name="usuario" class="form-control" value="Monster" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Contraseña:</label>
+                    <input type="password" name="clave" class="form-control" value="Monster9" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Ventanilla de Atención:</label>
+                    <select name="ventanilla" class="form-select">
+                        <option value="1">Ventanilla 1</option>
+                        <option value="2">Ventanilla 2</option>
+                        <option value="3">Ventanilla 3</option>
+                        <option value="4">Ventanilla 4</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 py-2">INGRESAR AL SISTEMA</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+"""));
+
+            list.Add(TableCaption(36, "Plantilla Razor del Dashboard Reactivo con Polling Dashboard/Index.cshtml"));
+            list.Add(CodeBox("""
+@model ec.edu.monster.model.DashboardWebModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>EurekaBank - Dashboard Transaccional</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .badge-rojo { background-color: #DC2626; color: white; padding: 6px 12px; border-radius: 4px; font-weight: bold; }
+        .badge-verde { background-color: #16A34A; color: white; padding: 6px 12px; border-radius: 4px; font-weight: bold; }
+    </style>
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-dark bg-primary px-4">
+        <span class="navbar-brand font-weight-bold">EUREKABANK - SUPERVISIÓN MASHUP & BANCA WEB (.NET 10)</span>
+        <span class="text-white">Operador: @Model.Sesion.NombreCompleto | Ventanilla: @Model.VentanillaActiva</span>
+    </nav>
+    <div class="container-fluid py-4 px-4">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card shadow-sm p-3 mb-4">
+                    <h5>Semáforo de Concurrencia MashUp en Tiempo Real</h5>
+                    <table class="table table-hover mt-3" id="tablaCuentas">
+                        <thead class="table-light">
+                            <tr><th>Cuenta</th><th>Titular</th><th>Saldo USD</th><th>Estado MashUp</th><th>Acción</th></tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var c in Model.Cuentas)
+                            {
+                                <tr>
+                                    <td>@c.NumeroCuenta</td>
+                                    <td>@c.TitularCompleto</td>
+                                    <td>$@c.Saldo.ToString("F2")</td>
+                                    <td>
+                                        <span class="@(c.EstadoMashup == "ROJO" ? "badge-rojo" : "badge-verde")">
+                                            @(c.EstadoMashup == "ROJO" ? $"ROJO (Vent. {c.VentanillaOcupada})" : "VERDE (Libre)")
+                                        </span>
+                                    </td>
+                                    <td><button class="btn btn-sm btn-outline-primary" onclick="seleccionarCuenta('@c.NumeroCuenta')">Extracto</button></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm p-3">
+                    <h5>Operaciones Transaccionales ACID</h5>
+                    <div class="mb-3 mt-2">
+                        <label>Cuenta Destino/Origen:</label>
+                        <input type="text" id="txtCuenta" class="form-control" value="001-0001" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Monto USD ($):</label>
+                        <input type="number" id="txtMonto" class="form-control" value="50.00" />
+                    </div>
+                    <button class="btn btn-success w-100 mb-2" onclick="ejecutarDeposito()">ACREDITAR DEPÓSITO (+)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Polling reactivo cada 900 ms para actualización en tiempo real del semáforo
+        setInterval(async () => {
+            const resp = await fetch('/Dashboard/EstadoMashup');
+            if (resp.ok) {
+                const data = await resp.json();
+                actualizarTablaCuentas(data.cuentas);
+            }
+        }, 900);
+
+        function actualizarTablaCuentas(cuentas) {
+            const tbody = document.querySelector('#tablaCuentas tbody');
+            tbody.innerHTML = '';
+            cuentas.forEach(c => {
+                const esRojo = c.estadoMashup === 'ROJO';
+                const badge = esRojo
+                    ? `<span class="badge-rojo">ROJO (Vent. ${c.ventanillaOcupada} - ${c.bloqueadoPor})</span>`
+                    : `<span class="badge-verde">VERDE (Libre)</span>`;
+                tbody.innerHTML += `<tr><td>${c.numeroCuenta}</td><td>${c.titularCompleto}</td><td>$${c.saldo.toFixed(2)}</td><td>${badge}</td><td><button class="btn btn-sm btn-outline-primary" onclick="seleccionarCuenta('${c.numeroCuenta}')">Extracto</button></td></tr>`;
+            });
+        }
+
+        async function ejecutarDeposito() {
+            const cuenta = document.getElementById('txtCuenta').value;
+            const monto = document.getElementById('txtMonto').value;
+            const res = await fetch(`/Dashboard/Depositar?cuenta=${cuenta}&monto=${monto}`, { method: 'POST' });
+            const data = await res.json();
+            alert(data.mensaje);
+        }
+    </script>
+</body>
+</html>
+"""));
+
+            list.Add(FigureCaption(17, "Interfaz Web de Inicio de Sesión de Ventanilla (Login/Index.cshtml)"));
+            list.Add(ScreenshotBox(
+                17,
+                "Interfaz Web de Inicio de Sesión de Ventanilla (Login/Index.cshtml)",
+                "Navegador Google Chrome en http://localhost:5141/ o http://localhost:5000/.",
+                "Formulario de autenticación web de EurekaBank.",
+                "Ingresar 'Monster', contraseña 'Monster9', seleccionar Ventanilla 1 y pulsar 'INGRESAR AL SISTEMA'.",
+                "Autenticación válida y redirección hacia el Dashboard principal de monitoreo en /Dashboard."
+            ));
+
+            list.Add(FigureCaption(18, "Monitor MashUp y Banca Web en Tiempo Real (Dashboard/Index.cshtml)"));
+            list.Add(ScreenshotBox(
+                18,
+                "Monitor MashUp y Banca Web en Tiempo Real (Dashboard/Index.cshtml)",
+                "Dashboard web interactivo en el navegador.",
+                "Página principal mostrando la tabla reactiva con todas las insignias de cuenta en VERDE (Libre).",
+                "Observar la actualización periódica cada 0.9 segundos sin parpadeo de pantalla.",
+                "Panel de operaciones transaccionales activo a la derecha y tabla de cuentas con saldos actualizados."
+            ));
+
+            list.Add(FigureCaption(19, "Reflejo del Semáforo en ROJO durante Operación Transaccional Activa en Web"));
+            list.Add(ScreenshotBox(
+                19,
+                "Reflejo del Semáforo en ROJO durante Operación Transaccional Activa en Web",
+                "Dashboard web durante la ejecución de un depósito sobre la cuenta 001-0001.",
+                "Hacer clic en 'ACREDITAR DEPÓSITO (+)' desde la Ventanilla 1.",
+                "La fila correspondiente cambia de inmediato a color rojo y texto 'ROJO (Vent. 1 - Monster Admin)' durante los 4.5 segundos del proceso.",
+                "Retorno automático al estado VERDE al confirmarse el COMMIT en la base de datos."
+            ));
+
+            // 4.11 Matriz de Pruebas y Troubleshooting
+            list.Add(Heading2("4.11 Matriz de Casos de Prueba Transaccionales y de Concurrencia"));
+            list.Add(Paragraph("Para validar la robustez técnica del sistema EurekaBank en .NET 10 y el cumplimiento riguroso de las propiedades ACID y exclusión mutua, se ejecutó la siguiente batería de pruebas funcionales y de concurrencia:"));
+
+            list.Add(TableCaption(37, "Matriz de Casos de Prueba Transaccionales y de Concurrencia MashUp"));
+            list.Add(TechnicalTable(
+                new[] { "ID", "Escenario de Prueba", "Procedimiento Técnico Ejecutado", "Resultado Esperado", "Estado" },
+                new[] { 1000, 2200, 2400, 2404, 1000 },
+                new List<string[]>
+                {
+                    new[] { "CP-01", "Autenticación BCrypt Operador Monster", "Ingreso de 'Monster' y clave 'Monster9' vía SOAP.", "Token generado y rol Superadmin asignado.", "EXITOSO" },
+                    new[] { "CP-02", "Rechazo de Credenciales Inválidas", "Ingreso de clave errónea para operador cajero1.", "Mensaje de rechazo sin emitir token.", "EXITOSO" },
+                    new[] { "CP-03", "Depósito Atómico con Bloqueo Pesimista", "Depósito de $150.00 sobre 001-0001 con delay de 4.5s.", "Saldo incrementa y se genera registro en movimiento.", "EXITOSO" },
+                    new[] { "CP-04", "Exclusión Mutua Concurrente (ROJO)", "Ventanilla 2 intenta operar mientras Ventanilla 1 procesa.", "Rechazo de concurrencia con mensaje de cuenta en uso.", "EXITOSO" },
+                    new[] { "CP-05", "Transferencia ACID entre Cuentas", "Transferencia de $100.00 de 001-0001 a 001-0002.", "Débito y crédito aplicados atómicamente.", "EXITOSO" },
+                    new[] { "CP-06", "Rollback por Saldo Insuficiente", "Intento de retiro de $99,999.00 sobre cuenta activa.", "Transacción cancelada y saldo inalterado.", "EXITOSO" },
+                    new[] { "CP-07", "Consumo Móvil en Loopback Android", "Conexión de emulador a http://10.0.2.2:5120/.", "Listado y depósito exitoso desde .NET MAUI.", "EXITOSO" },
+                    new[] { "CP-08", "Sondeo Reactivo MashUp en Web", "Actualización AJAX cada 0.9s en Dashboard/Index.cshtml.", "Cambio cromático visible sin recargar la página.", "EXITOSO" }
+                }
+            ));
+
+            list.Add(TableCaption(38, "Guía de Diagnóstico y Resolución de Errores Frecuentes (Troubleshooting .NET)"));
+            list.Add(TechnicalTable(
+                new[] { "Síntoma / Error", "Causa Técnica Principal", "Solución Recomendada y Comprobada" },
+                new[] { 2500, 3000, 3504 },
+                new List<string[]>
+                {
+                    new[] { "Error de conexión con la base de datos (Port 3306)", "El contenedor Podman/Docker de MySQL no está iniciado.", "Ejecutar 'podman compose up -d' dentro del directorio 03. BDD." },
+                    new[] { "Timeout o conexión rechazada en emulador Android", "Se configuró 'localhost' en lugar de la IP de loopback.", "Utilizar '10.0.2.2:5120' en el archivo EurekaBankSoapModel.cs de MAUI." },
+                    new[] { "Error 'No se puede agregar fila sin columnas' en WinForms", "La cuadrícula DataGridView se refrescó antes de inicializarse.", "Llamar a ConfigurarColumnasCuentas() si Columns.Count == 0." },
+                    new[] { "Advertencia de tamaño de mensaje SOAP excedido", "La respuesta WCF supera el tamaño por defecto (64 KB).", "Configurar MaxReceivedMessageSize = 10 * 1024 * 1024 en BasicHttpBinding." }
+                }
+            ));
+
+            // =========================================================================
+            // SECCIÓN 5: CONCLUSIONES
+            // =========================================================================
+            list.Add(Heading1("5 CONCLUSIONES"));
+            list.Add(BulletParagraph("1.", "La implementación de servicios web SOAP sobre la plataforma moderna .NET 10 mediante CoreWCF demuestra que es factible mantener la compatibilidad con estándares industriales rigurosos (WSDL, SOAP 1.1, BasicHttpBinding) sin renunciar al rendimiento de Kestrel y a la portabilidad multiplataforma sobre contenedores Linux y Windows."));
+            list.Add(BulletParagraph("2.", "La aplicación estricta del patrón arquitectónico MVC Tradicional Puro (Model, View, Controller) en todos los proyectos clientes (Consola, Escritorio Windows Forms, Móvil .NET MAUI y Web ASP.NET Core) garantiza un desacoplamiento absoluto de la lógica de presentación respecto a la comunicación SOAP, facilitando el mantenimiento y la evolución independiente de cada interfaz de usuario."));
+            list.Add(BulletParagraph("3.", "El mecanismo de Semáforo MashUp de Concurrencia en tiempo real, respaldado por la tabla control_mashup y bloqueos pesimistas SELECT ... FOR UPDATE a nivel del motor InnoDB de MySQL, resuelve satisfactoriamente las condiciones de carrera y previene la inconsistencia de saldos en operaciones bancarias simultáneas entre múltiples ventanillas."));
+            list.Add(BulletParagraph("4.", "La integración de cuatro tecnologías cliente heterogéneas bajo el lenguaje unificado C# evidencia la versatilidad del ecosistema .NET contemporáneo para abordar escenarios de terminales ligeras de consola, aplicaciones de escritorio ricas, dispositivos móviles táctiles y aplicaciones web reactivas con sincronización continua."));
+
+            // =========================================================================
+            // SECCIÓN 6: RECOMENDACIONES
+            // =========================================================================
+            list.Add(Heading1("6 RECOMENDACIONES"));
+            list.Add(BulletParagraph("1.", "En entornos de producción bancaria, se recomienda habilitar transporte seguro TLS/HTTPS obligatorio en Kestrel (BasicHttpSecurityMode.Transport) y utilizar certificados digitales institucionales para prevenir la interceptación de mensajes XML en tránsito."));
+            list.Add(BulletParagraph("2.", "Para la sincronización reactiva en clientes web y de escritorio, se sugiere evaluar la adopción de WebSockets o SignalR Core en reemplazo del sondeo periódico (polling), reduciendo la sobrecarga de red en escenarios con cientos de ventanillas concurrentes."));
+            list.Add(BulletParagraph("3.", "Se recomienda configurar políticas de reintento automático con retroceso exponencial (Polly en .NET) en la capa Modelo de los clientes, gestionando de forma transparente caídas temporales de conectividad de red o sobrecargas transitorias del servidor."));
+            list.Add(BulletParagraph("4.", "Para la gestión de secretos y credenciales de base de datos en entornos empresariales, es aconsejable delegar el ConnectionString a variables de entorno protegidas o sistemas de gestión de claves como Azure Key Vault o HashiCorp Vault."));
+
+            // =========================================================================
+            // SECCIÓN 7: REFERENCIAS BIBLIOGRÁFICAS
+            // =========================================================================
+            list.Add(Heading1("7 REFERENCIAS BIBLIOGRAFICAS"));
+            list.Add(Paragraph("[1] Microsoft Corporation, «CoreWCF: WCF for .NET Core and .NET 5+», Microsoft Docs, 2026. [En línea]. Disponible en: https://github.com/CoreWCF/CoreWCF."));
+            list.Add(Paragraph("[2] W3C, «Simple Object Access Protocol (SOAP) 1.1», World Wide Web Consortium Recommendation, 2000. [En línea]. Disponible en: https://www.w3.org/TR/2000/NOTE-SOAP-20000508/."));
+            list.Add(Paragraph("[3] W3C, «Web Services Description Language (WSDL) 1.1», W3C Note, 2001. [En línea]. Disponible en: https://www.w3.org/TR/wsdl."));
+            list.Add(Paragraph("[4] A. Troelsen y P. Japikse, Pro C# 10 with .NET 6: Foundational Principles and Practices in Programming, 11a ed. Nueva York, EE. UU.: Apress, 2022."));
+            list.Add(Paragraph("[5] E. Gamma, R. Helm, R. Johnson, y J. Vlissides, Design Patterns: Elements of Reusable Object-Oriented Software. Boston, MA: Addison-Wesley, 1994."));
+            list.Add(Paragraph("[6] Oracle Corporation, «MySQL 8.0 Reference Manual: InnoDB Locking and Transaction Model», Oracle Docs, 2026. [En línea]. Disponible en: https://dev.mysql.com/doc/refman/8.0/en/innodb-locking.html."));
+            list.Add(Paragraph("[7] Microsoft Corporation, «.NET Multi-platform App UI (.NET MAUI) Documentation», Microsoft Learn, 2026. [En línea]. Disponible en: https://learn.microsoft.com/dotnet/maui/."));
+            list.Add(Paragraph("[8] C. Anderson, Pro ASP.NET Core MVC, 8a ed. Berkeley, CA: Apress, 2020."));
+
+            return list;
+        }
+    }
+}

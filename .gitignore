@@ -1,16 +1,103 @@
-/Parcial-I/Talleres/TI.1.1 PAO202651_SOAP_JAVA_SINBDD_NRC36884_GR04/04. SERVIDOR/WSConversionUnidades
-/Parcial-I/Talleres/TI.1.1 PAO202651_SOAP_JAVA_SINBDD_NRC36884_GR04/04. SERVIDOR/WSConversorClient/build/
-/Parcial-I/Talleres/TI.1.1 PAO202651_SOAP_JAVA_SINBDD_NRC36884_GR04/04. SERVIDOR/WSConversorClient/dist/
+# =====================================================================
+# GITIGNORE - PROYECTO ACADEMICO DISTRIBUIDOS / SERVICIOS WEB
+# =====================================================================
 
-# Temp folders
-.tmp.driveupload/
-*.tmp
+# ---------------------------------------------------------------------
+# Clases y Archivos Autogenerados en Compilacion Java
+# ---------------------------------------------------------------------
+*.class
+*.log
+*.ctxt
+.mtj.tmp/
 
-# .NET build and user artifacts
+# Archivos de empaquetado generados
+*.war
+*.ear
+*.nar
+
+# Logs de error de la JVM
+hs_err_pid*
+replay_pid*
+
+# ---------------------------------------------------------------------
+# Directorios de Compilacion Maven y Gradle
+# ---------------------------------------------------------------------
+target/
+**/target/
+build/
+**/build/
+dist/
+**/dist/
+out/
+**/out/
+.gradle/
+dependency-reduced-pom.xml
+release.properties
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+
+# Excepciones necesarias
+!.mvn/wrapper/maven-wrapper.jar
+
+# ---------------------------------------------------------------------
+# .NET Build and User Artifacts
+# ---------------------------------------------------------------------
 [Bb]in/
+**/[Bb]in/
 [Oo]bj/
+**/[Oo]bj/
 .vs/
+**/.vs/
 *.user
 *.suo
+*.useros
+*.sln.docstates
 
-/Parcial-I/Talleres/TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04/04. SERVIDOR/WS_ConversorUnidades_Java_REST/target/
+# ---------------------------------------------------------------------
+# Archivos de Configuracion de IDEs
+# ---------------------------------------------------------------------
+# NetBeans
+nbproject/private/
+**/nbproject/private/
+nbbuild/
+**/nbbuild/
+nbdist/
+**/nbdist/
+.nb-gradletaskcache/
+
+# IntelliJ IDEA
+.idea/
+**/.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse / STS
+.apt_generated/
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache/
+
+# VS Code
+.vscode/
+**/.vscode/
+*.code-workspace
+
+# ---------------------------------------------------------------------
+# Archivos Temporales y del Sistema Operativo
+# ---------------------------------------------------------------------
+.tmp.driveupload/
+*.tmp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos de bloqueo temporal de MS Office
+~$*.docx
+~$*.xlsx
+~$*.pptx
