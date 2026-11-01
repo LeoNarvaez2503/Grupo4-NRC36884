@@ -38,6 +38,16 @@ pom.xml.releaseBackup
 pom.xml.versionsBackup
 pom.xml.next
 
+# Rutas explicitas
+/Parcial-I/Talleres/TI.1.1 PAO202651_SOAP_JAVA_SINBDD_NRC36884_GR04/04. SERVIDOR/WSConversionUnidades
+/Parcial-I/Talleres/TI.1.1 PAO202651_SOAP_JAVA_SINBDD_NRC36884_GR04/04. SERVIDOR/WSConversorClient/build/
+/Parcial-I/Talleres/TI.1.1 PAO202651_SOAP_JAVA_SINBDD_NRC36884_GR04/04. SERVIDOR/WSConversorClient/dist/
+/Parcial-I/Talleres/TI.1.3 PAO202651_RESTFUL_JAVA_SINBDD_NRC36884_GR04/04. SERVIDOR/WS_ConversorUnidades_Java_REST/target/
+/Parcial-I/Examen/04. SERVIDOR/WS_BanQuito_Java_REST/target/
+/Parcial-I/Examen/04. CLIWEB/WS_Comercializadora_WebClient/target/
+/Parcial-I/Examen/04. CLICON/WS_Comercializadora_ConsoleClient/target/
+/Parcial-I/Examen/04. CLIESC/WS_Comercializadora_DesktopClient/target/
+
 # Excepciones necesarias
 !.mvn/wrapper/maven-wrapper.jar
 

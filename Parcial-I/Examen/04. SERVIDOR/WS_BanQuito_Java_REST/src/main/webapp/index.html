@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BanQuito Core - RESTful Web Service</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body { background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%); color: #e0e1dd; min-height: 100vh; padding: 40px 15px; font-family: system-ui, -apple-system, sans-serif; }
+        .card-custom { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 16px; }
+        .badge-method { font-family: monospace; font-size: 0.85rem; padding: 5px 10px; }
+        a.endpoint-link { color: #64dfdf; text-decoration: none; font-family: monospace; }
+        a.endpoint-link:hover { text-decoration: underline; color: #48cae4; }
+        .status-badge { background-color: #2ec4b6; color: #011627; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container" style="max-width: 900px;">
+        <div class="card card-custom shadow-lg p-4 p-md-5">
+            <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+                <div>
+                    <h1 class="h2 text-white mb-1"><i class="bi bi-bank2 text-info me-2"></i>BanQuito Core - Módulo de Crédito</h1>
+                    <p class="text-secondary mb-0">Servicio Web RESTful en Java (Jakarta EE / JAX-RS) | NRC: 36884 - Grupo 04</p>
+                </div>
+                <span class="badge status-badge p-2 px-3 rounded-pill"><i class="bi bi-check-circle-fill me-1"></i> Servicio Operativo</span>
+            </div>
+
+            <div class="alert alert-success bg-opacity-25 border-success text-white mb-4">
+                <i class="bi bi-info-circle-fill text-info me-2"></i>
+                <strong>¡El servidor está en ejecución correctamente!</strong> Este proyecto es una API RESTful sin interfaz visual por defecto. Utiliza los siguientes enlaces para probar los endpoints:
+            </div>
+
+            <h5 class="text-white mb-3"><i class="bi bi-link-45deg text-warning me-1"></i> Endpoints REST Disponibles (Prueba con un clic):</h5>
+            
+            <div class="list-group list-group-flush mb-4">
+                <div class="list-group-item bg-transparent border-secondary text-white py-3">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div>
+                            <span class="badge bg-success badge-method me-2">GET</span>
+                            <a class="endpoint-link" href="api/credito/clientes" target="_blank">api/credito/clientes</a>
+                        </div>
+                        <small class="text-secondary">Lista los 5 clientes de prueba registrados</small>
+                    </div>
+                </div>
+
+                <div class="list-group-item bg-transparent border-secondary text-white py-3">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div>
+                            <span class="badge bg-success badge-method me-2">GET</span>
+                            <a class="endpoint-link" href="api/credito/es-sujeto/1710000001" target="_blank">api/credito/es-sujeto/1710000001</a>
+                        </div>
+                        <small class="text-secondary">Verifica sujeto de crédito (Cliente 1: Carlos Andrade - Aprobado)</small>
+                    </div>
+                </div>
+
+                <div class="list-group-item bg-transparent border-secondary text-white py-3">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div>
+                            <span class="badge bg-success badge-method me-2">GET</span>
+                            <a class="endpoint-link" href="api/credito/es-sujeto/1710000003" target="_blank">api/credito/es-sujeto/1710000003</a>
+                        </div>
+                        <small class="text-secondary">Verifica sujeto de crédito (Cliente 3: Mateo - Rechazado por edad)</small>
+                    </div>
+                </div>
+
+                <div class="list-group-item bg-transparent border-secondary text-white py-3">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div>
+                            <span class="badge bg-success badge-method me-2">GET</span>
+                            <a class="endpoint-link" href="api/credito/monto-maximo/1" target="_blank">api/credito/monto-maximo/1</a>
+                        </div>
+                        <small class="text-secondary">Calcula cupo máximo aprobado para el Cliente #1 ($1,046.57)</small>
+                    </div>
+                </div>
+
+                <div class="list-group-item bg-transparent border-secondary text-white py-3">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div>
+                            <span class="badge bg-success badge-method me-2">GET</span>
+                            <a class="endpoint-link" href="api/credito/simular?monto=450&cuotas=6" target="_blank">api/credito/simular?monto=450&cuotas=6</a>
+                        </div>
+                        <small class="text-secondary">Simulación de amortización francesa ($450 a 6 meses -> Cuota $78.65)</small>
+                    </div>
+                </div>
+
+                <div class="list-group-item bg-transparent border-secondary text-white py-3">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div>
+                            <span class="badge bg-primary badge-method me-2">POST</span>
+                            <span class="font-monospace text-info">api/credito/otorgar</span>
+                        </div>
+                        <small class="text-secondary">Otorga el crédito y genera tabla de amortización (Vía Cliente / Postman)</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-2 pt-3 border-top border-secondary d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div>
+                    <span class="text-secondary small">¿Buscas la tienda / interfaz gráfica para facturación?</span>
+                </div>
+                <a href="http://localhost:8090/" target="_blank" class="btn btn-outline-info">
+                    <i class="bi bi-cart3 me-1"></i> Abrir Comercializadora Web (Puerto 8090)
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

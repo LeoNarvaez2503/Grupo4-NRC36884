@@ -24,7 +24,9 @@ public class BanQuitoRestClient implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private static final String DEFAULT_BASE_URL = "http://localhost:8080/api/credito";
+    private static final String PAYARA_BASE_URL = "http://localhost:8080/WS_BanQuito_Java_REST/api/credito";
     private final String baseUrl;
+    private volatile String resolvedBaseUrl;
     private final transient HttpClient client;
     private final transient Gson gson;
 
@@ -38,10 +40,38 @@ public class BanQuitoRestClient implements Serializable {
         this.gson = new Gson();
     }
 
+    private String getBaseUrl() {
+        if (resolvedBaseUrl != null) {
+            return resolvedBaseUrl;
+        }
+        // Intentar baseUrl inicial (ej: http://localhost:8080/api/credito)
+        try {
+            HttpRequest req = HttpRequest.newBuilder().uri(URI.create(baseUrl)).timeout(Duration.ofSeconds(2)).GET().build();
+            HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
+            if (res.statusCode() == 200) {
+                resolvedBaseUrl = baseUrl;
+                return resolvedBaseUrl;
+            }
+        } catch (Exception ignored) {}
+
+        // Si falló o dio 404, probar la ruta en Payara/GlassFish (/WS_BanQuito_Java_REST/api/credito)
+        try {
+            HttpRequest req = HttpRequest.newBuilder().uri(URI.create(PAYARA_BASE_URL)).timeout(Duration.ofSeconds(2)).GET().build();
+            HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
+            if (res.statusCode() == 200) {
+                resolvedBaseUrl = PAYARA_BASE_URL;
+                return resolvedBaseUrl;
+            }
+        } catch (Exception ignored) {}
+
+        resolvedBaseUrl = baseUrl;
+        return resolvedBaseUrl;
+    }
+
     // ÍTEM 5: Invocar servicio Web que valida si una persona es sujeto de crédito
     public SujetoCreditoResponse validarSujetoCredito(String cedula) {
         try {
-            String url = baseUrl + "/es-sujeto/" + URLEncoder.encode(cedula.trim(), StandardCharsets.UTF_8);
+            String url = getBaseUrl() + "/es-sujeto/" + URLEncoder.encode(cedula.trim(), StandardCharsets.UTF_8);
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .header("Accept", "application/json")
@@ -69,7 +99,7 @@ public class BanQuitoRestClient implements Serializable {
     // ÍTEM 6: Invocar servicio Web que retorna el monto máximo de crédito
     public MontoMaximoResponse obtenerMontoMaximo(int codCliente) {
         try {
-            String url = baseUrl + "/monto-maximo/" + codCliente;
+            String url = getBaseUrl() + "/monto-maximo/" + codCliente;
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .header("Accept", "application/json")
@@ -92,7 +122,7 @@ public class BanQuitoRestClient implements Serializable {
     // ÍTEM 7: Invocar servicio Web que otorga el crédito y crea la tabla de amortización
     public OtorgarCreditoResponse otorgarCredito(int codCliente, double precioTelefono, int numeroCuotas) {
         try {
-            String url = baseUrl + "/otorgar";
+            String url = getBaseUrl() + "/otorgar";
             Map<String, Object> body = new HashMap<>();
             body.put("codCliente", codCliente);
             body.put("precioTelefono", precioTelefono);
@@ -119,7 +149,7 @@ public class BanQuitoRestClient implements Serializable {
     // ÍTEM 10 & 11: Invocar servicio Web que retorna la tabla de amortización
     public List<CuotaAmortizacion> obtenerTablaAmortizacion(int codCredito) {
         try {
-            String url = baseUrl + "/tabla-amortizacion/" + codCredito;
+            String url = getBaseUrl() + "/tabla-amortizacion/" + codCredito;
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .header("Accept", "application/json")
@@ -137,7 +167,7 @@ public class BanQuitoRestClient implements Serializable {
 
     public List<CuotaAmortizacion> simularAmortizacion(double monto, int cuotas) {
         try {
-            String url = baseUrl + "/simular?monto=" + monto + "&cuotas=" + cuotas;
+            String url = getBaseUrl() + "/simular?monto=" + monto + "&cuotas=" + cuotas;
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .header("Accept", "application/json")
