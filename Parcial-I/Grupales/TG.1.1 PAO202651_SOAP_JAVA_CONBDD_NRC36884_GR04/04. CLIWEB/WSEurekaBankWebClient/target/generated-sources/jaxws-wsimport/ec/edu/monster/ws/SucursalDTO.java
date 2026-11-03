@@ -7,9 +7,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for sucursalDTO complex type.
+ * <p>Clase Java para sucursalDTO complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>{@code
  * <complexType name="sucursalDTO">
@@ -49,7 +49,7 @@ public class SucursalDTO {
     protected int totalCuentas;
 
     /**
-     * Gets the value of the ciudad property.
+     * Obtiene el valor de la propiedad ciudad.
      * 
      * @return
      *     possible object is
@@ -61,7 +61,7 @@ public class SucursalDTO {
     }
 
     /**
-     * Sets the value of the ciudad property.
+     * Define el valor de la propiedad ciudad.
      * 
      * @param value
      *     allowed object is
@@ -73,7 +73,7 @@ public class SucursalDTO {
     }
 
     /**
-     * Gets the value of the codigo property.
+     * Obtiene el valor de la propiedad codigo.
      * 
      * @return
      *     possible object is
@@ -85,7 +85,7 @@ public class SucursalDTO {
     }
 
     /**
-     * Sets the value of the codigo property.
+     * Define el valor de la propiedad codigo.
      * 
      * @param value
      *     allowed object is
@@ -97,7 +97,7 @@ public class SucursalDTO {
     }
 
     /**
-     * Gets the value of the direccion property.
+     * Obtiene el valor de la propiedad direccion.
      * 
      * @return
      *     possible object is
@@ -109,7 +109,7 @@ public class SucursalDTO {
     }
 
     /**
-     * Sets the value of the direccion property.
+     * Define el valor de la propiedad direccion.
      * 
      * @param value
      *     allowed object is
@@ -121,7 +121,7 @@ public class SucursalDTO {
     }
 
     /**
-     * Gets the value of the idSucursal property.
+     * Obtiene el valor de la propiedad idSucursal.
      * 
      */
     public int getIdSucursal() {
@@ -129,7 +129,7 @@ public class SucursalDTO {
     }
 
     /**
-     * Sets the value of the idSucursal property.
+     * Define el valor de la propiedad idSucursal.
      * 
      */
     public void setIdSucursal(int value) {
@@ -137,7 +137,7 @@ public class SucursalDTO {
     }
 
     /**
-     * Gets the value of the nombre property.
+     * Obtiene el valor de la propiedad nombre.
      * 
      * @return
      *     possible object is
@@ -149,7 +149,7 @@ public class SucursalDTO {
     }
 
     /**
-     * Sets the value of the nombre property.
+     * Define el valor de la propiedad nombre.
      * 
      * @param value
      *     allowed object is
@@ -161,7 +161,7 @@ public class SucursalDTO {
     }
 
     /**
-     * Gets the value of the totalCuentas property.
+     * Obtiene el valor de la propiedad totalCuentas.
      * 
      */
     public int getTotalCuentas() {
@@ -169,7 +169,7 @@ public class SucursalDTO {
     }
 
     /**
-     * Sets the value of the totalCuentas property.
+     * Define el valor de la propiedad totalCuentas.
      * 
      */
     public void setTotalCuentas(int value) {

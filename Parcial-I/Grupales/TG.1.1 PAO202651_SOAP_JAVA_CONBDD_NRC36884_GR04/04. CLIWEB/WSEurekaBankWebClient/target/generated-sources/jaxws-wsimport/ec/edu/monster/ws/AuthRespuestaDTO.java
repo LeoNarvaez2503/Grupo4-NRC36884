@@ -7,9 +7,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for authRespuestaDTO complex type.
+ * <p>Clase Java para authRespuestaDTO complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>{@code
  * <complexType name="authRespuestaDTO">
@@ -61,7 +61,7 @@ public class AuthRespuestaDTO {
     protected int ventanilla;
 
     /**
-     * Gets the value of the autenticado property.
+     * Obtiene el valor de la propiedad autenticado.
      * 
      */
     public boolean isAutenticado() {
@@ -69,7 +69,7 @@ public class AuthRespuestaDTO {
     }
 
     /**
-     * Sets the value of the autenticado property.
+     * Define el valor de la propiedad autenticado.
      * 
      */
     public void setAutenticado(boolean value) {
@@ -77,7 +77,7 @@ public class AuthRespuestaDTO {
     }
 
     /**
-     * Gets the value of the idEmpleado property.
+     * Obtiene el valor de la propiedad idEmpleado.
      * 
      */
     public int getIdEmpleado() {
@@ -85,7 +85,7 @@ public class AuthRespuestaDTO {
     }
 
     /**
-     * Sets the value of the idEmpleado property.
+     * Define el valor de la propiedad idEmpleado.
      * 
      */
     public void setIdEmpleado(int value) {
@@ -93,7 +93,7 @@ public class AuthRespuestaDTO {
     }
 
     /**
-     * Gets the value of the idSucursal property.
+     * Obtiene el valor de la propiedad idSucursal.
      * 
      */
     public int getIdSucursal() {
@@ -101,7 +101,7 @@ public class AuthRespuestaDTO {
     }
 
     /**
-     * Sets the value of the idSucursal property.
+     * Define el valor de la propiedad idSucursal.
      * 
      */
     public void setIdSucursal(int value) {
@@ -109,7 +109,7 @@ public class AuthRespuestaDTO {
     }
 
     /**
-     * Gets the value of the mensaje property.
+     * Obtiene el valor de la propiedad mensaje.
      * 
      * @return
      *     possible object is
@@ -121,7 +121,7 @@ public class AuthRespuestaDTO {
     }
 
     /**
-     * Sets the value of the mensaje property.
+     * Define el valor de la propiedad mensaje.
      * 
      * @param value
      *     allowed object is
@@ -133,7 +133,7 @@ public class AuthRespuestaDTO {
     }
 
     /**
-     * Gets the value of the nombreCompleto property.
+     * Obtiene el valor de la propiedad nombreCompleto.
      * 
      * @return
      *     possible object is
@@ -145,7 +145,7 @@ public class AuthRespuestaDTO {
     }
 
     /**
-     * Sets the value of the nombreCompleto property.
+     * Define el valor de la propiedad nombreCompleto.
      * 
      * @param value
      *     allowed object is
@@ -157,7 +157,7 @@ public class AuthRespuestaDTO {
     }
 
     /**
-     * Gets the value of the nombreSucursal property.
+     * Obtiene el valor de la propiedad nombreSucursal.
      * 
      * @return
      *     possible object is
@@ -169,7 +169,7 @@ public class AuthRespuestaDTO {
     }
 
     /**
-     * Sets the value of the nombreSucursal property.
+     * Define el valor de la propiedad nombreSucursal.
      * 
      * @param value
      *     allowed object is
@@ -181,7 +181,7 @@ public class AuthRespuestaDTO {
     }
 
     /**
-     * Gets the value of the rol property.
+     * Obtiene el valor de la propiedad rol.
      * 
      * @return
      *     possible object is
@@ -193,7 +193,7 @@ public class AuthRespuestaDTO {
     }
 
     /**
-     * Sets the value of the rol property.
+     * Define el valor de la propiedad rol.
      * 
      * @param value
      *     allowed object is
@@ -205,7 +205,7 @@ public class AuthRespuestaDTO {
     }
 
     /**
-     * Gets the value of the token property.
+     * Obtiene el valor de la propiedad token.
      * 
      * @return
      *     possible object is
@@ -217,7 +217,7 @@ public class AuthRespuestaDTO {
     }
 
     /**
-     * Sets the value of the token property.
+     * Define el valor de la propiedad token.
      * 
      * @param value
      *     allowed object is
@@ -229,7 +229,7 @@ public class AuthRespuestaDTO {
     }
 
     /**
-     * Gets the value of the usuario property.
+     * Obtiene el valor de la propiedad usuario.
      * 
      * @return
      *     possible object is
@@ -241,7 +241,7 @@ public class AuthRespuestaDTO {
     }
 
     /**
-     * Sets the value of the usuario property.
+     * Define el valor de la propiedad usuario.
      * 
      * @param value
      *     allowed object is
@@ -253,7 +253,7 @@ public class AuthRespuestaDTO {
     }
 
     /**
-     * Gets the value of the ventanilla property.
+     * Obtiene el valor de la propiedad ventanilla.
      * 
      */
     public int getVentanilla() {
@@ -261,7 +261,7 @@ public class AuthRespuestaDTO {
     }
 
     /**
-     * Sets the value of the ventanilla property.
+     * Define el valor de la propiedad ventanilla.
      * 
      */
     public void setVentanilla(int value) {

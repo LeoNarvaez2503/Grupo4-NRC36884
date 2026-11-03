@@ -7,9 +7,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for depositar complex type.
+ * <p>Clase Java para depositar complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>{@code
  * <complexType name="depositar">
@@ -43,7 +43,7 @@ public class Depositar {
     protected int ventanilla;
 
     /**
-     * Gets the value of the numeroCuenta property.
+     * Obtiene el valor de la propiedad numeroCuenta.
      * 
      * @return
      *     possible object is
@@ -55,7 +55,7 @@ public class Depositar {
     }
 
     /**
-     * Sets the value of the numeroCuenta property.
+     * Define el valor de la propiedad numeroCuenta.
      * 
      * @param value
      *     allowed object is
@@ -67,7 +67,7 @@ public class Depositar {
     }
 
     /**
-     * Gets the value of the monto property.
+     * Obtiene el valor de la propiedad monto.
      * 
      */
     public double getMonto() {
@@ -75,7 +75,7 @@ public class Depositar {
     }
 
     /**
-     * Sets the value of the monto property.
+     * Define el valor de la propiedad monto.
      * 
      */
     public void setMonto(double value) {
@@ -83,7 +83,7 @@ public class Depositar {
     }
 
     /**
-     * Gets the value of the empleadoId property.
+     * Obtiene el valor de la propiedad empleadoId.
      * 
      */
     public int getEmpleadoId() {
@@ -91,7 +91,7 @@ public class Depositar {
     }
 
     /**
-     * Sets the value of the empleadoId property.
+     * Define el valor de la propiedad empleadoId.
      * 
      */
     public void setEmpleadoId(int value) {
@@ -99,7 +99,7 @@ public class Depositar {
     }
 
     /**
-     * Gets the value of the ventanilla property.
+     * Obtiene el valor de la propiedad ventanilla.
      * 
      */
     public int getVentanilla() {
@@ -107,7 +107,7 @@ public class Depositar {
     }
 
     /**
-     * Sets the value of the ventanilla property.
+     * Define el valor de la propiedad ventanilla.
      * 
      */
     public void setVentanilla(int value) {

@@ -2,190 +2,255 @@ package ec.edu.monster.cliesc.view;
 
 import ec.edu.monster.cliesc.controller.AppControlador;
 import ec.edu.monster.cliesc.model.UsuarioSesion;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Insets;
-import java.net.URL;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
 /**
- * Capa Vista (Patrón MVC Tradicional): Ventana de Autenticación de Escritorio Swing.
+ * Capa Vista (PatrÃ³n MVC Tradicional): Formulario NetBeans GUI de AutenticaciÃ³n de Ventanilla Swing.
  */
-public class LoginView extends JFrame {
+public class LoginView extends javax.swing.JFrame {
 
     private final AppControlador controlador;
-    private final JTextField txtUsuario = new JTextField("Monster", 18);
-    private final JPasswordField txtClave = new JPasswordField("Monster9", 18);
-    private final JComboBox<String> cmbVentanilla = new JComboBox<>(new String[]{
-        "Ventanilla 1", "Ventanilla 2", "Ventanilla 3", "Ventanilla 4"
-    });
-    private final JButton btnIngresar = new JButton("Ingresar al Sistema");
-    private final JLabel lblEstado = new JLabel("Listo para conectar al servidor", SwingConstants.CENTER);
 
-    public LoginView(AppControlador controlador) {
-        this.controlador = controlador;
-        configurarVentana();
+    /**
+     * Constructor por defecto para el diseÃ±ador NetBeans (Matisse).
+     */
+    public LoginView() {
+        this(new AppControlador());
     }
 
-    private void configurarVentana() {
-        setTitle("EurekaBank - Autenticación Centralizada (GR04 - ec.edu.monster)");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(470, 560);
+    /**
+     * Constructor con inyecciÃ³n del controlador MVC.
+     * @param controlador Controlador de la aplicaciÃ³n
+     */
+    public LoginView(AppControlador controlador) {
+        this.controlador = controlador;
+        initComponents();
+        cargarImagenSulley();
         setLocationRelativeTo(null);
-        setResizable(false);
-
-        JPanel root = new JPanel(new BorderLayout());
-        root.setBackground(new Color(15, 23, 42));
-
-        JPanel header = new JPanel(new BorderLayout(8, 8));
-        header.setBackground(new Color(15, 23, 42));
-        header.setBorder(BorderFactory.createEmptyBorder(22, 20, 14, 20));
-
-        JLabel lblLogo = new JLabel("", SwingConstants.CENTER);
-        URL imgUrl = getClass().getClassLoader().getResource("images/sullivan.png");
-        if (imgUrl != null) {
-            Image img = new ImageIcon(imgUrl).getImage().getScaledInstance(105, 105, Image.SCALE_SMOOTH);
-            lblLogo.setIcon(new ImageIcon(img));
-        }
-        header.add(lblLogo, BorderLayout.NORTH);
-
-        JLabel lblTitulo = new JLabel("EUREKABANK - TERMINAL BANCARIA", SwingConstants.CENTER);
-        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 19));
-        lblTitulo.setForeground(new Color(56, 189, 248));
-        header.add(lblTitulo, BorderLayout.CENTER);
-
-        JLabel lblSub = new JLabel("Patrón MVC Tradicional | Dominio: ec.edu.monster", SwingConstants.CENTER);
-        lblSub.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        lblSub.setForeground(new Color(148, 163, 184));
-        header.add(lblSub, BorderLayout.SOUTH);
-
-        root.add(header, BorderLayout.NORTH);
-
-        JPanel card = new JPanel(new GridBagLayout());
-        card.setBackground(Color.WHITE);
-        card.setBorder(BorderFactory.createEmptyBorder(24, 34, 24, 34));
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(7, 6, 7, 6);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 1.0;
-
-        Font fontLbl = new Font("Segoe UI", Font.BOLD, 13);
-        Font fontInput = new Font("Segoe UI", Font.PLAIN, 14);
-
-        gbc.gridx = 0; gbc.gridy = 0;
-        JLabel l1 = new JLabel("Usuario (Monster / cajero1..4 / gerente1):");
-        l1.setFont(fontLbl);
-        card.add(l1, gbc);
-
-        gbc.gridy = 1;
-        txtUsuario.setFont(fontInput);
-        txtUsuario.setPreferredSize(new Dimension(280, 34));
-        card.add(txtUsuario, gbc);
-
-        gbc.gridy = 2;
-        JLabel l2 = new JLabel("Contraseña:");
-        l2.setFont(fontLbl);
-        card.add(l2, gbc);
-
-        gbc.gridy = 3;
-        txtClave.setFont(fontInput);
-        txtClave.setPreferredSize(new Dimension(280, 34));
-        card.add(txtClave, gbc);
-
-        gbc.gridy = 4;
-        JLabel l3 = new JLabel("Terminal / Ventanilla de Operación:");
-        l3.setFont(fontLbl);
-        card.add(l3, gbc);
-
-        gbc.gridy = 5;
-        cmbVentanilla.setFont(fontInput);
-        cmbVentanilla.setPreferredSize(new Dimension(280, 34));
-        card.add(cmbVentanilla, gbc);
-
-        gbc.gridy = 6;
-        gbc.insets = new Insets(16, 6, 6, 6);
-        btnIngresar.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        btnIngresar.setBackground(new Color(37, 99, 235));
-        btnIngresar.setForeground(Color.WHITE);
-        btnIngresar.setFocusPainted(false);
-        btnIngresar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btnIngresar.setPreferredSize(new Dimension(280, 40));
-        btnIngresar.addActionListener(e -> autenticar());
-        card.add(btnIngresar, gbc);
-
-        gbc.gridy = 7;
-        gbc.insets = new Insets(6, 6, 2, 6);
-        lblEstado.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-        lblEstado.setForeground(new Color(100, 116, 139));
-        lblEstado.setText("Endpoint: " + controlador.getEndpointActual());
-        card.add(lblEstado, gbc);
-
-        root.add(card, BorderLayout.CENTER);
-        setContentPane(root);
         getRootPane().setDefaultButton(btnIngresar);
     }
 
-    private void autenticar() {
-        String usuario = txtUsuario.getText().trim();
-        String clave = new String(txtClave.getPassword()).trim();
-        int ventanilla = cmbVentanilla.getSelectedIndex() + 1;
+    private void cargarImagenSulley() {
+        try {
+            java.net.URL imgUrl = getClass().getResource("/images/sullivan.png");
+            if (imgUrl == null) {
+                imgUrl = getClass().getResource("/images/sullivan2.png");
+            }
+            if (imgUrl == null) {
+                imgUrl = getClass().getClassLoader().getResource("images/sullivan.png");
+            }
+            if (imgUrl != null) {
+                javax.swing.ImageIcon originalIcon = new javax.swing.ImageIcon(imgUrl);
+                java.awt.Image scaledImage = originalIcon.getImage().getScaledInstance(90, 90, java.awt.Image.SCALE_SMOOTH);
+                lblLogo.setIcon(new javax.swing.ImageIcon(scaledImage));
+                lblLogo.setText("");
+                setIconImage(originalIcon.getImage());
+            }
+        } catch (Exception ignored) {
+        }
+    }
 
-        if (usuario.isEmpty() || clave.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Complete usuario y contraseña.", "Validación", JOptionPane.WARNING_MESSAGE);
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        lblLogo = new javax.swing.JLabel();
+        lblTitulo = new javax.swing.JLabel();
+        lblSubtitulo = new javax.swing.JLabel();
+        jLabelUsuario = new javax.swing.JLabel();
+        txtUsuario = new javax.swing.JTextField();
+        jLabelClave = new javax.swing.JLabel();
+        txtClave = new javax.swing.JPasswordField();
+        jLabelVentanilla = new javax.swing.JLabel();
+        cmbVentanilla = new javax.swing.JComboBox<>();
+        btnIngresar = new javax.swing.JButton();
+        lblEstado = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("EurekaBank - Acceso Seguro de Ventanilla");
+        setResizable(false);
+
+        lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/sullivan.png"))); // NOI18N
+        lblLogo.setPreferredSize(new java.awt.Dimension(90, 90));
+
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(0, 51, 102));
+        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitulo.setText("EUREKABANK");
+
+        lblSubtitulo.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        lblSubtitulo.setForeground(new java.awt.Color(102, 102, 102));
+        lblSubtitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSubtitulo.setText("Acceso Seguro a Ventanilla Transaccional");
+
+        jLabelUsuario.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        jLabelUsuario.setText("Usuario del Sistema:");
+
+        txtUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtUsuario.setText("Monster");
+
+        jLabelClave.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        jLabelClave.setText("Contrase\u00f1a:");
+
+        txtClave.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtClave.setText("Monster9");
+
+        jLabelVentanilla.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        jLabelVentanilla.setText("Ventanilla Asignada:");
+
+        cmbVentanilla.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbVentanilla.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ventanilla 1", "Ventanilla 2", "Ventanilla 3", "Ventanilla 4" }));
+
+        btnIngresar.setBackground(new java.awt.Color(22, 74, 122));
+        btnIngresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnIngresar.setForeground(new java.awt.Color(22, 74, 122));
+        btnIngresar.setText("INGRESAR AL SISTEMA");
+        btnIngresar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarActionPerformed(evt);
+            }
+        });
+
+        lblEstado.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lblEstado.setForeground(new java.awt.Color(102, 102, 102));
+        lblEstado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblEstado.setText("Listo para conectar al servidor");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(lblSubtitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelUsuario)
+                    .addComponent(txtUsuario)
+                    .addComponent(jLabelClave)
+                    .addComponent(txtClave)
+                    .addComponent(jLabelVentanilla)
+                    .addComponent(cmbVentanilla, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnIngresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(lblTitulo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblSubtitulo)
+                .addGap(20, 20, 20)
+                .addComponent(jLabelUsuario)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabelClave)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabelVentanilla)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmbVentanilla, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
+                .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblEstado)
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+        final String usr = txtUsuario.getText().trim();
+        final String pwd = new String(txtClave.getPassword()).trim();
+        final int ventanilla = cmbVentanilla.getSelectedIndex() + 1;
+
+        if (usr.isEmpty() || pwd.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar el usuario y la contrase\u00f1a.", "Datos incompletos", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         btnIngresar.setEnabled(false);
-        lblEstado.setText("Validando credenciales con el servidor...");
+        lblEstado.setText("Autenticando con el servidor central...");
 
-        new SwingWorker<UsuarioSesion, Void>() {
+        SwingWorker<UsuarioSesion, Void> worker = new SwingWorker<>() {
             @Override
             protected UsuarioSesion doInBackground() {
-                UsuarioSesion s = controlador.iniciarSesion(usuario, clave);
                 controlador.setVentanillaActiva(ventanilla);
-                return s;
+                return controlador.iniciarSesion(usr, pwd);
             }
 
             @Override
             protected void done() {
-                btnIngresar.setEnabled(true);
                 try {
-                    UsuarioSesion s = get();
-                    if (s != null && s.isAutenticado()) {
+                    UsuarioSesion sesion = get();
+                    if (sesion != null && sesion.isAutenticado()) {
+                        lblEstado.setText("Acceso concedido. Abriendo estaci\u00f3n...");
                         DashboardView dash = new DashboardView(controlador);
                         dash.setVisible(true);
                         dispose();
                     } else {
-                        lblEstado.setText("Autenticación rechazada");
-                        JOptionPane.showMessageDialog(LoginView.this,
-                                s != null ? s.getMensaje() : "Credenciales inválidas.",
-                                "Acceso Denegado", JOptionPane.ERROR_MESSAGE);
+                        btnIngresar.setEnabled(true);
+                        String msg = sesion != null ? sesion.getMensaje() : "Error de credenciales.";
+                        lblEstado.setText("Fallo de acceso: " + msg);
+                        JOptionPane.showMessageDialog(LoginView.this, msg, "Acceso Denegado", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (Exception ex) {
-                    lblEstado.setText("Error de red con el servidor");
-                    JOptionPane.showMessageDialog(LoginView.this,
-                            "No se pudo conectar con el servidor:\n" + ex.getMessage(),
-                            "Error de Conexión", JOptionPane.ERROR_MESSAGE);
+                    btnIngresar.setEnabled(true);
+                    lblEstado.setText("Error al conectar: " + ex.getMessage());
+                    JOptionPane.showMessageDialog(LoginView.this, "Error de conexi\u00f3n con el servicio: " + ex.getMessage(), "Error de Red", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        }.execute();
+        };
+        worker.execute();
+    }//GEN-LAST:event_btnIngresarActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName()) || "Windows".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception ignored) {
+        }
+
+        java.awt.EventQueue.invokeLater(() -> {
+            new LoginView().setVisible(true);
+        });
     }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnIngresar;
+    private javax.swing.JComboBox<String> cmbVentanilla;
+    private javax.swing.JLabel jLabelClave;
+    private javax.swing.JLabel jLabelUsuario;
+    private javax.swing.JLabel jLabelVentanilla;
+    private javax.swing.JLabel lblEstado;
+    private javax.swing.JLabel lblLogo;
+    private javax.swing.JLabel lblSubtitulo;
+    private javax.swing.JLabel lblTitulo;
+    private javax.swing.JPasswordField txtClave;
+    private javax.swing.JTextField txtUsuario;
+    // End of variables declaration//GEN-END:variables
 }

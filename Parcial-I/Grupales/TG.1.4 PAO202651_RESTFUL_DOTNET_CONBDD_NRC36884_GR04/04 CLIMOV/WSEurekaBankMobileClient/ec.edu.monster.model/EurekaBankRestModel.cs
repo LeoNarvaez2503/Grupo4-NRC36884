@@ -123,6 +123,13 @@ namespace ec.edu.monster.model
         public CuentaModel? ObtenerCuentaPorNumero(string numeroCuenta) => GetJson<CuentaModel?>($"{BaseUrl}/cuentas/{Uri.EscapeDataString(numeroCuenta)}", null);
         public List<CuentaModel> ConsultarCuentasPorCliente(string dni) => GetJson($"{BaseUrl}/clientes/{Uri.EscapeDataString(dni)}/cuentas", new List<CuentaModel>());
         public List<MovimientoModel> ConsultarExtracto(string numeroCuenta) => GetJson($"{BaseUrl}/cuentas/{Uri.EscapeDataString(numeroCuenta)}/movimientos", new List<MovimientoModel>());
+        public OperacionModel ConsultarEstadoMashUp(string numeroCuenta) =>
+            GetJson($"{BaseUrl}/cuentas/{Uri.EscapeDataString(numeroCuenta)}/estado", new OperacionModel
+            {
+                Exito = false,
+                Codigo = "ERROR_LECTURA",
+                Mensaje = "No se pudo consultar el estado MashUp."
+            });
 
         public OperacionModel Depositar(string numeroCuenta, double monto, int idEmpleado, int ventanilla) =>
             PostOperacion($"{BaseUrl}/movimientos/deposito", new { numeroCuenta, monto, idEmpleado, ventanilla });

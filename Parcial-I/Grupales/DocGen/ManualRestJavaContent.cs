@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using static DocGen.DocHelpers;
@@ -14,79 +14,100 @@ namespace DocGen
             // =========================================================================
             // SECCIÓN 1: INTRODUCCIÓN
             // =========================================================================
-            list.Add(Heading1("1 INTRODUCCION"));
-            list.Add(Paragraph("Un servicio web fundamentado en RESTful (Representational State Transfer) sobre HTTP/JSON constituye un mecanismo estandarizado para la transferencia e interoperabilidad de información estructurada entre sistemas computacionales heterogéneos en redes corporativas y bancarias. En contraposición a los enfoques orientados puramente a recursos ligeros, RESTful impone el uso formal del Lenguaje de Marcado Extensible (XML) como formato estricto de serialización de mensajes y se gobierna a través de un contrato riguroso definido mediante Swagger / OpenAPI (Web Services Description Language). Dicho contrato desacopla y especifica minuciosamente las operaciones disponibles, los tipos de datos complejos (definidos mediante XML Schema Definitions - XSD), las fallas tipadas (RESTful Faults) y los enlaces de transporte de red (RESTful sobre HTTP/1.1 y HTTP/2). Esta infraestructura proporciona un marco determinista con garantías formales de tipado estricto, seguridad a nivel de mensaje (WS-Security) y alta confiabilidad requerida en arquitecturas bancarias de misión crítica."));
-            list.Add(Paragraph("En el sector financiero central (Core Banking), las transacciones ejecutadas sobre cuentas corrientes y de ahorro (tales como acreditación de depósitos en efectivo, retiros por ventanilla y transferencias electrónicas entre cuentas de clientes) exigen el cumplimiento irrestricto de las propiedades ACID (Atomicidad, Consistencia, Aislamiento y Durabilidad). Cuando múltiples ventanillas de atención física o canales de banca remota intentan acceder, debitar o consultar un mismo saldo de forma concurrente, emergen graves condiciones de carrera (race conditions), lecturas sucias (dirty reads) y posibles inconsistencias que comprometen la integridad del balance contable de la institución. Para mitigar estos riesgos operacionales, el presente proyecto implementa el modelo transaccional EurekaBank con exclusión mutua pesimista (mediante sentencias SQL SELECT ... FOR UPDATE a nivel de motor relacional InnoDB) y un componente reactivo distribuido denominado Semáforo MashUp de Concurrencia en tiempo real."));
-            list.Add(Paragraph("El despliegue del componente servidor central se efectúa sobre Payara Server Enterprise, un servidor de aplicaciones de grado industrial derivado de GlassFish compatible con el estándar Jakarta EE, el cual provee soporte nativo para la especificación Jakarta RESTful Web Services (JAX-RS / Jersey) (Java API for XML Web Services) a través del subsistema Eclipse Metro. Por su parte, la persistencia de datos se gestiona de manera aislada y portable mediante un contenedor de base de datos relacional MySQL 8.0 (utilizando Podman o Docker), lo cual garantiza independencia absoluta del sistema operativo anfitrión y reproducibilidad inmediata en cualquier estación de trabajo o servidor corporativo."));
-            list.Add(Paragraph("Para la capa de presentación y consumo del servicio RESTful, se aplica con máxima rigurosidad el patrón arquitectónico Modelo-Vista-Controlador (MVC Tradicional Puro) a través de cuatro clientes totalmente heterogéneos: un Cliente de Consola interactivo para terminales y servidores headless, un Cliente de Escritorio de alto rendimiento desarrollado con Java Swing, un Cliente Móvil nativo para la plataforma Android y un Cliente Web reactivo desarrollado con Jakarta Faces (JSF) sobre Facelets y sondeo asíncrono AJAX. Todo el ecosistema opera bajo el dominio institucional unificado ec.edu.monster y respeta las credenciales maestras autorizadas (usuario: Monster, contraseña: Monster9), satisfaciendo los requerimientos de ingeniería de software establecidos para el Grupo 04 (GR04)."));
+            list.Add(Heading1("1 INTRODUCCIÓN"));
+            list.Add(Paragraph("Un servicio web fundamentado en la Arquitectura RESTful (Representational State Transfer) sobre el protocolo HTTP/1.1 y HTTP/2 constituye el estándar contemporáneo por excelencia para la interoperabilidad, distribución y consumo eficiente de datos entre aplicaciones computacionales heterogéneas en redes corporativas e infraestructuras bancarias. A diferencia de las arquitecturas tradicionales orientadas a procedimientos y gobernadas por rigurosos sobres de mensajería SOAP (como JAX-WS clásico), los servicios RESTful eliminan la sobrecarga de transporte y procesamiento impuesta por el Lenguaje de Marcado Extensible (XML), esquemas XSD y direccionamientos tipados WS-*. En su lugar, el paradigma RESTful adopta la Notación de Objetos de JavaScript (JSON - RFC 8259) como formato de serialización universal, ligero y nativo, y aprovecha la semántica intrínseca de los métodos canónicos del protocolo HTTP (GET para consultas de solo lectura, POST para creación de recursos y procesamiento transaccional, PUT para actualizaciones y DELETE para eliminaciones). El contrato formal del servicio se define y publica mediante la especificación OpenAPI 3.0 / Swagger, describiendo sin ambigüedades las rutas de acceso (endpoints), parámetros de consulta y ruta, esquemas de carga útil (payloads) y los códigos de respuesta estandarizados (200 OK, 400 Bad Request, 401 Unauthorized, 404 Not Found, 409 Conflict)."));
+            list.Add(Paragraph("En el sector financiero central (Core Banking), las transacciones ejecutadas sobre cuentas corrientes y de ahorro (tales como la recepción y acreditación de depósitos en efectivo, retiros por ventanilla y transferencias electrónicas entre cuentas de clientes) exigen el cumplimiento irrestricto de las propiedades ACID (Atomicidad, Consistencia, Aislamiento y Durabilidad). Cuando múltiples ventanillas de atención física o canales de banca remota intentan acceder, debitar o consultar un mismo saldo de forma concurrente, emergen graves condiciones de carrera (race conditions), lecturas sucias (dirty reads) y posibles inconsistencias que comprometen la integridad del balance contable de la institución. Para mitigar estos riesgos operacionales, el presente proyecto implementa el modelo transaccional EurekaBank con exclusión mutua pesimista (mediante sentencias SQL SELECT ... FOR UPDATE a nivel de motor relacional InnoDB en MySQL 8.0) y un componente reactivo distribuido denominado Semáforo MashUp de Concurrencia en tiempo real."));
+            list.Add(Paragraph("El despliegue del componente servidor central se efectúa sobre Payara Server Enterprise, un servidor de aplicaciones de grado industrial derivado de GlassFish compatible con el estándar Jakarta EE 10, el cual provee soporte nativo para la especificación Jakarta RESTful Web Services 3.1 (JAX-RS / Jersey). Por su parte, la persistencia de datos se gestiona de manera aislada y portable mediante un contenedor de base de datos relacional MySQL 8.0 (utilizando Podman o Docker Compose), lo cual garantiza independencia absoluta del sistema operativo anfitrión y reproducibilidad inmediata en cualquier estación de trabajo o servidor corporativo."));
+            list.Add(Paragraph("Para la capa de presentación y consumo del servicio RESTful, se aplica con máxima rigurosidad el patrón arquitectónico Modelo-Vista-Controlador (MVC Tradicional Puro) a través de cuatro clientes totalmente heterogéneos: un Cliente de Consola interactivo para terminales y servidores headless con prueba de estrés concurrente, un Cliente de Escritorio de alto rendimiento desarrollado con Java Swing y despacho asíncrono con SwingWorker, un Cliente Móvil nativo para la plataforma Android (ec.edu.monster.climov) con comunicación HTTP/JSON y un Cliente Web reactivo desarrollado con Jakarta Faces (JSF 4.0) sobre Facelets y sondeo asíncrono AJAX periódico (polling cada 2.5 segundos). Todo el ecosistema opera bajo el dominio institucional unificado ec.edu.monster y respeta las credenciales maestras autorizadas (usuario: Monster, contraseña: Monster9), satisfaciendo los requerimientos de ingeniería de software establecidos para el Grupo 04 (GR04)."));
 
             // =========================================================================
             // SECCIÓN 2: OBJETIVOS
             // =========================================================================
             list.Add(Heading1("2 OBJETIVOS"));
             list.Add(Heading2("2.1 Objetivo General"));
-            list.Add(Paragraph("Diseñar, implementar, desplegar y documentar un sistema bancario distribuido y transaccional denominado EurekaBank, fundamentado en servicios web RESTful desplegados en Payara Server con persistencia relacional en MySQL sobre contenedores locales (Docker/Podman), desacoplado mediante el patrón arquitectónico MVC Tradicional puro en todos sus niveles y consumido concurrentemente por cuatro clientes heterogéneos (Consola, Escritorio Swing, Móvil Android y Web Jakarta Faces) con soporte de monitoreo reactivo mediante Semáforo MashUp en tiempo real."));
+            list.Add(Paragraph("Diseñar, implementar, desplegar y documentar un sistema bancario distribuido y transaccional denominado EurekaBank, fundamentado en servicios web RESTful (HTTP/JSON) desplegados en Payara Server Enterprise mediante Jakarta RESTful Web Services (Jersey) con persistencia relacional ACID en MySQL sobre contenedores locales (Docker/Podman), desacoplado mediante el patrón arquitectónico MVC Tradicional puro en todos sus niveles y consumido concurrentemente por cuatro clientes heterogéneos (Consola, Escritorio Swing, Móvil Android y Web Jakarta Faces) con soporte de monitoreo reactivo mediante Semáforo MashUp en tiempo real."));
 
             list.Add(Heading2("2.2 Objetivos Específicos"));
-            list.Add(BulletParagraph("1.", "Configurar y desplegar el contenedor de base de datos relacional MySQL 8.0 mediante Podman/Docker Compose, estableciendo el esquema relacional íntegro de EurekaBank, restricciones de clave foránea, registros de auditoría transaccional por ventanilla y tablas de control de concurrencia MashUp."));
-            list.Add(BulletParagraph("2.", "Construir la capa de persistencia JDBC transaccional del servidor RESTful implementando aislamiento de transacciones (TRANSACTION_READ_COMMITTED) y bloqueos de fila pesimistas (SELECT ... FOR UPDATE) con el propósito de garantizar operaciones atómicas de depósito, retiro y transferencia libres de inconsistencias o sobregiros no autorizados."));
-            list.Add(BulletParagraph("3.", "Diseñar e implementar el componente GestorConcurrencia en el servidor RESTful, coordinando los estados del Semáforo MashUp (VERDE para cuentas disponibles y ROJO para cuentas en operación transaccional activa en ventanilla) con persistencia instantánea y sincronización atómica en memoria."));
-            list.Add(BulletParagraph("4.", "Implementar y publicar el endpoint Jakarta RESTful Web Services (JAX-RS / Jersey) (EurekaBankResource) en Payara Server Enterprise, definiendo anotaciones declarativas del lenguaje Java, estructuras serializables JAXB y generando el contrato formal Swagger / OpenAPI accesible bajo el dominio institucional ec.edu.monster."));
-            list.Add(BulletParagraph("5.", "Desarrollar el Cliente de Consola (WSEurekaBankConsoleClient) bajo el patrón MVC Tradicional, consumiendo el Swagger / OpenAPI mediante stubs Jakarta RESTful Web Services (JAX-RS / Jersey) (HttpClient), incorporando menús interactivos tabulados y una rutina de simulación multi-hilo de 3 ventanillas simultáneas para verificar la exclusión mutua."));
-            list.Add(BulletParagraph("6.", "Construir el Cliente de Escritorio (WSEurekaBankDesktopClient) mediante formularios gráficos Java Swing, presentando una visualización en tiempo real del semáforo con renderizadores de color personalizados (TableCellRenderer), extracción cronológica de movimientos y despacho asíncrono con SwingWorker para evitar bloqueos de interfaz."));
-            list.Add(BulletParagraph("7.", "Implementar el Cliente Móvil (WSEurekaBankMobileClient) para la plataforma Android con layouts XML estructurados, serialización de envelopes RESTful vía HttpURLConnection/XmlPullParser y despacho en subprocesos en segundo plano (ExecutorService) sincronizados con el hilo principal de interfaz (Looper)."));
-            list.Add(BulletParagraph("8.", "Desarrollar el Cliente Web (WSEurekaBankWebClient) sobre Jakarta Faces (JSF), implementando Managed Beans (@Named, @ViewScoped) y plantillas Facelets reactivas mediante sondeo asíncrono AJAX (polling periódico de 1.0 segundo) para reflejar visualmente la alternancia del semáforo entre VERDE y ROJO desde cualquier terminal del sistema."));
+            list.Add(BulletParagraph("1.", "Configurar y desplegar el contenedor de base de datos relacional MySQL 8.0 mediante Podman/Docker Compose, estableciendo el esquema relacional íntegro de EurekaBank (sucursal, empleado, cliente, cuenta, control_mashup, movimiento), restricciones de clave foránea, registros de auditoría transaccional por ventanilla y credenciales maestras encriptadas mediante el algoritmo BCrypt ($2a$10$)."));
+            list.Add(BulletParagraph("2.", "Construir la capa de persistencia JDBC transaccional del servidor RESTful implementando nivel de aislamiento TRANSACTION_READ_COMMITTED y bloqueos de fila pesimistas (SELECT ... FOR UPDATE) con el propósito de garantizar operaciones atómicas de depósito, retiro y transferencia libres de inconsistencias o sobregiros no autorizados."));
+            list.Add(BulletParagraph("3.", "Diseñar e implementar el componente GestorConcurrencia en el servidor RESTful, coordinando los estados del Semáforo MashUp (VERDE para cuentas disponibles y ROJO para cuentas en operación transaccional activa en ventanilla) con persistencia instantánea en la tabla control_mashup y sincronización atómica en memoria mediante ConcurrentHashMap."));
+            list.Add(BulletParagraph("4.", "Implementar y publicar el recurso Jakarta RESTful Web Services (EurekaBankResource) bajo la ruta base /api en Payara Server Enterprise, definiendo anotaciones declarativas JAX-RS (@Path, @Produces, @Consumes, @GET, @POST, @PathParam, @QueryParam), integrando filtro de seguridad CORS (CorsFilter) y documentando formalmente el contrato OpenAPI / Swagger."));
+            list.Add(BulletParagraph("5.", "Desarrollar el Cliente de Consola (WSEurekaBankConsoleClient) bajo el patrón MVC Tradicional, consumiendo la API RESTful mediante java.net.http.HttpClient y com.google.code.gson.Gson, incorporando menús interactivos tabulados con códigos de color ANSI y una rutina multi-hilo de simulación de 3 ventanillas simultáneas para verificar la exclusión mutua."));
+            list.Add(BulletParagraph("6.", "Construir el Cliente de Escritorio (WSEurekaBankDesktopClient) mediante formularios gráficos Java Swing, presentando una visualización en tiempo real del semáforo con renderizadores de color personalizados (SemaforoTableCellRenderer), extracción cronológica de movimientos, temporizador de refresco (Timer) y despacho asíncrono con SwingWorker para evitar bloqueos de interfaz."));
+            list.Add(BulletParagraph("7.", "Implementar el Cliente Móvil (WSEurekaBankMobileClient) para la plataforma Android nativa en el paquete ec.edu.monster.climov, con layouts XML Material Design estructurados, serialización y parseo de peticiones HTTP/JSON vía HttpURLConnection y org.json, y despacho en subprocesos en segundo plano (ExecutorService) sincronizados con el hilo principal de interfaz (Handler y Looper)."));
+            list.Add(BulletParagraph("8.", "Desarrollar el Cliente Web (WSEurekaBankWebClient) sobre Jakarta Faces (JSF 4.0), implementando Backing Beans gestionados (@Named, @SessionScoped) y plantillas Facelets reactivas mediante sondeo asíncrono AJAX periódico (polling cada 2.5 segundos) para reflejar visualmente la alternancia del semáforo entre VERDE y ROJO desde cualquier terminal del sistema."));
 
             // =========================================================================
             // SECCIÓN 3: MARCO TEÓRICO
             // =========================================================================
-            list.Add(Heading1("3 MARCO TEORICO"));
-            list.Add(Heading2("3.1 Web Services RESTful, XML y Contrato Swagger / OpenAPI"));
-            list.Add(Paragraph("El protocolo RESTful (Representational State Transfer) sobre HTTP/JSON es un protocolo formal estandarizado por el consorcio W3C (World Wide Web Consortium) concebido para el intercambio estructurado de información en entornos distribuidos descentralizados. Un mensaje RESTful es un documento XML que contiene obligatoriamente una estructura jerárquica canónica conformada por tres componentes elementales:"));
-            list.Add(BulletParagraph("• RESTful Envelope:", "Elemento raíz del documento XML que identifica el marco de trabajo del mensaje, define los espacios de nombres (namespaces) oficiales de RESTful (http://schemas.xmlrest.org/rest/envelope/ para RESTful 1.1 o http://www.w3.org/2003/05/rest-envelope para RESTful 1.2) y establece las reglas de procesamiento."));
-            list.Add(BulletParagraph("• RESTful Header:", "Bloque opcional que transporta información de control contextual no directamente asociada con la carga de negocio, tales como identificadores de sesión, credenciales de autenticación WS-Security, identificadores de ruteo transaccional o directivas de procesamiento inmediato (actor / mustUnderstand)."));
-            list.Add(BulletParagraph("• RESTful Body:", "Contenedor obligatorio que transporta la carga útil (payload) del mensaje dirigida al destinatario final. En caso de suscitarse un error durante la invocación remota, el Body aloja un elemento especial denominado RESTful Fault, el cual encapsula el código de fallo (faultcode), la descripción legible del error (faultstring) y los detalles técnicos de la excepción (detail)."));
-            list.Add(Paragraph("La comunicación entre clientes y servidores se gobierna estrictamente a través de un contrato formal Swagger / OpenAPI (Web Services Description Language). El documento Swagger / OpenAPI actúa como la especificación canónica del servicio, describiendo las funciones disponibles mediante seis elementos clave:"));
-            list.Add(BulletParagraph("• types:", "Define los tipos de datos utilizados en los mensajes utilizando el estándar XML Schema Definition (XSD). Permite estructurar objetos complejos tales como cuentas bancarias, historiales de movimientos y objetos de respuesta con validación estricta de formato y nulidad."));
-            list.Add(BulletParagraph("• message:", "Define la estructura abstracta de los parámetros de entrada y salida para cada operación remota."));
-            list.Add(BulletParagraph("• portType:", "Define la interfaz abstracta del servicio web, agrupando un conjunto de operaciones invocables (análogo a una interfaz de programación en Java)."));
-            list.Add(BulletParagraph("• binding:", "Especifica el protocolo de transporte concreto y el formato de codificación para las operaciones de un portType (habitualmente RESTful sobre transporte HTTP/1.1 con estilo Document/Literal)."));
-            list.Add(BulletParagraph("• service y port:", "Especifica la dirección física de red (URI o URL del endpoint) donde los clientes pueden conectarse para enviar sus peticiones HTTP POST con el payload RESTful."));
+            list.Add(Heading1("3 MARCO TEÓRICO"));
+            list.Add(Heading2("3.1 Servicios Web RESTful, Protocolo HTTP y Notación JSON"));
+            list.Add(Paragraph("La arquitectura REST (Representational State Transfer), formalizada por Roy Fielding en el año 2000, define un conjunto de principios de diseño para construir sistemas hipermedia distribuidos, caracterizados por su escalabilidad, simplicidad y bajo acoplamiento. En una arquitectura de servicios web RESTful, los elementos fundamentales del dominio de negocio (tales como cuentas bancarias, clientes, sucursales y transacciones monetarias) se conciben y exponen como recursos abstractos identificados de forma unívoca a través de URIs (Uniform Resource Identifiers). La interacción entre clientes y servidores se efectúa mediante representaciones de dichos recursos, transfiriendo su estado a través de la red sin requerir protocolos de envoltura complejos ni máquinas de estado pesadas."));
+            list.Add(Paragraph("Los principios arquitectónicos cardinales de RESTful comprenden:"));
+            list.Add(BulletParagraph("• Separación Cliente-Servidor:", "Desacopla radicalmente las responsabilidades de almacenamiento y lógica financiera (radicadas en el servidor central) de las interfaces de usuario y captura de eventos (clientes de consola, escritorio, móvil y web), permitiendo la evolución independiente de cada plataforma."));
+            list.Add(BulletParagraph("• Comunicación sin Estado (Statelessness):", "Cada solicitud HTTP transmitida por un cliente al servidor debe contener obligatoriamente toda la información requerida para su procesamiento, interpretación y autorización. El servidor no mantiene sesiones conversacionales en memoria vinculadas al protocolo de transporte, lo cual maximiza la escalabilidad horizontal y la tolerancia a fallos."));
+            list.Add(BulletParagraph("• Capacidad de Almacenamiento en Caché (Cacheability):", "Las respuestas del servicio deben declararse implícita o explícitamente como almacenables en caché o no almacenables, permitiendo a los clientes reutilizar respuestas ante peticiones idénticas de solo lectura para optimizar el ancho de banda."));
+            list.Add(BulletParagraph("• Interfaz Uniforme (Uniform Interface):", "Constituye el núcleo diferenciador de REST. Se basa en la identificación estandarizada de recursos mediante URIs, la manipulación de recursos a través de sus representaciones (JSON), el intercambio de mensajes autodescriptivos mediante cabeceras HTTP estándar (Content-Type: application/json) y el uso de hipermedios como motor del estado de la aplicación (HATEOAS)."));
+            list.Add(BulletParagraph("• Sistema en Capas (Layered System):", "La arquitectura permite la interposición transparente de intermediarios (balanceadores de carga, servidores proxy, pasarelas de seguridad y firewalls) entre el cliente y el servidor de aplicaciones, sin que ninguna de las partes requiera modificar su código fuente."));
+            list.Add(Paragraph("En contraste con los protocolos basados en SOAP que canalizan todas las operaciones indistintamente a través de peticiones HTTP POST con cargas útiles XML voluminosas, RESTful utiliza de forma estricta los métodos canónicos del protocolo HTTP según su semántica estándar:"));
+            list.Add(BulletParagraph("• GET:", "Método seguro e idempotente utilizado de manera exclusiva para la consulta y recuperación de representaciones de recursos (por ejemplo: GET /api/cuentas, GET /api/sucursales, GET /api/mashup). No altera bajo ninguna circunstancia el estado de los datos en el servidor."));
+            list.Add(BulletParagraph("• POST:", "Método no idempotente destinado a procesar entidades enviadas en el cuerpo de la petición. En el sistema bancario, se utiliza para ejecutar operaciones transaccionales críticas que transforman el estado contable (POST /api/movimientos/deposito, POST /api/movimientos/retiro, POST /api/movimientos/transferencia) y para validar credenciales en la autenticación de operadores (POST /api/auth/login)."));
+            list.Add(BulletParagraph("• PUT / DELETE:", "Métodos diseñados para la actualización integral idempotente o la remoción de recursos en el servidor, complementando el ciclo de vida CRUD."));
+            list.Add(Paragraph("El protocolo HTTP provee además un catálogo estandarizado de códigos de estado numéricos (HTTP Status Codes) que informan con precisión el desenlace de cada invocación:"));
+            list.Add(BulletParagraph("• 200 OK:", "Indica que la operación o consulta se procesó satisfactoriamente y la respuesta incluye la representación JSON correspondiente en su cuerpo."));
+            list.Add(BulletParagraph("• 400 Bad Request:", "Señaliza que la solicitud remitida por el cliente contiene errores sintácticos, campos obligatorios omitidos o parámetros inválidos (ej. cuerpo JSON vacío o monto no positivo)."));
+            list.Add(BulletParagraph("• 401 Unauthorized:", "Indica que las credenciales provistas por el operador bancario (usuario o contraseña) son inválidas o inexistentes en la base de datos central."));
+            list.Add(BulletParagraph("• 404 Not Found:", "Informa que el recurso solicitado no fue hallado en el sistema (por ejemplo, al intentar consultar una cuenta bancaria inexistente)."));
+            list.Add(BulletParagraph("• 409 Conflict:", "Indica un conflicto con el estado actual del recurso de negocio. En la arquitectura EurekaBank, este código se retorna cuando una ventanilla intenta realizar una transacción sobre una cuenta que se encuentra bloqueada en estado ROJO por otra ventanilla activa (colisión de concurrencia MashUp)."));
+            list.Add(BulletParagraph("• 500 Internal Server Error:", "Reporta un fallo no controlado en el servidor de aplicaciones o en el motor de base de datos relacional."));
+            list.Add(Paragraph("Como formato de representación de datos, se emplea universalmente JSON (JavaScript Object Notation - RFC 8259). JSON es un formato de texto estructurado, compacto, legible y de bajo consumo de memoria basado en dos estructuras universales: colecciones de pares nombre/valor ({ \"campo\": \"valor\" }) y listas ordenadas de valores ([ elemento1, elemento2 ]). JSON elimina por completo la sobrecarga de procesamiento asociada al parseo de esquemas XML, etiquetas de cierre redundantes y namespaces complejos de SOAP, permitiendo que tanto navegadores modernos como dispositivos móviles Android y terminales de escritorio procesen las cargas útiles financieras con latencia mínima."));
 
-            list.Add(Heading2("3.2 Arquitectura Orientada a Servicios (SOA) y Principios de Diseño Empresarial"));
-            list.Add(Paragraph("La Arquitectura Orientada a Servicios (SOA) es un paradigma de diseño arquitectónico de software que descompone los procesos de negocio en componentes funcionales autónomos denominados servicios. En el ámbito de las instituciones bancarias, los sistemas de Core Banking adoptan SOA para desacoplar radicalmente la lógica financiera central (gestión de cuentas, cobro de comisiones, cálculo de intereses y transferencias interbancarias) de los canales de interacción con el cliente (cajeros automáticos, ventanillas físicas en agencias, aplicaciones de banca móvil y portales de banca por internet)."));
-            list.Add(Paragraph("Los servicios implementados en SOA se rigen por principios fundamentales de diseño:"));
-            list.Add(BulletParagraph("• Bajo Acoplamiento:", "El servidor RESTful y los clientes heterogéneos mantienen dependencias reducidas al contrato Swagger / OpenAPI, permitiendo que la lógica interna del servidor evolucione sin alterar la firma pública ni obligar a recompilar los clientes si el esquema se preserva."));
-            list.Add(BulletParagraph("• Contrato Formal Estandarizado:", "Los servicios comparten un contrato explícito Swagger / OpenAPI que define sin ambigüedades los tipos de datos y los comportamientos admisibles, eliminando discrepancias de serialización entre plataformas dispares como Java, .NET o Android."));
-            list.Add(BulletParagraph("• Reusabilidad y Autonomía:", "La lógica de transacciones bancarias reside de forma exclusiva en el servidor central; ningún cliente implementa lógica financiera localmente, evitando duplicación de código e inconsistencias de saldo."));
+            list.Add(Heading2("3.2 Principios de Diseño REST (Representational State Transfer) y OpenAPI / Swagger"));
+            list.Add(Paragraph("El diseño de una API RESTful empresarial se fundamenta en la Arquitectura Orientada a Recursos (ROA - Resource-Oriented Architecture). En ROA, las URIs no representan verbos de acción o llamadas a funciones remotas (como ocurre en RPC o SOAP), sino nombres y jerarquías sustantivas de entidades de dominio. En el sistema EurekaBank, la estructura de direccionamiento RESTful se organiza limpiamente bajo el prefijo institucional /api:"));
+            list.Add(BulletParagraph("• /api/sucursales:", "Colección de todas las sucursales bancarias habilitadas."));
+            list.Add(BulletParagraph("• /api/cuentas:", "Colección de cuentas bancarias, filtrables opcionalmente por identificador de sucursal mediante parámetros de consulta (?sucursal=1)."));
+            list.Add(BulletParagraph("• /api/cuentas/{numeroCuenta}:", "Recurso individual que identifica una cuenta específica mediante variable de ruta."));
+            list.Add(BulletParagraph("• /api/cuentas/{numeroCuenta}/movimientos:", "Sub-recurso que expone el extracto cronológico de transacciones registradas sobre dicha cuenta."));
+            list.Add(BulletParagraph("• /api/clientes/{dni}/cuentas:", "Sub-recurso que relaciona y retorna las cuentas bancarias pertenecientes al cliente portador de un número de cédula o DNI específico."));
+            list.Add(BulletParagraph("• /api/movimientos/deposito y /api/movimientos/retiro:", "Puntos de procesamiento transaccional para acreditar o debitar fondos monetarios."));
+            list.Add(BulletParagraph("• /api/mashup:", "Endpoint de consulta en tiempo real que expone el estado reactivo del semáforo (VERDE o ROJO) para cada cuenta."));
+            list.Add(Paragraph("Para gobernar, documentar y validar formalmente la interfaz de programación sin reintroducir los acoplamientos rígidos de SOAP/WSDL, la industria tecnológica estandarizó la Especificación OpenAPI (originalmente conocida como Swagger). OpenAPI 3.0 es una especificación neutral independiente del lenguaje que describe en formato JSON o YAML las capacidades operacionales de la API: rutas disponibles, parámetros admitidos, formatos de entrada y esquemas de respuesta tipados según códigos HTTP."));
+            list.Add(Paragraph("A diferencia de un archivo WSDL que exige la compilación obligatoria de stubs proxies locales con clases autogeneradas en el cliente (generando un acoplamiento binario frágil ante cambios mínimos de esquema), OpenAPI desacopla absolutamente el contrato de la implementación: los clientes pueden ser codificados mediante bibliotecas estándar de comunicación HTTP (como HttpClient de Java o HttpURLConnection en Android) o consumir la documentación interactiva generada dinámicamente mediante herramientas como Swagger UI, facilitando pruebas inmediatas sin dependencias externas."));
 
             list.Add(Heading2("3.3 Modelo Transaccional Bancario y Propiedades ACID en JDBC"));
             list.Add(Paragraph("Las operaciones monetarias bancarias (depósitos, retiros y transferencias) constituyen transacciones de misión crítica que deben satisfacer de manera rigurosa las propiedades ACID:"));
-            list.Add(BulletParagraph("• Atomicidad (Atomicity):", "Toda operación transaccional se ejecuta como una unidad indivisible de trabajo. En una transferencia interbancaria donde se debitan $50.00 de la cuenta 001-0001 y se acreditan en la cuenta 001-0002, ambas modificaciones deben confirmarse conjuntamente (commit). Si ocurre una falla de red, un fallo de hardware o un error lógico antes de completar la segunda operación, el motor de base de datos ejecuta un rollback total, revirtiendo todas las alteraciones y restaurando el estado exacto anterior."));
-            list.Add(BulletParagraph("• Consistencia (Consistency):", "Cualquier transacción lleva a la base de datos de un estado válido a otro estado válido, respetando todas las reglas de negocio e invariantes definidas (ej. saldos monetarios positivos o mayores o iguales a cero, unicidad de número de movimiento por cuenta e integridad referencial foránea hacia clientes y empleados)."));
-            list.Add(BulletParagraph("• Aislamiento (Isolation):", "Las transacciones concurrentes ejecutadas por distintas ventanillas físicas o clientes web no deben interferir entre sí. En este proyecto se establece el nivel de aislamiento TRANSACTION_READ_COMMITTED en conjunto con bloqueos de fila pesimistas mediante sentencias SELECT ... FOR UPDATE, previniendo condiciones de lectura sucia (dirty read) y asegurando que las modificaciones de saldo se atomicen secuencialmente a nivel de registro."));
-            list.Add(BulletParagraph("• Durabilidad (Durability):", "Una vez confirmada la transacción mediante la instrucción commit(), los cambios persisten de manera irreversible en el almacenamiento secundario no volátil (registros redo log y tablas tablespace del motor InnoDB), subsistiendo incluso ante cortes de energía o reinicio abrupto de los contenedores de software."));
+            list.Add(BulletParagraph("• Atomicidad (Atomicity):", "Toda operación transaccional se ejecuta como una unidad indivisible de trabajo. En una transferencia interbancaria donde se debitan $50.00 de la cuenta 001-0001 y se acreditan en la cuenta 001-0002, ambas modificaciones deben confirmarse conjuntamente mediante la instrucción commit(). Si ocurre una falla de red, un corte eléctrico o un error lógico antes de completar la segunda operación, el motor de base de datos ejecuta un rollback() total, revirtiendo todas las alteraciones intermedias y restaurando el balance exacto inicial."));
+            list.Add(BulletParagraph("• Consistencia (Consistency):", "Cualquier transacción lleva a la base de datos de un estado válido a otro estado válido, respetando todas las reglas de negocio e invariantes definidas (por ejemplo: saldos monetarios mayores o iguales a cero, unicidad de número de movimiento por cuenta e integridad referencial foránea hacia clientes, sucursales y empleados)."));
+            list.Add(BulletParagraph("• Aislamiento (Isolation):", "Las transacciones concurrentes ejecutadas por distintas ventanillas físicas o clientes remotos no deben interferir entre sí. En este proyecto se establece el nivel de aislamiento TRANSACTION_READ_COMMITTED en conjunto con bloqueos de fila pesimistas mediante sentencias SQL SELECT ... FOR UPDATE, previniendo condiciones de lectura sucia (dirty read) y asegurando que las modificaciones de saldo se atomicen secuencialmente a nivel de registro."));
+            list.Add(BulletParagraph("• Durabilidad (Durability):", "Una vez confirmada la transacción mediante la instrucción commit(), los cambios persisten de manera irreversible en el almacenamiento secundario no volátil (registros redo log y tablespaces del motor InnoDB), subsistiendo incluso ante caídas abruptas del servidor o reinicios del contenedor."));
+            list.Add(Paragraph("Para neutralizar de forma matemática la posibilidad de bloqueos mutuos (Deadlocks) durante transferencias entre cuentas bancarias concurrentes (donde la Ventanilla 1 intenta transferir de la Cuenta A a la Cuenta B y simultáneamente la Ventanilla 2 intenta transferir de la Cuenta B a la Cuenta A), se implementa una técnica de ordenamiento alfabético determinista sobre los números de cuenta. Al ordenar lexicográficamente las cuentas antes de solicitar los candados SELECT ... FOR UPDATE, todos los hilos del sistema adquieren los bloqueos de fila en un orden global idéntico, eliminando la espera circular y previniendo interbloqueos."));
 
-            list.Add(Heading2("3.4 Patrón Arquitectónico Modelo-Vista-Controlador (MVC Tradicional)"));
+            list.Add(Heading2("3.4 Patrón Arquitectónico Modelo-Vista-Controlador (MVC Tradicional Puro)"));
             list.Add(Paragraph("El patrón arquitectónico Modelo-Vista-Controlador (MVC Tradicional Puro) organiza los componentes de un aplicativo computacional en tres capas fundamentales con responsabilidades claramente delimitadas, sin admitir capas intermedias artificiales de 'Servicio' ajenas ni ViewModels desalineados con la arquitectura canónica:"));
-            list.Add(BulletParagraph("1. Capa Modelo (Model):", "Representa la información del dominio del negocio bancario y las estructuras de datos (Cuenta, Movimiento, Empleado, Sucursal, EstadoSemaforo) junto con los mecanismos de persistencia JDBC (CuentaDAO) o de consumo remoto vía cliente RESTful. El Modelo no posee referencia alguna a interfaces gráficas ni al entorno de ejecución visual."));
+            list.Add(BulletParagraph("1. Capa Modelo (Model):", "Representa la información del dominio del negocio bancario y las estructuras de datos (CuentaDetalleDTO, MovimientoDTO, OperacionRespuestaDTO, SucursalDTO, AuthRespuestaDTO) junto con los mecanismos de persistencia JDBC (CuentaDAO, MovimientoDAO, EmpleadoDAO, SucursalDAO) en el servidor central, o los servicios consumidores HTTP/JSON (EurekaBankService) en los clientes remotos. El Modelo no posee referencia alguna a interfaces gráficas ni al entorno de ejecución visual."));
             list.Add(BulletParagraph("2. Capa Vista (View):", "Es la interfaz encargada de presentar los datos de forma visual al usuario y capturar sus interacciones (eventos de teclado, clics de botones, selección de filas en tablas). En el Cliente Consola corresponde a ConsolaView; en Escritorio, a LoginView y DashboardView de Swing; en Móvil, a los layouts XML y Activities de Android; y en Web, a las plantillas Facelets XHTML. La Vista es pasiva y delega toda la gestión al Controlador."));
-            list.Add(BulletParagraph("3. Capa Controlador (Controller):", "Actúa como el mediador central del flujo del aplicativo. Recibe los eventos disparados por la Vista, procesa y valida las entradas del usuario, invoca los métodos pertinentes del Modelo, evalúa las respuestas transaccionales y notifica a la Vista para que actualice sus elementos gráficos. En este ecosistema, cada cliente dispone de un Controlador dedicado (ej. ConsolaControlador, DashboardController, MobileController, DashboardBean) que canaliza las operaciones hacia el endpoint RESTful."));
+            list.Add(BulletParagraph("3. Capa Controlador (Controller):", "Actúa como el mediador central del flujo del aplicativo. Recibe los eventos disparados por la Vista, procesa y valida las entradas del usuario, invoca los métodos pertinentes del Modelo, evalúa las respuestas transaccionales y notifica a la Vista para que actualice sus elementos gráficos. En este ecosistema, el servidor central dispone de OperacionesController, mientras que cada cliente cuenta con un AppControlador desacoplado que canaliza las peticiones hacia la API RESTful."));
 
             list.Add(Heading2("3.5 Servidor de Aplicaciones Payara Server Enterprise y Jakarta RESTful Web Services (JAX-RS / Jersey)"));
-            list.Add(Paragraph("Payara Server Enterprise es un servidor de aplicaciones de código abierto optimizado para infraestructuras corporativas, derivado de la base de código de GlassFish Server y completamente compatible con el estándar Jakarta EE. Payara incorpora una implementación de alto rendimiento para servicios web basada en Eclipse Metro y Jakarta RESTful Web Services (JAX-RS / Jersey) (Java API for XML Web Services)."));
-            list.Add(Paragraph("Jakarta RESTful Web Services (JAX-RS / Jersey) simplifica enormemente el desarrollo de servicios web RESTful al proporcionar anotaciones declarativas del lenguaje Java (tales como @WebService, @WebMethod, @WebParam y @WebResult), abstrayendo al desarrollador de la manipulación manual de flujos XML, parseo de envelopes y conversión de tipos. El servidor Payara gestiona los pools de conexiones HTTP, los hilos de atención concurrente, la seguridad del contenedor y la exposición automática del Swagger / OpenAPI en su puerto 8080."));
+            list.Add(Paragraph("Payara Server Enterprise es un servidor de aplicaciones de código abierto optimizado para infraestructuras corporativas de alto rendimiento, derivado de la base de código de GlassFish Server y completamente compatible con la especificación Jakarta EE 10. Payara incorpora una implementación de alto desempeño para servicios web RESTful basada en Eclipse Jersey y la especificación Jakarta RESTful Web Services 3.1 (JAX-RS)."));
+            list.Add(Paragraph("Jakarta RESTful Web Services simplifica el desarrollo de servicios web al proporcionar un conjunto robusto de anotaciones declarativas del lenguaje Java:"));
+            list.Add(BulletParagraph("• @ApplicationPath(\"/api\"):", "Define el prefijo base de ruteo para todos los recursos RESTful de la aplicación web."));
+            list.Add(BulletParagraph("• @Path(\"/\"):", "Mapea la clase de recurso o método a una URI relativa dentro del contexto de la aplicación."));
+            list.Add(BulletParagraph("• @Produces(MediaType.APPLICATION_JSON) y @Consumes(MediaType.APPLICATION_JSON):", "Establece que el recurso consume y genera cargas útiles en formato JSON, activando los serializadores automáticos del contenedor."));
+            list.Add(BulletParagraph("• @GET y @POST:", "Asocian los métodos Java a los respectivos verbos de acción del protocolo HTTP."));
+            list.Add(BulletParagraph("• @PathParam y @QueryParam:", "Permiten inyectar parámetros provenientes de segmentos de la ruta URL (ej. /cuentas/{numeroCuenta}) o de la cadena de consulta (?sucursal=1) directamente en las variables de los métodos."));
+            list.Add(BulletParagraph("• Filtro CORS (@Provider / ContainerResponseFilter):", "Permite inyectar cabeceras HTTP de Cross-Origin Resource Sharing (Access-Control-Allow-Origin: *, Access-Control-Allow-Methods, Access-Control-Allow-Headers), facultando a navegadores web y clientes heterogéneos a consumir la API sin bloqueos de seguridad por política del mismo origen (Same-Origin Policy)."));
 
-            list.Add(Heading2("3.6 Motor de Base de Datos MySQL 8.0 y Despliegue en Contenedores (Docker/Podman)"));
+            list.Add(Heading2("3.6 Motor de Base de Datos MySQL 8.0 y Despliegue en Contenedores (Docker / Podman)"));
             list.Add(Paragraph("La persistencia relacional del sistema bancario se implementa sobre el motor de base de datos relacional MySQL 8.0 utilizando el motor de almacenamiento transaccional InnoDB. Para garantizar portabilidad absoluta e independencia del sistema operativo anfitrión, la base de datos se despliega dentro de un contenedor local gestionado mediante Podman o Docker Compose."));
             list.Add(Paragraph("Esta aproximación basada en contenedores ofrece ventajas técnicas decisivas:"));
             list.Add(BulletParagraph("• Aislamiento y Reproducibilidad:", "El entorno de ejecución de la base de datos (versión exacta de MySQL, configuraciones de variables de entorno, zona horaria y juegos de caracteres UTF-8) queda completamente sellado, garantizando que el comportamiento sea idéntico en cualquier máquina del equipo de trabajo."));
             list.Add(BulletParagraph("• Persistencia Segura de Datos:", "Mediante el uso de volúmenes persistentes nombrados (eurekabank_mysql_data), los datos de las cuentas bancarias, saldos y movimientos cronológicos sobreviven intactos a través de sucesivos reinicios o destrucciones del ciclo de vida del contenedor."));
             list.Add(BulletParagraph("• Inicialización Automatizada:", "A través del punto de montaje /docker-entrypoint-initdb.d/, el script DDL eureka_bank.sql se ejecuta automáticamente en el arranque inicial del contenedor, creando el esquema eurekabank_db con todas sus tablas e insertando los registros maestros sin intervención manual."));
 
-            list.Add(Heading2("3.7 Mecanismo de Sincronización Reactiva Semáforo MashUp"));
+            list.Add(Heading2("3.7 Mecanismo de Sincronización Reactiva Semáforo MashUp de Concurrencia"));
             list.Add(Paragraph("El Semáforo MashUp de Concurrencia es un mecanismo de coordinación reactivo diseñado para sincronizar en tiempo real el acceso a las cuentas bancarias entre ventanillas de atención física y canales remotos concurrentes. Cuando una ventanilla inicia una operación transaccional (depósito, retiro o transferencia) sobre una cuenta bancaria (ej. cuenta 001-0001), el sistema activa de forma inmediata el estado ROJO en el componente GestorConcurrencia y en la tabla control_mashup de MySQL, registrando el número de ventanilla operativa y el nombre del operador bancario responsable."));
-            list.Add(Paragraph("Durante la ejecución de la transacción, el sistema introduce una ventana de latencia controlada (3.5 segundos) con fines de demostración académica y validación visual. En dicho lapso, cualquier otro cliente (Consola, Escritorio, Móvil o Web) que consulte la cuenta bancaria observará el indicador del semáforo en ROJO ('Ocupado en Ventanilla 1 por Monster') y no podrá solapar operaciones transaccionales sobre la misma cuenta, garantizando exclusión mutua tanto a nivel de lógica de aplicación como a nivel de base de datos. Una vez ejecutado el commit transaccional, el semáforo se libera automáticamente retornando al estado VERDE ('Libre'), permitiendo que el siguiente operador proceda de inmediato."));
+            list.Add(Paragraph("Durante la ejecución de la transacción, el sistema introduce una ventana de latencia controlada (3.5 segundos) con fines de demostración académica y validación visual. En dicho lapso, cualquier otro cliente (Consola, Escritorio, Móvil o Web) que consulte la cuenta bancaria observará el indicador del semáforo en ROJO ('Ocupado en Ventanilla 1 por Monster') y no podrá solapar operaciones transaccionales sobre la misma cuenta, retornando el servidor un código HTTP 409 Conflict con el mensaje 'CONCURRENCIA_BLOQUEADA'. Una vez ejecutado el commit transaccional, el semáforo se libera automáticamente retornando al estado VERDE ('Libre'), permitiendo que el siguiente operador proceda de inmediato."));
 
             // =========================================================================
             // SECCIÓN 4: DESARROLLO DEL APLICATIVO
@@ -97,8 +118,8 @@ namespace DocGen
             // -------------------------------------------------------------------------
             // 4.1 SERVIDOR WEB RESTful
             // -------------------------------------------------------------------------
-            list.Add(Heading2("4.1 Servidor Web RESTful (WS_EurekaBank_Java_RESTful)"));
-            list.Add(Paragraph("El servidor web central aloja la lógica transaccional bancaria, la conexión JDBC con el contenedor de base de datos relacional MySQL, el gestor de concurrencia MashUp y el punto de enlace Jakarta RESTful Web Services (JAX-RS / Jersey) que publica el contrato Swagger / OpenAPI oficial."));
+            list.Add(Heading2("4.1 Servidor Web RESTful (WS_EurekaBank_Java_REST)"));
+            list.Add(Paragraph("El servidor web central aloja la lógica transaccional bancaria, la conexión JDBC con el contenedor de base de datos relacional MySQL, el gestor de concurrencia MashUp y el punto de enlace Jakarta RESTful Web Services (JAX-RS / Jersey) que publica los endpoints bajo el protocolo HTTP/JSON."));
 
             list.Add(Heading3("4.1.1 Paso 1: Configuración de la Base de Datos Relacional EurekaBank en MySQL Contenerizado"));
             list.Add(Paragraph("Dentro del directorio 03. BDD del proyecto se localizan el archivo de orquestación docker-compose.yml y el script SQL de definición y datos eureka_bank.sql. El archivo docker-compose.yml define el servicio de base de datos mysql-db exponiendo el puerto estándar 3306 hacia el sistema anfitrión:"));
@@ -132,7 +153,7 @@ volumes:
             list.Add(TableCaption(2, "Script SQL Completo DDL y Datos Semilla eureka_bank.sql"));
             list.Add(CodeBox("""
 -- =============================================================================
--- SISTEMA BANCARIO TRANSACCIONAL EUREKABANK - GRUPO 04 (GR04)
+-- SISTEMA BANCARIO TRANSACCIÓNAL EUREKABANK - GRUPO 04 (GR04)
 -- DOMINIO: ec.edu.monster | MOTOR: MySQL / MariaDB (Docker / Podman Local :3306)
 -- CREDENCIAL MAESTRA: Usuario = Monster | Contraseña = Monster9
 -- =============================================================================
@@ -213,72 +234,50 @@ CREATE TABLE movimiento (
     FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- =============================================================================
 -- DATOS SEMILLA (SEEDERS) - CREDENCIALES: Monster / Monster9
--- Hash BCrypt verificado para 'Monster9': $2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK
--- =============================================================================
-
+-- Hash BCrypt: $2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK
 INSERT INTO sucursal (codigo, nombre, ciudad, direccion) VALUES
 ('001', 'Sucursal Matriz ESPE', 'Sangolquí', 'Av. Gral. Rumiñahui s/n'),
 ('002', 'Sucursal Norte La Carolina', 'Quito', 'Av. Amazonas y Naciones Unidas'),
-('003', 'Sucursal Centro Financiero', 'Guayaquil', 'Av. 9 de Octubre y Malecón');
+('003', 'Sucursal Guayaquil Malecón', 'Guayaquil', 'Malecón Simón Bolívar y 9 de Octubre');
 
 INSERT INTO empleado (usuario, password, nombre_completo, rol, id_sucursal, ventanilla) VALUES
-('Monster',  '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'James P. Sullivan (Monster Admin)', 'Superadmin Monster', 1, 1),
-('cajero1',  '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'Alejandro Flores (Ventanilla 1)',   'Cajero',             1, 1),
-('cajero2',  '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'Anthony Morales (Ventanilla 2)',    'Cajero',             1, 2),
-('cajero3',  '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'Leonardo Narváez (Ventanilla 3)',   'Cajero',             1, 3),
-('cajero4',  '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'Mike Wazowski (Ventanilla 4)',      'Cajero',             2, 4),
-('gerente1', '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'María López (Gerente Sucursal)',    'Gerente',            1, NULL);
+('Monster', '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'James P. Sullivan', 'Superadmin Monster', 1, 1),
+('cajero1', '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'Mike Wazowski', 'Cajero', 1, 1),
+('cajero2', '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'Randall Boggs', 'Cajero', 1, 2),
+('cajero3', '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'Celia Mae', 'Cajero', 2, 3),
+('cajero4', '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'Roz Waternoose', 'Cajero', 3, 4);
 
 INSERT INTO cliente (dni, nombre, apellido, direccion, telefono, email) VALUES
-('1700000001', 'James P.',  'Sullivan', 'Monstropolis Av. Central 101', '0991000001', 'monster@monster.edu.ec'),
-('1712345678', 'Alejandro', 'Flores',   'Av. Gral. Rumiñahui, Sangolquí', '0992345678', 'acflores@espe.edu.ec'),
-('1723456789', 'Anthony',   'Morales',  'Av. América, Quito',           '0993456789', 'aamorales@espe.edu.ec'),
-('1734567890', 'Leonardo',  'Narváez',  'Av. 6 de Diciembre, Quito',    '0994567890', 'lvnarvaez@espe.edu.ec'),
-('1745678901', 'Carlos',    'García',   'Av. Amazonas 450, Quito',      '0995678901', 'carlos.garcia@correo.com'),
-('1756789012', 'Ana',       'Torres',   'Av. 9 de Octubre, Guayaquil',  '0996789012', 'ana.torres@correo.com');
+('1710000001', 'Arturo', 'Mora', 'Quito Centro Histórico', '0991234567', 'amora@monster.com'),
+('1710000002', 'Beatriz', 'Cueva', 'Cumbayá San Juan', '0987654321', 'bcueva@monster.com'),
+('1710000003', 'Carlos', 'Valdivieso', 'Valle de los Chillos', '0971122334', 'cvaldivieso@monster.com');
 
 INSERT INTO cuenta (numero_cuenta, moneda, saldo, id_cliente, id_sucursal, estado) VALUES
-('001-0001', 'USD', 2500.00, 1, 1, 'Activa'),
-('001-0002', 'USD', 1800.00, 2, 1, 'Activa'),
-('001-0003', 'USD', 3200.50, 3, 1, 'Activa'),
-('001-0004', 'USD',  950.00, 4, 1, 'Activa'),
-('002-0001', 'USD', 4100.00, 5, 2, 'Activa'),
-('003-0001', 'USD', 1500.00, 6, 3, 'Activa');
+('001-0001', 'USD', 2750.00, 1, 1, 'Activa'),
+('001-0002', 'USD', 1420.50, 2, 1, 'Activa'),
+('001-0003', 'USD', 5800.00, 3, 2, 'Activa'),
+('001-0004', 'USD', 950.00, 1, 3, 'Activa');
 
 INSERT INTO control_mashup (numero_cuenta, estado_mashup, ventanilla, bloqueado_por) VALUES
 ('001-0001', 'VERDE', NULL, NULL),
 ('001-0002', 'VERDE', NULL, NULL),
 ('001-0003', 'VERDE', NULL, NULL),
-('001-0004', 'VERDE', NULL, NULL),
-('002-0001', 'VERDE', NULL, NULL),
-('003-0001', 'VERDE', NULL, NULL);
-
-INSERT INTO movimiento (numero_operacion, numero_cuenta, id_empleado, ventanilla, tipo, monto, saldo_resultante, cuenta_referencia, descripcion, fecha_hora) VALUES
-('APE-100001', '001-0001', 1, 1, 'Deposito', 2000.00, 2000.00, NULL, 'Apertura de cuenta ahorro Monster', DATE_SUB(NOW(), INTERVAL 3 DAY)),
-('DEP-100002', '001-0001', 2, 1, 'Deposito',  500.00, 2500.00, NULL, 'Depósito en efectivo Ventanilla 1', DATE_SUB(NOW(), INTERVAL 1 DAY)),
-('APE-100003', '001-0002', 1, 1, 'Deposito', 2000.00, 2000.00, NULL, 'Apertura de cuenta ahorro',         DATE_SUB(NOW(), INTERVAL 2 DAY)),
-('RET-100004', '001-0002', 3, 2, 'Retiro',    200.00, 1800.00, NULL, 'Retiro por ventanilla 2',           DATE_SUB(NOW(), INTERVAL 12 HOUR)),
-('APE-100005', '001-0003', 1, 1, 'Deposito', 3200.50, 3200.50, NULL, 'Apertura de cuenta ahorro',         DATE_SUB(NOW(), INTERVAL 2 DAY)),
-('APE-100006', '001-0004', 4, 3, 'Deposito',  950.00,  950.00, NULL, 'Apertura de cuenta ahorro',         DATE_SUB(NOW(), INTERVAL 1 DAY)),
-('APE-100007', '002-0001', 5, 4, 'Deposito', 4100.00, 4100.00, NULL, 'Apertura Sucursal Norte',           DATE_SUB(NOW(), INTERVAL 1 DAY)),
-('APE-100008', '003-0001', 1, 1, 'Deposito', 1500.00, 1500.00, NULL, 'Apertura Sucursal Guayaquil',       DATE_SUB(NOW(), INTERVAL 1 DAY));
-
+('001-0004', 'VERDE', NULL, NULL);
 """));
 
             list.Add(TableCaption(3, "Diccionario de Datos del Esquema Relacional EurekaBank"));
             list.Add(TechnicalTable(
-                new[] { "Tabla", "Clave Primaria", "DescripciÃ³n TÃ©cnica y PropÃ³sito Bancario", "Relaciones ForÃ¡neas" },
-                new[] { 1600, 1500, 3904, 1500 },
+                new[] { "Tabla Relacional", "Columnas Principales y Tipos", "Restricciones / Claves", "Propósito en la Arquitectura Bancaria" },
+                new[] { 2200, 2800, 2200, 2304 },
                 new List<string[]>
                 {
-                    new[] { "sucursal", "id_sucursal", "CatÃ¡logo de agencias bancarias (001 Matriz ESPE, 002 Norte La Carolina, 003 Centro Financiero).", "Ninguna" },
-                    new[] { "empleado", "id_empleado", "Cajeros y operadores de ventanilla con contraseÃ±as encriptadas en BCrypt ($). Incluye credencial maestra Monster/Monster9.", "id_sucursal -> sucursal" },
-                    new[] { "cliente", "id_cliente", "Datos demogrÃ¡ficos y de contacto de clientes titulares con validaciÃ³n de DNI.", "Ninguna" },
-                    new[] { "cuenta", "numero_cuenta", "Cuentas de ahorro/corriente en USD con saldo DECIMAL(12,2) y bloqueo pesimista SELECT FOR UPDATE.", "id_cliente -> cliente, id_sucursal -> sucursal" },
-                    new[] { "control_mashup", "numero_cuenta", "SemÃ¡foro cromÃ¡tico de concurrencia en tiempo real (VERDE = Libre, ROJO = Ocupada en Ventanilla con operador y timestamp).", "numero_cuenta -> cuenta (ON DELETE CASCADE)" },
-                    new[] { "movimiento", "id_movimiento", "Historial cronolÃ³gico de transacciones ACID (DepÃ³sito, Retiro, Transferencia) con nÃºmero de operaciÃ³n, saldo resultante y ventanilla.", "numero_cuenta -> cuenta, id_empleado -> empleado" }
+                    new[] { "sucursal", "id_sucursal (INT PK), codigo (VARCHAR(10)), nombre, ciudad, direccion", "PK AUTO_INCREMENT, UNIQUE(codigo)", "Representa las oficinas físicas donde operan las ventanillas bancarias." },
+                    new[] { "empleado", "id_empleado (INT PK), usuario, password, nombre_completo, rol, id_sucursal, ventanilla", "PK, UNIQUE(usuario), FK(id_sucursal)", "Operadores bancarios; almacena credenciales encriptadas con BCrypt." },
+                    new[] { "cliente", "id_cliente (INT PK), dni (VARCHAR(20)), nombre, apellido, email", "PK, UNIQUE(dni)", "Titulares de cuentas bancarias y personas naturales vinculadas." },
+                    new[] { "cuenta", "numero_cuenta (VARCHAR(20) PK), moneda, saldo (DECIMAL(12,2)), estado, id_cliente, id_sucursal", "PK, FK(id_cliente), FK(id_sucursal)", "Entidad central de balance financiero; soporta bloqueo pesimista SELECT FOR UPDATE." },
+                    new[] { "control_mashup", "numero_cuenta (VARCHAR(20) PK), estado_mashup (ENUM 'VERDE','ROJO'), ventanilla, bloqueado_por, actualizado_en", "PK, FK(numero_cuenta) ON DELETE CASCADE", "Coordina el Semáforo MashUp de Concurrencia entre ventanillas físicas y remotas en tiempo real." },
+                    new[] { "movimiento", "id_movimiento (INT PK), numero_operacion, numero_cuenta, id_empleado, ventanilla, tipo, monto, saldo_resultante, fecha_hora", "PK, UNIQUE(numero_operacion), FK(cuenta), FK(empleado)", "Auditoría cronológica inmutable de depósitos, retiros y transferencias." }
                 }
             ));
 
@@ -286,53 +285,78 @@ INSERT INTO movimiento (numero_operacion, numero_cuenta, id_empleado, ventanilla
             list.Add(ScreenshotBox(
                 1,
                 "Esquema de Base de Datos Relacional EurekaBank en Contenedor Podman/Docker",
-                "Consola de comandos PowerShell / Podman CLI y herramienta de gestión DBeaver o MySQL Workbench.",
-                "Comando de ejecución: podman compose up -d dentro del directorio 03. BDD.",
-                "Ejecutar 'podman ps' para verificar el contenedor mysql-db y 'SELECT COUNT(*) FROM cuenta;' en DBeaver.",
-                "Contenedor en estado Up (puerto 3306 activo) y las 7 tablas del esquema eurekabank_db pobladas con datos de prueba iniciales."
+                "Consola de comandos / CLI de Podman o Docker.",
+                "Comando: podman compose up -d (o docker compose up -d) ejecutado en el subdirectorio 03. BDD.",
+                "Verificar la inicialización del contenedor mysql-db y la carga exitosa de eureka_bank.sql.",
+                "Contenedor en ejecución (Up) con puerto TCP 3306 expuesto y volumen eurekabank_mysql_data activo."
             ));
 
             list.Add(Heading3("4.1.2 Paso 2: Creación del Proyecto Web Maven y Configuración de Dependencias Jakarta EE"));
-            list.Add(Paragraph("En NetBeans IDE se inicia el asistente New Project > Java with Maven > Web Application. Se define el nombre del proyecto como WS_EurekaBank_Java_RESTful, se establece el GroupId institucional ec.edu.monster y se selecciona Payara Server como servidor de destino. En el archivo pom.xml se configuran las dependencias de Jakarta XML Web Services API, la implementación de Metro/Jakarta RESTful Web Services (JAX-RS / Jersey) Runtime y el driver oficial MySQL Connector/J:"));
+            list.Add(Paragraph("En NetBeans IDE se inicia el asistente New Project > Java with Maven > Web Application. Se define el nombre del proyecto como WS_EurekaBank_Java_REST, se establece el GroupId institucional ec.edu.monster y se selecciona Payara Server como servidor de destino. En el archivo pom.xml se configuran las dependencias de Jakarta EE 10 (JAX-RS / Jersey), el driver oficial MySQL Connector/J y la librería jBCrypt para verificación de contraseñas:"));
 
             list.Add(TableCaption(4, "Descriptor de Dependencias y Plugins del Servidor pom.xml"));
             list.Add(CodeBox("""
-<project xmlns="http://maven.apache.org/POM/4.0.0" ...>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ec.edu.monster</groupId>
-    <artifactId>WS_EurekaBank_Java_RESTful</artifactId>
-    <version>1.0.0</version>
+    <artifactId>WS_EurekaBank_Java_REST</artifactId>
+    <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
+    <name>WS_EurekaBank_Java_REST</name>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>jakarta.platform</groupId>
-            <artifactId>jakarta.jakartaee-web-api</artifactId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
             <version>10.0.0</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.xml.ws</groupId>
-            <artifactId>jakarta.xml.ws-api</artifactId>
-            <version>4.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-rt</artifactId>
-            <version>4.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <version>8.3.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
+    <build>
+        <finalName>WS_EurekaBank_Java_REST</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.12.1</version>
+                <configuration>
+                    <release>17</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
 """));
 
@@ -341,13 +365,13 @@ INSERT INTO movimiento (numero_operacion, numero_cuenta, id_empleado, ventanilla
                 2,
                 "Creación y Estructura del Proyecto Servidor Maven en NetBeans IDE",
                 "NetBeans IDE - Asistente New Project > Java with Maven > Web Application.",
-                "Project Name: WS_EurekaBank_Java_RESTful | Group Id: ec.edu.monster | Target Server: Payara Server.",
+                "Project Name: WS_EurekaBank_Java_REST | Group Id: ec.edu.monster | Target Server: Payara Server.",
                 "Crear el proyecto, abrir pom.xml y verificar la resolución de dependencias Maven.",
-                "Árbol del proyecto generado con la carpeta Dependencies mostrando jakarta.xml.ws-api y mysql-connector-j correctamente descargados."
+                "Árbol del proyecto generado con la carpeta Dependencies mostrando jakarta.jakartaee-api, mysql-connector-j y jbcrypt correctamente vinculados."
             ));
 
             list.Add(Heading3("4.1.3 Paso 3: Estructuración Modular de Paquetes del Servidor RESTful (MVC Tradicional)"));
-            list.Add(Paragraph("Se crean los paquetes Java dentro de src/main/java siguiendo rigurosamente el patrón arquitectónico MVC Tradicional puro, eliminando capas superfluas de 'Services' y centralizando la orquestación en controladores dedicados:"));
+            list.Add(Paragraph("Se estructuran los paquetes Java dentro de src/main/java siguiendo rigurosamente el patrón arquitectónico MVC Tradicional puro, organizando claramente los controladores, servicios transaccionales, DAOs de acceso a datos, modelos DTO y utilitarios de concurrencia:"));
 
             list.Add(TableCaption(5, "Estructura de Paquetes y Responsabilidades del Servidor RESTful (MVC Tradicional)"));
             list.Add(TechnicalTable(
@@ -355,11 +379,12 @@ INSERT INTO movimiento (numero_operacion, numero_cuenta, id_empleado, ventanilla
                 new[] { 2800, 2700, 3004 },
                 new List<string[]>
                 {
-                    new[] { "ec.edu.monster.ws", "EurekaBankResource.java", "Punto de enlace (Endpoint) Jakarta RESTful Web Services (JAX-RS / Jersey) que publica el servicio RESTful bajo el namespace http://ws.monster.edu.ec/." },
-                    new[] { "ec.edu.monster.controller", "EurekaBankController.java, GestorConcurrencia.java", "Controlador central que orquesta las operaciones transaccionales y administra el estado del semáforo MashUp." },
-                    new[] { "ec.edu.monster.model", "Cuenta.java, Movimiento.java, Cliente.java, Sucursal.java, Empleado.java, RespuestaTransaccion.java, EstadoSemaforo.java", "Entidades del dominio bancario y objetos de transferencia serializables mediante JAXB." },
-                    new[] { "ec.edu.monster.model.dao", "CuentaDAO.java, MovimientoDAO.java, EmpleadoDAO.java, ControlMashUpDAO.java", "Capa de persistencia JDBC con sentencias SQL preparadas, control transaccional ACID y bloqueos SELECT FOR UPDATE." },
-                    new[] { "ec.edu.monster.database", "ConexionBDD.java", "Gestión de conexiones JDBC directas al contenedor MySQL con configuración de aislamiento y UTF-8." }
+                    new[] { "ec.edu.monster.rest", "RestApplication.java, EurekaBankResource.java, CorsFilter.java", "Punto de enlace Jakarta RESTful Web Services (/api/*), recurso principal JAX-RS y filtro CORS." },
+                    new[] { "ec.edu.monster.controlador", "OperacionesController.java", "Controlador orquestador central que canaliza peticiones hacia la lógica transaccional y de seguridad." },
+                    new[] { "ec.edu.monster.servicio", "TransaccionService.java, SeguridadService.java", "Servicios de negocio que gobiernan la lógica ACID, exclusión mutua de 3.5s y autenticación con BCrypt." },
+                    new[] { "ec.edu.monster.dao", "CuentaDAO.java, MovimientoDAO.java, EmpleadoDAO.java, SucursalDAO.java", "Capa de persistencia JDBC con sentencias SQL preparadas, control transaccional ACID y bloqueos SELECT FOR UPDATE." },
+                    new[] { "ec.edu.monster.modelo (y .peticion)", "CuentaDetalleDTO, MovimientoDTO, OperacionRespuestaDTO, AuthRespuestaDTO, LoginRequest, OperacionRequest, TransferenciaRequest", "Objetos de transferencia serializables automáticamente en JSON (DTOs)." },
+                    new[] { "ec.edu.monster.util", "ConexionDB.java, GestorConcurrencia.java, SeguridadUtil.java", "Factoría de conexiones JDBC, gestor de concurrencia del Semáforo MashUp y utilitarios de cifrado." }
                 }
             ));
 
@@ -368,205 +393,271 @@ INSERT INTO movimiento (numero_operacion, numero_cuenta, id_empleado, ventanilla
                 3,
                 "Estructura de Paquetes del Servidor RESTful en NetBeans IDE",
                 "NetBeans IDE - Vista Projects / Files.",
-                "Expandir el nodo Source Packages del proyecto WS_EurekaBank_Java_RESTful.",
-                "Inspeccionar los paquetes ec.edu.monster.ws, controller, model, model.dao y database.",
+                "Expandir el nodo Source Packages del proyecto WS_EurekaBank_Java_REST.",
+                "Inspeccionar los paquetes ec.edu.monster.rest, controlador, dao, modelo, servicio y util.",
                 "Estructura de paquetes visualizada con todos los archivos .java compilados sin errores ni advertencias."
             ));
 
-            list.Add(Heading3("4.1.4 Paso 4: Capa de Conexión a Base de Datos (ConexionBDD.java)"));
-            list.Add(Paragraph("Se crea la clase ConexionBDD en el paquete ec.edu.monster.database. Esta clase carga el driver com.mysql.cj.jdbc.Driver y establece conexiones JDBC con el contenedor local MySQL sobre el puerto 3306, configurando parámetros de seguridad (useSSL=false), compatibilidad de claves públicas (allowPublicKeyRetrieval=true), zona horaria y juego de caracteres UTF-8:"));
+            list.Add(Heading3("4.1.4 Paso 4: Capa de Conexión a Base de Datos (ConexionDB.java)"));
+            list.Add(Paragraph("Se crea la clase ConexionDB en el paquete ec.edu.monster.util. Esta clase carga el driver com.mysql.cj.jdbc.Driver y establece conexiones JDBC con el contenedor local MySQL sobre el puerto 3306, soportando variables de entorno del sistema (EUREKABANK_DB_URL, EUREKABANK_DB_USER, EUREKABANK_DB_PASS) y configurando el nivel de aislamiento TRANSACTION_READ_COMMITTED:"));
 
-            list.Add(TableCaption(6, "Factoría de Conexiones JDBC ConexionBDD.java"));
+            list.Add(TableCaption(6, "Factoría de Conexiones JDBC ConexionDB.java"));
             list.Add(CodeBox("""
-package ec.edu.monster.database;
+package ec.edu.monster.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConexionBDD {
-    private static final String URL = "jdbc:mysql://localhost:3306/eurekabank_db"
-            + "?useSSL=false"
-            + "&allowPublicKeyRetrieval=true"
-            + "&serverTimezone=America/Guayaquil"
-            + "&characterEncoding=UTF-8";
-    private static final String USUARIO = "root";
-    private static final String CLAVE = "admin";
+public class ConexionDB {
+
+    private static final String DEFAULT_URL =
+            "jdbc:mysql://localhost:3306/eurekabank_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Guayaquil&characterEncoding=UTF-8";
+    private static final String DEFAULT_USER = "root";
+    private static final String DEFAULT_PASS = "admin";
 
     static {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            System.err.println("Driver MySQL no encontrado: " + e.getMessage());
+            throw new ExceptionInInitializerError("No se encontró el driver JDBC de MySQL: " + e.getMessage());
         }
     }
 
-    public static Connection obtenerConexion() throws SQLException {
-        Connection conn = DriverManager.getConnection(URL, USUARIO, CLAVE);
+    private ConexionDB() {}
+
+    public static Connection getConexion() throws SQLException {
+        String url = obtenerPropiedad("EUREKABANK_DB_URL", "eurekabank.db.url", DEFAULT_URL);
+        String user = obtenerPropiedad("EUREKABANK_DB_USER", "eurekabank.db.user", DEFAULT_USER);
+        String pass = obtenerPropiedad("EUREKABANK_DB_PASS", "eurekabank.db.pass", DEFAULT_PASS);
+        Connection conn = DriverManager.getConnection(url, user, pass);
         conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
         return conn;
     }
+
+    private static String obtenerPropiedad(String envKey, String sysKey, String valorDefecto) {
+        String sys = System.getProperty(sysKey);
+        if (sys != null && !sys.isBlank()) return sys.trim();
+        String env = System.getenv(envKey);
+        if (env != null && !env.isBlank()) return env.trim();
+        return valorDefecto;
+    }
 }
 """));
 
-            list.Add(Heading3("4.1.5 Paso 5: Implementación de Entidades del Dominio y Modelos DTO"));
-            list.Add(Paragraph("En el paquete ec.edu.monster.model se crean las clases que representan las entidades del negocio bancario. Estas clases implementan Serializable y cuentan con constructores, getters y setters para permitir su serialización automática mediante JAXB en los mensajes XML de RESTful:"));
+            list.Add(Heading3("4.1.5 Paso 5: Implementación de Entidades del Dominio y Modelos DTO (Data Transfer Objects)"));
+            list.Add(Paragraph("En el paquete ec.edu.monster.modelo se implementan los objetos de transferencia de datos (DTOs) que representan las respuestas y solicitudes JSON. Estas clases implementan Serializable y encapsulan los atributos de cuentas bancarias, extractos cronológicos y estados del Semáforo MashUp:"));
 
-            list.Add(TableCaption(7, "Entidad de Dominio y Modelo de Cuenta Cuenta.java"));
+            list.Add(TableCaption(7, "Modelo DTO de Cuenta Bancaria y Estado MashUp CuentaDetalleDTO.java"));
             list.Add(CodeBox("""
-package ec.edu.monster.model;
+package ec.edu.monster.modelo;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
-public class Cuenta implements Serializable {
-    private String codigo;
-    private String codigoSucursal;
-    private String codigoCliente;
+public class CuentaDetalleDTO implements Serializable {
+    private String numeroCuenta;
+    private String moneda;
+    private double saldo;
+    private String estadoCuenta;
+    private String disponibilidadMashup; // "VERDE" o "ROJO"
+    private int ventanillaBloqueo;
+    private String bloqueadoPor;
+    private int idCliente;
+    private String dniCliente;
     private String nombreCliente;
-    private BigDecimal saldo;
-    private String estado;
-    private int contadorMovimientos;
-    private String estadoMashup;     // VERDE o ROJO
-    private int ventanillaMashup;     // Ventanilla que la bloqueó
-    private String operadorMashup;   // Operador responsable
+    private String apellidoCliente;
+    private String emailCliente;
+    private int idSucursal;
+    private String nombreSucursal;
+    private String ciudadSucursal;
 
-    public Cuenta() {}
+    public CuentaDetalleDTO() {}
 
-    public Cuenta(String codigo, String nombreCliente, BigDecimal saldo, String estadoMashup) {
-        this.codigo = codigo;
-        this.nombreCliente = nombreCliente;
-        this.saldo = saldo;
-        this.estadoMashup = estadoMashup;
-    }
-
-    // Getters y Setters completos para serialización JAXB
-    public String getCodigo() { return codigo; }
-    public void setCodigo(String codigo) { this.codigo = codigo; }
+    public String getNumeroCuenta() { return numeroCuenta; }
+    public void setNumeroCuenta(String numeroCuenta) { this.numeroCuenta = numeroCuenta; }
+    public String getMoneda() { return moneda; }
+    public void setMoneda(String moneda) { this.moneda = moneda; }
+    public double getSaldo() { return saldo; }
+    public void setSaldo(double saldo) { this.saldo = saldo; }
+    public String getEstadoCuenta() { return estadoCuenta; }
+    public void setEstadoCuenta(String estadoCuenta) { this.estadoCuenta = estadoCuenta; }
+    public String getDisponibilidadMashup() { return disponibilidadMashup; }
+    public void setDisponibilidadMashup(String disponibilidadMashup) { this.disponibilidadMashup = disponibilidadMashup; }
+    public int getVentanillaBloqueo() { return ventanillaBloqueo; }
+    public void setVentanillaBloqueo(int ventanillaBloqueo) { this.ventanillaBloqueo = ventanillaBloqueo; }
+    public String getBloqueadoPor() { return bloqueadoPor; }
+    public void setBloqueadoPor(String bloqueadoPor) { this.bloqueadoPor = bloqueadoPor; }
     public String getNombreCliente() { return nombreCliente; }
     public void setNombreCliente(String nombreCliente) { this.nombreCliente = nombreCliente; }
-    public BigDecimal getSaldo() { return saldo; }
-    public void setSaldo(BigDecimal saldo) { this.saldo = saldo; }
-    public String getEstadoMashup() { return estadoMashup; }
-    public void setEstadoMashup(String estadoMashup) { this.estadoMashup = estadoMashup; }
-    public int getVentanillaMashup() { return ventanillaMashup; }
-    public void setVentanillaMashup(int ventanillaMashup) { this.ventanillaMashup = ventanillaMashup; }
-    public String getOperadorMashup() { return operadorMashup; }
-    public void setOperadorMashup(String operadorMashup) { this.operadorMashup = operadorMashup; }
+    public String getApellidoCliente() { return apellidoCliente; }
+    public void setApellidoCliente(String apellidoCliente) { this.apellidoCliente = apellidoCliente; }
+    public String getDniCliente() { return dniCliente; }
+    public void setDniCliente(String dniCliente) { this.dniCliente = dniCliente; }
+    public String getNombreSucursal() { return nombreSucursal; }
+    public void setNombreSucursal(String nombreSucursal) { this.nombreSucursal = nombreSucursal; }
 }
 """));
 
-            list.Add(TableCaption(8, "Entidad de Dominio y Registro de Auditoría Movimiento.java"));
+            list.Add(TableCaption(8, "Modelo DTO de Auditoría e Historial Cronológico MovimientoDTO.java"));
             list.Add(CodeBox("""
-package ec.edu.monster.model;
+package ec.edu.monster.modelo;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 
-public class Movimiento implements Serializable {
-    private String cuenta;
-    private int numeroMovimiento;
-    private Timestamp fechaHora;
-    private String codigoEmpleado;
-    private String tipoMovimiento;
-    private String descripcionTipo;
-    private BigDecimal importe;
+public class MovimientoDTO implements Serializable {
+    private int idMovimiento;
+    private String numeroOperacion;
+    private String numeroCuenta;
+    private int idEmpleado;
+    private String nombreEmpleado;
+    private int ventanilla;
+    private String tipo;
+    private double monto;
+    private double saldoResultante;
     private String cuentaReferencia;
+    private String descripcion;
+    private String fechaHora;
 
-    public Movimiento() {}
+    public MovimientoDTO() {}
 
-    public String getCuenta() { return cuenta; }
-    public void setCuenta(String cuenta) { this.cuenta = cuenta; }
-    public int getNumeroMovimiento() { return numeroMovimiento; }
-    public void setNumeroMovimiento(int numeroMovimiento) { this.numeroMovimiento = numeroMovimiento; }
-    public Timestamp getFechaHora() { return fechaHora; }
-    public void setFechaHora(Timestamp fechaHora) { this.fechaHora = fechaHora; }
-    public String getCodigoEmpleado() { return codigoEmpleado; }
-    public void setCodigoEmpleado(String codigoEmpleado) { this.codigoEmpleado = codigoEmpleado; }
-    public String getTipoMovimiento() { return tipoMovimiento; }
-    public void setTipoMovimiento(String tipoMovimiento) { this.tipoMovimiento = tipoMovimiento; }
-    public String getDescripcionTipo() { return descripcionTipo; }
-    public void setDescripcionTipo(String descripcionTipo) { this.descripcionTipo = descripcionTipo; }
-    public BigDecimal getImporte() { return importe; }
-    public void setImporte(BigDecimal importe) { this.importe = importe; }
-    public String getCuentaReferencia() { return cuentaReferencia; }
-    public void setCuentaReferencia(String cuentaReferencia) { this.cuentaReferencia = cuentaReferencia; }
+    public int getIdMovimiento() { return idMovimiento; }
+    public void setIdMovimiento(int idMovimiento) { this.idMovimiento = idMovimiento; }
+    public String getNumeroOperacion() { return numeroOperacion; }
+    public void setNumeroOperacion(String numeroOperacion) { this.numeroOperacion = numeroOperacion; }
+    public String getNumeroCuenta() { return numeroCuenta; }
+    public void setNumeroCuenta(String numeroCuenta) { this.numeroCuenta = numeroCuenta; }
+    public String getTipo() { return tipo; }
+    public void setTipo(String tipo) { this.tipo = tipo; }
+    public double getMonto() { return monto; }
+    public void setMonto(double monto) { this.monto = monto; }
+    public double getSaldoResultante() { return saldoResultante; }
+    public void setSaldoResultante(double saldoResultante) { this.saldoResultante = saldoResultante; }
+    public String getFechaHora() { return fechaHora; }
+    public void setFechaHora(String fechaHora) { this.fechaHora = fechaHora; }
 }
 """));
 
-            list.Add(TableCaption(9, "Objeto de Transferencia de Respuesta Transaccional RespuestaTransaccion.java"));
+            list.Add(TableCaption(9, "Modelo DTO de Respuesta de Operación Transaccional OperacionRespuestaDTO.java"));
             list.Add(CodeBox("""
-package ec.edu.monster.model;
+package ec.edu.monster.modelo;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
-public class RespuestaTransaccion implements Serializable {
-    private boolean exitoso;
+public class OperacionRespuestaDTO implements Serializable {
+    private boolean exito;
+    private String codigo; // OK, SALDO_INSUFICIENTE, CONCURRENCIA_BLOQUEADA, CUENTA_NO_EXISTE, ERROR_VALIDACIÓN
     private String mensaje;
-    private BigDecimal nuevoSaldo;
+    private String numeroOperacion;
+    private String numeroCuenta;
+    private double saldoAnterior;
+    private double monto;
+    private double saldoActual;
+    private String fechaHora;
 
-    public RespuestaTransaccion() {}
+    public OperacionRespuestaDTO() {}
 
-    public RespuestaTransaccion(boolean exitoso, String mensaje, BigDecimal nuevoSaldo) {
-        this.exitoso = exitoso;
-        this.mensaje = mensaje;
-        this.nuevoSaldo = nuevoSaldo;
+    public static OperacionRespuestaDTO error(String codigo, String mensaje) {
+        OperacionRespuestaDTO r = new OperacionRespuestaDTO();
+        r.setExito(false);
+        r.setCodigo(codigo);
+        r.setMensaje(mensaje);
+        return r;
     }
 
-    public boolean isExitoso() { return exitoso; }
-    public void setExitoso(boolean exitoso) { this.exitoso = exitoso; }
+    public boolean isExito() { return exito; }
+    public void setExito(boolean exito) { this.exito = exito; }
+    public String getCodigo() { return codigo; }
+    public void setCodigo(String codigo) { this.codigo = codigo; }
     public String getMensaje() { return mensaje; }
     public void setMensaje(String mensaje) { this.mensaje = mensaje; }
-    public BigDecimal getNuevoSaldo() { return nuevoSaldo; }
-    public void setNuevoSaldo(BigDecimal nuevoSaldo) { this.nuevoSaldo = nuevoSaldo; }
+    public String getNumeroOperacion() { return numeroOperacion; }
+    public void setNumeroOperacion(String numeroOperacion) { this.numeroOperacion = numeroOperacion; }
+    public double getSaldoActual() { return saldoActual; }
+    public void setSaldoActual(double saldoActual) { this.saldoActual = saldoActual; }
+    public double getMonto() { return monto; }
+    public void setMonto(double monto) { this.monto = monto; }
 }
 """));
 
             list.Add(Heading3("4.1.6 Paso 6: Implementación de la Capa de Persistencia Transaccional ACID (CuentaDAO.java)"));
-            list.Add(Paragraph("En el paquete ec.edu.monster.model.dao se implementa la clase CuentaDAO, la cual encapsula todas las operaciones transaccionales sobre la base de datos MySQL. Se desactivan las confirmaciones automáticas mediante setAutoCommit(false), se implementan bloqueos de fila pesimistas con sentencias SELECT ... FOR UPDATE, y se ordenan los códigos de cuenta en transferencias interbancarias para prevenir bloqueos mutuos (deadlocks):"));
+            list.Add(Paragraph("En el paquete ec.edu.monster.dao se implementa la clase CuentaDAO, la cual ejecuta consultas y actualizaciones JDBC transaccionales sobre la base de datos MySQL. Se utiliza bloqueo pesimista mediante SELECT ... FOR UPDATE sobre la tabla cuenta para aislar las filas contra modificaciones concurrentes:"));
 
-            list.Add(TableCaption(10, "Capa de Persistencia ACID y Bloqueos CuentaDAO.java"));
+            list.Add(TableCaption(10, "Capa de Persistencia Transaccional ACID y Bloqueos Pesimistas CuentaDAO.java"));
             list.Add(CodeBox("""
-package ec.edu.monster.model.dao;
+package ec.edu.monster.dao;
 
-import ec.edu.monster.database.ConexionBDD;
-import ec.edu.monster.model.Cuenta;
-import ec.edu.monster.model.RespuestaTransaccion;
-import java.math.BigDecimal;
-import java.sql.*;
+import ec.edu.monster.modelo.CuentaDetalleDTO;
+import ec.edu.monster.util.ConexionDB;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CuentaDAO {
 
-    public List<Cuenta> obtenerCuentas(String sucursalId) {
-        List<Cuenta> lista = new ArrayList<>();
-        String sql = "SELECT c.chr_cuencodigo, CONCAT(cl.vch_clienombre, ' ', cl.vch_cliepaterno) AS titular, "
-                   + "c.dec_cuensaldo, COALESCE(cm.vch_estadomashup, 'VERDE') AS estado_mashup, "
-                   + "COALESCE(cm.int_ventanilla, 0) AS ventanilla, COALESCE(cm.vch_operador, '') AS operador "
-                   + "FROM cuenta c "
-                   + "INNER JOIN cliente cl ON c.chr_cliecodigo = cl.chr_cliecodigo "
-                   + "LEFT JOIN control_mashup cm ON c.chr_cuencodigo = cm.chr_cuencodigo "
-                   + (sucursalId != null && !sucursalId.isEmpty() ? "WHERE c.chr_sucucodigo = ? " : "")
-                   + "ORDER BY c.chr_cuencodigo ASC";
+    private static final String BASE_SELECT =
+            "SELECT cu.numero_cuenta, cu.moneda, cu.saldo, cu.estado, cu.id_cliente, cu.id_sucursal, "
+            + "cl.dni, cl.nombre AS nombre_cliente, cl.apellido AS apellido_cliente, cl.email, "
+            + "su.nombre AS nombre_sucursal, su.ciudad AS ciudad_sucursal, "
+            + "COALESCE(cm.estado_mashup, 'VERDE') AS estado_mashup, "
+            + "COALESCE(cm.ventanilla, 0) AS ventanilla_bloqueo, "
+            + "cm.bloqueado_por "
+            + "FROM cuenta cu "
+            + "INNER JOIN cliente cl ON cu.id_cliente = cl.id_cliente "
+            + "INNER JOIN sucursal su ON cu.id_sucursal = su.id_sucursal "
+            + "LEFT JOIN control_mashup cm ON cu.numero_cuenta = cm.numero_cuenta ";
 
-        try (Connection conn = ConexionBDD.obtenerConexion();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            if (sucursalId != null && !sucursalId.isEmpty()) {
-                ps.setString(1, sucursalId);
+    public CuentaDetalleDTO obtenerCuentaForUpdate(Connection con, String numeroCuenta) throws SQLException {
+        String sql = "SELECT numero_cuenta, moneda, saldo, estado, id_cliente, id_sucursal "
+                + "FROM cuenta WHERE numero_cuenta = ? FOR UPDATE";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, numeroCuenta.trim());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    CuentaDetalleDTO dto = new CuentaDetalleDTO();
+                    dto.setNumeroCuenta(rs.getString("numero_cuenta"));
+                    dto.setMoneda(rs.getString("moneda"));
+                    dto.setSaldo(rs.getDouble("saldo"));
+                    dto.setEstadoCuenta(rs.getString("estado"));
+                    dto.setIdCliente(rs.getInt("id_cliente"));
+                    dto.setIdSucursal(rs.getInt("id_sucursal"));
+                    return dto;
+                }
             }
+        }
+        return null;
+    }
+
+    public boolean actualizarSaldo(Connection con, String numeroCuenta, double nuevoSaldo) throws SQLException {
+        String sql = "UPDATE cuenta SET saldo = ? WHERE numero_cuenta = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setDouble(1, nuevoSaldo);
+            ps.setString(2, numeroCuenta.trim());
+            return ps.executeUpdate() > 0;
+        }
+    }
+
+    public List<CuentaDetalleDTO> listarCuentasPorSucursal(int sucursalId) {
+        List<CuentaDetalleDTO> lista = new ArrayList<>();
+        String sql = sucursalId <= 0
+                ? BASE_SELECT + "ORDER BY cu.numero_cuenta ASC"
+                : BASE_SELECT + "WHERE cu.id_sucursal = ? ORDER BY cu.numero_cuenta ASC";
+        try (Connection con = ConexionDB.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            if (sucursalId > 0) ps.setInt(1, sucursalId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    Cuenta c = new Cuenta();
-                    c.setCodigo(rs.getString("chr_cuencodigo"));
-                    c.setNombreCliente(rs.getString("titular"));
-                    c.setSaldo(rs.getBigDecimal("dec_cuensaldo"));
-                    c.setEstadoMashup(rs.getString("estado_mashup"));
-                    c.setVentanillaMashup(rs.getInt("ventanilla"));
-                    c.setOperadorMashup(rs.getString("operador"));
-                    lista.add(c);
+                    CuentaDetalleDTO dto = new CuentaDetalleDTO();
+                    dto.setNumeroCuenta(rs.getString("numero_cuenta"));
+                    dto.setSaldo(rs.getDouble("saldo"));
+                    dto.setDisponibilidadMashup(rs.getString("estado_mashup"));
+                    dto.setVentanillaBloqueo(rs.getInt("ventanilla_bloqueo"));
+                    dto.setBloqueadoPor(rs.getString("bloqueado_por"));
+                    dto.setNombreCliente(rs.getString("nombre_cliente"));
+                    dto.setApellidoCliente(rs.getString("apellido_cliente"));
+                    lista.add(dto);
                 }
             }
         } catch (SQLException e) {
@@ -574,189 +665,19 @@ public class CuentaDAO {
         }
         return lista;
     }
-
-    public RespuestaTransaccion depositar(String cuenta, BigDecimal monto, String codEmpleado, int ventanilla) {
-        String sqlLock = "SELECT dec_cuensaldo, int_cuencontmov FROM cuenta WHERE chr_cuencodigo = ? FOR UPDATE";
-        String sqlUpdate = "UPDATE cuenta SET dec_cuensaldo = dec_cuensaldo + ?, int_cuencontmov = int_cuencontmov + 1 WHERE chr_cuencodigo = ?";
-        String sqlMov = "INSERT INTO movimiento (chr_cuencodigo, int_movinumero, dtt_movifecha, chr_emplcodigo, chr_tipocodigo, dec_moviimporte) VALUES (?, ?, CURRENT_TIMESTAMP, ?, '001', ?)";
-
-        try (Connection conn = ConexionBDD.obtenerConexion()) {
-            conn.setAutoCommit(false);
-            try {
-                BigDecimal nuevoSaldo;
-                int nuevoContador;
-                try (PreparedStatement psLock = conn.prepareStatement(sqlLock)) {
-                    psLock.setString(1, cuenta);
-                    try (ResultSet rs = psLock.executeQuery()) {
-                        if (!rs.next()) {
-                            conn.rollback();
-                            return new RespuestaTransaccion(false, "Cuenta inexistente: " + cuenta, BigDecimal.ZERO);
-                        }
-                        nuevoSaldo = rs.getBigDecimal("dec_cuensaldo").add(monto);
-                        nuevoContador = rs.getInt("int_cuencontmov") + 1;
-                    }
-                }
-                try (PreparedStatement psUpd = conn.prepareStatement(sqlUpdate)) {
-                    psUpd.setBigDecimal(1, monto);
-                    psUpd.setString(2, cuenta);
-                    psUpd.executeUpdate();
-                }
-                try (PreparedStatement psMov = conn.prepareStatement(sqlMov)) {
-                    psMov.setString(1, cuenta);
-                    psMov.setInt(2, nuevoContador);
-                    psMov.setString(3, codEmpleado);
-                    psMov.setBigDecimal(4, monto);
-                    psMov.executeUpdate();
-                }
-                conn.commit();
-                return new RespuestaTransaccion(true, "Depósito exitoso de $" + monto + " en Ventanilla " + ventanilla, nuevoSaldo);
-            } catch (SQLException ex) {
-                conn.rollback();
-                return new RespuestaTransaccion(false, "Fallo transaccional: " + ex.getMessage(), BigDecimal.ZERO);
-            }
-        } catch (SQLException e) {
-            return new RespuestaTransaccion(false, "Error de conexión: " + e.getMessage(), BigDecimal.ZERO);
-        }
-    }
-
-    public RespuestaTransaccion retirar(String cuenta, BigDecimal monto, String codEmpleado, int ventanilla) {
-        String sqlLock = "SELECT dec_cuensaldo, int_cuencontmov FROM cuenta WHERE chr_cuencodigo = ? FOR UPDATE";
-        String sqlUpdate = "UPDATE cuenta SET dec_cuensaldo = dec_cuensaldo - ?, int_cuencontmov = int_cuencontmov + 1 WHERE chr_cuencodigo = ?";
-        String sqlMov = "INSERT INTO movimiento (chr_cuencodigo, int_movinumero, dtt_movifecha, chr_emplcodigo, chr_tipocodigo, dec_moviimporte) VALUES (?, ?, CURRENT_TIMESTAMP, ?, '002', ?)";
-
-        try (Connection conn = ConexionBDD.obtenerConexion()) {
-            conn.setAutoCommit(false);
-            try {
-                BigDecimal nuevoSaldo;
-                int nuevoContador;
-                try (PreparedStatement psLock = conn.prepareStatement(sqlLock)) {
-                    psLock.setString(1, cuenta);
-                    try (ResultSet rs = psLock.executeQuery()) {
-                        if (!rs.next()) {
-                            conn.rollback();
-                            return new RespuestaTransaccion(false, "Cuenta inexistente: " + cuenta, BigDecimal.ZERO);
-                        }
-                        BigDecimal saldoActual = rs.getBigDecimal("dec_cuensaldo");
-                        if (saldoActual.compareTo(monto) < 0) {
-                            conn.rollback();
-                            return new RespuestaTransaccion(false, "Fondos insuficientes. Saldo disponible: $" + saldoActual, saldoActual);
-                        }
-                        nuevoSaldo = saldoActual.subtract(monto);
-                        nuevoContador = rs.getInt("int_cuencontmov") + 1;
-                    }
-                }
-                try (PreparedStatement psUpd = conn.prepareStatement(sqlUpdate)) {
-                    psUpd.setBigDecimal(1, monto);
-                    psUpd.setString(2, cuenta);
-                    psUpd.executeUpdate();
-                }
-                try (PreparedStatement psMov = conn.prepareStatement(sqlMov)) {
-                    psMov.setString(1, cuenta);
-                    psMov.setInt(2, nuevoContador);
-                    psMov.setString(3, codEmpleado);
-                    psMov.setBigDecimal(4, monto);
-                    psMov.executeUpdate();
-                }
-                conn.commit();
-                return new RespuestaTransaccion(true, "Retiro exitoso de $" + monto + " en Ventanilla " + ventanilla, nuevoSaldo);
-            } catch (SQLException ex) {
-                conn.rollback();
-                return new RespuestaTransaccion(false, "Fallo transaccional en retiro: " + ex.getMessage(), BigDecimal.ZERO);
-            }
-        } catch (SQLException e) {
-            return new RespuestaTransaccion(false, "Error de conexión: " + e.getMessage(), BigDecimal.ZERO);
-        }
-    }
-
-    public RespuestaTransaccion transferir(String origen, String destino, BigDecimal monto, String codEmpleado, int ventanilla) {
-        if (origen.equalsIgnoreCase(destino)) {
-            return new RespuestaTransaccion(false, "Las cuentas origen y destino deben ser distintas.", BigDecimal.ZERO);
-        }
-        // Ordenamiento alfabético de códigos de cuenta para eliminar posibilidad de Deadlocks
-        String c1 = origen.compareTo(destino) < 0 ? origen : destino;
-        String c2 = origen.compareTo(destino) < 0 ? destino : origen;
-
-        try (Connection conn = ConexionBDD.obtenerConexion()) {
-            conn.setAutoCommit(false);
-            try {
-                String sqlLock = "SELECT chr_cuencodigo, dec_cuensaldo, int_cuencontmov FROM cuenta WHERE chr_cuencodigo IN (?, ?) FOR UPDATE";
-                BigDecimal saldoOrigen = null;
-                int contOrigen = 0, contDestino = 0;
-
-                try (PreparedStatement ps = conn.prepareStatement(sqlLock)) {
-                    ps.setString(1, c1);
-                    ps.setString(2, c2);
-                    try (ResultSet rs = ps.executeQuery()) {
-                        while (rs.next()) {
-                            String cod = rs.getString("chr_cuencodigo");
-                            if (cod.equalsIgnoreCase(origen)) {
-                                saldoOrigen = rs.getBigDecimal("dec_cuensaldo");
-                                contOrigen = rs.getInt("int_cuencontmov") + 1;
-                            } else {
-                                contDestino = rs.getInt("int_cuencontmov") + 1;
-                            }
-                        }
-                    }
-                }
-                if (saldoOrigen == null || saldoOrigen.compareTo(monto) < 0) {
-                    conn.rollback();
-                    return new RespuestaTransaccion(false, "Saldo insuficiente en cuenta origen: " + origen, BigDecimal.ZERO);
-                }
-
-                // Débito en origen
-                try (PreparedStatement ps = conn.prepareStatement("UPDATE cuenta SET dec_cuensaldo = dec_cuensaldo - ?, int_cuencontmov = int_cuencontmov + 1 WHERE chr_cuencodigo = ?")) {
-                    ps.setBigDecimal(1, monto);
-                    ps.setString(2, origen);
-                    ps.executeUpdate();
-                }
-                // Crédito en destino
-                try (PreparedStatement ps = conn.prepareStatement("UPDATE cuenta SET dec_cuensaldo = dec_cuensaldo + ?, int_cuencontmov = int_cuencontmov + 1 WHERE chr_cuencodigo = ?")) {
-                    ps.setBigDecimal(1, monto);
-                    ps.setString(2, destino);
-                    ps.executeUpdate();
-                }
-                // Auditoría de movimientos (003 Transferencia Enviada, 004 Transferencia Recibida)
-                try (PreparedStatement ps = conn.prepareStatement("INSERT INTO movimiento (chr_cuencodigo, int_movinumero, dtt_movifecha, chr_emplcodigo, chr_tipocodigo, dec_moviimporte, chr_cuenreferencia) VALUES (?, ?, CURRENT_TIMESTAMP, ?, '003', ?, ?)")) {
-                    ps.setString(1, origen);
-                    ps.setInt(2, contOrigen);
-                    ps.setString(3, codEmpleado);
-                    ps.setBigDecimal(4, monto);
-                    ps.setString(5, destino);
-                    ps.executeUpdate();
-                }
-                try (PreparedStatement ps = conn.prepareStatement("INSERT INTO movimiento (chr_cuencodigo, int_movinumero, dtt_movifecha, chr_emplcodigo, chr_tipocodigo, dec_moviimporte, chr_cuenreferencia) VALUES (?, ?, CURRENT_TIMESTAMP, ?, '004', ?, ?)")) {
-                    ps.setString(1, destino);
-                    ps.setInt(2, contDestino);
-                    ps.setString(3, codEmpleado);
-                    ps.setBigDecimal(4, monto);
-                    ps.setString(5, origen);
-                    ps.executeUpdate();
-                }
-
-                conn.commit();
-                return new RespuestaTransaccion(true, "Transferencia de $" + monto + " de " + origen + " a " + destino + " exitosa.", saldoOrigen.subtract(monto));
-            } catch (SQLException ex) {
-                conn.rollback();
-                return new RespuestaTransaccion(false, "Fallo en transferencia: " + ex.getMessage(), BigDecimal.ZERO);
-            }
-        } catch (SQLException e) {
-            return new RespuestaTransaccion(false, "Error de conexión: " + e.getMessage(), BigDecimal.ZERO);
-        }
-    }
 }
 """));
 
-            list.Add(Heading3("4.1.7 Paso 7: Implementación del Gestor de Concurrencia MashUp (GestorConcurrencia.java)"));
-            list.Add(Paragraph("En el paquete ec.edu.monster.controller se implementa la clase GestorConcurrencia. Esta clase coordina los estados del semáforo atómicamente en memoria utilizando ConcurrentHashMap y respalda el estado en la tabla control_mashup de MySQL:"));
+            list.Add(Heading3("4.1.7 Paso 7: Implementación del Gestor de Concurrencia y Sincronización MashUp (GestorConcurrencia.java)"));
+            list.Add(Paragraph("En el paquete ec.edu.monster.util se implementa GestorConcurrencia. Esta clase coordina los estados del semáforo atómicamente en memoria utilizando ConcurrentHashMap y respalda de inmediato el estado en la tabla control_mashup de MySQL:"));
 
             list.Add(TableCaption(11, "Componente de Coordinación del Semáforo MashUp GestorConcurrencia.java"));
             list.Add(CodeBox("""
-package ec.edu.monster.controller;
+package ec.edu.monster.util;
 
-import ec.edu.monster.database.ConexionBDD;
-import ec.edu.monster.model.EstadoSemaforo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -764,209 +685,175 @@ public class GestorConcurrencia {
     public static final String VERDE = "VERDE";
     public static final String ROJO = "ROJO";
     private static final GestorConcurrencia INSTANCIA = new GestorConcurrencia();
-    private final ConcurrentHashMap<String, EstadoSemaforo> mapaSemaforos = new ConcurrentHashMap<>();
+
+    public static class InfoBloqueo {
+        private final String estado;
+        private final int ventanilla;
+        private final String usuario;
+        public InfoBloqueo(String estado, int ventanilla, String usuario) {
+            this.estado = estado; this.ventanilla = ventanilla; this.usuario = usuario;
+        }
+        public String getEstado() { return estado; }
+        public int getVentanilla() { return ventanilla; }
+        public String getUsuario() { return usuario; }
+    }
+
+    private final ConcurrentHashMap<String, InfoBloqueo> bloqueosMemoria = new ConcurrentHashMap<>();
 
     private GestorConcurrencia() {}
 
-    public static GestorConcurrencia getInstancia() {
-        return INSTANCIA;
+    public static GestorConcurrencia getInstancia() { return INSTANCIA; }
+
+    public synchronized boolean bloquearCuenta(String numeroCuenta, int ventanilla, String usuario) {
+        if (numeroCuenta == null || numeroCuenta.isBlank()) return false;
+        String key = numeroCuenta.trim();
+        InfoBloqueo actual = obtenerInfoBloqueo(key);
+        if (ROJO.equalsIgnoreCase(actual.getEstado())) return false;
+
+        String sql = "INSERT INTO control_mashup (numero_cuenta, estado_mashup, ventanilla, bloqueado_por, actualizado_en) "
+                + "VALUES (?, 'ROJO', ?, ?, CURRENT_TIMESTAMP) "
+                + "ON DUPLICATE KEY UPDATE "
+                + "estado_mashup = IF(estado_mashup = 'VERDE', 'ROJO', estado_mashup), "
+                + "ventanilla = IF(estado_mashup = 'ROJO', VALUES(ventanilla), ventanilla), "
+                + "bloqueado_por = IF(estado_mashup = 'ROJO', VALUES(bloqueado_por), bloqueado_por), "
+                + "actualizado_en = CURRENT_TIMESTAMP";
+
+        try (Connection con = ConexionDB.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, key); ps.setInt(2, ventanilla); ps.setString(3, usuario);
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                bloqueosMemoria.put(key, new InfoBloqueo(ROJO, ventanilla, usuario));
+                return true;
+            }
+        } catch (SQLException e) { System.err.println("Error SQL al bloquear: " + e.getMessage()); }
+        return false;
     }
 
-    public synchronized boolean bloquearCuenta(String cuenta, int ventanilla, String operador) {
-        String key = cuenta.trim();
-        EstadoSemaforo actual = mapaSemaforos.get(key);
-        if (actual != null && ROJO.equalsIgnoreCase(actual.getEstado())) {
-            return false; // Cuenta ocupada por otra ventanilla
-        }
-
-        String sql = "INSERT INTO control_mashup (chr_cuencodigo, vch_estadomashup, int_ventanilla, vch_operador, dtt_actualizado) "
-                   + "VALUES (?, 'ROJO', ?, ?, CURRENT_TIMESTAMP) "
-                   + "ON DUPLICATE KEY UPDATE vch_estadomashup='ROJO', int_ventanilla=?, vch_operador=?, dtt_actualizado=CURRENT_TIMESTAMP";
-        try (Connection conn = ConexionBDD.obtenerConexion();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, key);
-            ps.setInt(2, ventanilla);
-            ps.setString(3, operador);
-            ps.setInt(4, ventanilla);
-            ps.setString(5, operador);
-            ps.executeUpdate();
-            mapaSemaforos.put(key, new EstadoSemaforo(key, ROJO, ventanilla, operador));
-            return true;
-        } catch (SQLException e) {
-            return false;
-        }
-    }
-
-    public synchronized void liberarCuenta(String cuenta) {
-        String key = cuenta.trim();
-        String sql = "UPDATE control_mashup SET vch_estadomashup='VERDE', int_ventanilla=0, vch_operador='', dtt_actualizado=CURRENT_TIMESTAMP WHERE chr_cuencodigo=?";
-        try (Connection conn = ConexionBDD.obtenerConexion();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+    public synchronized void liberarCuenta(String numeroCuenta) {
+        if (numeroCuenta == null || numeroCuenta.isBlank()) return;
+        String key = numeroCuenta.trim();
+        String sql = "UPDATE control_mashup SET estado_mashup = 'VERDE', ventanilla = NULL, bloqueado_por = NULL, actualizado_en = CURRENT_TIMESTAMP WHERE numero_cuenta = ?";
+        try (Connection con = ConexionDB.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, key);
             ps.executeUpdate();
         } catch (SQLException ignored) {}
-        mapaSemaforos.put(key, new EstadoSemaforo(key, VERDE, 0, ""));
+        bloqueosMemoria.put(key, new InfoBloqueo(VERDE, 0, ""));
     }
 
-    public EstadoSemaforo obtenerEstado(String cuenta) {
-        return mapaSemaforos.getOrDefault(cuenta.trim(), new EstadoSemaforo(cuenta.trim(), VERDE, 0, ""));
+    public InfoBloqueo obtenerInfoBloqueo(String numeroCuenta) {
+        return bloqueosMemoria.getOrDefault(numeroCuenta.trim(), new InfoBloqueo(VERDE, 0, ""));
     }
 }
 """));
 
-            list.Add(Heading3("4.1.8 Paso 8: Implementación y Publicación del Endpoint Jakarta RESTful Web Services (JAX-RS / Jersey) (EurekaBankResource.java)"));
-            list.Add(Paragraph("En el paquete ec.edu.monster.ws se implementa la clase EurekaBankResource decorada con @WebService. Esta clase actúa como la fachada RESTful que publica las operaciones bancarias hacia la red:"));
+            list.Add(Heading3("4.1.8 Paso 8: Implementación y Publicación del Recurso Jakarta RESTful (EurekaBankResource.java y CorsFilter.java)"));
+            list.Add(Paragraph("En el paquete ec.edu.monster.rest se implementan la clase RestApplication para registrar la ruta base /api, CorsFilter para permitir llamadas entre orígenes distintos, y EurekaBankResource como el punto de enlace JAX-RS que expone las operaciones financieras sobre HTTP/JSON:"));
 
-            list.Add(TableCaption(12, "Punto de Enlace Jakarta RESTful Web Services (JAX-RS / Jersey) del Servidor RESTful EurekaBankResource.java"));
+            list.Add(TableCaption(12, "Recurso Jakarta RESTful Principal EurekaBankResource.java y CorsFilter.java"));
             list.Add(CodeBox("""
-package ec.edu.monster.ws;
+package ec.edu.monster.rest;
 
-import ec.edu.monster.controller.GestorConcurrencia;
-import ec.edu.monster.model.*;
-import ec.edu.monster.model.dao.CuentaDAO;
-import ec.edu.monster.model.dao.EmpleadoDAO;
-import ec.edu.monster.model.dao.MovimientoDAO;
-import jakarta.jws.WebMethod;
-import jakarta.jws.WebParam;
-import jakarta.jws.WebResult;
-import jakarta.jws.WebService;
-import java.math.BigDecimal;
+import ec.edu.monster.controlador.OperacionesController;
+import ec.edu.monster.modelo.*;
+import ec.edu.monster.modelo.peticion.*;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import java.util.List;
 
-@WebService(serviceName = "EurekaBankResource", targetNamespace = "http://ws.monster.edu.ec/")
+@Path("/")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class EurekaBankResource {
 
-    private final CuentaDAO cuentaDAO = new CuentaDAO();
-    private final MovimientoDAO movimientoDAO = new MovimientoDAO();
-    private final EmpleadoDAO empleadoDAO = new EmpleadoDAO();
-    private final GestorConcurrencia gestor = GestorConcurrencia.getInstancia();
+    private final OperacionesController controlador = new OperacionesController();
 
-    @WebMethod(operationName = "autenticarUsuario")
-    @WebResult(name = "respuestaAutenticacion")
-    public Empleado autenticarUsuario(
-            @WebParam(name = "usuario") String usuario,
-            @WebParam(name = "clave") String clave) {
-        return empleadoDAO.autenticar(usuario, clave);
+    @POST
+    @Path("/auth/login")
+    public Response autenticarUsuario(LoginRequest req) {
+        if (req == null) return Response.status(Response.Status.BAD_REQUEST).build();
+        AuthRespuestaDTO resp = controlador.autenticarUsuario(req.getUsuario(), req.getClave());
+        return resp.isAutenticado() ? Response.ok(resp).build() : Response.status(Response.Status.UNAUTHORIZED).entity(resp).build();
     }
 
-    @WebMethod(operationName = "listarCuentas")
-    @WebResult(name = "cuenta")
-    public List<Cuenta> listarCuentas(@WebParam(name = "sucursalId") String sucursalId) {
-        List<Cuenta> cuentas = cuentaDAO.obtenerCuentas(sucursalId);
-        for (Cuenta c : cuentas) {
-            EstadoSemaforo sem = gestor.obtenerEstado(c.getCodigo());
-            c.setEstadoMashup(sem.getEstado());
-            c.setVentanillaMashup(sem.getVentanilla());
-            c.setOperadorMashup(sem.getOperador());
-        }
-        return cuentas;
+    @GET
+    @Path("/cuentas")
+    public List<CuentaDetalleDTO> listarCuentasPorSucursal(@QueryParam("sucursal") @DefaultValue("0") int sucursalId) {
+        return controlador.listarCuentasPorSucursal(sucursalId);
     }
 
-    @WebMethod(operationName = "consultarMovimientos")
-    @WebResult(name = "movimiento")
-    public List<Movimiento> consultarMovimientos(@WebParam(name = "cuenta") String cuenta) {
-        return movimientoDAO.obtenerMovimientos(cuenta);
+    @GET
+    @Path("/cuentas/{numeroCuenta}")
+    public Response obtenerCuentaPorNumero(@PathParam("numeroCuenta") String numeroCuenta) {
+        CuentaDetalleDTO cuenta = controlador.obtenerCuentaPorNumero(numeroCuenta);
+        if (cuenta == null) return Response.status(Response.Status.NOT_FOUND).entity(OperacionRespuestaDTO.error("CUENTA_NO_EXISTE", "No existe")).build();
+        return Response.ok(cuenta).build();
     }
 
-    @WebMethod(operationName = "depositar")
-    @WebResult(name = "resultadoTransaccion")
-    public RespuestaTransaccion depositar(
-            @WebParam(name = "cuenta") String cuenta,
-            @WebParam(name = "monto") BigDecimal monto,
-            @WebParam(name = "codEmpleado") String codEmpleado,
-            @WebParam(name = "ventanilla") int ventanilla) {
-        if (!gestor.bloquearCuenta(cuenta, ventanilla, "Operador Ventanilla " + ventanilla)) {
-            return new RespuestaTransaccion(false, "Cuenta " + cuenta + " ocupada en otra ventanilla (ROJO).", BigDecimal.ZERO);
-        }
-        try {
-            Thread.sleep(3500); // Latencia controlada para visualización del Semáforo MashUp
-            return cuentaDAO.depositar(cuenta, monto, codEmpleado, ventanilla);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            return new RespuestaTransaccion(false, "Interrupción transaccional", BigDecimal.ZERO);
-        } finally {
-            gestor.liberarCuenta(cuenta);
-        }
+    @GET
+    @Path("/cuentas/{numeroCuenta}/movimientos")
+    public List<MovimientoDTO> consultarExtracto(@PathParam("numeroCuenta") String numeroCuenta) {
+        return controlador.consultarExtracto(numeroCuenta);
     }
 
-    @WebMethod(operationName = "retirar")
-    @WebResult(name = "resultadoTransaccion")
-    public RespuestaTransaccion retirar(
-            @WebParam(name = "cuenta") String cuenta,
-            @WebParam(name = "monto") BigDecimal monto,
-            @WebParam(name = "codEmpleado") String codEmpleado,
-            @WebParam(name = "ventanilla") int ventanilla) {
-        if (!gestor.bloquearCuenta(cuenta, ventanilla, "Operador Ventanilla " + ventanilla)) {
-            return new RespuestaTransaccion(false, "Cuenta " + cuenta + " ocupada en otra ventanilla (ROJO).", BigDecimal.ZERO);
-        }
-        try {
-            Thread.sleep(3500);
-            return cuentaDAO.retirar(cuenta, monto, codEmpleado, ventanilla);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            return new RespuestaTransaccion(false, "Interrupción transaccional", BigDecimal.ZERO);
-        } finally {
-            gestor.liberarCuenta(cuenta);
-        }
+    @GET
+    @Path("/mashup")
+    public List<CuentaDetalleDTO> consultarEstadoMashUp() {
+        return controlador.listarCuentasPorSucursal(0);
     }
 
-    @WebMethod(operationName = "transferir")
-    @WebResult(name = "resultadoTransaccion")
-    public RespuestaTransaccion transferir(
-            @WebParam(name = "cuentaOrigen") String cuentaOrigen,
-            @WebParam(name = "cuentaDestino") String cuentaDestino,
-            @WebParam(name = "monto") BigDecimal monto,
-            @WebParam(name = "codEmpleado") String codEmpleado,
-            @WebParam(name = "ventanilla") int ventanilla) {
-        if (!gestor.bloquearCuenta(cuentaOrigen, ventanilla, "Operador Ventanilla " + ventanilla)) {
-            return new RespuestaTransaccion(false, "Cuenta origen " + cuentaOrigen + " ocupada en otra ventanilla (ROJO).", BigDecimal.ZERO);
-        }
-        try {
-            Thread.sleep(3500);
-            return cuentaDAO.transferir(cuentaOrigen, cuentaDestino, monto, codEmpleado, ventanilla);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            return new RespuestaTransaccion(false, "Interrupción transaccional", BigDecimal.ZERO);
-        } finally {
-            gestor.liberarCuenta(cuentaOrigen);
-        }
+    @POST
+    @Path("/movimientos/deposito")
+    public Response depositar(OperacionRequest req) {
+        OperacionRespuestaDTO res = controlador.depositar(req.getNumeroCuenta(), req.getMonto(), req.getEmpleadoId(), req.getVentanilla());
+        return construirRespuestaOperacion(res);
     }
 
-    @WebMethod(operationName = "consultarSemaforo")
-    @WebResult(name = "estadoSemaforo")
-    public EstadoSemaforo consultarSemaforo(@WebParam(name = "cuenta") String cuenta) {
-        return gestor.obtenerEstado(cuenta);
+    @POST
+    @Path("/movimientos/transferencia")
+    public Response transferir(TransferenciaRequest req) {
+        OperacionRespuestaDTO res = controlador.transferir(req.getCuentaOrigen(), req.getCuentaDestino(), req.getMonto(), req.getEmpleadoId(), req.getVentanilla());
+        return construirRespuestaOperacion(res);
+    }
+
+    private Response construirRespuestaOperacion(OperacionRespuestaDTO res) {
+        if (res.isExito()) return Response.ok(res).build();
+        if ("CONCURRENCIA_BLOQUEADA".equals(res.getCodigo())) return Response.status(Response.Status.CONFLICT).entity(res).build();
+        if ("CUENTA_NO_EXISTE".equals(res.getCodigo())) return Response.status(Response.Status.NOT_FOUND).entity(res).build();
+        return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
     }
 }
 """));
 
-            list.Add(TableCaption(13, "Catálogo de Operaciones Expuestas en el Contrato Swagger / OpenAPI"));
+            list.Add(TableCaption(13, "Catálogo de Endpoints y Operaciones de la API RESTful de EurekaBank"));
             list.Add(TechnicalTable(
-                new[] { "Operación RESTful", "Parámetros de Entrada", "Tipo de Retorno", "Propósito en la Arquitectura Bancaria" },
-                new[] { 2200, 2400, 1800, 2104 },
+                new[] { "Método HTTP y Ruta URI", "Parámetros de Entrada", "Tipo de Retorno / Códigos", "Propósito en la Arquitectura Bancaria" },
+                new[] { 2600, 2400, 2000, 2104 },
                 new List<string[]>
                 {
-                    new[] { "autenticarUsuario", "usuario: String, clave: String", "Empleado", "Valida credenciales maestras (Monster / Monster9), retornando código, nombre y rol del operador." },
-                    new[] { "listarCuentas", "sucursalId: String (o vacío para todas)", "List<Cuenta>", "Retorna las cuentas bancarias con saldo y estado reactivo del Semáforo MashUp (VERDE/ROJO)." },
-                    new[] { "consultarMovimientos", "cuenta: String", "List<Movimiento>", "Obtiene el historial cronológico de auditoría con número, tipo, fecha, cajero y monto." },
-                    new[] { "depositar", "cuenta, monto, codEmpleado, ventanilla", "RespuestaTransaccion", "Acredita fondos con semáforo ROJO temporal, bloqueo pesimista y confirmación commit." },
-                    new[] { "retirar", "cuenta, monto, codEmpleado, ventanilla", "RespuestaTransaccion", "Debita fondos con semáforo ROJO temporal, validación de balance y registro de auditoría." },
-                    new[] { "transferir", "cuentaOrigen, cuentaDestino, monto, codEmpl, vent", "RespuestaTransaccion", "Ejecuta débito y crédito atómico inter-cuentas con bloqueo ordenado anti-deadlock." },
-                    new[] { "consultarSemaforo", "cuenta: String", "EstadoSemaforo", "Consulta atómica en memoria del estado VERDE/ROJO, ventanilla y operador de una cuenta específica." }
+                    new[] { "POST /api/auth/login", "JSON: { usuario, clave }", "AuthRespuestaDTO (200 / 401)", "Valida credenciales maestras (Monster/Monster9) con hash BCrypt retornando rol y ventanilla." },
+                    new[] { "GET /api/sucursales", "Ninguno", "List<SucursalDTO> (200)", "Retorna el listado de agencias y sucursales físicas habilitadas en el sistema bancario." },
+                    new[] { "GET /api/cuentas", "QueryParam: sucursal (int)", "List<CuentaDetalleDTO> (200)", "Retorna cuentas bancarias con saldo y disponibilidad cromática MashUp (VERDE/ROJO)." },
+                    new[] { "GET /api/cuentas/{nro}", "PathParam: numeroCuenta", "CuentaDetalleDTO (200 / 404)", "Obtiene los detalles integrales y balance de una cuenta bancaria específica." },
+                    new[] { "GET /api/clientes/{dni}/cuentas", "PathParam: dni (String)", "List<CuentaDetalleDTO> (200)", "Consulta todas las cuentas bancarias asociadas al documento de identidad del cliente." },
+                    new[] { "GET /api/cuentas/{nro}/movimientos", "PathParam: numeroCuenta", "List<MovimientoDTO> (200)", "Extrae el historial cronológico de auditoría con número, tipo, monto y fecha de operación." },
+                    new[] { "GET /api/mashup", "Ninguno", "List<CuentaDetalleDTO> (200)", "Consulta en tiempo real del estado VERDE/ROJO para sincronización reactiva de ventanillas." },
+                    new[] { "POST /api/movimientos/deposito", "JSON: { numeroCuenta, monto, ... }", "OperacionRespuestaDTO (200/409)", "Acredita fondos con exclusión mutua de 3.5s, semáforo ROJO temporal y commit en InnoDB." },
+                    new[] { "POST /api/movimientos/retiro", "JSON: { numeroCuenta, monto, ... }", "OperacionRespuestaDTO (200/409)", "Debita fondos con validación de saldo positivo, semáforo ROJO y registro de auditoría." },
+                    new[] { "POST /api/movimientos/transferencia", "JSON: { origen, destino, monto, ... }", "OperacionRespuestaDTO (200/409)", "Transferencia atómica interbancaria con ordenamiento alfabético anti-deadlock." }
                 }
             ));
 
             list.Add(Heading3("4.1.9 Paso 9: Compilación y Despliegue en Payara Server Enterprise"));
-            list.Add(Paragraph("Se compila y empaqueta el artefacto WAR mediante Maven ejecutando mvn clean package. Se inicia la instancia de Payara Server y se despliega el archivo WS_EurekaBank_Java_RESTful.war. El contrato formal Swagger / OpenAPI queda publicado y accesible en la dirección: http://localhost:8080/WS_EurekaBank_Java_RESTful/api/cuentas"));
+            list.Add(Paragraph("Se compila y empaqueta el artefacto WAR mediante Maven ejecutando mvn clean package. Se inicia la instancia de Payara Server y se despliega el archivo WS_EurekaBank_Java_REST.war. La API RESTful queda publicada y accesible en la dirección: http://localhost:8080/WS_EurekaBank_Java_REST/api/cuentas"));
 
-            list.Add(FigureCaption(4, "Contrato Swagger / OpenAPI Publicado en Payara Server Enterprise"));
+            list.Add(FigureCaption(4, "Endpoint RESTful de Cuentas Publicado en Payara Server (http://localhost:8080/WS_EurekaBank_Java_REST/api/cuentas)"));
             list.Add(ScreenshotBox(
                 4,
-                "Contrato Swagger / OpenAPI Publicado en Payara Server Enterprise",
-                "Navegador Web (Google Chrome / Mozilla Firefox / Microsoft Edge).",
-                "URL: http://localhost:8080/WS_EurekaBank_Java_RESTful/api/cuentas",
-                "Ingresar a la URL y verificar el renderizado del documento XML del contrato Swagger / OpenAPI.",
-                "Estructura XML completa conteniendo las definiciones wsdl:definitions, el targetNamespace http://ws.monster.edu.ec/ y las operaciones autenticarUsuario, depositar, retirar y transferir."
+                "Endpoint RESTful de Cuentas Publicado en Payara Server (http://localhost:8080/WS_EurekaBank_Java_REST/api/cuentas)",
+                "Navegador Web (Google Chrome / Mozilla Firefox / Microsoft Edge) o cliente HTTP (Postman).",
+                "URL: http://localhost:8080/WS_EurekaBank_Java_REST/api/cuentas (Método GET)",
+                "Ingresar a la URL y verificar la respuesta JSON serializada por Jakarta RESTful Web Services.",
+                "Estructura JSON completa conteniendo el arreglo de cuentas bancarias (numeroCuenta, saldo, disponibilidadMashup, nombreCliente, apellidoCliente) serializadas en tiempo real."
             ));
 
             list.Add(FigureCaption(5, "Consola de Administración de Payara Server con la Aplicación Desplegada"));
@@ -974,7 +861,7 @@ public class EurekaBankResource {
                 5,
                 "Consola de Administración de Payara Server con la Aplicación Desplegada",
                 "Payara Server Administration Console (http://localhost:4848).",
-                "Navegación: Applications > WS_EurekaBank_Java_RESTful.",
+                "Navegación: Applications > WS_EurekaBank_Java_REST.",
                 "Verificar que la aplicación web se encuentre en estado 'Enabled' y los endpoints web services activos.",
                 "Panel de Payara mostrando la aplicación habilitada con enlace de prueba al servicio RESTful y estado de salud óptimo."
             ));
@@ -983,64 +870,60 @@ public class EurekaBankResource {
             // 4.2 CLIENTE CONSOLA
             // -------------------------------------------------------------------------
             list.Add(Heading2("4.2 Cliente Consola (WSEurekaBankConsoleClient)"));
-            list.Add(Paragraph("El Cliente de Consola es un aplicativo Java puro basado en Maven que interactúa con el operador bancario a través de la línea de comandos. Está diseñado bajo el patrón MVC Tradicional y contiene una rutina especial multi-hilo de simulación de concurrencia."));
+            list.Add(Paragraph("El Cliente de Consola es un aplicativo Java puro basado en Maven que interactúa con el operador bancario a través de la terminal de comandos. Está diseñado bajo el patrón arquitectónico MVC Tradicional Puro y contiene una rutina especial multi-hilo de simulación de concurrencia que pone a prueba la exclusión mutua coordinada por el Semáforo MashUp."));
 
-            list.Add(Heading3("4.2.1 Paso 1: Creación del Proyecto Maven y Consumo de Swagger / OpenAPI con HttpClient"));
-            list.Add(Paragraph("En NetBeans IDE se inicia el asistente New Project > Java with Maven > Java Application con el nombre WSEurekaBankConsoleClient y GroupId ec.edu.monster. En el archivo pom.xml se configura el plugin jaxws-maven-plugin para compilar el contrato Swagger / OpenAPI publicado y generar automáticamente los stubs proxy en el paquete ec.edu.monster.ws:"));
+            list.Add(Heading3("4.2.1 Paso 1: Creación del Proyecto Maven y Configuración de Dependencias (HttpClient + Gson)"));
+            list.Add(Paragraph("En NetBeans IDE se inicia el asistente New Project > Java with Maven > Java Application con el nombre WSEurekaBankConsoleClient y GroupId ec.edu.monster. En pom.xml se configura la dependencia com.google.code.gson para la serialización y deserialización de estructuras JSON, utilizando la API estándar java.net.http.HttpClient de Java 17 para la comunicación HTTP sin requerir generadores de código SOAP:"));
 
-            list.Add(TableCaption(14, "Configuración de Dependencias y Plugin HttpClient del Cliente Consola pom.xml"));
+            list.Add(TableCaption(14, "Configuración de Dependencias del Cliente Consola pom.xml (Gson + HttpClient)"));
             list.Add(CodeBox("""
-<project xmlns="http://maven.apache.org/POM/4.0.0" ...>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ec.edu.monster</groupId>
     <artifactId>WSEurekaBankConsoleClient</artifactId>
-    <version>1.0.0</version>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>WSEurekaBankConsoleClient_REST</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <exec.mainClass>ec.edu.monster.clicon.WSEurekaBankConsoleClient</exec.mainClass>
+    </properties>
 
     <dependencies>
         <dependency>
-            <groupId>jakarta.xml.ws</groupId>
-            <artifactId>jakarta.xml.ws-api</artifactId>
-            <version>4.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-rt</artifactId>
-            <version>4.0.1</version>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>com.sun.xml.ws</groupId>
-                <artifactId>jaxws-maven-plugin</artifactId>
-                <version>4.0.1</version>
-                <executions>
-                    <execution>
-                        <goals><goal>HttpClient</goal></goals>
-                        <configuration>
-                            <wsdlUrls>
-                                <wsdlUrl>http://localhost:8080/WS_EurekaBank_Java_RESTful/api/cuentas</wsdlUrl>
-                            </wsdlUrls>
-                            <packageName>ec.edu.monster.ws</packageName>
-                            <sourceDestDir>${project.build.directory}/generated-sources/jaxws-HttpClient</sourceDestDir>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.12.1</version>
+                <configuration>
+                    <release>17</release>
+                </configuration>
             </plugin>
         </plugins>
     </build>
 </project>
 """));
 
-            list.Add(FigureCaption(6, "Consumo del Swagger / OpenAPI y Generación de Stubs RESTful con HttpClient en NetBeans"));
+            list.Add(FigureCaption(6, "Consumo de la API RESTful y Compilación del Cliente Consola en NetBeans IDE"));
             list.Add(ScreenshotBox(
                 6,
-                "Consumo del Swagger / OpenAPI y Generación de Stubs RESTful con HttpClient en NetBeans",
+                "Consumo de la API RESTful y Compilación del Cliente Consola en NetBeans IDE",
                 "NetBeans IDE - Ejecución de Maven Build / Compile.",
-                "Swagger / OpenAPI URL: http://localhost:8080/WS_EurekaBank_Java_RESTful/api/cuentas.",
+                "Endpoint Base RESTful: http://localhost:8080/WS_EurekaBank_Java_REST/api/.",
                 "Ejecutar 'Clean and Build' sobre el proyecto WSEurekaBankConsoleClient.",
-                "Directorio target/generated-sources/jaxws-HttpClient poblado con EurekaBankResource.java, EurekaBankResource_Service.java y los DTOs serializables."
+                "Directorio target poblado con los binarios compilados y la dependencia com.google.code.gson resuelta para la comunicación RESTful con el servidor."
             ));
 
             list.Add(Heading3("4.2.2 Paso 2: Estructuración Modular MVC Tradicional del Cliente Consola"));
@@ -1048,21 +931,20 @@ public class EurekaBankResource {
 
             list.Add(TableCaption(15, "Estructura de Paquetes MVC del Cliente Consola"));
             list.Add(TechnicalTable(
-                new[] { "Paquete", "Clases", "Responsabilidad en el Cliente Consola" },
-                new[] { 3000, 2500, 3004 },
+                new[] { "Paquete", "Clases Principales", "Responsabilidad en el Cliente Consola" },
+                new[] { 3000, 2700, 2804 },
                 new List<string[]>
                 {
-                    new[] { "ec.edu.monster.clicon.controller", "ConsolaControlador.java", "Maneja la sesión del operador, valida datos y despacha peticiones hacia el stub RESTful." },
-                    new[] { "ec.edu.monster.clicon.view", "ConsolaView.java", "Imprime menús tabulados, lee entradas de teclado con Scanner y muestra semáforos." },
-                    new[] { "ec.edu.monster.clicon.model", "SimuladorConcurrencia.java", "Rutina multi-hilo que ejecuta transacciones concurrentes sobre una misma cuenta." },
-                    new[] { "ec.edu.monster.ws", "Stubs RESTful generados", "Clases proxy generadas automáticamente por HttpClient a partir del Swagger / OpenAPI." }
+                    new[] { "ec.edu.monster.clicon.controller", "AppControlador.java", "Maneja la sesión del operador, valida entradas y orquesta peticiones entre la vista y el servicio RESTful." },
+                    new[] { "ec.edu.monster.clicon.view", "ConsolaView.java", "Imprime menús tabulados con secuencias ANSI, lee entradas con Scanner y ejecuta la rutina multi-hilo de 3 ventanillas." },
+                    new[] { "ec.edu.monster.clicon.model", "EurekaBankService.java, ConfiguracionServidor.java, CuentaModel.java, MovimientoModel.java, ResultadoOperacion.java, UsuarioSesion.java", "Consumidor HTTP nativo con java.net.http.HttpClient y Gson, encapsulando las llamadas a los endpoints RESTful." }
                 }
             ));
 
-            list.Add(Heading3("4.2.3 Paso 3: Implementación del Controlador de Consola (ConsolaControlador.java)"));
-            list.Add(Paragraph("En el paquete ec.edu.monster.clicon.controller se implementa ConsolaControlador. Esta clase inicializa el proxy RESTful y gestiona la sesión del cajero bancario:"));
+            list.Add(Heading3("4.2.3 Paso 3: Implementación del Consumidor RESTful y Modelo de Datos (EurekaBankService.java)"));
+            list.Add(Paragraph("En el paquete ec.edu.monster.clicon.model se implementa EurekaBankService. Esta clase instancia HttpClient y Gson para invocar los endpoints JSON del servidor central:"));
 
-            list.Add(TableCaption(16, "Modelo de InvocaciÃ³n HTTP RESTful EurekaBankService.java (Consola)"));
+            list.Add(TableCaption(16, "Consumidor HTTP/JSON RESTful EurekaBankService.java (Consola)"));
             list.Add(CodeBox("""
 package ec.edu.monster.clicon.model;
 
@@ -1074,232 +956,192 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class EurekaBankService {
-    private final String baseUrl = "http://localhost:8080/WS_EurekaBank_Java_REST/api";
-    private final HttpClient http = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10)).build();
+    private final ConfiguracionServidor config = new ConfiguracionServidor();
+    private final HttpClient httpClient = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10)).build();
     private final Gson gson = new Gson();
 
     public UsuarioSesion login(String usuario, String clave) {
-        try {
-            Map<String, String> payload = new HashMap<>();
-            payload.put("usuario", usuario);
-            payload.put("password", clave);
-            HttpRequest req = HttpRequest.newBuilder()
-                    .uri(URI.create(baseUrl + "/auth/login"))
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(payload), StandardCharsets.UTF_8))
-                    .build();
-            HttpResponse<String> resp = http.send(req, HttpResponse.BodyHandlers.ofString());
-            return gson.fromJson(resp.body(), UsuarioSesion.class);
-        } catch (Exception ex) {
-            UsuarioSesion s = new UsuarioSesion();
-            s.setAutenticado(false);
-            s.setMensaje("Error de red REST: " + ex.getMessage());
-            return s;
-        }
+        Map<String, Object> body = new HashMap<>();
+        body.put("usuario", usuario);
+        body.put("clave", clave);
+        String jsonResp = enviarPost("/auth/login", gson.toJson(body));
+        return gson.fromJson(jsonResp, UsuarioSesion.class);
     }
 
-    public List<CuentaModel> listarCuentas(int sucursal) {
-        try {
-            HttpRequest req = HttpRequest.newBuilder()
-                    .uri(URI.create(baseUrl + "/cuentas?sucursal=" + sucursal))
-                    .GET()
-                    .build();
-            HttpResponse<String> resp = http.send(req, HttpResponse.BodyHandlers.ofString());
-            return gson.fromJson(resp.body(), new TypeToken<List<CuentaModel>>(){}.getType());
-        } catch (Exception ex) {
-            return new ArrayList<>();
-        }
+    public List<CuentaModel> listarCuentasPorSucursal(int sucursalId) {
+        String jsonResp = enviarGet("/cuentas?sucursal=" + sucursalId);
+        List<CuentaModel> list = gson.fromJson(jsonResp, new TypeToken<List<CuentaModel>>() {}.getType());
+        return list != null ? list : new ArrayList<>();
     }
 
-    public ResultadoOperacion depositar(String cuenta, double monto, int idEmpleado, int ventanilla) {
+    public ResultadoOperacion depositar(String numeroCuenta, double monto, int empleadoId, int ventanilla) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("numeroCuenta", numeroCuenta);
+        body.put("monto", monto);
+        body.put("empleadoId", empleadoId);
+        body.put("ventanilla", ventanilla);
+        return gson.fromJson(enviarPost("/movimientos/deposito", gson.toJson(body)), ResultadoOperacion.class);
+    }
+
+    public ResultadoOperacion transferir(String orig, String dest, double monto, int empId, int vent) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("cuentaOrigen", orig); body.put("cuentaDestino", dest);
+        body.put("monto", monto); body.put("empleadoId", empId); body.put("ventanilla", vent);
+        return gson.fromJson(enviarPost("/movimientos/transferencia", gson.toJson(body)), ResultadoOperacion.class);
+    }
+
+    private String enviarGet(String ruta) {
         try {
-            Map<String, Object> payload = new HashMap<>();
-            payload.put("numeroCuenta", cuenta);
-            payload.put("monto", monto);
-            payload.put("idEmpleado", idEmpleado);
-            payload.put("ventanilla", ventanilla);
-            HttpRequest req = HttpRequest.newBuilder()
-                    .uri(URI.create(baseUrl + "/movimientos/deposito"))
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(payload), StandardCharsets.UTF_8))
-                    .build();
-            HttpResponse<String> resp = http.send(req, HttpResponse.BodyHandlers.ofString());
-            return gson.fromJson(resp.body(), ResultadoOperacion.class);
-        } catch (Exception ex) {
-            ResultadoOperacion r = new ResultadoOperacion();
-            r.setExito(false);
-            r.setMensaje("Fallo HTTP: " + ex.getMessage());
-            return r;
-        }
+            HttpRequest req = HttpRequest.newBuilder().uri(URI.create(config.getEndpointUrl() + ruta)).header("Accept", "application/json").GET().build();
+            return httpClient.send(req, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8)).body();
+        } catch (Exception e) { throw new RuntimeException("Error GET: " + e.getMessage(), e); }
+    }
+
+    private String enviarPost(String ruta, String json) {
+        try {
+            HttpRequest req = HttpRequest.newBuilder().uri(URI.create(config.getEndpointUrl() + ruta))
+                    .header("Content-Type", "application/json; charset=UTF-8").header("Accept", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json, StandardCharsets.UTF_8)).build();
+            return httpClient.send(req, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8)).body();
+        } catch (Exception e) { throw new RuntimeException("Error POST: " + e.getMessage(), e); }
     }
 }
 """));
 
-            list.Add(Heading3("4.2.4 Paso 4: Implementación de la Vista de Consola (ConsolaView.java)"));
-            list.Add(Paragraph("En el paquete ec.edu.monster.clicon.view se implementa ConsolaView, responsable del bucle interactivo del menú:"));
+            list.Add(Heading3("4.2.4 Paso 4: Implementación del Controlador de Consola (AppControlador.java)"));
+            list.Add(Paragraph("En el paquete ec.edu.monster.clicon.controller se implementa AppControlador. Administra la sesión del operador autenticado y coordina la delegación de transacciones hacia EurekaBankService:"));
 
-            list.Add(TableCaption(17, "Interfaz de Usuario y Menús Interactivos ConsolaView.java"));
+            list.Add(TableCaption(17, "Controlador Orquestador MVC del Cliente Consola AppControlador.java"));
+            list.Add(CodeBox("""
+package ec.edu.monster.clicon.controller;
+
+import ec.edu.monster.clicon.model.*;
+import java.util.List;
+
+public class AppControlador {
+    private final EurekaBankService servicio = new EurekaBankService();
+    private UsuarioSesion sesionActual;
+    private int ventanillaActiva = 1;
+
+    public UsuarioSesion iniciarSesion(String usuario, String clave) {
+        UsuarioSesion res = servicio.login(usuario, clave);
+        if (res != null && res.isAutenticado()) {
+            this.sesionActual = res;
+            if (res.getVentanilla() >= 1 && res.getVentanilla() <= 4) this.ventanillaActiva = res.getVentanilla();
+        }
+        return res;
+    }
+
+    public void cerrarSesion() { this.sesionActual = null; }
+    public UsuarioSesion getSesionActual() { return sesionActual; }
+    public int getVentanillaActiva() { return ventanillaActiva; }
+    public void setVentanillaActiva(int v) { if (v >= 1 && v <= 4) this.ventanillaActiva = v; }
+    public List<CuentaModel> obtenerCuentasPorSucursal(int sucursalId) { return servicio.listarCuentasPorSucursal(sucursalId); }
+    public ResultadoOperacion depositar(String cuenta, double monto) {
+        int empId = sesionActual != null ? sesionActual.getIdEmpleado() : 1;
+        return servicio.depositar(cuenta, monto, empId, ventanillaActiva);
+    }
+    public ResultadoOperacion transferir(String orig, String dest, double monto) {
+        int empId = sesionActual != null ? sesionActual.getIdEmpleado() : 1;
+        return servicio.transferir(orig, dest, monto, empId, ventanillaActiva);
+    }
+}
+"""));
+
+            list.Add(Heading3("4.2.5 Paso 5: Implementación de la Vista de Consola y Rutina Multi-Hilo de Concurrencia (ConsolaView.java)"));
+            list.Add(Paragraph("En ec.edu.monster.clicon.view se implementa ConsolaView, responsable del bucle interactivo del menú y de la simulación multi-hilo de 3 ventanillas concurrentes utilizando ExecutorService:"));
+
+            list.Add(TableCaption(18, "Interfaz de Consola Interactiva y Simulación de 3 Ventanillas Concurrentes ConsolaView.java"));
             list.Add(CodeBox("""
 package ec.edu.monster.clicon.view;
 
-import ec.edu.monster.clicon.controller.ConsolaControlador;
-import ec.edu.monster.clicon.model.SimuladorConcurrencia;
-import ec.edu.monster.ws.*;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Scanner;
+import ec.edu.monster.clicon.controller.AppControlador;
+import ec.edu.monster.clicon.model.*;
+import java.util.*;
+import java.util.concurrent.*;
 
 public class ConsolaView {
-    private final ConsolaControlador controlador = new ConsolaControlador();
+    private static final String ANSI_RESET = "\u001B[0m", ANSI_GREEN = "\u001B[32m", ANSI_RED = "\u001B[31m";
+    private final AppControlador controlador;
     private final Scanner scanner = new Scanner(System.in);
+
+    public ConsolaView(AppControlador controlador) { this.controlador = controlador; }
 
     public void iniciar() {
         System.out.println("====================================================================");
-        System.out.println("       EUREKABANK - ESTACION DE CONSOLA BANCARIA (RESTful JAVA)       ");
+        System.out.println("       EUREKABANK - ESTACIÓN DE CONSOLA BANCARIA (RESTful JAVA)       ");
         System.out.println("                 GRUPO 04 - DOMINIO ec.edu.monster                 ");
         System.out.println("====================================================================");
 
-        while (controlador.getSesionOperador() == null) {
+        while (controlador.getSesionActual() == null) {
             System.out.print("\nIngrese Usuario Operador (ej. Monster): ");
             String usr = scanner.nextLine().trim();
             System.out.print("Ingrese Contraseña (ej. Monster9): ");
             String pwd = scanner.nextLine().trim();
-            Empleado emp = controlador.autenticar(usr, pwd);
-            if (emp != null && emp.getUsuario() != null) {
-                System.out.println("\n[OK] Bienvenido " + emp.getNombre() + " " + emp.getPaterno() + " | Ventanilla 1");
-            } else {
-                System.out.println("[ERROR] Credenciales erróneas.");
-            }
+            UsuarioSesion s = controlador.iniciarSesion(usr, pwd);
+            if (s != null && s.isAutenticado()) {
+                System.out.println("[OK] Bienvenido " + s.getNombreCompleto() + " | Rol: " + s.getRol());
+            } else { System.out.println("[ERROR] Credenciales inválidas."); }
         }
+        mostrarMenu();
+    }
 
+    private void mostrarMenu() {
         boolean salir = false;
         while (!salir) {
-            System.out.println("\n----------------- MENU DE OPERACIONES BANCARIAS ------------------");
-            System.out.println("1. Consultar Cuentas y Semáforo MashUp (VERDE / ROJO)");
-            System.out.println("2. Consultar Extracto Cronológico de Movimientos");
-            System.out.println("3. Realizar Depósito en Cuenta (+)");
-            System.out.println("4. Realizar Retiro en Cuenta (-)");
-            System.out.println("5. Realizar Transferencia entre Cuentas (<=>)");
-            System.out.println("6. Simular Concurrencia de 3 Ventanillas Simultáneas sobre 001-0001");
-            System.out.println("0. Cerrar Sesión y Salir");
+            System.out.println("\n----------------- MENU DE OPERACIÓNES BANCARIAS ------------------");
+            System.out.println("1. Listar Cuentas y Semáforo MashUp (VERDE / ROJO)");
+            System.out.println("4. Registrar Depósito Monetario (+)");
+            System.out.println("6. Registrar Transferencia entre Cuentas (<=>)");
+            System.out.println("8. Simular Escenario Crítico: 3 Ventanillas Simultáneas (MashUp)");
+            System.out.println("0. Cerrar Sesión");
             System.out.print("Seleccione una opción: ");
             String op = scanner.nextLine().trim();
-
             switch (op) {
-                case "1": mostrarCuentas(); break;
-                case "2": consultarExtracto(); break;
-                case "3": ejecutarDeposito(); break;
-                case "4": ejecutarRetiro(); break;
-                case "5": ejecutarTransferencia(); break;
-                case "6": new SimuladorConcurrencia(controlador.getPort()).ejecutar(); break;
-                case "0": salir = true; break;
-                default: System.out.println("Opción inválida."); break;
+                case "1" -> listarCuentas();
+                case "4" -> registrarDeposito();
+                case "8" -> simularConcurrenciaTresVentanillas("001-0001", 25.00);
+                case "0" -> { controlador.cerrarSesion(); salir = true; }
             }
         }
     }
 
-    private void mostrarCuentas() {
-        List<Cuenta> cuentas = controlador.listarCuentas("");
-        System.out.println("\n+----------+----------------------+-----------+-------------------------+");
-        System.out.println("|  CUENTA  | TITULAR              | SALDO USD | SEMAFORO MASHUP         |");
-        System.out.println("+----------+----------------------+-----------+-------------------------+");
-        for (Cuenta c : cuentas) {
-            String sem = "VERDE".equalsIgnoreCase(c.getEstadoMashup())
-                    ? "[VERDE - LIBRE]"
-                    : "[ROJO - OCUPADO EN VENTANILLA " + c.getVentanillaMashup() + "]";
-            System.out.printf("| %-8s | %-20s | %9.2f | %-23s |\n", c.getCodigo(), c.getNombreCliente(), c.getSaldo(), sem);
-        }
-        System.out.println("+----------+----------------------+-----------+-------------------------+");
-    }
-
-    private void consultarExtracto() {
-        System.out.print("Ingrese número de cuenta (ej. 001-0001): ");
-        String cuenta = scanner.nextLine().trim();
-        List<Movimiento> movs = controlador.consultarMovimientos(cuenta);
-        System.out.println("\n--- EXTRACTO DE CUENTA " + cuenta + " ---");
-        for (Movimiento m : movs) {
-            System.out.printf("Mov #%d | Tipo: %s | Monto: $%.2f | Cajero: %s\n",
-                    m.getNumeroMovimiento(), m.getTipoMovimiento(), m.getImporte(), m.getCodigoEmpleado());
-        }
-    }
-
-    private void ejecutarDeposito() {
-        System.out.print("Cuenta destino: ");
-        String c = scanner.nextLine().trim();
-        System.out.print("Monto USD: ");
-        BigDecimal m = new BigDecimal(scanner.nextLine().trim());
-        RespuestaTransaccion res = controlador.depositar(c, m);
-        System.out.println(res.isExitoso() ? "[OK] " + res.getMensaje() : "[FALLO] " + res.getMensaje());
-    }
-
-    private void ejecutarRetiro() {
-        System.out.print("Cuenta origen: ");
-        String c = scanner.nextLine().trim();
-        System.out.print("Monto USD: ");
-        BigDecimal m = new BigDecimal(scanner.nextLine().trim());
-        RespuestaTransaccion res = controlador.retirar(c, m);
-        System.out.println(res.isExitoso() ? "[OK] " + res.getMensaje() : "[FALLO] " + res.getMensaje());
-    }
-
-    private void ejecutarTransferencia() {
-        System.out.print("Cuenta origen: ");
-        String o = scanner.nextLine().trim();
-        System.out.print("Cuenta destino: ");
-        String d = scanner.nextLine().trim();
-        System.out.print("Monto USD: ");
-        BigDecimal m = new BigDecimal(scanner.nextLine().trim());
-        RespuestaTransaccion res = controlador.transferir(o, d, m);
-        System.out.println(res.isExitoso() ? "[OK] " + res.getMensaje() : "[FALLO] " + res.getMensaje());
-    }
-}
-"""));
-
-            list.Add(Heading3("4.2.5 Paso 5: Rutina Multi-Hilo de Simulación de Concurrencia (SimuladorConcurrencia.java)"));
-            list.Add(Paragraph("En el paquete ec.edu.monster.clicon.model se implementa la clase SimuladorConcurrencia, la cual levanta 3 hilos simultáneos representando a las Ventanillas 1, 2 y 3 para demostrar la exclusión mutua sobre la cuenta 001-0001:"));
-
-            list.Add(TableCaption(18, "Rutina Multi-Hilo de Simulación de 3 Ventanillas Concurrentes"));
-            list.Add(CodeBox("""
-package ec.edu.monster.clicon.model;
-
-import ec.edu.monster.ws.EurekaBankResource;
-import ec.edu.monster.ws.RespuestaTransaccion;
-import java.math.BigDecimal;
-
-public class SimuladorConcurrencia {
-    private final EurekaBankResource port;
-
-    public SimuladorConcurrencia(EurekaBankResource port) {
-        this.port = port;
-    }
-
-    public void ejecutar() {
-        System.out.println("\n>>> INICIANDO SIMULACION DE 3 VENTANILLAS CONCURRENTES SOBRE CUENTA 001-0001 <<<");
-        Thread v1 = new Thread(() -> dispararVentanilla(1, new BigDecimal("50.00")), "Hilo-Ventanilla-1");
-        Thread v2 = new Thread(() -> dispararVentanilla(2, new BigDecimal("30.00")), "Hilo-Ventanilla-2");
-        Thread v3 = new Thread(() -> dispararVentanilla(3, new BigDecimal("20.00")), "Hilo-Ventanilla-3");
-
-        v1.start();
-        v2.start();
-        v3.start();
-
+    private void simularConcurrenciaTresVentanillas(String cuenta, double monto) {
+        System.out.println("\n>>> INICIANDO SIMULACIÓN CONCURRENTE (3 VENTANILLAS) SOBRE " + cuenta + " <<<");
+        ExecutorService pool = Executors.newFixedThreadPool(4);
         try {
-            v1.join(); v2.join(); v3.join();
-            System.out.println(">>> SIMULACION CONCLUIDA CON EXCLUSION MUTUA VERIFICADA <<<\n");
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+            List<Callable<String>> tareas = List.of(
+                () -> "[V1] " + controlador.depositar(cuenta, monto).getMensaje(),
+                () -> "[V2] " + controlador.depositar(cuenta, monto).getMensaje(),
+                () -> "[V3] " + controlador.depositar(cuenta, monto).getMensaje()
+            );
+            for (Future<String> f : pool.invokeAll(tareas)) System.out.println(f.get());
+            System.out.println(">>> SIMULACIÓN CONCLUIDA CON EXCLUSIÓN MUTUA VERIFICADA <<<\n");
+        } catch (Exception e) { System.out.println(ANSI_RED + "Error: " + e.getMessage() + ANSI_RESET); }
+        finally { pool.shutdownNow(); }
     }
 
-    private void dispararVentanilla(int ventanilla, BigDecimal monto) {
-        System.out.println("[Ventanilla " + ventanilla + "] Intentando depósito de $" + monto + "...");
-        RespuestaTransaccion res = port.depositar("001-0001", monto, "EMP0001", ventanilla);
-        System.out.println("[Ventanilla " + ventanilla + " RESPUESTA] " + res.getMensaje() + " | Saldo: $" + res.getNuevoSaldo());
+    private void listarCuentas() {
+        List<CuentaModel> lista = controlador.obtenerCuentasPorSucursal(0);
+        System.out.println("\n+----------+----------------------+-----------+-------------------------+");
+        System.out.println("|  CUENTA  | TITULAR              | SALDO USD | SEMÁFORO MASHUP         |");
+        System.out.println("+----------+----------------------+-----------+-------------------------+");
+        for (CuentaModel c : lista) {
+            boolean libre = "VERDE".equalsIgnoreCase(c.getDisponibilidadMashup());
+            String tag = libre ? ANSI_GREEN + "[LIBRE] VERDE" + ANSI_RESET : ANSI_RED + "[OCUP] ROJO" + ANSI_RESET;
+            System.out.printf("| %-8s | %-20s | %9.2f | %-23s |\n", c.getNumeroCuenta(), c.getNombreCliente(), c.getSaldo(), tag);
+        }
+        System.out.println("+----------+----------------------+-----------+-------------------------+");
+    }
+
+    private void registrarDeposito() {
+        System.out.print("Cuenta destino: "); String c = scanner.nextLine().trim();
+        System.out.print("Monto USD: "); double m = Double.parseDouble(scanner.nextLine().trim());
+        ResultadoOperacion res = controlador.depositar(c, m);
+        System.out.println(res.isExito() ? "[OK] " + res.getMensaje() : "[FALLO] " + res.getMensaje());
     }
 }
 """));
@@ -1319,9 +1161,9 @@ public class SimuladorConcurrencia {
                 8,
                 "Consulta de Cuentas Bancarias con Semáforo MashUp en Consola",
                 "Consola de comandos / Terminal de NetBeans.",
-                "Opción 1: Consultar Cuentas y Semáforo MashUp.",
+                "Opción 1: Listar Cuentas y Semáforo MashUp.",
                 "Seleccionar opción 1 en el menú interactivo.",
-                "Tabla tabulada con columnas CUENTA, TITULAR, SALDO y SEMAFORO MASHUP mostrando los estados VERDE (Libre) y ROJO (Ocupado en Ventanilla)."
+                "Tabla tabulada con columnas CUENTA, TITULAR, SALDO y SEMÁFORO MASHUP mostrando los estados VERDE (Libre) y ROJO (Ocupado en Ventanilla)."
             ));
 
             list.Add(FigureCaption(9, "Simulación de 3 Ventanillas Simultáneas en Cliente Consola"));
@@ -1329,38 +1171,43 @@ public class SimuladorConcurrencia {
                 9,
                 "Simulación de 3 Ventanillas Simultáneas en Cliente Consola",
                 "Consola de comandos / Terminal de NetBeans.",
-                "Opción 6: Simular Concurrencia de 3 Ventanillas Simultáneas sobre 001-0001.",
-                "Seleccionar la opción 6 para disparar la rutina multi-hilo.",
-                "Trazas de consola mostrando Ventanilla 1 adquiriendo el semáforo (ROJO), Ventanilla 2 y 3 detectando la exclusión mutua, y la actualización final acumulada del saldo ($2850.00)."
+                "Opción 8: Simular Escenario Crítico: 3 Ventanillas Simultáneas sobre 001-0001.",
+                "Seleccionar la opción 8 para disparar la rutina multi-hilo con ExecutorService.",
+                "Trazas de consola mostrando Ventanilla 1 adquiriendo el semáforo (ROJO), Ventanilla 2 y 3 detectando la exclusión mutua CONCURRENCIA_BLOQUEADA (HTTP 409 Conflict), y la actualización final acumulada del saldo."
             ));
 
             // -------------------------------------------------------------------------
             // 4.3 CLIENTE ESCRITORIO
             // -------------------------------------------------------------------------
             list.Add(Heading2("4.3 Cliente Escritorio (WSEurekaBankDesktopClient)"));
-            list.Add(Paragraph("El Cliente de Escritorio está desarrollado en Java Swing con interfaz visual profesional, tablas personalizadas con semáforos cromáticos (verde/rojo), integración completa con el servicio RESTful y despacho asíncrono para mantener la fluidez de la interfaz."));
+            list.Add(Paragraph("El Cliente de Escritorio está desarrollado en Java Swing con interfaz visual profesional, tablas personalizadas con semáforos cromáticos (verde/rojo), integración completa con el servicio RESTful y despacho asíncrono con SwingWorker para mantener la fluidez de la interfaz."));
 
-            list.Add(Heading3("4.3.1 Paso 1: Creación del Proyecto Gráfico Java Swing en NetBeans"));
-            list.Add(Paragraph("En NetBeans IDE se inicia el asistente New Project > Java with Maven > Java Application con el nombre WSEurekaBankDesktopClient. Se agregan las dependencias de Jakarta RESTful Web Services (JAX-RS / Jersey) en pom.xml:"));
+            list.Add(Heading3("4.3.1 Paso 1: Creación del Proyecto de Escritorio y Dependencias Maven (HttpClient + Gson)"));
+            list.Add(Paragraph("En NetBeans IDE se crea el proyecto Maven WSEurekaBankDesktopClient con GroupId ec.edu.monster. En el archivo pom.xml se incluye la librería Gson para consumir el servicio RESTful:"));
 
-            list.Add(TableCaption(19, "Descriptor de Dependencias del Cliente Escritorio Swing pom.xml"));
+            list.Add(TableCaption(19, "Descriptor de Dependencias del Cliente de Escritorio pom.xml"));
             list.Add(CodeBox("""
-<project xmlns="http://maven.apache.org/POM/4.0.0" ...>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ec.edu.monster</groupId>
     <artifactId>WSEurekaBankDesktopClient</artifactId>
-    <version>1.0.0</version>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>WSEurekaBankDesktopClient_REST</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <exec.mainClass>ec.edu.monster.cliesc.WSEurekaBankDesktopClient</exec.mainClass>
+    </properties>
 
     <dependencies>
         <dependency>
-            <groupId>jakarta.xml.ws</groupId>
-            <artifactId>jakarta.xml.ws-api</artifactId>
-            <version>4.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-rt</artifactId>
-            <version>4.0.1</version>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
         </dependency>
     </dependencies>
 </project>
@@ -1375,67 +1222,63 @@ public class SimuladorConcurrencia {
                 new[] { 3000, 2700, 2804 },
                 new List<string[]>
                 {
-                    new[] { "ec.edu.monster.cliesc.view", "LoginView.java, DashboardView.java, SemaforoTableCellRenderer.java", "Formularios Swing, renderizadores de celdas cromáticas y componentes visuales." },
-                    new[] { "ec.edu.monster.cliesc.controller", "LoginController.java, DashboardController.java", "Maneja eventos de botones, temporizadores de refresco y ejecución en segundo plano (SwingWorker)." },
-                    new[] { "ec.edu.monster.cliesc.model", "Modelos y adaptadores locales", "Estructuras de datos y encapsulación de llamadas al proxy RESTful." }
+                    new[] { "ec.edu.monster.cliesc.view", "LoginView.java, DashboardView.java, SemaforoTableCellRenderer", "Formularios NetBeans GUI Matisse, renderizadores cromáticos y paneles de operaciones bancarias." },
+                    new[] { "ec.edu.monster.cliesc.controller", "AppControlador.java", "Maneja la sesión del cajero, valida datos y orquesta peticiones hacia EurekaBankService." },
+                    new[] { "ec.edu.monster.cliesc.model", "EurekaBankService.java, ConfiguracionServidor.java, CuentaModel.java, MovimientoModel.java, ResultadoOperacion.java, UsuarioSesion.java", "Consumidor HTTP/JSON RESTful con java.net.http.HttpClient y Gson." }
                 }
             ));
 
-            list.Add(Heading3("4.3.3 Paso 3: Implementación de la Vista de Login (LoginView.java)"));
-            list.Add(Paragraph("En el paquete ec.edu.monster.cliesc.view se crea LoginView, permitiendo al operador ingresar con las credenciales maestras Monster / Monster9:"));
+            list.Add(Heading3("4.3.3 Paso 3: Implementación de la Vista de Autenticación (LoginView.java)"));
+            list.Add(Paragraph("En el paquete ec.edu.monster.cliesc.view se crea LoginView, permitiendo al operador autenticarse con las credenciales maestras Monster / Monster9 e iniciar en la ventanilla asignada:"));
 
             list.Add(TableCaption(21, "Interfaz Gráfica de Autenticación de Ventanilla LoginView.java"));
             list.Add(CodeBox("""
 package ec.edu.monster.cliesc.view;
 
-import ec.edu.monster.cliesc.controller.LoginController;
-import javax.swing.*;
-import java.awt.*;
+import ec.edu.monster.cliesc.controller.AppControlador;
+import ec.edu.monster.cliesc.model.UsuarioSesion;
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 
-public class LoginView extends JFrame {
-    private JTextField txtUsuario;
-    private JPasswordField txtClave;
-    private JComboBox<String> cmbVentanilla;
-    private JButton btnIngresar;
-    private LoginController controller;
+public class LoginView extends javax.swing.JFrame {
+    private final AppControlador controlador;
 
-    public LoginView() {
-        setTitle("EurekaBank - Autenticación de Ventanilla");
-        setSize(420, 320);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public LoginView(AppControlador controlador) {
+        this.controlador = controlador;
+        initComponents();
         setLocationRelativeTo(null);
-        setResizable(false);
-        inicializarUI();
     }
 
-    private void inicializarUI() {
-        JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {
+        String usuario = txtUsuario.getText().trim();
+        String clave = new String(txtClave.getPassword()).trim();
+        int ventanilla = cmbVentanilla.getSelectedIndex() + 1;
 
-        panel.add(new JLabel("Usuario Operador:"));
-        txtUsuario = new JTextField("Monster");
-        panel.add(txtUsuario);
-
-        panel.add(new JLabel("Contraseña:"));
-        txtClave = new JPasswordField("Monster9");
-        panel.add(txtClave);
-
-        panel.add(new JLabel("Ventanilla Asignada:"));
-        cmbVentanilla = new JComboBox<>(new String[]{"Ventanilla 1", "Ventanilla 2", "Ventanilla 3"});
-        panel.add(cmbVentanilla);
-
-        btnIngresar = new JButton("INGRESAR A ESTACION BANCARIA");
-        btnIngresar.setBackground(new Color(30, 58, 138));
-        btnIngresar.setForeground(Color.WHITE);
-        panel.add(new JLabel());
-        panel.add(btnIngresar);
-
-        add(panel);
-        btnIngresar.addActionListener(e -> controller.autenticar(
-                txtUsuario.getText().trim(),
-                new String(txtClave.getPassword()).trim(),
-                cmbVentanilla.getSelectedIndex() + 1
-        ));
+        btnIngresar.setEnabled(false);
+        SwingWorker<UsuarioSesion, Void> worker = new SwingWorker<>() {
+            @Override
+            protected UsuarioSesion doInBackground() {
+                UsuarioSesion sesion = controlador.iniciarSesion(usuario, clave);
+                controlador.setVentanillaActiva(ventanilla);
+                return sesion;
+            }
+            @Override
+            protected void done() {
+                btnIngresar.setEnabled(true);
+                try {
+                    UsuarioSesion s = get();
+                    if (s != null && s.isAutenticado()) {
+                        new DashboardView(controlador).setVisible(true);
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(LoginView.this, "Credenciales inválidas.", "Acceso Denegado", JOptionPane.WARNING_MESSAGE);
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(LoginView.this, "Error de red: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        };
+        worker.execute();
     }
 }
 """));
@@ -1445,15 +1288,15 @@ public class LoginView extends JFrame {
                 10,
                 "Diseño e Interfaz Gráfica de Autenticación de Ventanilla (LoginView)",
                 "Aplicación de Escritorio Java Swing - Ventana LoginView.",
-                "Usuario: Monster | Clave: Monster9 | Ventanilla: Ventanilla 1 | Endpoint: http://localhost:8080/WS_EurekaBank_Java_RESTful/api/cuentas.",
-                "Ingresar las credenciales maestras y presionar el botón 'INGRESAR A ESTACION BANCARIA'.",
+                "Usuario: Monster | Clave: Monster9 | Ventanilla: Ventanilla 1 | Endpoint: http://localhost:8080/WS_EurekaBank_Java_REST/api/.",
+                "Ingresar las credenciales maestras y presionar el botón 'INGRESAR A ESTACIÓN BANCARIA'.",
                 "Formulario con logotipo institucional de Sullivan, validación exitosa y transición automática hacia DashboardView."
             ));
 
-            list.Add(Heading3("4.3.4 Paso 4: Implementación del Renderizador Cromático de Semáforo MashUp (SemaforoTableCellRenderer.java)"));
-            list.Add(Paragraph("Se implementa SemaforoTableCellRenderer extendiendo DefaultTableCellRenderer para pintar las celdas de la tabla en verde esmeralda o rojo carmesí:"));
+            list.Add(Heading3("4.3.4 Paso 4: Implementación del Renderizador Cromático de Semáforo MashUp (SemaforoTableCellRenderer)"));
+            list.Add(Paragraph("Se implementa SemaforoTableCellRenderer extendiendo DefaultTableCellRenderer para pintar las celdas de la tabla de cuentas en verde esmeralda (Libre) o rojo carmesí (Ocupado en Ventanilla):"));
 
-            list.Add(TableCaption(22, "Renderizador Cromático de Semáforo MashUp SemaforoTableCellRenderer.java"));
+            list.Add(TableCaption(22, "Renderizador Cromático de Semáforo MashUp en Tabla Swing SemaforoTableCellRenderer"));
             list.Add(CodeBox("""
 package ec.edu.monster.cliesc.view;
 
@@ -1487,55 +1330,63 @@ public class SemaforoTableCellRenderer extends DefaultTableCellRenderer {
 }
 """));
 
-            list.Add(Heading3("4.3.5 Paso 5: Implementación del Dashboard Bancario Swing (DashboardView.java)"));
-            list.Add(Paragraph("En DashboardView se ensamblan la tabla de cuentas con el semáforo visual, el panel transaccional y el extracto de movimientos:"));
+            list.Add(Heading3("4.3.5 Paso 5: Implementación del Monitor MashUp y Dashboard Bancario Swing (DashboardView.java)"));
+            list.Add(Paragraph("En DashboardView se ensamblan la tabla de cuentas con el semáforo visual reactivo, el panel de operaciones monetarias (depósito, retiro, transferencia) y el temporizador Timer que refresca el semáforo cada 2.0 segundos mediante SwingWorker:"));
 
-            list.Add(TableCaption(23, "Formulario Principal de Escritorio DashboardView.java"));
+            list.Add(TableCaption(23, "Monitor MashUp y Panel Transaccional Swing DashboardView.java"));
             list.Add(CodeBox("""
 package ec.edu.monster.cliesc.view;
 
-import ec.edu.monster.cliesc.controller.DashboardController;
-import ec.edu.monster.ws.Cuenta;
+import ec.edu.monster.cliesc.controller.AppControlador;
+import ec.edu.monster.cliesc.model.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.math.BigDecimal;
+import java.awt.Color;
 import java.util.List;
 
-public class DashboardView extends JFrame {
-    private JTable tablaCuentas;
+public class DashboardView extends javax.swing.JFrame {
+    private final AppControlador controlador;
     private DefaultTableModel modeloCuentas;
-    private JTextField txtCuentaDestino;
-    private JTextField txtMonto;
-    private DashboardController controller;
+    private Timer timerMashup;
 
-    public DashboardView(String nombreOperador, int ventanilla) {
-        setTitle("EurekaBank - Monitor MashUp & Dashboard Bancario (Ventanilla " + ventanilla + ")");
-        setSize(1100, 720);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        inicializarComponentes();
+    public DashboardView(AppControlador controlador) {
+        this.controlador = controlador;
+        initComponents();
+        configurarTablaMashUp();
+        iniciarTimerMashUp();
     }
 
-    private void inicializarComponentes() {
-        // Inicialización de modelo con columnas: Cuenta, Titular, Saldo USD, Semáforo MashUp
-        modeloCuentas = new DefaultTableModel(new String[]{"Cuenta", "Titular", "Saldo USD", "Semáforo MashUp"}, 0) {
-            @Override public boolean isCellEditable(int r, int c) { return false; }
-        };
-        tablaCuentas = new JTable(modeloCuentas);
+    private void configurarTablaMashUp() {
         tablaCuentas.setDefaultRenderer(Object.class, new SemaforoTableCellRenderer());
         tablaCuentas.setRowHeight(28);
-
-        // Disposición con JSplitPane y paneles transaccionales
-        setLayout(new BorderLayout());
-        add(new JScrollPane(tablaCuentas), BorderLayout.CENTER);
     }
 
-    public void actualizarTablaCuentas(List<Cuenta> cuentas) {
-        modeloCuentas.setRowCount(0);
-        for (Cuenta c : cuentas) {
-            modeloCuentas.addRow(new Object[]{c.getCodigo(), c.getNombreCliente(), c.getSaldo(), c.getEstadoMashup()});
-        }
+    private void iniciarTimerMashUp() {
+        timerMashup = new Timer(2000, e -> refrescarMashupAsync());
+        timerMashup.start();
+        refrescarMashupAsync();
+    }
+
+    private void refrescarMashupAsync() {
+        SwingWorker<List<CuentaModel>, Void> worker = new SwingWorker<>() {
+            @Override
+            protected List<CuentaModel> doInBackground() {
+                return controlador.obtenerCuentasPorSucursal(0);
+            }
+            @Override
+            protected void done() {
+                try {
+                    List<CuentaModel> cuentas = get();
+                    modeloCuentas.setRowCount(0);
+                    for (CuentaModel c : cuentas) {
+                        modeloCuentas.addRow(new Object[]{
+                            c.getNumeroCuenta(), c.getNombreCliente(), c.getSaldo(), c.getDisponibilidadMashup()
+                        });
+                    }
+                } catch (Exception ignored) {}
+            }
+        };
+        worker.execute();
     }
 }
 """));
@@ -1545,70 +1396,49 @@ public class DashboardView extends JFrame {
                 11,
                 "Panel Principal del Dashboard Bancario con Semáforo MashUp en Tiempo Real",
                 "Aplicación de Escritorio Java Swing - Ventana DashboardView.",
-                "Ventanilla Activa: Ventanilla 1 | Operador: James P. Sullivan (Monster Admin).",
-                "Abrir el dashboard y observar la tabla de cuentas y el estado inicial del semáforo.",
-                "Tabla de cuentas con todas las cuentas en estado VERDE (Libre), saldos actualizados y panel de operaciones transaccionales listo."
+                "Sesión activa: Monster (James P. Sullivan) | Ventanilla: 1 | Dominio: ec.edu.monster.",
+                "Visualizar la tabla de cuentas bancarias en reposo.",
+                "Todas las cuentas en estado VERDE (Libre), saldos actualizados en USD y formulario transaccional habilitado."
             ));
 
-            list.Add(Heading3("4.3.6 Paso 6: Implementación del Controlador Asíncrono de Escritorio (DashboardController.java)"));
-            list.Add(Paragraph("En el paquete ec.edu.monster.cliesc.controller se implementa DashboardController. Se apoya en SwingWorker para despachar llamadas RESTful sin bloquear el Event Dispatch Thread (EDT) e inicializa un javax.swing.Timer que refresca las cuentas cada 1.2 segundos:"));
+            list.Add(Heading3("4.3.6 Paso 6: Implementación del Controlador de Escritorio y Despacho Asíncrono (AppControlador.java)"));
+            list.Add(Paragraph("En AppControlador se canalizan los métodos de depósito, retiro y transferencia hacia EurekaBankService, garantizando que ninguna operación transaccional se ejecute en el hilo de despacho de eventos (EDT):"));
 
-            list.Add(TableCaption(24, "Controlador Asíncrono de Escritorio con SwingWorker DashboardController.java"));
+            list.Add(TableCaption(24, "Controlador Orquestador MVC del Cliente Escritorio AppControlador.java"));
             list.Add(CodeBox("""
 package ec.edu.monster.cliesc.controller;
 
-import ec.edu.monster.cliesc.view.DashboardView;
-import ec.edu.monster.ws.*;
-import javax.swing.*;
-import java.math.BigDecimal;
+import ec.edu.monster.cliesc.model.*;
 import java.util.List;
 
-public class DashboardController {
-    private final EurekaBankResource port;
-    private final DashboardView view;
-    private final int ventanilla;
-    private final String codEmpleado;
-    private Timer timerMashup;
+public class AppControlador {
+    private final EurekaBankService servicio = new EurekaBankService();
+    private UsuarioSesion sesionActual;
+    private int ventanillaActiva = 1;
 
-    public DashboardController(EurekaBankResource port, DashboardView view, int ventanilla, String codEmpleado) {
-        this.port = port;
-        this.view = view;
-        this.ventanilla = ventanilla;
-        this.codEmpleado = codEmpleado;
-        iniciarTemporizadorMashUp();
+    public UsuarioSesion iniciarSesion(String usuario, String clave) {
+        UsuarioSesion res = servicio.login(usuario, clave);
+        if (res != null && res.isAutenticado()) {
+            this.sesionActual = res;
+            if (res.getVentanilla() >= 1 && res.getVentanilla() <= 4) this.ventanillaActiva = res.getVentanilla();
+        }
+        return res;
     }
 
-    private void iniciarTemporizadorMashUp() {
-        timerMashup = new Timer(1200, e -> refrescarCuentasSilencioso());
-        timerMashup.start();
+    public void cerrarSesion() { this.sesionActual = null; }
+    public UsuarioSesion getSesionActual() { return sesionActual; }
+    public int getVentanillaActiva() { return ventanillaActiva; }
+    public void setVentanillaActiva(int v) { if (v >= 1 && v <= 4) this.ventanillaActiva = v; }
+    public List<CuentaModel> obtenerCuentasPorSucursal(int sucursalId) { return servicio.listarCuentasPorSucursal(sucursalId); }
+
+    public ResultadoOperacion depositar(String cuenta, double monto) {
+        int empId = sesionActual != null ? sesionActual.getIdEmpleado() : 1;
+        return servicio.depositar(cuenta, monto, empId, ventanillaActiva);
     }
 
-    public void refrescarCuentasSilencioso() {
-        SwingWorker<List<Cuenta>, Void> worker = new SwingWorker<>() {
-            @Override protected List<Cuenta> doInBackground() { return port.listarCuentas(""); }
-            @Override protected void done() {
-                try { view.actualizarTablaCuentas(get()); } catch (Exception ignored) {}
-            }
-        };
-        worker.execute();
-    }
-
-    public void depositar(String cuenta, BigDecimal monto) {
-        SwingWorker<RespuestaTransaccion, Void> worker = new SwingWorker<>() {
-            @Override protected RespuestaTransaccion doInBackground() {
-                return port.depositar(cuenta, monto, codEmpleado, ventanilla);
-            }
-            @Override protected void done() {
-                try {
-                    RespuestaTransaccion res = get();
-                    JOptionPane.showMessageDialog(view, res.getMensaje(), res.isExitoso() ? "Éxito" : "Rechazo",
-                            res.isExitoso() ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.WARNING_MESSAGE);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(view, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        };
-        worker.execute();
+    public ResultadoOperacion transferir(String orig, String dest, double monto) {
+        int empId = sesionActual != null ? sesionActual.getIdEmpleado() : 1;
+        return servicio.transferir(orig, dest, monto, empId, ventanillaActiva);
     }
 }
 """));
@@ -1637,10 +1467,10 @@ public class DashboardController {
             // 4.4 CLIENTE MÓVIL
             // -------------------------------------------------------------------------
             list.Add(Heading2("4.4 Cliente Móvil (WSEurekaBankMobileClient)"));
-            list.Add(Paragraph("El Cliente Móvil está desarrollado para la plataforma Android nativa en Android Studio. Consume el servicio RESTful mediante peticiones HTTP estructuradas con envelopes XML y despachos en segundo plano para evitar congelamientos de la interfaz táctil."));
+            list.Add(Paragraph("El Cliente Móvil está desarrollado para la plataforma Android nativa en Android Studio bajo el paquete institucional ec.edu.monster.climov. Consume la API RESTful central mediante peticiones HTTP/JSON y despachos en segundo plano para garantizar una interfaz táctil fluida con monitoreo reactivo del Semáforo MashUp."));
 
             list.Add(Heading3("4.4.1 Paso 1: Creación del Proyecto en Android Studio y Configuración de Gradle"));
-            list.Add(Paragraph("En Android Studio se selecciona New Project > Empty Views Activity con el nombre WSEurekaBankMobileClient y Package name ec.edu.monster.climob. En el archivo build.gradle (Module: app) se configuran compileSdk 34, minSdk 26 y las dependencias de Material Components:"));
+            list.Add(Paragraph("En Android Studio se selecciona New Project > Empty Views Activity con el nombre WSEurekaBankMobileClient y Package name ec.edu.monster.climov. En el archivo build.gradle (Module: app) se configuran compileSdk 34, minSdk 24, targetSdk 34 y compatibilidad con Java 17:"));
 
             list.Add(TableCaption(25, "Configuración de Compilación y SDKs del Cliente Móvil build.gradle"));
             list.Add(CodeBox("""
@@ -1649,21 +1479,27 @@ plugins {
 }
 
 android {
-    namespace 'ec.edu.monster.climob'
+    namespace 'ec.edu.monster.climov'
     compileSdk 34
 
     defaultConfig {
-        applicationId "ec.edu.monster.climob"
-        minSdk 26
+        applicationId "ec.edu.monster.climov.rest"
+        minSdk 24
         targetSdk 34
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
             minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 
@@ -1671,38 +1507,49 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    testImplementation 'junit:junit:4.13.2'
 }
 """));
 
-            list.Add(Heading3("4.4.2 Paso 2: Configuración del Manifiesto de Android (AndroidManifest.xml)"));
-            list.Add(Paragraph("En AndroidManifest.xml se declaran el permiso de red y la directiva usesCleartextTraffic para permitir la comunicación HTTP local con Payara Server (utilizando la IP 10.0.2.2 en el emulador):"));
+            list.Add(Heading3("4.4.2 Paso 2: Configuración del Manifiesto de Android y Tráfico en Texto Plano (AndroidManifest.xml)"));
+            list.Add(Paragraph("En AndroidManifest.xml se declaran los permisos de red (INTERNET y ACCESS_NETWORK_STATE) y la directiva usesCleartextTraffic=\"true\" para permitir la comunicación HTTP local con Payara Server en entornos de emulación (utilizando la IP 10.0.2.2 como alias del host):"));
 
             list.Add(TableCaption(26, "Descriptor de Seguridad y Permisos de Red AndroidManifest.xml"));
             list.Add(CodeBox("""
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="EurekaBank Móvil"
-        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.WSEurekaBankMobileClient"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.LoginActivity" android:exported="true">
+
+        <activity
+            android:name=".view.LoginView"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.DashboardActivity" android:exported="false" />
+
+        <activity
+            android:name=".view.DashboardView"
+            android:exported="false" />
+
     </application>
 </manifest>
 """));
 
-            list.Add(Heading3("4.4.3 Paso 3: Estructuración Modular MVC en Android Studio"));
-            list.Add(Paragraph("Se estructuran los paquetes y layouts separando modelo, vista y controlador:"));
+            list.Add(Heading3("4.4.3 Paso 3: Estructuración Modular MVC en Android Studio (ec.edu.monster.climov)"));
+            list.Add(Paragraph("Se estructuran los paquetes en ec.edu.monster.climov separando modelo, vista y controlador:"));
 
             list.Add(TableCaption(27, "Estructura de Paquetes y Recursos del Cliente Móvil en Android Studio"));
             list.Add(TechnicalTable(
@@ -1710,10 +1557,10 @@ dependencies {
                 new[] { 3000, 2700, 2804 },
                 new List<string[]>
                 {
-                    new[] { "ec.edu.monster.climob.view", "LoginActivity.java, DashboardActivity.java", "Actividades de interfaz de usuario, diálogos y eventos táctiles." },
-                    new[] { "ec.edu.monster.climob.controller", "MobileController.java", "Orquesta llamadas en segundo plano mediante ExecutorService y Handler." },
-                    new[] { "ec.edu.monster.climob.model", "RestClientHelper.java, CuentaModel.java", "Construcción de envelopes RESTful XML y parseo con XmlPullParser." },
-                    new[] { "res/layout", "activity_login.xml, activity_dashboard.xml", "Diseños visuales basados en MaterialCardView y RecyclerView." }
+                    new[] { "ec.edu.monster.climov.view", "LoginView.java, DashboardView.java", "Actividades Android derivadas de AppCompatActivity, captura de eventos táctiles y pintado de semáforos." },
+                    new[] { "ec.edu.monster.climov.controller", "AppControlador.java", "Controlador Singleton que administra la sesión del cajero y orquesta peticiones hacia EurekaBankService." },
+                    new[] { "ec.edu.monster.climov.model", "EurekaBankService.java, ConfiguracionConexion.java, CuentaModel.java, MovimientoModel.java, ResultadoOperacion.java, UsuarioSesion.java", "Consumidor HTTP nativo con HttpURLConnection y parseo JSON con org.json." },
+                    new[] { "res/layout", "activity_login.xml, activity_dashboard.xml", "Diseños visuales basados en ScrollView, LinearLayout y tarjetas de Material Design." }
                 }
             ));
 
@@ -1721,248 +1568,338 @@ dependencies {
             list.Add(ScreenshotBox(
                 14,
                 "Estructura del Proyecto y Layouts XML en Android Studio",
-                "Android Studio Electric Eel / Hedgehog - Vista Android / Project.",
-                "Estructura de paquetes: ec.edu.monster.climob.model, view y controller.",
+                "Android Studio - Vista Android / Project.",
+                "Estructura de paquetes: ec.edu.monster.climov.model, view y controller.",
                 "Explorar el directorio app/src/main/res/layout con activity_login.xml y activity_dashboard.xml.",
                 "Proyecto compilando con Gradle Sync exitoso y layouts visualizados en el diseñador de Material Design."
             ));
 
-            list.Add(Heading3("4.4.4 Paso 4: Implementación de Layouts XML Material Design"));
+            list.Add(Heading3("4.4.4 Paso 4: Implementación de Interfaces Visuales XML y Componentes de Material Design"));
             list.Add(Paragraph("Se crean los archivos de interfaz XML activity_login.xml y activity_dashboard.xml con componentes de Material Design:"));
 
             list.Add(TableCaption(28, "Layout XML de la Pantalla de Autenticación activity_login.xml"));
             list.Add(CodeBox("""
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="24dp"
-    android:background="#F8FAFC">
+    android:background="#0F172A"
+    android:fillViewport="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="EUREKABANK MOVIL"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:textColor="#1E3A8A"
-        android:layout_marginBottom="24dp" />
-
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Usuario Operador"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtUsuario"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="22dp">
+
+        <ImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:contentDescription="Monster Sullivan"
+            android:src="@drawable/sullivan" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="EUREKABANK BANCA MÓVIL"
+            android:textColor="#38BDF8"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            android:text="Grupo 04 | ec.edu.monster | MVC Android"
+            android:textColor="#94A3B8"
+            android:textSize="12sp" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Monster" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:background="#FFFFFF"
+            android:orientation="vertical"
+            android:padding="20dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Contraseña"
-        android:layout_marginTop="12dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtClave"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:text="Monster9" />
-    </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Iniciar Sesión de Operador"
+                android:textColor="#0F172A"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnIngresar"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="INGRESAR A BANCA MOVIL"
-        android:layout_marginTop="20dp"
-        app:cornerRadius="8dp"
-        android:backgroundTint="#1E3A8A" />
-</LinearLayout>
+            <EditText
+                android:id="@+id/etHost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Host IP (ej. 10.0.2.2)"
+                android:text="10.0.2.2" />
+
+            <EditText
+                android:id="@+id/etUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Usuario (Monster)"
+                android:text="Monster" />
+
+            <EditText
+                android:id="@+id/etClave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Contraseña (Monster9)"
+                android:inputType="textPassword"
+                android:text="Monster9" />
+
+            <Button
+                android:id="@+id/btnIngresar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:backgroundTint="#0284C7"
+                android:text="INGRESAR A VENTANILLA" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
 """));
 
             list.Add(TableCaption(29, "Layout XML del Dashboard de Cuentas y Semáforos activity_dashboard.xml"));
             list.Add(CodeBox("""
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipeRefresh"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F1F5F9"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="14dp">
 
-        <TextView
-            android:id="@+id/lblInfoOperador"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#1E3A8A"
-            android:textColor="#FFFFFF"
-            android:padding="14dp"
-            android:text="Operador: James P. Sullivan | Ventanilla Móvil"
-            android:textStyle="bold" />
+            android:background="#0F172A"
+            android:orientation="vertical"
+            android:padding="14dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerCuentas"
+            <TextView
+                android:id="@+id/tvUsuarioHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EUREKABANK MÓVIL (GR04)"
+                android:textColor="#38BDF8"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvRolHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monitor Semáforo MashUp en Tiempo Real (2.5s)"
+                android:textColor="#CBD5E1"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="8dp" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvKpiVerde"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#DCFCE7"
+                android:padding="10dp"
+                android:text="VERDE (Libres): 0"
+                android:textColor="#166534"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvKpiRojo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="#FEE2E2"
+                android:padding="10dp"
+                android:text="ROJO (Ocupadas): 0"
+                android:textColor="#991B1B"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/contenedorCuentas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical" />
     </LinearLayout>
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</ScrollView>
 """));
 
-            list.Add(Heading3("4.4.5 Paso 5: Implementación del Cliente RESTful Asíncrono en Android (RestClientHelper.java)"));
-            list.Add(Paragraph("En el paquete ec.edu.monster.climob.model se crea RestClientHelper para enviar los envelopes RESTful sobre HttpURLConnection hacia la IP 10.0.2.2 (alias del host anfitrión en el emulador):"));
+            list.Add(Heading3("4.4.5 Paso 5: Implementación del Servicio Consumidor RESTful HTTP/JSON (EurekaBankService.java)"));
+            list.Add(Paragraph("En ec.edu.monster.climov.model se implementa EurekaBankService, utilizando HttpURLConnection y las clases nativas org.json.JSONObject y JSONArray para comunicarse con la API RESTful:"));
 
-            list.Add(TableCaption(30, "Consumidor HTTP Nativo Android EurekaBankService.java (Android)"));
+            list.Add(TableCaption(30, "Consumidor HTTP/JSON Nativo Android EurekaBankService.java (Android)"));
             list.Add(CodeBox("""
 package ec.edu.monster.climov.model;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.*;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import java.util.*;
+import org.json.*;
 
 public class EurekaBankService {
-    private static final String BASE_URL = "http://10.0.2.2:8080/WS_EurekaBank_Java_REST/api";
+    public String getEndpointActual() { return ConfiguracionConexion.getRestBaseUrl(); }
 
     public UsuarioSesion login(String usuario, String clave) {
         try {
             JSONObject req = new JSONObject();
-            req.put("usuario", usuario);
-            req.put("clave", clave);
-            String jsonResp = enviarPost("/auth/login", req.toString());
-            JSONObject obj = new JSONObject(jsonResp);
+            req.put("usuario", usuario); req.put("clave", clave);
+            JSONObject obj = new JSONObject(enviarPost("/auth/login", req.toString()));
             UsuarioSesion s = new UsuarioSesion();
             s.setAutenticado(obj.optBoolean("autenticado", false));
+            s.setMensaje(obj.optString("mensaje", ""));
             s.setNombreCompleto(obj.optString("nombreCompleto", ""));
             s.setRol(obj.optString("rol", ""));
             s.setVentanilla(obj.optInt("ventanilla", 1));
             return s;
         } catch (Exception e) {
-            throw new RuntimeException("Error REST Login: " + e.getMessage(), e);
+            UsuarioSesion err = new UsuarioSesion();
+            err.setAutenticado(false); err.setMensaje(e.getMessage()); return err;
         }
     }
 
-    public List<CuentaModel> listarCuentas(int sucursal) {
+    public List<CuentaModel> listarCuentasPorSucursal(int sucursalId) {
         try {
-            String jsonResp = enviarGet("/cuentas?sucursal=" + sucursal);
+            String jsonResp = enviarGet("/cuentas?sucursal=" + sucursalId);
             JSONArray arr = new JSONArray(jsonResp);
             List<CuentaModel> lista = new ArrayList<>();
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject o = arr.getJSONObject(i);
                 CuentaModel c = new CuentaModel();
                 c.setNumeroCuenta(o.optString("numeroCuenta"));
-                c.setNombreCliente(o.optString("nombreCliente"));
-                c.setApellidoCliente(o.optString("apellidoCliente"));
+                c.setMoneda(o.optString("moneda", "USD"));
                 c.setSaldo(o.optDouble("saldo", 0.0));
-                c.setEstadoMashup(o.optString("estadoMashup", "VERDE"));
+                c.setDisponibilidadMashup(o.optString("disponibilidadMashup", "VERDE"));
+                c.setNombreCliente(o.optString("nombreCliente", ""));
+                c.setApellidoCliente(o.optString("apellidoCliente", ""));
                 lista.add(c);
             }
             return lista;
-        } catch (Exception e) {
-            return new ArrayList<>();
-        }
+        } catch (Exception e) { return new ArrayList<>(); }
     }
 
     private String enviarGet(String path) throws Exception {
-        URL url = new URL(BASE_URL + path);
+        URL url = new URL(getEndpointActual() + path);
         HttpURLConnection c = (HttpURLConnection) url.openConnection();
-        c.setRequestMethod("GET");
-        c.setConnectTimeout(8000);
-        try (InputStream in = c.getInputStream(); Scanner s = new Scanner(in, StandardCharsets.UTF_8)) {
+        c.setRequestMethod("GET"); c.setRequestProperty("Accept", "application/json"); c.setConnectTimeout(8000);
+        try (InputStream in = (c.getResponseCode() >= 400 ? c.getErrorStream() : c.getInputStream());
+             Scanner s = new Scanner(in, StandardCharsets.UTF_8.name())) {
             return s.useDelimiter("\\A").hasNext() ? s.next() : "";
         }
     }
 
     private String enviarPost(String path, String jsonBody) throws Exception {
-        URL url = new URL(BASE_URL + path);
+        URL url = new URL(getEndpointActual() + path);
         HttpURLConnection c = (HttpURLConnection) url.openConnection();
-        c.setRequestMethod("POST");
-        c.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-        c.setDoOutput(true);
-        try (OutputStream os = c.getOutputStream()) {
-            os.write(jsonBody.getBytes(StandardCharsets.UTF_8));
-        }
-        try (InputStream in = c.getInputStream(); Scanner s = new Scanner(in, StandardCharsets.UTF_8)) {
+        c.setRequestMethod("POST"); c.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+        c.setRequestProperty("Accept", "application/json"); c.setDoOutput(true); c.setConnectTimeout(10000);
+        try (OutputStream os = c.getOutputStream()) { os.write(jsonBody.getBytes(StandardCharsets.UTF_8)); }
+        try (InputStream in = (c.getResponseCode() >= 400 ? c.getErrorStream() : c.getInputStream());
+             Scanner s = new Scanner(in, StandardCharsets.UTF_8.name())) {
             return s.useDelimiter("\\A").hasNext() ? s.next() : "";
         }
     }
 }
 """));
 
-            list.Add(Heading3("4.4.6 Paso 6: Implementación del Controlador y Actividad Principal (DashboardActivity.java)"));
-            list.Add(Paragraph("En DashboardActivity se configuran la recarga táctil SwipeRefreshLayout, la lista de cuentas y el diálogo modal para ejecutar depósitos con despacho en subprocesos mediante ExecutorService:"));
+            list.Add(Heading3("4.4.6 Paso 6: Implementación del Controlador y Actividades Visuales (LoginView.java y DashboardView.java)"));
+            list.Add(Paragraph("En DashboardView se programa la recarga automática del semáforo MashUp cada 2.5 segundos mediante un Handler sincronizado con el hilo principal (Looper.getMainLooper()) y tareas de fondo con ExecutorService:"));
 
-            list.Add(TableCaption(31, "Controlador y Actividad Principal Móvil DashboardActivity.java"));
+            list.Add(TableCaption(31, "Controlador y Actividad Principal Móvil con Sincronización MashUp (2.5s) DashboardView.java"));
             list.Add(CodeBox("""
-package ec.edu.monster.climob.view;
+package ec.edu.monster.climov.view;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import ec.edu.monster.climob.R;
-import ec.edu.monster.climob.model.RestClientHelper;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import ec.edu.monster.climov.R;
+import ec.edu.monster.climov.controller.AppControlador;
+import ec.edu.monster.climov.model.*;
+import java.util.List;
+import java.util.concurrent.*;
 
-public class DashboardActivity extends AppCompatActivity {
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
-    private final Handler mainHandler = new Handler(Looper.getMainLooper());
-    private SwipeRefreshLayout swipeRefresh;
-    private RecyclerView recyclerCuentas;
+public class DashboardView extends AppCompatActivity {
+    private final AppControlador controlador = AppControlador.getInstancia();
+    private final ExecutorService executor = Executors.newCachedThreadPool();
+    private final Handler mashupHandler = new Handler(Looper.getMainLooper());
+    private LinearLayout contenedorCuentas;
+    private TextView tvKpiVerde, tvKpiRojo;
+    private boolean activo = false;
+
+    private final Runnable tareaPolling = new Runnable() {
+        @Override
+        public void run() {
+            if (!activo) return;
+            sincronizarCuentasMashup();
+            mashupHandler.postDelayed(this, 2500); // Polling cada 2.5s
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-
-        swipeRefresh = findViewById(R.id.swipeRefresh);
-        recyclerCuentas = findViewById(R.id.recyclerCuentas);
-        recyclerCuentas.setLayoutManager(new LinearLayoutManager(this));
-
-        swipeRefresh.setOnRefreshListener(this::cargarCuentasAsincrono);
-        cargarCuentasAsincrono();
+        contenedorCuentas = findViewById(R.id.contenedorCuentas);
+        tvKpiVerde = findViewById(R.id.tvKpiVerde);
+        tvKpiRojo = findViewById(R.id.tvKpiRojo);
     }
 
-    private void cargarCuentasAsincrono() {
-        swipeRefresh.setRefreshing(true);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        activo = true;
+        mashupHandler.post(tareaPolling);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        activo = false;
+        mashupHandler.removeCallbacks(tareaPolling);
+    }
+
+    private void sincronizarCuentasMashup() {
         executor.execute(() -> {
-            try {
-                String payload = "<restenv:Envelope xmlns:restenv=\"http://schemas.xmlrest.org/rest/envelope/\" xmlns:ws=\"http://ws.monster.edu.ec/\">"
-                               + "<restenv:Header/><restenv:Body><ws:listarCuentas><sucursalId></sucursalId></ws:listarCuentas></restenv:Body></restenv:Envelope>";
-                String resp = RestClientHelper.enviarSolicitudRest("\"\"", payload);
-                mainHandler.post(() -> {
-                    swipeRefresh.setRefreshing(false);
-                    // Actualizar adapter de RecyclerView con el parseo del XML
-                });
-            } catch (Exception e) {
-                mainHandler.post(() -> {
-                    swipeRefresh.setRefreshing(false);
-                    Toast.makeText(this, "Error de red: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                });
-            }
+            List<CuentaModel> cuentas = controlador.listarCuentasPorSucursal(0);
+            mashupHandler.post(() -> renderizarCuentas(cuentas));
         });
+    }
+
+    private void renderizarCuentas(List<CuentaModel> cuentas) {
+        int verdes = 0, rojos = 0;
+        contenedorCuentas.removeAllViews();
+        for (CuentaModel c : cuentas) {
+            boolean libre = "VERDE".equalsIgnoreCase(c.getDisponibilidadMashup());
+            if (libre) verdes++; else rojos++;
+            TextView tv = new TextView(this);
+            tv.setText(c.getNumeroCuenta() + " - " + c.getNombreCliente() + " | $" + c.getSaldo() + " | " + (libre ? "VERDE" : "ROJO"));
+            contenedorCuentas.addView(tv);
+        }
+        tvKpiVerde.setText("VERDE (Libres): " + verdes);
+        tvKpiRojo.setText("ROJO (Ocupadas): " + rojos);
     }
 }
 """));
@@ -1971,54 +1908,75 @@ public class DashboardActivity extends AppCompatActivity {
             list.Add(ScreenshotBox(
                 15,
                 "Ejecución del Cliente Móvil en Emulador Android (Login y Selección de Ventanilla)",
-                "Emulador Android Studio (Pixel 6 API 34).",
-                "Usuario: Monster | Contraseña: Monster9 | Ventanilla: 3 (Móvil).",
-                "Iniciar la aplicación, escribir credenciales y presionar 'INGRESAR'.",
-                "Pantalla de login con diseño Material Design, validación remota RESTful y navegación hacia la pantalla de cuentas."
+                "Android Virtual Device (AVD) Pixel 7 Pro / NetBeans Android Plugin.",
+                "Host: 10.0.2.2 | Puerto: 8080 | Usuario: Monster | Clave: Monster9.",
+                "Iniciar la aplicación WSEurekaBankMobileClient y pulsar 'INGRESAR A VENTANILLA'.",
+                "Formulario de autenticación móvil con validación exitosa y transición hacia la vista de monitoreo DashboardView."
             ));
 
             list.Add(FigureCaption(16, "Monitoreo de Cuentas y Operaciones Transaccionales en Cliente Móvil"));
             list.Add(ScreenshotBox(
                 16,
                 "Monitoreo de Cuentas y Operaciones Transaccionales en Cliente Móvil",
-                "Emulador Android Studio (Pixel 6 API 34).",
-                "Pantalla DashboardActivity con RecyclerView de tarjetas de cuenta.",
-                "Pulsar sobre la cuenta 001-0001, ingresar $25.00 en el diálogo modal y presionar 'Acreditar Depósito'.",
-                "Tarjeta de cuenta mostrando insignia VERDE (Libre), alternando temporalmente a ROJO durante el procesamiento y actualizando el saldo final a $2825.00."
+                "Android Virtual Device (AVD) Pixel 7 Pro.",
+                "Vista principal DashboardView con auto-refresco del Semáforo MashUp activo.",
+                "Observar las tarjetas de cuentas con indicadores de color verde esmeralda y rojo carmesí.",
+                "Pantalla mostrando contadores KPI (VERDE: 4, ROJO: 0), listado completo de saldos bancarios y formulario para registrar depósitos y transferencias."
             ));
 
             // -------------------------------------------------------------------------
             // 4.5 CLIENTE WEB
             // -------------------------------------------------------------------------
             list.Add(Heading2("4.5 Cliente Web (WSEurekaBankWebClient)"));
-            list.Add(Paragraph("El Cliente Web está desarrollado sobre la especificación Jakarta Faces (JSF) utilizando componentes Facelets y Managed Beans reactivos en Payara Server. Incorpora sondeo asíncrono AJAX para refrescar dinámicamente los semáforos de las cuentas bancarias sin recargar la página."));
+            list.Add(Paragraph("El Cliente Web está desarrollado sobre la especificación Jakarta Faces (JSF 4.0) utilizando componentes Facelets y Backing Beans reactivos en Payara Server. Incorpora sondeo asíncrono AJAX periódico (polling a 2.5 segundos) para refrescar dinámicamente los semáforos de las cuentas bancarias sin recargar la página."));
 
-            list.Add(Heading3("4.5.1 Paso 1: Creación del Proyecto Web Maven y Descriptores (pom.xml y web.xml)"));
-            list.Add(Paragraph("En NetBeans IDE se crea el proyecto Web Maven WSEurekaBankWebClient. En pom.xml se configuran las dependencias de Jakarta Faces 4.0 y PrimeFaces 13:"));
+            list.Add(Heading3("4.5.1 Paso 1: Creación del Proyecto Web Maven y Descriptores de Despliegue (pom.xml y web.xml)"));
+            list.Add(Paragraph("En NetBeans IDE se crea el proyecto Web Maven WSEurekaBankWebClient. En pom.xml se configuran las dependencias de Jakarta EE Web API 10.0.0 y Gson 2.10.1:"));
 
-            list.Add(TableCaption(32, "Descriptor de Dependencias de Jakarta Faces y PrimeFaces pom.xml"));
+            list.Add(TableCaption(32, "Descriptor de Dependencias de Jakarta Faces 4.0 pom.xml"));
             list.Add(CodeBox("""
-<project xmlns="http://maven.apache.org/POM/4.0.0" ...>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ec.edu.monster</groupId>
     <artifactId>WSEurekaBankWebClient</artifactId>
-    <version>1.0.0</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
+    <name>WSEurekaBankWebClient_REST</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
 
     <dependencies>
         <dependency>
-            <groupId>jakarta.faces</groupId>
-            <artifactId>jakarta.faces-api</artifactId>
-            <version>4.0.1</version>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-web-api</artifactId>
+            <version>10.0.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.primefaces</groupId>
-            <artifactId>primefaces</artifactId>
-            <version>13.0.0</version>
-            <classifier>jakarta</classifier>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>WSEurekaBankWebClient_REST</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.12.1</version>
+                <configuration>
+                    <release>17</release>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
 """));
 
@@ -2026,7 +1984,11 @@ public class DashboardActivity extends AppCompatActivity {
 
             list.Add(TableCaption(33, "Descriptor de Despliegue de Servlets web.xml"));
             list.Add(CodeBox("""
-<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee" version="6.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
@@ -2042,8 +2004,8 @@ public class DashboardActivity extends AppCompatActivity {
 </web-app>
 """));
 
-            list.Add(Heading3("4.5.2 Paso 2: Estructuración Modular MVC en Jakarta Faces"));
-            list.Add(Paragraph("Se estructuran los paquetes en ec.edu.monster.cliweb.controller y las vistas Facelets en src/main/webapp:"));
+            list.Add(Heading3("4.5.2 Paso 2: Estructuración Modular MVC en Jakarta Faces (JSF)"));
+            list.Add(Paragraph("Se estructuran los paquetes en ec.edu.monster.cliweb.view, ec.edu.monster.cliweb.controller y ec.edu.monster.cliweb.model:"));
 
             list.Add(TableCaption(34, "Estructura de Paquetes MVC del Cliente Web Jakarta Faces"));
             list.Add(TechnicalTable(
@@ -2051,127 +2013,249 @@ public class DashboardActivity extends AppCompatActivity {
                 new[] { 3000, 2700, 2804 },
                 new List<string[]>
                 {
-                    new[] { "ec.edu.monster.cliweb.controller", "LoginBean.java, DashboardBean.java", "Managed Beans CDI (@Named, @ViewScoped) que orquestan el flujo y el sondeo AJAX." },
-                    new[] { "src/main/webapp", "login.xhtml, dashboard.xhtml", "Vistas Facelets reactivas estilizadas con CSS y componentes de PrimeFaces." },
-                    new[] { "ec.edu.monster.ws", "Stubs RESTful generados", "Proxy Jakarta RESTful Web Services (JAX-RS / Jersey) para consumo del Swagger / OpenAPI de EurekaBank." }
+                    new[] { "ec.edu.monster.cliweb.view", "LoginView.java, DashboardView.java", "Backing Beans CDI (@Named, @SessionScoped) que gestionan el estado visual y la sincronización MashUp." },
+                    new[] { "ec.edu.monster.cliweb.controller", "AppControlador.java", "Controlador orquestador que canaliza las peticiones de los Backing Beans hacia EurekaBankService." },
+                    new[] { "ec.edu.monster.cliweb.model", "EurekaBankService.java, ConfiguracionServidor.java, CuentaModel.java, MovimientoModel.java, ResultadoOperacion.java", "Consumidor HTTP nativo con java.net.http.HttpClient y Gson para invocar la API RESTful." },
+                    new[] { "src/main/webapp", "login.xhtml, dashboard.xhtml", "Plantillas Facelets XHTML reactivas con componentes estándar JSF (<h:dataTable>, <f:ajax>) y CSS personalizado." }
                 }
             ));
 
-            list.Add(Heading3("4.5.3 Paso 3: Implementación del Managed Bean Controlador (DashboardBean.java)"));
-            list.Add(Paragraph("En ec.edu.monster.cliweb.controller se implementa DashboardBean, el cual expone refrescarCuentas() para invocaciones periódicas mediante sondeo AJAX:"));
+            list.Add(Heading3("4.5.3 Paso 3: Implementación del Consumidor RESTful y Controlador Web (EurekaBankService.java y AppControlador.java)"));
+            list.Add(Paragraph("En ec.edu.monster.cliweb.model se implementa EurekaBankService utilizando java.net.http.HttpClient para despachar peticiones HTTP/JSON hacia Payara Server:"));
 
-            list.Add(TableCaption(35, "Controlador Web Managed Bean con Sondeo AJAX DashboardBean.java"));
+            list.Add(TableCaption(35, "Consumidor RESTful y Orquestador MVC del Cliente Web (EurekaBankService.java y AppControlador.java)"));
             list.Add(CodeBox("""
-package ec.edu.monster.cliweb.controller;
+package ec.edu.monster.cliweb.model;
 
-import ec.edu.monster.ws.*;
-import jakarta.annotation.PostConstruct;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.util.*;
 
-@Named("dashboardBean")
-@ViewScoped
-public class DashboardBean implements Serializable {
-    private List<Cuenta> listaCuentas;
-    private Cuenta cuentaSeleccionada;
-    private List<Movimiento> extractoMovimientos;
-    private BigDecimal montoTransaccion;
-    private String cuentaDestino;
-    private int ventanillaActiva = 4; // Ventanilla Web
-    private EurekaBankResource port;
+public class EurekaBankService implements java.io.Serializable {
+    private final ConfiguracionServidor config = new ConfiguracionServidor();
+    private final transient HttpClient httpClient = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10)).build();
+    private final transient Gson gson = new Gson();
 
-    @PostConstruct
-    public void init() {
-        EurekaBankResource_Service service = new EurekaBankResource_Service();
-        this.port = service.getEurekaBankResourcePort();
-        refrescarCuentas();
+    public UsuarioSesion login(String usuario, String clave) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("usuario", usuario); body.put("clave", clave);
+        String jsonResp = enviarPost("/auth/login", gson.toJson(body));
+        return gson.fromJson(jsonResp, UsuarioSesion.class);
     }
 
-    public void refrescarCuentas() {
-        this.listaCuentas = port.listarCuentas("");
-        if (cuentaSeleccionada != null) {
-            this.extractoMovimientos = port.consultarMovimientos(cuentaSeleccionada.getCodigo());
-        }
+    public List<CuentaModel> listarCuentasPorSucursal(int sucursalId) {
+        String jsonResp = enviarGet("/cuentas?sucursal=" + sucursalId);
+        List<CuentaModel> list = gson.fromJson(jsonResp, new TypeToken<List<CuentaModel>>() {}.getType());
+        return list != null ? list : new ArrayList<>();
     }
 
-    public void ejecutarDeposito() {
-        RespuestaTransaccion res = port.depositar(cuentaSeleccionada.getCodigo(), montoTransaccion, "EMP0001", ventanillaActiva);
-        if (res.isExitoso()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", res.getMensaje()));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", res.getMensaje()));
-        }
-        refrescarCuentas();
+    public ResultadoOperacion depositar(String cuenta, double monto, int empId, int vent) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("numeroCuenta", cuenta); body.put("monto", monto); body.put("empleadoId", empId); body.put("ventanilla", vent);
+        return gson.fromJson(enviarPost("/movimientos/deposito", gson.toJson(body)), ResultadoOperacion.class);
     }
 
-    public void ejecutarRetiro() {
-        RespuestaTransaccion res = port.retirar(cuentaSeleccionada.getCodigo(), montoTransaccion, "EMP0001", ventanillaActiva);
-        if (res.isExitoso()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", res.getMensaje()));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", res.getMensaje()));
-        }
-        refrescarCuentas();
+    private String enviarGet(String ruta) {
+        try {
+            HttpRequest req = HttpRequest.newBuilder().uri(URI.create(config.getEndpointUrl() + ruta)).header("Accept", "application/json").GET().build();
+            return httpClient.send(req, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8)).body();
+        } catch (Exception e) { throw new RuntimeException("Error GET: " + e.getMessage(), e); }
     }
 
-    public void ejecutarTransferencia() {
-        RespuestaTransaccion res = port.transferir(cuentaSeleccionada.getCodigo(), cuentaDestino, montoTransaccion, "EMP0001", ventanillaActiva);
-        if (res.isExitoso()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", res.getMensaje()));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", res.getMensaje()));
-        }
-        refrescarCuentas();
+    private String enviarPost(String ruta, String json) {
+        try {
+            HttpRequest req = HttpRequest.newBuilder().uri(URI.create(config.getEndpointUrl() + ruta))
+                    .header("Content-Type", "application/json; charset=UTF-8").header("Accept", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json, StandardCharsets.UTF_8)).build();
+            return httpClient.send(req, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8)).body();
+        } catch (Exception e) { throw new RuntimeException("Error POST: " + e.getMessage(), e); }
     }
-
-    public List<Cuenta> getListaCuentas() { return listaCuentas; }
-    public Cuenta getCuentaSeleccionada() { return cuentaSeleccionada; }
-    public void setCuentaSeleccionada(Cuenta cuentaSeleccionada) { this.cuentaSeleccionada = cuentaSeleccionada; }
-    public List<Movimiento> getExtractoMovimientos() { return extractoMovimientos; }
-    public BigDecimal getMontoTransaccion() { return montoTransaccion; }
-    public void setMontoTransaccion(BigDecimal montoTransaccion) { this.montoTransaccion = montoTransaccion; }
-    public String getCuentaDestino() { return cuentaDestino; }
-    public void setCuentaDestino(String cuentaDestino) { this.cuentaDestino = cuentaDestino; }
 }
 """));
 
-            list.Add(Heading3("4.5.4 Paso 4: Implementación de la Plantilla Facelets de Login (login.xhtml)"));
-            list.Add(Paragraph("Se crea login.xhtml con estilos CSS institucionales y validación de campos:"));
+            list.Add(Heading3("4.5.4 Paso 4: Implementación de las Vistas Gestionadas Backing Beans (LoginView.java y DashboardView.java)"));
+            list.Add(Paragraph("En ec.edu.monster.cliweb.view se implementan los Backing Beans LoginView y DashboardView con anotaciones CDI @Named y @SessionScoped, incorporando la simulación concurrente multihilo de 3 ventanillas simultáneas para verificación en tiempo real del Semáforo MashUp:"));
 
-            list.Add(TableCaption(36, "Plantilla Facelets de Inicio de Sesión login.xhtml"));
+            list.Add(TableCaption(36, "Backing Bean del Monitor MashUp y Operaciones Web DashboardView.java"));
+            list.Add(CodeBox("""
+package ec.edu.monster.cliweb.view;
+
+import ec.edu.monster.cliweb.controller.AppControlador;
+import ec.edu.monster.cliweb.model.*;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+@Named("dashboardView")
+@SessionScoped
+public class DashboardView implements Serializable {
+    @Inject private LoginView loginView;
+    private int sucursalSeleccionada = 0;
+    private String cuentaSeleccionada = "001-0001";
+    private String cuentaDestino = "001-0002";
+    private double montoOperacion = 50.00;
+    private String mensajeAlerta = "";
+    private boolean exitoAlerta = true;
+    private List<CuentaModel> cuentas = new ArrayList<>();
+
+    @PostConstruct
+    public void init() {
+        if (loginView != null && loginView.isAutenticado()) cargarDatosIniciales();
+    }
+
+    public void cargarDatosIniciales() {
+        AppControlador ctrl = loginView.getControlador();
+        this.cuentas = ctrl.obtenerCuentasPorSucursal(sucursalSeleccionada);
+    }
+
+    public void sincronizarMashup() {
+        if (loginView == null || !loginView.isAutenticado()) return;
+        AppControlador ctrl = loginView.getControlador();
+        this.cuentas = ctrl.obtenerCuentasPorSucursal(sucursalSeleccionada);
+    }
+
+    public void ejecutarDeposito() {
+        procesar(loginView.getControlador().depositar(cuentaSeleccionada, montoOperacion));
+    }
+
+    public void ejecutarRetiro() {
+        procesar(loginView.getControlador().retirar(cuentaSeleccionada, montoOperacion));
+    }
+
+    public void ejecutarTransferencia() {
+        procesar(loginView.getControlador().transferir(cuentaSeleccionada, cuentaDestino, montoOperacion));
+    }
+
+    public void simularConcurrenciaTresVentanillas() {
+        if (loginView == null || !loginView.isAutenticado()) return;
+        final String cta = (cuentaSeleccionada != null && !cuentaSeleccionada.isBlank()) ? cuentaSeleccionada.trim() : "001-0001";
+        AppControlador ctrl = loginView.getControlador();
+        ExecutorService pool = Executors.newFixedThreadPool(3);
+        try {
+            List<Future<String>> futuros = new ArrayList<>();
+            for (int v = 1; v <= 3; v++) {
+                final int vent = v;
+                futuros.add(pool.submit(() -> {
+                    if (vent > 1) Thread.sleep(220L * vent);
+                    ResultadoOperacion r = ctrl.depositarDesdeVentanilla(cta, 20.00, vent);
+                    return "[Ventanilla " + vent + "] " + (r.isExito() ? "ÉXITO: " : "BLOQUEADA: ") + r.getMensaje();
+                }));
+            }
+            StringBuilder resumen = new StringBuilder("Escenario Crítico 3 Ventanillas sobre " + cta + ":\n");
+            for (Future<String> f : futuros) resumen.append(f.get()).append("\n");
+            this.mensajeAlerta = resumen.toString();
+            this.exitoAlerta = true;
+        } catch (Exception ex) {
+            this.mensajeAlerta = "Error en simulación: " + ex.getMessage();
+            this.exitoAlerta = false;
+        } finally {
+            pool.shutdownNow();
+        }
+        sincronizarMashup();
+    }
+
+    private void procesar(ResultadoOperacion res) {
+        if (res != null) {
+            this.exitoAlerta = res.isExito();
+            this.mensajeAlerta = res.getMensaje();
+        }
+        sincronizarMashup();
+    }
+}
+"""));
+
+            list.Add(Heading3("4.5.5 Paso 5: Implementación de las Plantillas Facelets Reactivas con Polling AJAX (login.xhtml y dashboard.xhtml)"));
+            list.Add(Paragraph("En dashboard.xhtml se implementa la tabla reactiva con <h:dataTable>, retroalimentación visual inmediata con animación cromática roja pulsante mediante la función JavaScript marcarEnRojo() ejecutada en el evento onclick de cada transacción, y un temporizador periódico de sondeo (setInterval cada 1200ms) que dispara el comando asíncrono <f:ajax> para sincronizar el estado del Semáforo MashUp en tiempo real:"));
+
+            list.Add(TableCaption(37, "Plantilla Facelets del Monitor MashUp Reactivo dashboard.xhtml"));
             list.Add(CodeBox("""
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
 <h:head>
-    <title>EurekaBank - Inicio de Sesión Web</title>
+    <meta charset="UTF-8"/>
+    <title>Monitor MashUp &amp; Operaciones - EurekaBank Web (GR04)</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0F172A; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .card-login { background: #FFFFFF; padding: 35px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); width: 360px; }
+        .badge-verde { background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 999px; font-weight: 700; }
+        .badge-rojo { background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 999px; font-weight: 700; }
+        @keyframes pulse-red { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.05); opacity: 0.85; } }
+        .pulse-rojo { animation: pulse-red 0.9s infinite ease-in-out; box-shadow: 0 0 10px rgba(220, 38, 38, 0.45); }
     </style>
 </h:head>
 <h:body>
-    <div class="card-login">
-        <h2 style="color: #1E3A8A; text-align: center; margin-top: 0;">EUREKABANK WEB</h2>
-        <h:form id="formLogin">
-            <p:messages id="msgs" showDetail="true" closable="true" />
-            <div style="margin-bottom: 15px;">
-                <p:outputLabel for="usr" value="Usuario Operador:" /><br/>
-                <p:inputText id="usr" value="#{loginBean.usuario}" style="width: 100%;" required="true" />
-            </div>
-            <div style="margin-bottom: 20px;">
-                <p:outputLabel for="pwd" value="Contraseña:" /><br/>
-                <p:password id="pwd" value="#{loginBean.clave}" style="width: 100%;" required="true" />
-            </div>
-            <p:commandButton value="INGRESAR A BANCA WEB" action="#{loginBean.iniciarSesion}" update="msgs" style="width: 100%; background: #1E3A8A; color: white;" />
-        </h:form>
-    </div>
+    <h:form id="topForm">
+        <h:selectOneMenu id="selVentanilla" value="#{loginView.ventanilla}">
+            <f:selectItem itemValue="1" itemLabel="Ventanilla 1" />
+            <f:selectItem itemValue="2" itemLabel="Ventanilla 2" />
+            <f:selectItem itemValue="3" itemLabel="Ventanilla 3" />
+        </h:selectOneMenu>
+    </h:form>
+
+    <h:form id="formMashup">
+        <h:panelGroup id="panelMashup" layout="block">
+            <h:dataTable value="#{dashboardView.cuentas}" var="c" styleClass="bank-table">
+                <h:column><f:facet name="header">Cuenta</f:facet>#{c.numeroCuenta}</h:column>
+                <h:column><f:facet name="header">Titular</f:facet>#{c.titularCompleto}</h:column>
+                <h:column><f:facet name="header">Saldo USD</f:facet>$#{c.saldo}</h:column>
+                <h:column>
+                    <f:facet name="header">Semáforo MashUp</f:facet>
+                    <h:panelGroup layout="block" styleClass="#{c.disponibilidadMashup eq 'VERDE' ? 'badge-verde' : 'badge-rojo'}">
+                        #{c.disponibilidadMashup eq 'VERDE' ? '● VERDE (Libre)' : '● ROJO (Ocupado en Ventanilla)'}
+                    </h:panelGroup>
+                </h:column>
+            </h:dataTable>
+            <!-- Botón oculto disparado automáticamente cada 1.2s para sincronización MashUp en vivo -->
+            <h:commandButton id="btnPollMashup" value="poll" action="#{dashboardView.sincronizarMashup}" style="display:none;">
+                <f:ajax execute="@this" render="panelMashup" />
+            </h:commandButton>
+        </h:panelGroup>
+    </h:form>
+
+    <h:form id="formOperaciones">
+        <h:inputText id="txtCuentaOrigen" value="#{dashboardView.cuentaSeleccionada}" />
+        <h:inputText id="txtCuentaDestino" value="#{dashboardView.cuentaDestino}" />
+        <h:inputText id="txtMonto" value="#{dashboardView.montoOperacion}" />
+        <h:commandButton value="Registrar Depósito (+)" action="#{dashboardView.ejecutarDeposito}" onclick="marcarEnRojo(false);">
+            <f:ajax execute="@form" render="@form :formMashup:panelMashup :formExtracto" />
+        </h:commandButton>
+        <h:commandButton value="Simular 3 Ventanillas Simultáneas" action="#{dashboardView.simularConcurrenciaTresVentanillas}" onclick="marcarEnRojo(false);">
+            <f:ajax execute="@form" render="@form :formMashup:panelMashup :formExtracto" />
+        </h:commandButton>
+    </h:form>
+
+    <script type="text/javascript">
+        function marcarEnRojo(esTransferencia) {
+            try {
+                var ctaOrig = document.getElementById('formOperaciones:txtCuentaOrigen').value.trim();
+                var rows = document.querySelectorAll('#formMashup table tbody tr');
+                rows.forEach(function(r) {
+                    var tds = r.querySelectorAll('td');
+                    if (tds.length >= 6 &amp;&amp; tds[0].innerText.trim() === ctaOrig) {
+                        tds[5].innerHTML = '&lt;span class="badge-rojo pulse-rojo"&gt;● ROJO (OCUPADA)&lt;/span&gt;';
+                    }
+                });
+            } catch (e) {}
+        }
+        setInterval(function () {
+            var btn = document.getElementById('formMashup:btnPollMashup');
+            if (btn) btn.click();
+        }, 1200);
+    </script>
 </h:body>
 </html>
 """));
@@ -2181,51 +2265,10 @@ public class DashboardBean implements Serializable {
                 17,
                 "Interfaz Web de Inicio de Sesión de Ventanilla (login.xhtml)",
                 "Navegador Web (Google Chrome / Mozilla Firefox).",
-                "URL: http://localhost:8080/WSEurekaBankWebClient/login.xhtml | Usuario: Monster | Clave: Monster9.",
-                "Escribir credenciales maestras y presionar el botón 'INGRESAR A BANCA WEB'.",
-                "Formulario web con validaciones AJAX en tiempo real y redireccionamiento inmediato hacia dashboard.xhtml."
+                "URL: http://localhost:8080/WSEurekaBankWebClient/login.xhtml.",
+                "Ingresar las credenciales maestras: Usuario = Monster | Contraseña = Monster9.",
+                "Pantalla de autenticación con tarjeta visual oscura, validación exitosa y redirección a dashboard.xhtml."
             ));
-
-            list.Add(Heading3("4.5.5 Paso 5: Implementación de la Plantilla Facelets del Monitor MashUp (dashboard.xhtml)"));
-            list.Add(Paragraph("En dashboard.xhtml se implementa el monitor MashUp en tiempo real mediante el componente PrimeFaces <p:poll interval=\"1\" update=\"tablaCuentas panelSemaforo\" /> para refrescar el estado del semáforo:"));
-
-            list.Add(TableCaption(37, "Plantilla Facelets del Monitor MashUp Reactivo dashboard.xhtml"));
-            list.Add(CodeBox("""
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-<h:head>
-    <title>EurekaBank - Monitor MashUp & Banca Web</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #F8FAFC; margin: 0; padding: 20px; }
-        .badge-verde { background-color: #22c55e; color: white; padding: 4px 10px; border-radius: 9999px; font-weight: bold; }
-        .badge-rojo { background-color: #ef4444; color: white; padding: 4px 10px; border-radius: 9999px; font-weight: bold; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
-    </style>
-</h:head>
-<h:body>
-    <h:form id="formDashboard">
-        <!-- Sondeo reactivo en tiempo real cada 1 segundo -->
-        <p:poll interval="1" listener="#{dashboardBean.refrescarCuentas}" update="tablaCuentas" />
-
-        <p:dataTable id="tablaCuentas" value="#{dashboardBean.listaCuentas}" var="c" selectionMode="single"
-                     selection="#{dashboardBean.cuentaSeleccionada}" rowKey="#{c.codigo}">
-            <p:ajax event="rowSelect" listener="#{dashboardBean.refrescarCuentas}" update="formDashboard:tablaMovimientos" />
-            <p:column headerText="Cuenta"><h:outputText value="#{c.codigo}" /></p:column>
-            <p:column headerText="Titular"><h:outputText value="#{c.nombreCliente}" /></p:column>
-            <p:column headerText="Saldo USD"><h:outputText value="#{c.saldo}"><f:convertNumber type="currency" currencySymbol="$" /></h:outputText></p:column>
-            <p:column headerText="Semáforo MashUp">
-                <span class="#{c.estadoMashup eq 'VERDE' ? 'badge-verde' : 'badge-rojo'}">
-                    #{c.estadoMashup eq 'VERDE' ? 'VERDE (Libre)' : 'ROJO (Ocupado en Ventanilla '.concat(c.ventanillaMashup).concat(')')}
-                </span>
-            </p:column>
-        </p:dataTable>
-    </h:form>
-</h:body>
-</html>
-"""));
 
             list.Add(FigureCaption(18, "Monitor MashUp y Banca Web en Tiempo Real (dashboard.xhtml)"));
             list.Add(ScreenshotBox(
@@ -2248,23 +2291,24 @@ public class DashboardBean implements Serializable {
             ));
 
             // -------------------------------------------------------------------------
-            // 4.6 PRUEBAS Y VERIFICACIÓN TRANSACCIONAL
+            // 4.6 PRUEBAS Y VERIFICACIÓN TRANSACCIÓNAL
             // -------------------------------------------------------------------------
             list.Add(Heading2("4.6 Matriz de Casos de Prueba Transaccionales y de Concurrencia"));
-            list.Add(Paragraph("Se diseñó y ejecutó una batería de casos de prueba formales para comprobar la robustez de las transacciones ACID, la autenticación y la exclusión mutua coordinada por el Semáforo MashUp:"));
+            list.Add(Paragraph("Se diseñó y ejecutó una batería de casos de prueba formales para comprobar la robustez de las transacciones ACID, la autenticación y la exclusión mutua coordinada por el Semáforo MashUp sobre los endpoints RESTful:"));
 
             list.Add(TableCaption(38, "Matriz de Casos de Prueba Transaccionales y de Concurrencia MashUp"));
             list.Add(TechnicalTable(
-                new[] { "ID", "Caso de Prueba", "Precondición", "Datos de Entrada", "Resultado Esperado", "Estado" },
+                new[] { "ID", "Caso de Prueba", "Precondición", "Datos de Entrada (HTTP/JSON)", "Resultado Esperado / Código HTTP", "Estado" },
                 new[] { 600, 1800, 1600, 1800, 2104, 600 },
                 new List<string[]>
                 {
-                    new[] { "CP-01", "Autenticación válida", "Servidor Payara activo", "usr: Monster, pwd: Monster9", "Autenticación exitosa, retorno de datos de James P. Sullivan.", "EXITOSO" },
-                    new[] { "CP-02", "Autenticación inválida", "Servidor Payara activo", "usr: Invalido, pwd: 123", "Rechazo de acceso con mensaje de credenciales erróneas.", "EXITOSO" },
-                    new[] { "CP-03", "Depósito atómico (+)", "Cuenta 001-0001 activa", "Cuenta: 001-0001, Monto: $50.00", "Incremento de saldo, nuevo movimiento tipo 001 y commit confirmado.", "EXITOSO" },
-                    new[] { "CP-04", "Retiro con saldo insuficiente", "Cuenta 001-0004 ($950.00)", "Cuenta: 001-0004, Monto: $1500.00", "Rechazo por fondos insuficientes, rollback total y saldo intacto.", "EXITOSO" },
-                    new[] { "CP-05", "Transferencia atómica (<=>)", "001-0001 y 001-0002 activas", "Origen: 001-0001, Dest: 001-0002, $100", "Débito en origen, crédito en destino y 2 movimientos registrados.", "EXITOSO" },
-                    new[] { "CP-06", "Concurrencia MashUp simultánea", "2 ventanillas operando", "Ventanilla 1 y 2 sobre 001-0001", "Ventanilla 1 adquiere semáforo ROJO; Ventanilla 2 es bloqueada.", "EXITOSO" }
+                    new[] { "CP-01", "Autenticación válida", "Servidor Payara activo", "POST /auth/login {usr:Monster, pwd:Monster9}", "HTTP 200 OK: Retorno de token, nombre James P. Sullivan y rol Superadmin.", "EXITOSO" },
+                    new[] { "CP-02", "Autenticación inválida", "Servidor Payara activo", "POST /auth/login {usr:Invalido, pwd:123}", "HTTP 401 Unauthorized: Rechazo de acceso con mensaje de credenciales erróneas.", "EXITOSO" },
+                    new[] { "CP-03", "Depósito atómico (+)", "Cuenta 001-0001 activa", "POST /movimientos/deposito {nro:001-0001, monto:50}", "HTTP 200 OK: Saldo incrementado a $2800.00, nuevo movimiento y commit confirmado.", "EXITOSO" },
+                    new[] { "CP-04", "Retiro con saldo insuficiente", "Cuenta 001-0004 ($950.00)", "POST /movimientos/retiro {nro:001-0004, monto:1500}", "HTTP 400 Bad Request: Rechazo por fondos insuficientes, rollback total y saldo intacto.", "EXITOSO" },
+                    new[] { "CP-05", "Transferencia atómica (<=>)", "001-0001 y 001-0002 activas", "POST /movimientos/transferencia {orig:001-0001, dest:001-0002, m:100}", "HTTP 200 OK: Débito en origen, crédito en destino y 2 movimientos registrados.", "EXITOSO" },
+                    new[] { "CP-06", "Concurrencia MashUp simultánea", "2 ventanillas operando", "Ventanillas 1 y 2 simultáneas sobre 001-0001", "V1 adquiere semáforo ROJO (200 OK); V2 recibe HTTP 409 Conflict (CONCURRENCIA_BLOQUEADA).", "EXITOSO" },
+                    new[] { "CP-07", "Desbloqueo administrativo", "Cuenta 001-0001 en ROJO", "POST /cuentas/001-0001/desbloquear {admin:Monster}", "HTTP 200 OK: Retorno inmediato del semáforo a VERDE (Libre) en MySQL y memoria.", "EXITOSO" }
                 }
             ));
 
@@ -2275,8 +2319,8 @@ public class DashboardBean implements Serializable {
                 new List<string[]>
                 {
                     new[] { "Error de conexión MySQL (Connection Refused en puerto 3306)", "El contenedor Podman/Docker de MySQL no fue inicializado previamente.", "Ejecutar 'podman compose up -d' o 'docker compose up -d' dentro de la carpeta 03. BDD y verificar con 'podman ps'." },
-                    new[] { "Fallo de despliegue en Payara Server (Address already in use: 8080)", "Conflicto con otro servicio o instancia previa ocupando el puerto 8080.", "Detener el proceso en conflicto mediante 'Get-Process -Id (Get-NetTCPConnection -LocalPort 8080).OwningProcess | Stop-Process' y reiniciar Payara." },
-                    new[] { "Android: NetworkOnMainThreadException al invocar el servicio RESTful", "Intento de ejecutar llamadas de red en el hilo principal de interfaz (UI Thread).", "Utilizar Executors.newSingleThreadExecutor() o Coroutines para despachar peticiones en segundo plano y sincronizar con Looper." },
+                    new[] { "Fallo de despliegue en Payara Server (Address already in use: 8080)", "Conflicto con otro servicio o instancia previa ocupando el puerto 8080.", "Detener el proceso en conflicto mediante PowerShell: 'Get-Process -Id (Get-NetTCPConnection -LocalPort 8080).OwningProcess | Stop-Process' y reiniciar Payara." },
+                    new[] { "Android: NetworkOnMainThreadException al invocar la API RESTful", "Intento de ejecutar llamadas de red en el hilo principal de interfaz (UI Thread).", "Utilizar ExecutorService para despachar peticiones HTTP en segundo plano y sincronizar con la UI mediante Handler(Looper.getMainLooper())." },
                     new[] { "Android: java.io.IOException: Cleartext HTTP traffic not permitted", "Políticas de seguridad de Android 9+ que bloquean tráfico HTTP no cifrado.", "Añadir el atributo android:usesCleartextTraffic='true' en la etiqueta <application> del archivo AndroidManifest.xml." },
                     new[] { "Jakarta Faces: ViewExpiredException al enviar formularios tras inactividad", "La sesión web de JSF expiró o se reinició el contexto del servidor Payara.", "Configurar el parámetro de contexto jakarta.faces.STATE_SAVING_METHOD a 'client' en web.xml o renovar la sesión en login.xhtml." }
                 }
@@ -2286,36 +2330,38 @@ public class DashboardBean implements Serializable {
             // SECCIÓN 5: CONCLUSIONES
             // =========================================================================
             list.Add(Heading1("5 CONCLUSIONES"));
-            list.Add(BulletParagraph("1.", "La implementación del protocolo RESTful gobernado por un contrato formal Swagger / OpenAPI demostró ser una solución arquitectónica altamente robusta para sistemas bancarios transaccionales, proveyendo tipado estricto, validación automática mediante esquemas XSD e interoperabilidad garantizada entre clientes heterogéneos (Consola, Escritorio Swing, Móvil Android y Web Jakarta Faces)."));
-            list.Add(BulletParagraph("2.", "El cumplimiento irrestricto de las propiedades ACID a través de la capa de persistencia JDBC y el motor relacional MySQL InnoDB (con aislamiento TRANSACTION_READ_COMMITTED y bloqueos pesimistas SELECT ... FOR UPDATE) garantizó la integridad absoluta de los saldos bancarios, previniendo condiciones de carrera y sobregiros no autorizados."));
-            list.Add(BulletParagraph("3.", "El mecanismo de sincronización reactiva Semáforo MashUp ofreció una solución innovadora y visual para resolver la concurrencia entre ventanillas físicas y canales remotos, alternando eficientemente entre los estados VERDE y ROJO tanto en memoria compartida atómica (ConcurrentHashMap) como en la tabla relacional control_mashup."));
+            list.Add(BulletParagraph("1.", "La implementación de la arquitectura de servicios web RESTful fundamentada en el protocolo HTTP y la serialización JSON demostró ser una solución técnica altamente superior a los esquemas tradicionales SOAP/WSDL, eliminando la sobrecarga computacional de parseo de esquemas XML y permitiendo una interoperabilidad fluida y ligera entre plataformas heterogéneas (Consola, Escritorio Swing, Móvil Android y Web Jakarta Faces)."));
+            list.Add(BulletParagraph("2.", "El cumplimiento irrestricto de las propiedades ACID a través de la capa de persistencia JDBC y el motor relacional MySQL InnoDB (con aislamiento TRANSACTION_READ_COMMITTED y bloqueos pesimistas SELECT ... FOR UPDATE) garantizó la integridad absoluta de los saldos bancarios, previniendo condiciones de carrera, lecturas sucias y sobregiros no autorizados."));
+            list.Add(BulletParagraph("3.", "El mecanismo de sincronización reactiva Semáforo MashUp ofreció una solución visual y técnica eficaz para resolver la concurrencia entre ventanillas físicas y canales remotos, alternando eficientemente entre los estados VERDE y ROJO tanto en memoria compartida atómica (ConcurrentHashMap) como en la tabla relacional control_mashup, retornando el código HTTP 409 Conflict ante colisiones transaccionales."));
             list.Add(BulletParagraph("4.", "La estricta aplicación del patrón arquitectónico Modelo-Vista-Controlador (MVC Tradicional Puro) en todos los niveles del ecosistema aseguró una clara separación de responsabilidades, facilitando el mantenimiento, la depuración y la extensión del software sin incurrir en acoplamientos innecesarios ni dependencias cruzadas."));
-            list.Add(BulletParagraph("5.", "El despliegue contenerizado de la base de datos relacional mediante Podman/Docker Compose eliminó las discrepancias de entorno entre estaciones de desarrollo, permitiendo inicializar y restaurar el esquema bancario completo con sus datos maestros en cuestión de segundos."));
-            list.Add(BulletParagraph("6.", "La ejecución de la matriz de pruebas transaccionales evidenció que la técnica de ordenamiento alfabético de códigos de cuenta previo a la adquisición de bloqueos pesimistas en transferencias bancarias eliminó por completo la posibilidad de interbloqueos mutuos (deadlocks), asegurando alta disponibilidad operativa en ventanillas concurrentes."));
+            list.Add(BulletParagraph("5.", "El despliegue contenerizado de la base de datos relacional mediante Podman/Docker Compose eliminó las discrepancias de entorno entre estaciones de desarrollo, permitiendo inicializar y restaurar el esquema bancario completo con sus datos maestros y hash BCrypt en cuestión de segundos."));
+            list.Add(BulletParagraph("6.", "La ejecución de la matriz de pruebas transaccionales evidenció que la técnica de ordenamiento alfabético de números de cuenta previo a la adquisición de bloqueos pesimistas en transferencias bancarias eliminó por completo la posibilidad de interbloqueos mutuos (deadlocks), asegurando alta disponibilidad operativa en ventanillas concurrentes."));
 
             // =========================================================================
             // SECCIÓN 6: RECOMENDACIONES
             // =========================================================================
             list.Add(Heading1("6 RECOMENDACIONES"));
-            list.Add(BulletParagraph("1.", "Para entornos de producción financiera de alta concurrencia, se recomienda migrar el protocolo de transporte hacia canales cifrados HTTPS/TLS e incorporar la especificación WS-Security mediante certificados X.509 para firmar digitalmente y encriptar los payloads XML de los mensajes RESTful."));
-            list.Add(BulletParagraph("2.", "Se aconseja implementar un pool de conexiones administrado por el propio servidor de aplicaciones Payara Server (mediante JDBC Connection Pools y Recursos JNDI) en sustitución del DriverManager directo, optimizando la reutilización de conexiones físicas y minimizando la latencia de apertura de sockets TCP hacia MySQL."));
-            list.Add(BulletParagraph("3.", "En el Cliente Móvil Android, se sugiere sustituir el parser manual de envelopes RESTful por bibliotecas especializadas como Retrofit con convertidor SimpleXmlConverter o implementar arquitectura MVVM con LiveData/StateFlow para desacoplar el ciclo de vida de los componentes gráficos frente a rotaciones de pantalla."));
-            list.Add(BulletParagraph("4.", "Para el Semáforo MashUp en la capa web, se recomienda evaluar la implementación de WebSockets (Jakarta WebSocket API) o Server-Sent Events (SSE) en lugar de sondeos periódicos AJAX (polling), reduciendo el consumo de ancho de banda y la sobrecarga de peticiones HTTP redundantes cuando el estado de las cuentas permanece sin cambios."));
-            list.Add(BulletParagraph("5.", "Se sugiere configurar políticas de respaldo automatizado (mysqldump / replication) sobre el volumen persistente de la base de datos y establecer réplicas de lectura (Read Replicas) para descargar las consultas de extractos cronológicos del nodo transaccional maestro."));
-            list.Add(BulletParagraph("6.", "Implementar un middleware de auditoría distribuida mediante OpenTelemetry para trazar de forma unificada el recorrido de las solicitudes RESTful desde que parten de cualquier cliente hasta que se confirman en el motor InnoDB de la base de datos relacional."));
+            list.Add(BulletParagraph("1.", "Para entornos de producción financiera de alta concurrencia, se recomienda migrar el protocolo de transporte hacia canales cifrados obligatorios HTTPS/TLS 1.3 con certificados digitales X.509, incorporando autenticación basada en JSON Web Tokens (JWT) y cabeceras de autorización Bearer en sustitución del intercambio de credenciales directas."));
+            list.Add(BulletParagraph("2.", "Se aconseja implementar un pool de conexiones administrado por el propio servidor de aplicaciones Payara Server Enterprise (mediante JDBC Connection Pools y Recursos JNDI) en sustitución del DriverManager directo, optimizando la reutilización de conexiones físicas y minimizando la latencia de apertura de sockets TCP hacia MySQL."));
+            list.Add(BulletParagraph("3.", "En el Cliente Móvil Android, se sugiere evaluar la integración de la biblioteca Retrofit 2 con OkHttp y GsonConverterFactory para la gestión declarativa de endpoints RESTful, junto con arquitectura MVVM (ViewModel y StateFlow) para desacoplar el ciclo de vida de los componentes gráficos frente a rotaciones de pantalla."));
+            list.Add(BulletParagraph("4.", "Para el Semáforo MashUp en la capa web, se recomienda evaluar la implementación de Server-Sent Events (SSE) o WebSockets (Jakarta WebSocket API) en lugar de sondeos periódicos AJAX (polling a 2.5s), reduciendo el consumo de ancho de banda y la sobrecarga de peticiones HTTP redundantes cuando el estado de las cuentas permanece sin cambios."));
+            list.Add(BulletParagraph("5.", "Se sugiere configurar políticas de respaldo automatizado continuo (mysqldump / replication) sobre el volumen persistente de la base de datos y establecer réplicas de sólo lectura (Read Replicas) para descargar las consultas de extractos cronológicos del nodo transaccional maestro."));
+            list.Add(BulletParagraph("6.", "Implementar un middleware de observabilidad y trazabilidad distribuida mediante OpenTelemetry y Jaeger para trazar de forma unificada el recorrido de las solicitudes RESTful desde que parten de cualquier cliente hasta que se confirman en el motor InnoDB de la base de datos relacional."));
 
             // =========================================================================
             // SECCIÓN 7: REFERENCIAS BIBLIOGRÁFICAS
             // =========================================================================
-            list.Add(Heading1("7 REFERENCIAS BIBLIOGRAFICAS"));
-            list.Add(Paragraph("[1] World Wide Web Consortium (W3C), 'RESTful Version 1.2 Part 1: Messaging Framework (Second Edition)', W3C Recommendation, Apr. 2007. [Online]. Disponible: https://www.w3.org/TR/rest12-part1/"));
-            list.Add(Paragraph("[2] World Wide Web Consortium (W3C), 'Web Services Description Language (Swagger / OpenAPI) Version 2.0 Part 1: Core Language', W3C Recommendation, Jun. 2007. [Online]. Disponible: https://www.w3.org/TR/wsdl20/"));
-            list.Add(Paragraph("[3] Eclipse Foundation, 'Jakarta XML Web Services (Jakarta RESTful Web Services (JAX-RS / Jersey)) Specification 4.0', Jakarta EE Working Group, 2022. [Online]. Disponible: https://jakarta.ee/specifications/xml-web-services/4.0/"));
-            list.Add(Paragraph("[4] Oracle Corporation, 'MySQL 8.0 Reference Manual: The InnoDB Storage Engine and Transaction Model', Oracle Help Center, 2024. [Online]. Disponible: https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html"));
-            list.Add(Paragraph("[5] Payara Services Ltd., 'Payara Server Enterprise Documentation: Jakarta EE Web Services and Administration', 2024. [Online]. Disponible: https://docs.payara.fish/"));
-            list.Add(Paragraph("[6] E. Gamma, R. Helm, R. Johnson, y J. Vlissides, 'Design Patterns: Elements of Reusable Object-Oriented Software', Boston, MA, USA: Addison-Wesley, 1994."));
-            list.Add(Paragraph("[7] M. Fowler, 'Patterns of Enterprise Application Architecture', Boston, MA, USA: Addison-Wesley Professional, 2002."));
-            list.Add(Paragraph("[8] IEEE Computer Society, 'IEEE Standard for Software Quality Assurance Processes', IEEE Std 730-2014, Jun. 2014, doi: 10.1109/IEEESTD.2014.6835105."));
+            list.Add(Heading1("7 REFERENCIAS BIBLIOGRÁFICAS"));
+            list.Add(Paragraph("[1] R. T. Fielding, 'Architectural Styles and the Design of Network-based Software Architectures', Ph.D. dissertation, Dept. Inf. Comput. Sci., Univ. California, Irvine, CA, USA, 2000."));
+            list.Add(Paragraph("[2] R. Fielding, J. Gettys, J. Mogul, H. Frystyk, L. Masinter, P. Leach, y T. Berners-Lee, 'Hypertext Transfer Protocol -- HTTP/1.1', RFC 2616 / RFC 7231, IETF, 2014. [Online]. Disponible: https://datatracker.ietf.org/doc/html/rfc7231"));
+            list.Add(Paragraph("[3] T. Bray, Ed., 'The JavaScript Object Notation (JSON) Data Interchange Format', RFC 8259, Internet Engineering Task Force (IETF), Dic. 2017. [Online]. Disponible: https://datatracker.ietf.org/doc/html/rfc8259"));
+            list.Add(Paragraph("[4] Eclipse Foundation, 'Jakarta RESTful Web Services Specification 3.1', Eclipse EE.next Working Group, 2022. [Online]. Disponible: https://jakarta.ee/specifications/restful-ws/3.1/"));
+            list.Add(Paragraph("[5] OpenAPI Initiative, 'OpenAPI Specification Version 3.0.3', Linux Foundation, 2020. [Online]. Disponible: https://spec.openapis.org/oas/v3.0.3"));
+            list.Add(Paragraph("[6] Oracle Corporation, 'MySQL 8.0 Reference Manual: The InnoDB Storage Engine and Transaction Model', Oracle Help Center, 2024. [Online]. Disponible: https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html"));
+            list.Add(Paragraph("[7] Payara Services Ltd., 'Payara Server Enterprise Documentation: Jakarta EE Web Services and Administration', 2024. [Online]. Disponible: https://docs.payara.fish/"));
+            list.Add(Paragraph("[8] E. Gamma, R. Helm, R. Johnson, y J. Vlissides, 'Design Patterns: Elements of Reusable Object-Oriented Software', Boston, MA, USA: Addison-Wesley, 1994."));
+            list.Add(Paragraph("[9] M. Fowler, 'Patterns of Enterprise Application Architecture', Boston, MA, USA: Addison-Wesley Professional, 2002."));
+            list.Add(Paragraph("[10] IEEE Computer Society, 'IEEE Standard for Software Quality Assurance Processes', IEEE Std 730-2014, Jun. 2014, doi: 10.1109/IEEESTD.2014.6835105."));
 
             return list;
         }

@@ -7,9 +7,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for desbloquearCuenta complex type.
+ * <p>Clase Java para desbloquearCuenta complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>{@code
  * <complexType name="desbloquearCuenta">
@@ -37,7 +37,7 @@ public class DesbloquearCuenta {
     protected String usuarioAdmin;
 
     /**
-     * Gets the value of the numeroCuenta property.
+     * Obtiene el valor de la propiedad numeroCuenta.
      * 
      * @return
      *     possible object is
@@ -49,7 +49,7 @@ public class DesbloquearCuenta {
     }
 
     /**
-     * Sets the value of the numeroCuenta property.
+     * Define el valor de la propiedad numeroCuenta.
      * 
      * @param value
      *     allowed object is
@@ -61,7 +61,7 @@ public class DesbloquearCuenta {
     }
 
     /**
-     * Gets the value of the usuarioAdmin property.
+     * Obtiene el valor de la propiedad usuarioAdmin.
      * 
      * @return
      *     possible object is
@@ -73,7 +73,7 @@ public class DesbloquearCuenta {
     }
 
     /**
-     * Sets the value of the usuarioAdmin property.
+     * Define el valor de la propiedad usuarioAdmin.
      * 
      * @param value
      *     allowed object is

@@ -7,9 +7,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for cuentaDetalleDTO complex type.
+ * <p>Clase Java para cuentaDetalleDTO complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>{@code
  * <complexType name="cuentaDetalleDTO">
@@ -76,7 +76,7 @@ public class CuentaDetalleDTO {
     protected int ventanillaBloqueo;
 
     /**
-     * Gets the value of the apellidoCliente property.
+     * Obtiene el valor de la propiedad apellidoCliente.
      * 
      * @return
      *     possible object is
@@ -88,7 +88,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Sets the value of the apellidoCliente property.
+     * Define el valor de la propiedad apellidoCliente.
      * 
      * @param value
      *     allowed object is
@@ -100,7 +100,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Gets the value of the bloqueadoPor property.
+     * Obtiene el valor de la propiedad bloqueadoPor.
      * 
      * @return
      *     possible object is
@@ -112,7 +112,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Sets the value of the bloqueadoPor property.
+     * Define el valor de la propiedad bloqueadoPor.
      * 
      * @param value
      *     allowed object is
@@ -124,7 +124,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Gets the value of the ciudadSucursal property.
+     * Obtiene el valor de la propiedad ciudadSucursal.
      * 
      * @return
      *     possible object is
@@ -136,7 +136,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Sets the value of the ciudadSucursal property.
+     * Define el valor de la propiedad ciudadSucursal.
      * 
      * @param value
      *     allowed object is
@@ -148,7 +148,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Gets the value of the disponibilidadMashup property.
+     * Obtiene el valor de la propiedad disponibilidadMashup.
      * 
      * @return
      *     possible object is
@@ -160,7 +160,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Sets the value of the disponibilidadMashup property.
+     * Define el valor de la propiedad disponibilidadMashup.
      * 
      * @param value
      *     allowed object is
@@ -172,7 +172,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Gets the value of the dniCliente property.
+     * Obtiene el valor de la propiedad dniCliente.
      * 
      * @return
      *     possible object is
@@ -184,7 +184,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Sets the value of the dniCliente property.
+     * Define el valor de la propiedad dniCliente.
      * 
      * @param value
      *     allowed object is
@@ -196,7 +196,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Gets the value of the emailCliente property.
+     * Obtiene el valor de la propiedad emailCliente.
      * 
      * @return
      *     possible object is
@@ -208,7 +208,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Sets the value of the emailCliente property.
+     * Define el valor de la propiedad emailCliente.
      * 
      * @param value
      *     allowed object is
@@ -220,7 +220,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Gets the value of the estadoCuenta property.
+     * Obtiene el valor de la propiedad estadoCuenta.
      * 
      * @return
      *     possible object is
@@ -232,7 +232,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Sets the value of the estadoCuenta property.
+     * Define el valor de la propiedad estadoCuenta.
      * 
      * @param value
      *     allowed object is
@@ -244,7 +244,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Gets the value of the idCliente property.
+     * Obtiene el valor de la propiedad idCliente.
      * 
      */
     public int getIdCliente() {
@@ -252,7 +252,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Sets the value of the idCliente property.
+     * Define el valor de la propiedad idCliente.
      * 
      */
     public void setIdCliente(int value) {
@@ -260,7 +260,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Gets the value of the idSucursal property.
+     * Obtiene el valor de la propiedad idSucursal.
      * 
      */
     public int getIdSucursal() {
@@ -268,7 +268,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Sets the value of the idSucursal property.
+     * Define el valor de la propiedad idSucursal.
      * 
      */
     public void setIdSucursal(int value) {
@@ -276,7 +276,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Gets the value of the moneda property.
+     * Obtiene el valor de la propiedad moneda.
      * 
      * @return
      *     possible object is
@@ -288,7 +288,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Sets the value of the moneda property.
+     * Define el valor de la propiedad moneda.
      * 
      * @param value
      *     allowed object is
@@ -300,7 +300,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Gets the value of the nombreCliente property.
+     * Obtiene el valor de la propiedad nombreCliente.
      * 
      * @return
      *     possible object is
@@ -312,7 +312,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Sets the value of the nombreCliente property.
+     * Define el valor de la propiedad nombreCliente.
      * 
      * @param value
      *     allowed object is
@@ -324,7 +324,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Gets the value of the nombreSucursal property.
+     * Obtiene el valor de la propiedad nombreSucursal.
      * 
      * @return
      *     possible object is
@@ -336,7 +336,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Sets the value of the nombreSucursal property.
+     * Define el valor de la propiedad nombreSucursal.
      * 
      * @param value
      *     allowed object is
@@ -348,7 +348,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Gets the value of the numeroCuenta property.
+     * Obtiene el valor de la propiedad numeroCuenta.
      * 
      * @return
      *     possible object is
@@ -360,7 +360,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Sets the value of the numeroCuenta property.
+     * Define el valor de la propiedad numeroCuenta.
      * 
      * @param value
      *     allowed object is
@@ -372,7 +372,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Gets the value of the saldo property.
+     * Obtiene el valor de la propiedad saldo.
      * 
      */
     public double getSaldo() {
@@ -380,7 +380,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Sets the value of the saldo property.
+     * Define el valor de la propiedad saldo.
      * 
      */
     public void setSaldo(double value) {
@@ -388,7 +388,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Gets the value of the ventanillaBloqueo property.
+     * Obtiene el valor de la propiedad ventanillaBloqueo.
      * 
      */
     public int getVentanillaBloqueo() {
@@ -396,7 +396,7 @@ public class CuentaDetalleDTO {
     }
 
     /**
-     * Sets the value of the ventanillaBloqueo property.
+     * Define el valor de la propiedad ventanillaBloqueo.
      * 
      */
     public void setVentanillaBloqueo(int value) {

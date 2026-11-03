@@ -6,6 +6,8 @@ import ec.edu.monster.clicon.model.MovimientoModel;
 import ec.edu.monster.clicon.model.ResultadoOperacion;
 import ec.edu.monster.clicon.model.SucursalModel;
 import ec.edu.monster.clicon.model.UsuarioSesion;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,7 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
- * Capa Vista (Patrón MVC Tradicional) para el Cliente de Consola de EurekaBank.
+ * Capa Vista (Patr\u00f3n MVC Tradicional) para el Cliente de Consola de EurekaBank.
  */
 public class ConsolaView {
 
@@ -38,7 +40,7 @@ public class ConsolaView {
         while (true) {
             if (controlador.getSesionActual() == null || !controlador.getSesionActual().isAutenticado()) {
                 if (!mostrarPantallaLogin()) {
-                    System.out.println("\nSesión finalizada. Hasta pronto.");
+                    System.out.println("\nSesi\u00f3n finalizada. Hasta pronto.");
                     break;
                 }
             } else {
@@ -62,14 +64,14 @@ public class ConsolaView {
         List<CuentaModel> cuentas = controlador.obtenerCuentasPorSucursal(0);
         imprimirTablaCuentas(cuentas);
 
-        System.out.println("\n[DEMO] Probando escenario concurrente de 3 Ventanillas simultáneas sobre cuenta 001-0001...");
+        System.out.println("\n[DEMO] Probando escenario concurrente de 3 Ventanillas simult\u00e1neas sobre cuenta 001-0001...");
         simularConcurrenciaTresVentanillas("001-0001", 10.00);
 
         List<MovimientoModel> movs = controlador.obtenerExtracto("001-0001");
-        System.out.println("[OK] Últimos movimientos de 001-0001: " + movs.size());
+        System.out.println("[OK] \u00daltimos movimientos de 001-0001: " + movs.size());
         if (!movs.isEmpty()) {
             MovimientoModel u = movs.get(0);
-            System.out.printf("     Última Op: %s | %s | Monto: $%.2f | Saldo: $%.2f | Fecha: %s%n",
+            System.out.printf("     \u00daltima Op: %s | %s | Monto: $%.2f | Saldo: $%.2f | Fecha: %s%n",
                     u.getNumeroOperacion(), u.getTipo(), u.getMonto(), u.getSaldoResultante(), u.getFechaHora());
         }
     }
@@ -83,24 +85,24 @@ public class ConsolaView {
     }
 
     private boolean mostrarPantallaLogin() {
-        System.out.println("\n--- AUTENTICACIÓN CENTRALIZADA ---");
+        System.out.println("\n--- AUTENTICACI\u00d3N CENTRALIZADA ---");
         System.out.print("Usuario (ej. Monster / cajero1..4 / gerente1) [0 para salir]: ");
         String usr = scanner.nextLine().trim();
         if ("0".equals(usr)) {
             return false;
         }
-        System.out.print("Contraseña: ");
+        System.out.print("Contrase\u00f1a: ");
         String pwd = scanner.nextLine().trim();
 
         try {
             UsuarioSesion sesion = controlador.iniciarSesion(usr, pwd);
             if (sesion.isAutenticado()) {
-                System.out.println(ANSI_GREEN + "\n✔ " + sesion.getMensaje() + ANSI_RESET);
+                System.out.println(ANSI_GREEN + "\n[OK] " + sesion.getMensaje() + ANSI_RESET);
             } else {
-                System.out.println(ANSI_RED + "\n✖ " + sesion.getMensaje() + ANSI_RESET);
+                System.out.println(ANSI_RED + "\n[ERROR] " + sesion.getMensaje() + ANSI_RESET);
             }
         } catch (Exception e) {
-            System.out.println(ANSI_RED + "\n✖ Error al conectar con el servidor: " + e.getMessage() + ANSI_RESET);
+            System.out.println(ANSI_RED + "\n[ERROR] Error al conectar con el servidor: " + e.getMessage() + ANSI_RESET);
         }
         return true;
     }
@@ -111,17 +113,17 @@ public class ConsolaView {
         System.out.printf(" Usuario: %s (%s) | Ventanilla Activa: [%d]%n",
                 s.getNombreCompleto(), s.getRol(), controlador.getVentanillaActiva());
         System.out.println("------------------------------------------------------------------------------");
-        System.out.println(" 1. Listar Sucursales y Cuentas (Monitor Semáforo MashUp VERDE/ROJO)");
-        System.out.println(" 2. Consultar Cuenta por Número o DNI de Titular");
-        System.out.println(" 3. Consultar Extracto Cronológico de Movimientos");
-        System.out.println(" 4. Realizar Depósito Bancario (ACID + Bloqueo)");
-        System.out.println(" 5. Realizar Retiro Bancario (Validación Saldo + Bloqueo)");
+        System.out.println(" 1. Listar Sucursales y Cuentas (Monitor Sem\u00e1foro MashUp VERDE/ROJO)");
+        System.out.println(" 2. Consultar Cuenta por N\u00famero o DNI de Titular");
+        System.out.println(" 3. Consultar Extracto Cronol\u00f3gico de Movimientos");
+        System.out.println(" 4. Realizar Dep\u00f3sito Bancario (ACID + Bloqueo)");
+        System.out.println(" 5. Realizar Retiro Bancario (Validaci\u00f3n Saldo + Bloqueo)");
         System.out.println(" 6. Realizar Transferencia entre Cuentas");
         System.out.println(" 7. Cambiar Ventanilla Operativa (1 a 4)");
-        System.out.println(" 8. Simular Escenario Crítico: 3 Ventanillas Simultáneas (MashUp)");
+        System.out.println(" 8. Simular Escenario Cr\u00edtico: 3 Ventanillas Simult\u00e1neas (MashUp)");
         System.out.println(" 9. Desbloqueo Administrativo Superadmin Monster");
-        System.out.println(" 0. Cerrar Sesión");
-        System.out.print("Seleccione una opción: ");
+        System.out.println(" 0. Cerrar Sesi\u00f3n");
+        System.out.print("Seleccione una opci\u00f3n: ");
 
         String op = scanner.nextLine().trim();
         try {
@@ -140,10 +142,10 @@ public class ConsolaView {
                 }
                 case "9" -> opcionDesbloquear();
                 case "0" -> controlador.cerrarSesion();
-                default -> System.out.println(ANSI_YELLOW + "Opción no válida." + ANSI_RESET);
+                default -> System.out.println(ANSI_YELLOW + "Opci\u00f3n no v\u00e1lida." + ANSI_RESET);
             }
         } catch (Exception e) {
-            System.out.println(ANSI_RED + "Error de comunicación con servidor: " + e.getMessage() + ANSI_RESET);
+            System.out.println(ANSI_RED + "Error de comunicaci\u00f3n con servidor: " + e.getMessage() + ANSI_RESET);
         }
     }
 
@@ -163,13 +165,13 @@ public class ConsolaView {
 
     private void imprimirTablaCuentas(List<CuentaModel> cuentas) {
         System.out.println("\n+------------+------------------------+--------------+---------------+--------------------------+");
-        System.out.println("| CUENTA     | TITULAR                | SALDO (USD)  | SEMÁFORO      | DETALLE BLOQUEO          |");
+        System.out.println("| CUENTA     | TITULAR                | SALDO (USD)  | SEM\u00c1FORO      | DETALLE BLOQUEO          |");
         System.out.println("+------------+------------------------+--------------+---------------+--------------------------+");
         for (CuentaModel c : cuentas) {
             boolean verde = "VERDE".equalsIgnoreCase(c.getDisponibilidadMashup());
             String badge = verde
-                    ? ANSI_GREEN + "● VERDE LIBRE" + ANSI_RESET
-                    : ANSI_RED + "● ROJO OCUP. " + ANSI_RESET;
+                    ? ANSI_GREEN + "[LIBRE] VERDE " + ANSI_RESET
+                    : ANSI_RED + "[OCUP] ROJO  " + ANSI_RESET;
             String detalle = verde ? "Disponible"
                     : ("Ventanilla " + c.getVentanillaBloqueo() + " (" + (c.getBloqueadoPor() != null ? c.getBloqueadoPor() : "Activa") + ")");
             System.out.printf("| %-10s | %-22s | $%11.2f | %s | %-24s |%n",
@@ -183,7 +185,7 @@ public class ConsolaView {
     }
 
     private void opcionBuscarCuenta() {
-        System.out.print("Ingrese Número de Cuenta (ej. 001-0001) o DNI del Titular: ");
+        System.out.print("Ingrese N\u00famero de Cuenta (ej. 001-0001) o DNI del Titular: ");
         String dato = scanner.nextLine().trim();
         if (dato.contains("-")) {
             CuentaModel c = controlador.buscarCuentaPorNumero(dato);
@@ -203,7 +205,7 @@ public class ConsolaView {
     }
 
     private void opcionExtracto() {
-        System.out.print("Número de cuenta para extracto: ");
+        System.out.print("N\u00famero de cuenta para extracto: ");
         String cta = scanner.nextLine().trim();
         List<MovimientoModel> movs = controlador.obtenerExtracto(cta);
         if (movs.isEmpty()) {
@@ -211,7 +213,7 @@ public class ConsolaView {
             return;
         }
         System.out.println("\n+----------------------+----------------------+------------+------------+-------------------+---------------------+");
-        System.out.println("| NRO OPERACIÓN        | TIPO                 | MONTO      | SALDO RES. | CAJERO / VENT.    | FECHA / HORA        |");
+        System.out.println("| NRO OPERACI\u00d3N        | TIPO                 | MONTO      | SALDO RES. | CAJERO / VENT.    | FECHA / HORA        |");
         System.out.println("+----------------------+----------------------+------------+------------+-------------------+---------------------+");
         for (MovimientoModel m : movs) {
             System.out.printf("| %-20s | %-20s | $%9.2f | $%9.2f | V%d %-14s | %-19s |%n",
@@ -227,7 +229,7 @@ public class ConsolaView {
     }
 
     private void opcionDeposito() {
-        System.out.print("Cuenta destino del depósito: ");
+        System.out.print("Cuenta destino del dep\u00f3sito: ");
         String cta = scanner.nextLine().trim();
         System.out.print("Monto a depositar (USD): ");
         double monto = Double.parseDouble(scanner.nextLine().trim());
@@ -251,12 +253,12 @@ public class ConsolaView {
         String dest = scanner.nextLine().trim();
         System.out.print("Monto a transferir (USD): ");
         double monto = Double.parseDouble(scanner.nextLine().trim());
-        System.out.println("Procesando transferencia atómica en servidor...");
+        System.out.println("Procesando transferencia at\u00f3mica en servidor...");
         mostrarResultado(controlador.transferir(orig, dest, monto));
     }
 
     private void opcionCambiarVentanilla() {
-        System.out.print("Seleccione número de ventanilla (1, 2, 3 o 4): ");
+        System.out.print("Seleccione n\u00famero de ventanilla (1, 2, 3 o 4): ");
         int v = Integer.parseInt(scanner.nextLine().trim());
         controlador.setVentanillaActiva(v);
         System.out.println(ANSI_GREEN + "Ventanilla activa cambiada a: Ventanilla " + controlador.getVentanillaActiva() + ANSI_RESET);
@@ -279,13 +281,13 @@ public class ConsolaView {
                         Thread.sleep(250L * ventanilla);
                     }
                     ResultadoOperacion r = controlador.depositarDesdeVentanilla(cuenta, monto, ventanilla);
-                    return "[Ventanilla " + ventanilla + "] " + (r.isExito() ? "ÉXITO -> " : "BLOQUEADO -> ") + r.getMensaje();
+                    return "[Ventanilla " + ventanilla + "] " + (r.isExito() ? "\u00c9XITO -> " : "BLOQUEADO -> ") + r.getMensaje();
                 });
             }
             Future<String> monitorMashup = pool.submit(() -> {
                 Thread.sleep(600L);
                 CuentaModel estadoDurante = controlador.buscarCuentaPorNumero(cuenta);
-                return "[Monitor MashUp en Vivo] Cuenta " + cuenta + " => Estado Semáforo: "
+                return "[Monitor MashUp en Vivo] Cuenta " + cuenta + " => Estado Sem\u00e1foro: "
                         + (estadoDurante != null ? estadoDurante.getDisponibilidadMashup() : "N/A")
                         + " (Ventanilla poseedora: " + (estadoDurante != null ? estadoDurante.getVentanillaBloqueo() : 0) + ")";
             });
@@ -297,7 +299,7 @@ public class ConsolaView {
             System.out.println(ANSI_YELLOW + monitorMashup.get() + ANSI_RESET);
             for (Future<String> f : resultados) {
                 String linea = f.get();
-                if (linea.contains("ÉXITO")) {
+                if (linea.contains("\u00c9XITO")) {
                     System.out.println(ANSI_GREEN + linea + ANSI_RESET);
                 } else {
                     System.out.println(ANSI_RED + linea + ANSI_RESET);
@@ -305,11 +307,11 @@ public class ConsolaView {
             }
             CuentaModel estadoFinal = controlador.buscarCuentaPorNumero(cuenta);
             if (estadoFinal != null) {
-                System.out.printf(ANSI_GREEN + "[Post-Transacción] Cuenta %s restablecida a %s | Saldo consistente: $%.2f%n" + ANSI_RESET,
+                System.out.printf(ANSI_GREEN + "[Post-Transacci\u00f3n] Cuenta %s restablecida a %s | Saldo consistente: $%.2f%n" + ANSI_RESET,
                         cuenta, estadoFinal.getDisponibilidadMashup(), estadoFinal.getSaldo());
             }
         } catch (Exception e) {
-            System.out.println(ANSI_RED + "Error en simulación concurrente: " + e.getMessage() + ANSI_RESET);
+            System.out.println(ANSI_RED + "Error en simulaci\u00f3n concurrente: " + e.getMessage() + ANSI_RESET);
         } finally {
             pool.shutdownNow();
         }
@@ -317,9 +319,9 @@ public class ConsolaView {
 
     private void mostrarResultado(ResultadoOperacion r) {
         if (r.isExito()) {
-            System.out.println(ANSI_GREEN + "\n✔ " + r.getMensaje() + ANSI_RESET);
+            System.out.println(ANSI_GREEN + "\n[OK] " + r.getMensaje() + ANSI_RESET);
         } else {
-            System.out.println(ANSI_RED + "\n✖ [" + r.getCodigo() + "] " + r.getMensaje() + ANSI_RESET);
+            System.out.println(ANSI_RED + "\n[ERROR] [" + r.getCodigo() + "] " + r.getMensaje() + ANSI_RESET);
         }
     }
 

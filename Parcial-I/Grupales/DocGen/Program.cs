@@ -15,7 +15,11 @@ namespace DocGen
 
             string target = args.Length > 0 ? args[0].ToLowerInvariant() : "soap-dotnet";
             string basePath = @"C:\Users\MeatPuppets\Desktop\Grupo4-NRC36884\Parcial-I\Grupales";
-            string templateDocx = Path.Combine(basePath, @"TG.1.1 PAO202651_SOAP_JAVA_CONBDD_NRC36884_GR04\05. DOCUMENTACION\MANUAL_SOAP_JAVA_SINBDD_GR04.docx");
+            string templateDocx = @"C:\Users\MeatPuppets\Desktop\Grupo4-NRC36884\Parcial-I\Talleres\TI.1.1 PAO202651_SOAP_JAVA_SINBDD_NRC36884_GR04\05. DOCUMENTACION\MANUAL_SOAP_JAVA_SINBDD_GR04.docx";
+            if (!File.Exists(templateDocx))
+            {
+                templateDocx = Path.Combine(basePath, @"TG.1.1 PAO202651_SOAP_JAVA_CONBDD_NRC36884_GR04\05. DOCUMENTACION\MANUAL_SOAP_JAVA_CONBDD_GR04.docx");
+            }
 
             if (target == "soap-dotnet" || target == "all")
             {
@@ -40,6 +44,12 @@ namespace DocGen
                 string dst = Path.Combine(basePath, @"TG.1.4 PAO202651_RESTFUL_DOTNET_CONBDD_NRC36884_GR04\05. DOCUMENTACION\MANUAL_RESTFUL_DOTNET_CONBDD_GR04.docx");
                 string titulo = "MANUAL DE CONFIGURACIÓN Y USUARIO DEL SISTEMA BANCARIO EUREKABANK CON SERVICIOS RESTFUL Y BASE DE DATOS EN .NET (ASP.NET CORE WEB API / MAUI)";
                 GenerarDocumento(templateDocx, dst, titulo, ManualRestDotNetContent.BuildElements);
+            }
+            if (target == "rectify-user-docx")
+            {
+                string dst = Path.Combine(basePath, @"TG.1.3 PAO202651_RESTFUL_JAVA_CONBDD_NRC36884_GR04\05. DOCUMENTACION\MANUAL_RESTFUL_JAVA_CONBDD_GR04.docx");
+                string titulo = "MANUAL DE CONFIGURACIÓN Y USUARIO DEL SISTEMA BANCARIO EUREKABANK CON SERVICIOS RESTFUL Y BASE DE DATOS EN JAVA (JAKARTA EE / JERSEY / PAYARA)";
+                RectificarDocumentoUsuario(dst, titulo);
             }
         }
 
@@ -91,7 +101,7 @@ namespace DocGen
                     // Actualizar textos de Tema y Fecha en la carátula
                     foreach (var t in node0.Descendants(w + "t"))
                     {
-                        if (t.Value.Contains("CONVERSION UNIDADES") || t.Value.Contains("CONVERSION DE UNIDADES") || t.Value.Contains("SISTEMA BANCARIO"))
+                        if (t.Value.Contains("CONVERSION") || t.Value.Contains("CONVERSIÓN") || t.Value.Contains("SISTEMA BANCARIO") || t.Value.Contains("SOAP SIN BDD"))
                         {
                             t.Value = tituloCover;
                         }
@@ -277,6 +287,169 @@ namespace DocGen
                 stylesXml.Save(writer);
             }
             Console.WriteLine("[INFO] Estilos base (Normal y docDefaults) configurados a 11 pt (22 half-points).");
+        }
+
+        public static void RectificarDocumentoUsuario(string docxPath, string tituloCover)
+        {
+            Console.WriteLine($"\n--- RECTIFICANDO MANUAL DEL USUARIO: {Path.GetFileName(docxPath)} ---");
+            if (!File.Exists(docxPath))
+            {
+                Console.WriteLine($"ERROR: No se encontró el archivo: {docxPath}");
+                return;
+            }
+
+            XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+            int countCover = 0;
+            int countDesc = 0;
+            int countTbl = 0;
+
+            using (var zip = ZipFile.Open(docxPath, ZipArchiveMode.Update))
+            {
+                var entry = zip.GetEntry("word/document.xml");
+                if (entry == null) return;
+
+                XDocument docXml;
+                using (var reader = new StreamReader(entry.Open(), System.Text.Encoding.UTF8))
+                {
+                    docXml = XDocument.Load(reader);
+                }
+
+                var body = docXml.Root?.Element(w + "body");
+                if (body == null) return;
+
+                // 1. Rectificar carátula (Node 0)
+                var node0 = body.Elements().FirstOrDefault();
+                if (node0 != null)
+                {
+                    foreach (var t in node0.Descendants(w + "t"))
+                    {
+                        if (t.Value.Contains("CONVERSION") || t.Value.Contains("CONVERSIÓN") || t.Value.Contains("SOAP SIN BDD") || t.Value.Contains("SISTEMA BANCARIO"))
+                        {
+                            t.Value = tituloCover;
+                            countCover++;
+                        }
+                    }
+                }
+
+                // 2. Rectificar texto de Paso 4.5.5 y código de Tabla 37
+                string nuevoCodigoTbl37 = """
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+<h:head>
+    <meta charset="UTF-8"/>
+    <title>Monitor MashUp &amp; Operaciones - EurekaBank Web (GR04)</title>
+    <style>
+        .badge-verde { background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 999px; font-weight: 700; }
+        .badge-rojo { background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 999px; font-weight: 700; }
+        @keyframes pulse-red { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.05); opacity: 0.85; } }
+        .pulse-rojo { animation: pulse-red 0.9s infinite ease-in-out; box-shadow: 0 0 10px rgba(220, 38, 38, 0.45); }
+    </style>
+</h:head>
+<h:body>
+    <h:form id="topForm">
+        <h:selectOneMenu id="selVentanilla" value="#{loginView.ventanilla}">
+            <f:selectItem itemValue="1" itemLabel="Ventanilla 1" />
+            <f:selectItem itemValue="2" itemLabel="Ventanilla 2" />
+            <f:selectItem itemValue="3" itemLabel="Ventanilla 3" />
+        </h:selectOneMenu>
+    </h:form>
+
+    <h:form id="formMashup">
+        <h:panelGroup id="panelMashup" layout="block">
+            <h:dataTable value="#{dashboardView.cuentas}" var="c" styleClass="bank-table">
+                <h:column><f:facet name="header">Cuenta</f:facet>#{c.numeroCuenta}</h:column>
+                <h:column><f:facet name="header">Titular</f:facet>#{c.titularCompleto}</h:column>
+                <h:column><f:facet name="header">Saldo USD</f:facet>$#{c.saldo}</h:column>
+                <h:column>
+                    <f:facet name="header">Semáforo MashUp</f:facet>
+                    <h:panelGroup layout="block" styleClass="#{c.disponibilidadMashup eq 'VERDE' ? 'badge-verde' : 'badge-rojo'}">
+                        #{c.disponibilidadMashup eq 'VERDE' ? '● VERDE (Libre)' : '● ROJO (Ocupado en Ventanilla)'}
+                    </h:panelGroup>
+                </h:column>
+            </h:dataTable>
+            <!-- Botón oculto disparado automáticamente cada 1.2s para sincronización MashUp en vivo -->
+            <h:commandButton id="btnPollMashup" value="poll" action="#{dashboardView.sincronizarMashup}" style="display:none;">
+                <f:ajax execute="@this" render="panelMashup" />
+            </h:commandButton>
+        </h:panelGroup>
+    </h:form>
+
+    <h:form id="formOperaciones">
+        <h:inputText id="txtCuentaOrigen" value="#{dashboardView.cuentaSeleccionada}" />
+        <h:inputText id="txtCuentaDestino" value="#{dashboardView.cuentaDestino}" />
+        <h:inputText id="txtMonto" value="#{dashboardView.montoOperacion}" />
+        <h:commandButton value="Registrar Depósito (+)" action="#{dashboardView.ejecutarDeposito}" onclick="marcarEnRojo(false);">
+            <f:ajax execute="@form" render="@form :formMashup:panelMashup :formExtracto" />
+        </h:commandButton>
+        <h:commandButton value="Simular 3 Ventanillas Simultáneas" action="#{dashboardView.simularConcurrenciaTresVentanillas}" onclick="marcarEnRojo(false);">
+            <f:ajax execute="@form" render="@form :formMashup:panelMashup :formExtracto" />
+        </h:commandButton>
+    </h:form>
+
+    <script type="text/javascript">
+        function marcarEnRojo(esTransferencia) {
+            try {
+                var ctaOrig = document.getElementById('formOperaciones:txtCuentaOrigen').value.trim();
+                var rows = document.querySelectorAll('#formMashup table tbody tr');
+                rows.forEach(function(r) {
+                    var tds = r.querySelectorAll('td');
+                    if (tds.length >= 6 &amp;&amp; tds[0].innerText.trim() === ctaOrig) {
+                        tds[5].innerHTML = '&lt;span class="badge-rojo pulse-rojo"&gt;● ROJO (OCUPADA)&lt;/span&gt;';
+                    }
+                });
+            } catch (e) {}
+        }
+        setInterval(function () {
+            var btn = document.getElementById('formMashup:btnPollMashup');
+            if (btn) btn.click();
+        }, 1200);
+    </script>
+</h:body>
+</html>
+""";
+
+                var bodyElements = body.Elements().ToList();
+                for (int i = 0; i < bodyElements.Count; i++)
+                {
+                    var el = bodyElements[i];
+                    string fullText = string.Concat(el.Descendants(w + "t").Select(t => t.Value));
+                    if (fullText.Contains("4.5.5 Paso 5:") || fullText.Contains("tabla reactiva con <h:dataTable> y un temporizador en JavaScript (setInterval cada 2500ms)"))
+                    {
+                        var firstT = el.Descendants(w + "t").FirstOrDefault();
+                        if (firstT != null)
+                        {
+                            firstT.Value = "En dashboard.xhtml se implementa la tabla reactiva con <h:dataTable>, retroalimentación visual inmediata con animación cromática roja pulsante mediante la función JavaScript marcarEnRojo() ejecutada en el evento onclick de cada transacción, y un temporizador periódico de sondeo (setInterval cada 1200ms) que dispara el comando asíncrono <f:ajax> para sincronizar el estado del Semáforo MashUp en tiempo real:";
+                            countDesc++;
+                        }
+                    }
+                    if (fullText.Contains("Tabla 37") && fullText.Contains("dashboard.xhtml"))
+                    {
+                        for (int j = i + 1; j < Math.Min(i + 4, bodyElements.Count); j++)
+                        {
+                            if (bodyElements[j].Name == w + "tbl")
+                            {
+                                bodyElements[j].ReplaceWith(DocHelpers.CodeBox(nuevoCodigoTbl37));
+                                countTbl++;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                entry.Delete();
+                var newEntry = zip.CreateEntry("word/document.xml", CompressionLevel.Optimal);
+                using (var writer = new StreamWriter(newEntry.Open(), System.Text.Encoding.UTF8))
+                {
+                    docXml.Save(writer);
+                }
+            }
+
+            Console.WriteLine($"[1/2] word/document.xml rectificado exitosamente (Carátula: {countCover}, Descripción 4.5.5: {countDesc}, Tabla 37: {countTbl}).");
+            Console.WriteLine("[2/2] Actualizando índices y campos mediante Microsoft Word COM...");
+            ActualizarCamposWord(docxPath);
+            Console.WriteLine($"¡Documento rectificado exitosamente manteniendo todas las capturas de pantalla!");
         }
     }
 }

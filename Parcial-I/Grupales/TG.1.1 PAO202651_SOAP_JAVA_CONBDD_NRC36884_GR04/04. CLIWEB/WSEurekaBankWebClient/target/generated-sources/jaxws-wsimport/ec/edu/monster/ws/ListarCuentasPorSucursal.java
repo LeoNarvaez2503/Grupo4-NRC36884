@@ -7,9 +7,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for listarCuentasPorSucursal complex type.
+ * <p>Clase Java para listarCuentasPorSucursal complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>{@code
  * <complexType name="listarCuentasPorSucursal">
@@ -34,7 +34,7 @@ public class ListarCuentasPorSucursal {
     protected int sucursalId;
 
     /**
-     * Gets the value of the sucursalId property.
+     * Obtiene el valor de la propiedad sucursalId.
      * 
      */
     public int getSucursalId() {
@@ -42,7 +42,7 @@ public class ListarCuentasPorSucursal {
     }
 
     /**
-     * Sets the value of the sucursalId property.
+     * Define el valor de la propiedad sucursalId.
      * 
      */
     public void setSucursalId(int value) {

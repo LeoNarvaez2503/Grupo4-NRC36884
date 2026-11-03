@@ -52,7 +52,7 @@ namespace ec.edu.monster.controller
         public OperacionModel Desbloquear(string cta) =>
             _modelo.DesbloquearCuenta(cta, SesionActual?.Usuario ?? "Monster");
 
-        public MashupModel ConsultarEstadoMashUp(string cta) =>
+        public OperacionModel ConsultarEstadoMashUp(string cta) =>
             _modelo.ConsultarEstadoMashUp(cta);
     }
 }

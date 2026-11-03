@@ -42,7 +42,8 @@ namespace ec.edu.monster.view
                 SizeMode = PictureBoxSizeMode.Zoom
             };
             string imgPath = Path.Combine(AppContext.BaseDirectory, "images", "sullivan.png");
-            if (File.Exists(imgPath)) pic.Image = Image.FromFile(imgPath);
+            if (!File.Exists(imgPath)) imgPath = Path.Combine(Directory.GetCurrentDirectory(), "images", "sullivan.png");
+            if (File.Exists(imgPath)) { pic.Image = Image.FromFile(imgPath); try { Icon = Icon.FromHandle(((Bitmap)pic.Image).GetHicon()); } catch { } }
 
             var lblTitulo = new Label
             {

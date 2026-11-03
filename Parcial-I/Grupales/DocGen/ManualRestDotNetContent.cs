@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using static DocGen.DocHelpers;
@@ -14,10 +14,10 @@ namespace DocGen
             // =========================================================================
             // SECCIÓN 1: INTRODUCCIÓN
             // =========================================================================
-            list.Add(Heading1("1 INTRODUCCION"));
-            list.Add(Paragraph("Un servicio web fundamentado en RESTful (Representational State Transfer) sobre HTTP/JSON dentro del ecosistema moderno de Microsoft .NET (.NET 10) representa una solución empresarial estandarizada, de tipado rígido y alta confiabilidad para la interoperabilidad de datos entre aplicaciones corporativas distribuidas. Con la evolución de la plataforma .NET unificada hacia versiones modernas y multiplataforma, la tecnología tradicional Windows Communication Foundation (WCF) fue adaptada y continuada a través de ASP.NET Core Web API, una implementación oficial de código abierto respaldada por Microsoft y la comunidad técnica que permite hospedar servicios web RESTful sobre el servidor web modular Kestrel y ASP.NET Core, conservando la compatibilidad de contratos de servicio ([ServiceContract]), contratos de datos ([DataContract]) y enlaces de transporte estandarizados como BasicHttpBinding sobre HTTP/1.1 y HTTP/2."));
+            list.Add(Heading1("1 INTRODUCCIÓN"));
+            list.Add(Paragraph("Un servicio web fundamentado en el estilo arquitectónico RESTful (Representational State Transfer) sobre el protocolo HTTP/JSON dentro del ecosistema moderno de Microsoft .NET (.NET 10) representa una solución empresarial estandarizada, ligera, altamente escalable y de máximo rendimiento para la interoperabilidad de datos entre aplicaciones corporativas distribuidas. A diferencia de las arquitecturas rígidas y fuertemente acopladas basadas en SOAP y contratos XML formales (WSDL), una API RESTful adopta el modelo de arquitectura orientada a recursos (ROA) gobernado por los estándares nativos de la web (RFC 9110). En esta arquitectura, cada entidad del dominio se identifica mediante un URI unívoco, las operaciones se canalizan a través de verbos semánticos HTTP (GET, POST), y el intercambio de información se realiza mediante el formato estructurado JSON (JavaScript Object Notation), serializado y deserializado de forma ultrarrápida mediante System.Text.Json."));
             list.Add(Paragraph("En el ámbito financiero transaccional (Core Banking), las operaciones bancarias ejecutadas sobre cuentas corrientes y de ahorros (tales como la recepción y acreditación de depósitos en efectivo, retiros en ventanilla y transferencias interbancarias o intrabancarias) demandan el estricto cumplimiento de las propiedades ACID (Atomicidad, Consistencia, Aislamiento y Durabilidad). Cuando múltiples ventanillas de atención física o canales de autoservicio digital interactúan de forma simultánea sobre los mismos registros de cuenta, pueden surgir graves condiciones de carrera (race conditions), lecturas sucias (dirty reads) y anomalías contables que ponen en riesgo la solidez financiera de la institución. Para prevenir de raíz estas incidencias, el presente proyecto implementa el sistema EurekaBank con soporte de bloqueo pesimista (SELECT ... FOR UPDATE) a nivel del motor relacional InnoDB en MySQL/MariaDB y un módulo reactivo de exclusión mutua denominado Semáforo MashUp de Concurrencia en tiempo real."));
-            list.Add(Paragraph("El componente servidor central se hospeda de forma ligera y eficiente sobre el runtime de .NET 10 utilizando ASP.NET Core Web API 1.8.0 y Kestrel en el puerto TCP 5140, publicando su contrato Swagger / OpenAPI en la ruta estándar /swagger. Por su parte, la persistencia de la información bancaria se gestiona a través de un contenedor local de base de datos MySQL 8.0 orquestado mediante Podman o Docker Compose, asegurando total portabilidad, aislamiento del entorno anfitrión e inicialización determinista mediante el script relacional eureka_bank.sql."));
+            list.Add(Paragraph("El componente servidor central se hospeda de forma ligera y eficiente sobre el runtime unificado de .NET 10 utilizando ASP.NET Core Web API y el servidor web Kestrel en el puerto TCP 5140, publicando su documentación interactiva OpenAPI 3.0 mediante Swagger UI en la ruta estándar /swagger. Por su parte, la persistencia de la información bancaria se gestiona a través de un contenedor local de base de datos MySQL 8.0 orquestado mediante Podman o Docker Compose, asegurando total portabilidad, aislamiento del entorno anfitrión e inicialización determinista mediante el script relacional eureka_bank.sql."));
             list.Add(Paragraph("Para el consumo y presentación de los servicios RESTful, se aplica con máxima rigurosidad el patrón arquitectónico Modelo-Vista-Controlador (MVC Tradicional Puro), implementando exclusivamente las capas Model, View y Controller sin capas intermedias superfluas ni frameworks de inyección externa innecesarios. Se desarrollan cuatro clientes totalmente heterogéneos bajo el lenguaje C#: un Cliente de Consola interactivo con renderizado de secuencias ANSI y simulación multi-hilo de 3 ventanillas simultáneas, un Cliente de Escritorio de alto rendimiento con Windows Forms y cuadrícula cromática DataGridView, un Cliente Móvil nativo para la plataforma Android desarrollado con .NET MAUI y un Cliente Web responsivo desarrollado sobre ASP.NET Core MVC con vistas Razor y sondeo reactivo en tiempo real (polling a 0.9 segundos). Todo el sistema opera bajo el dominio institucional unificado ec.edu.monster y respeta las credenciales maestras autorizadas (usuario: Monster, contraseña: Monster9), satisfaciendo los requerimientos de ingeniería de software establecidos para el Grupo 04 (GR04)."));
 
             // =========================================================================
@@ -25,51 +25,66 @@ namespace DocGen
             // =========================================================================
             list.Add(Heading1("2 OBJETIVOS"));
             list.Add(Heading2("2.1 Objetivo General"));
-            list.Add(Paragraph("Diseñar, implementar, desplegar y documentar un sistema bancario distribuido y transaccional denominado EurekaBank, fundamentado en servicios web RESTful hospedados en ASP.NET Core Kestrel mediante ASP.NET Core Web API bajo la plataforma .NET 10, con persistencia relacional ACID en MySQL sobre contenedores locales (Docker/Podman), desacoplado mediante el patrón arquitectónico MVC Tradicional puro en todos sus niveles y consumido concurrentemente por cuatro clientes heterogéneos (Consola, Escritorio Windows Forms, Móvil .NET MAUI y Web ASP.NET Core MVC) con soporte de monitoreo reactivo mediante Semáforo MashUp en tiempo real."));
+            list.Add(Paragraph("Diseñar, implementar, desplegar y documentar un sistema bancario distribuido y transaccional denominado EurekaBank, fundamentado en servicios web RESTful con arquitectura orientada a recursos sobre HTTP/JSON hospedados en ASP.NET Core Kestrel mediante ASP.NET Core Web API bajo la plataforma .NET 10, con persistencia relacional ACID en MySQL sobre contenedores locales (Docker/Podman), desacoplado mediante el patrón arquitectónico MVC Tradicional puro en todos sus niveles y consumido concurrentemente por cuatro clientes heterogéneos (Consola, Escritorio Windows Forms, Móvil .NET MAUI y Web ASP.NET Core MVC) con soporte de monitoreo reactivo mediante Semáforo MashUp en tiempo real."));
 
             list.Add(Heading2("2.2 Objetivos Específicos"));
             list.Add(BulletParagraph("1.", "Configurar y desplegar el motor relacional de base de datos MySQL 8.0 en un contenedor local mediante Podman/Docker Compose, inicializando el esquema completo de tablas bancarias, restricciones de integridad referencial, registros de auditoría y la tabla control_mashup de concurrencia mediante el script eureka_bank.sql."));
             list.Add(BulletParagraph("2.", "Construir la capa de persistencia relacional y control transaccional del servidor RESTful en C# (EurekaBankBddModel.cs), utilizando el driver MySqlConnector para ejecutar transacciones con aislamiento y bloqueo de filas pesimista (SELECT ... FOR UPDATE), verificando credenciales con encriptación BCrypt ($2a$10$)."));
             list.Add(BulletParagraph("3.", "Diseñar e implementar el componente Gestor de Concurrencia MashUp (ConcurrenciaMashupModel.cs), administrando la alternancia del semáforo cromático (VERDE para cuentas libres y ROJO para cuentas en operación transaccional activa en ventanilla) con persistencia directa en base de datos."));
-            list.Add(BulletParagraph("4.", "Implementar y publicar el endpoint RESTful (WS_EurekaBank_DotNet_RESTful) mediante ASP.NET Core Web API en .NET 10, exponiendo la interfaz de contrato EurekaBankRestController con BasicHttpBinding y publicando el contrato Swagger / OpenAPI accesible bajo el puerto 5140 y dominio institucional ec.edu.monster."));
+            list.Add(BulletParagraph("4.", "Implementar y publicar la API RESTful (WS_EurekaBank_DotNet_REST) mediante ASP.NET Core Web API en .NET 10, exponiendo el controlador EurekaBankRestController con verbos semánticos HTTP ([HttpGet], [HttpPost]), códigos de respuesta semánticos (200, 400, 401, 404, 409) y documentación interactiva OpenAPI mediante Swagger UI accesible bajo el puerto 5140 y dominio institucional ec.edu.monster."));
             list.Add(BulletParagraph("5.", "Desarrollar el Cliente de Consola (WSEurekaBankConsoleClient) bajo el patrón MVC Tradicional, consumiendo el servicio RESTful mediante HttpClient y System.Text.Json, incorporando interfaces de terminal estructuradas con colores ANSI y una rutina multi-hilo de simulación de 3 ventanillas simultáneas para verificar la exclusión mutua."));
             list.Add(BulletParagraph("6.", "Construir el Cliente de Escritorio (WSEurekaBankDesktopClient) mediante Windows Forms en C#, presentando un DataGridView con colores dinámicos (verde claro para cuentas disponibles y rojo suave para cuentas ocupadas), temporizador de refresco periódico y ejecución de transacciones bancarias asíncronas con async/await."));
-            list.Add(BulletParagraph("7.", "Implementar el Cliente Móvil (WSEurekaBankMobileClient) utilizando la plataforma multiplataforma .NET MAUI en C#, consumiendo el endpoint RESTful a través de HttpClient con resolución de red para emulador Android (10.0.2.2) y presentando vistas XAML reactivas con tarjetas cromáticas de semáforo."));
+            list.Add(BulletParagraph("7.", "Implementar el Cliente Móvil (WSEurekaBankMobileClient) utilizando la plataforma multiplataforma .NET MAUI en C#, consumiendo el endpoint RESTful a través de HttpClient con resolución de red para emulador Android (10.0.2.2:5140/api) y presentando vistas XAML reactivas con tarjetas cromáticas de semáforo."));
             list.Add(BulletParagraph("8.", "Desarrollar el Cliente Web (WSEurekaBankWebClient) sobre ASP.NET Core MVC con vistas Razor, implementando controladores desacoplados, autenticación mediante cookies seguras y sondeo asíncrono AJAX en JavaScript cada 0.9 segundos para reflejar en tiempo real la concurrencia entre ventanillas sin recargar la página."));
 
             // =========================================================================
             // SECCIÓN 3: MARCO TEÓRICO
             // =========================================================================
-            list.Add(Heading1("3 MARCO TEORICO"));
-            list.Add(Heading2("3.1 Servicios Web RESTful en .NET Moderno y Proyecto ASP.NET Core Web API"));
-            list.Add(Paragraph("El protocolo RESTful (Representational State Transfer) sobre HTTP/JSON es una especificación estándar de mensajería basada en XML aprobada por el consorcio W3C para habilitar la comunicación entre aplicaciones heterogéneas. En las versiones clásicas de Microsoft .NET Framework (versiones 3.0 a 4.8), Windows Communication Foundation (WCF) constituía el marco de trabajo principal para construir arquitecturas orientadas a servicios (SOA). Sin embargo, con el advenimiento de .NET Core y su posterior unificación a partir de .NET 6 hasta .NET 10, los componentes de servidor de WCF no fueron incorporados en el runtime estándar, el cual priorizó APIs HTTP/REST y gRPC."));
-            list.Add(Paragraph("Para solventar esta limitación en organizaciones financieras y bancarias con inversiones sustanciales en contratos Swagger / OpenAPI y clientes RESTful, la fundación .NET Foundation lanzó ASP.NET Core Web API. ASP.NET Core Web API es una reimplementación moderna y de código abierto de los servicios WCF compilada sobre el pipeline de ASP.NET Core y el servidor Kestrel. ASP.NET Core Web API permite utilizar las anotaciones declarativas estándar de WCF como [ServiceContract], [OperationContract], [DataContract] y [DataMember], proporcionando enlaces modernos como BasicHttpBinding, WSHttpBinding y NetTcpBinding. ASP.NET Core Web API traslada las ventajas de rendimiento, bajo consumo de memoria y ejecución multiplataforma (Linux, macOS, Windows) de .NET 10 a los servicios web RESTful empresariales."));
+            list.Add(Heading1("3 MARCO TEÓRICO"));
+            list.Add(Heading2("3.1 Servicios Web RESTful en .NET Moderno y ASP.NET Core Web API"));
+            list.Add(Paragraph("El estilo arquitectónico REST (Representational State Transfer) fue propuesto formalmente por Roy Fielding en el año 2000 como un conjunto de restricciones arquitectónicas para sistemas hipermedia distribuidos en la World Wide Web. A diferencia de los protocolos basados en llamadas a procedimientos remotos (RPC) o especificaciones pesadas basadas en XML como SOAP, REST aprovecha el propio protocolo de transporte HTTP como protocolo de aplicación. Los componentes de software interactúan manipulando representaciones de recursos (generalmente documentos JSON) mediante una interfaz uniforme estandarizada."));
+            list.Add(Paragraph("En el ecosistema unificado de Microsoft .NET (.NET 6 a .NET 10), ASP.NET Core Web API constituye el marco de trabajo oficial y de alto rendimiento para el desarrollo de servicios web RESTful. Basado en el servidor web asíncrono Kestrel, ASP.NET Core Web API proporciona una arquitectura modular basada en controladores (ControllerBase) o Minimal APIs, inyección de dependencias nativa, filtrado de peticiones, enrutamiento semántico declarativo mediante atributos ([Route], [HttpGet], [HttpPost]) y serialización de alto rendimiento con System.Text.Json. Su diseño desacoplado prescinde de envolturas XML rígidas, contratos WSDL complejos y enlaces de transporte pesados, entregando una latencia mínima, bajo consumo de memoria y portabilidad total sobre entornos Windows, Linux y contenedores Docker/Podman."));
 
-            list.Add(Heading2("3.2 Protocolo RESTful, Envelope XML y Contrato Swagger / OpenAPI"));
-            list.Add(Paragraph("La comunicación en RESTful se realiza mediante documentos XML altamente estructurados denominados RESTful Envelopes. La anatomía formal de un sobre RESTful se compone de:"));
-            list.Add(BulletParagraph("• Envelope:", "Elemento raíz que define el espacio de nombres estándar (http://schemas.xmlrest.org/rest/envelope/ para RESTful 1.1) y encapsula todos los elementos del mensaje."));
-            list.Add(BulletParagraph("• Header (Cabecera):", "Elemento opcional utilizado para transmitir metadatos de infraestructura y contexto de seguridad (tales como tokens de autenticación WS-Security, identificadores de correlación transaccional o directivas mustUnderstand)."));
-            list.Add(BulletParagraph("• Body (Cuerpo):", "Contenedor obligatorio que aloja la carga útil (payload) de negocio, conteniendo los parámetros de la operación invocada o la respuesta generada por el servidor. En caso de suscitarse un fallo interno, el Body contiene una estructura tipada denominada RESTful Fault (con faultcode, faultstring y detail)."));
-            list.Add(Paragraph("El contrato del servicio se describe formalmente mediante el Lenguaje de Descripción de Servicios Web (Swagger / OpenAPI). El Swagger / OpenAPI expone los esquemas XSD de los tipos de datos, los mensajes de solicitud y respuesta, las interfaces de operaciones (portType), los protocolos de serialización y enlace (binding) y la dirección de red o URL del endpoint (service/port)."));
+            list.Add(Heading2("3.2 Principios de la Arquitectura RESTful, Verbos HTTP y Especificación OpenAPI / Swagger"));
+            list.Add(Paragraph("El diseño de una API RESTful moderna se fundamenta en seis principios o restricciones arquitectónicas esenciales:"));
+            list.Add(BulletParagraph("• Separación Cliente-Servidor:", "Desacopla completamente las interfaces de usuario (clientes móviles, web, escritorio o consola) de la capa de almacenamiento y persistencia del servidor, permitiendo que ambas partes evolucionen de forma independiente."));
+            list.Add(BulletParagraph("• Sin Estado (Statelessness):", "Cada petición enviada desde un cliente hacia el servidor RESTful debe contener toda la información requerida para procesarla. El servidor no mantiene estado de sesión transaccional entre llamadas sucesivas, facilitando el balanceo de carga y la escalabilidad horizontal."));
+            list.Add(BulletParagraph("• Capacidad de Almacenamiento en Caché (Cacheability):", "Las respuestas HTTP deben etiquetarse implícita o explícitamente como almacenables o no almacenables en caché, optimizando la eficiencia de la red en lecturas repetitivas."));
+            list.Add(BulletParagraph("• Sistema en Capas (Layered System):", "La arquitectura permite intercalar intermediarios transparentes (proxies inversos, balanceadores de carga, puertas de enlace de API) sin que el cliente requiera conocer la topología de red subyacente."));
+            list.Add(BulletParagraph("• Interfaz Uniforme (Uniform Interface):", "Es la restricción central de REST que simplifica la interacción mediante cuatro pilares: identificación unívoca de recursos a través de URIs (ej. /api/cuentas, /api/movimientos/deposito), manipulación de recursos mediante representaciones estructuradas (JSON), mensajes autodescriptivos mediante encabezados Content-Type y el uso de hipermedios para guiar la navegación."));
+
+            list.Add(Paragraph("Para la manipulación de recursos y transacciones bancarias, el sistema EurekaBank implementa verbos semánticos HTTP estandarizados:"));
+            list.Add(BulletParagraph("• GET (Lectura Segura e Idempotente):", "Se emplea exclusivamente para recuperar información sin provocar efectos colaterales en la base de datos (ej. GET /api/sucursales para listar sucursales, GET /api/cuentas para listar cuentas, GET /api/cuentas/{numeroCuenta} para obtener el saldo y titular, GET /api/cuentas/{numeroCuenta}/movimientos para consultar el extracto cronológico)."));
+            list.Add(BulletParagraph("• POST (Procesamiento y Creación de Transacciones):", "Se utiliza para someter operaciones financieras con mutación de estado o procesamiento de negocio mediante cargas útiles JSON en el cuerpo de la petición (ej. POST /api/auth/login para autenticación, POST /api/movimientos/deposito para acreditar depósitos, POST /api/movimientos/retiro para débitos en ventanilla y POST /api/movimientos/transferencia para traspasos entre cuentas)."));
+
+            list.Add(Paragraph("Asimismo, el servidor RESTful comunica el resultado de cada operación mediante códigos de estado semánticos del protocolo HTTP:"));
+            list.Add(BulletParagraph("• 200 OK:", "La petición fue recibida, procesada y completada exitosamente, retornando los datos solicitados o la confirmación de la transacción."));
+            list.Add(BulletParagraph("• 400 Bad Request:", "La solicitud contiene parámetros no válidos, montos menores o iguales a cero, o infringe una regla de negocio bancaria (saldo insuficiente para retiro)."));
+            list.Add(BulletParagraph("• 401 Unauthorized:", "Fallo de autenticación debido a credenciales de usuario o contraseña incorrectas al consultar el endpoint /api/auth/login."));
+            list.Add(BulletParagraph("• 403 Forbidden:", "Acceso denegado debido a privilegios insuficientes del operador bancario."));
+            list.Add(BulletParagraph("• 404 Not Found:", "El recurso bancario solicitado no existe en el sistema (ej. número de cuenta no encontrado en la base de datos)."));
+            list.Add(BulletParagraph("• 409 Conflict:", "Conflicto transaccional de concurrencia. Se emite cuando una ventanilla intenta operar sobre una cuenta que se encuentra bloqueada en estado ROJO por otra ventanilla activa."));
+
+            list.Add(Paragraph("En lugar de contratos XML rígidos (WSDL), la arquitectura RESTful documenta sus servicios mediante la Especificación OpenAPI (OAS 3.0). El paquete Swashbuckle.AspNetCore inspecciona los controladores de ASP.NET Core en tiempo de ejecución, genera automáticamente el documento de especificación JSON y expone la interfaz interactiva Swagger UI en la ruta /swagger, permitiendo a los desarrolladores explorar endpoints, esquemas JSON y ejecutar pruebas transaccionales directamente desde el navegador web."));
 
             list.Add(Heading2("3.3 Patrón Arquitectónico MVC Tradicional en el Ecosistema .NET"));
             list.Add(Paragraph("El patrón Modelo-Vista-Controlador (MVC Tradicional) divide la responsabilidad de un sistema de software en tres componentes fundamentales y desacoplados:"));
-            list.Add(BulletParagraph("• Modelo (Model):", "Encapsula la estructura de datos del dominio, las entidades de negocio y la persistencia o interacción con el servicio RESTful remoto (EurekaBankRestModel.cs). En la arquitectura de cliente delgado, el modelo no contiene reglas de negocio financieras ni conexión directa a bases de datos, sino que actúa como proxy cliente de comunicación remota."));
-            list.Add(BulletParagraph("• Vista (View):", "Es la encargada de presentar los datos de forma visual al usuario y capturar los eventos o entradas del operador (interfaces de consola, formularios de Windows Forms, páginas Razor en ASP.NET Core o páginas XAML en .NET MAUI). La vista no procesa datos ni realiza llamadas de red directamente; delega toda acción al controlador."));
-            list.Add(BulletParagraph("• Controlador (Controller):", "Coordina el flujo de ejecución entre la vista y el modelo. Recibe las interacciones del operador desde la vista, valida los parámetros de entrada, invoca las operaciones del modelo y actualiza la vista con el resultado de la operación."));
+            list.Add(BulletParagraph("• Modelo (Model):", "Encapsula la estructura de datos del dominio, las entidades de negocio y la comunicación remota con la API RESTful (EurekaBankRestModel.cs). En la arquitectura de cliente delgado, el modelo no contiene reglas de negocio financieras ni conexión directa a bases de datos, sino que actúa como proxy cliente HTTP/JSON utilizando HttpClient y System.Text.Json. En el servidor, el modelo (EurekaBankBddModel.cs y ConcurrenciaMashupModel.cs) gestiona la persistencia relacional y el bloqueo ACID."));
+            list.Add(BulletParagraph("• Vista (View):", "Es la encargada de presentar los datos de forma visual al usuario y capturar los eventos o entradas del operador (interfaces de consola ANSI, formularios de Windows Forms, páginas Razor en ASP.NET Core o páginas XAML en .NET MAUI). La vista no procesa datos ni realiza llamadas de red directamente; delega toda acción al controlador."));
+            list.Add(BulletParagraph("• Controlador (Controller):", "Coordina el flujo de ejecución entre la vista y el modelo. Recibe las interacciones del operador desde la vista, valida los parámetros de entrada, invoca las operaciones del modelo y actualiza la vista con el resultado de la operación (AppControlador.cs en los clientes y EurekaBankRestController.cs en el servidor)."));
             list.Add(Paragraph("En cumplimiento estricto con las directrices de la cátedra de Ingeniería de Software, no se incorporan capas adicionales de servicios intermedios (como Application Services, Service Layers o Unit of Work externos) que desvirtúen el patrón MVC Tradicional Puro."));
 
             list.Add(Heading2("3.4 Concurrencia Transaccional ACID y Bloqueo Pesimista en Motores Relacionales"));
             list.Add(Paragraph("En un sistema bancario que atiende transacciones simultáneas desde múltiples ventanillas físicas y canales remotos, las propiedades ACID garantizan que el balance de las cuentas se mantenga íntegro en todo momento:"));
             list.Add(BulletParagraph("• Atomicidad:", "La transacción bancaria es una unidad indivisible: o se aplican todas sus operaciones (débito, crédito y registro en auditoría) o no se aplica ninguna, revirtiendo el estado mediante ROLLBACK."));
             list.Add(BulletParagraph("• Consistencia:", "Una transacción solo puede transformar la base de datos de un estado válido a otro estado válido, respetando las restricciones de saldo no negativo, tipos de datos y claves foráneas."));
-            list.Add(BulletParagraph("• Aislamiento:", "Las operaciones concurrentes no interfieren entre sí. Para evitar la sobreescritura de balances por lecturas concurrentes obsoletas, el sistema implementa bloqueo pesimista a nivel de fila mediante sentencias SQL SELECT saldo FROM cuenta WHERE numero_cuenta = @cta FOR UPDATE, bloqueando la fila hasta que la transacción confirme con COMMIT."));
+            list.Add(BulletParagraph("• Aislamiento:", "Las operaciones concurrentes no interfieren entre sí. Para evitar la sobreescritura de balances por lecturas concurrentes obsoletas, el sistema implementa bloqueo pesimista a nivel de fila mediante sentencias SQL SELECT saldo, estado FROM cuenta WHERE numero_cuenta = @cta FOR UPDATE, bloqueando la fila hasta que la transacción confirme con COMMIT."));
             list.Add(BulletParagraph("• Durabilidad:", "Una vez confirmada la transacción mediante COMMIT, los cambios persisten de manera irreversible en el almacenamiento secundario, resistiendo caídas de energía o fallos del servidor."));
 
             list.Add(Heading2("3.5 Mecanismo MashUp de Monitoreo Cromático para Ventanillas"));
             list.Add(Paragraph("El Semáforo MashUp de Concurrencia es un componente visual y distribuido que refleja en tiempo real el estado operacional de cada cuenta bancaria del sistema:"));
             list.Add(BulletParagraph("• Estado VERDE (Libre):", "Indica que la cuenta bancaria está disponible para ser consultada o para iniciar una transacción desde cualquier ventanilla autorizada."));
-            list.Add(BulletParagraph("• Estado ROJO (Ocupada en Ventanilla):", "Indica que un cajero u operador bancario está procesando una transacción activa de depósito, retiro o transferencia sobre la cuenta. Durante el intervalo transaccional (delimitado por un retardo simulado de 4.5 segundos para propósitos pedagógicos), ninguna otra ventanilla puede operar sobre dicha cuenta, retornando un mensaje de advertencia y exclusión mutua."));
+            list.Add(BulletParagraph("• Estado ROJO (Ocupada en Ventanilla):", "Indica que un cajero u operador bancario está procesando una transacción activa de depósito, retiro o transferencia sobre la cuenta. Durante el intervalo transaccional (delimitado por un retardo simulado de 4.5 segundos para propósitos pedagógicos), ninguna otra ventanilla puede operar sobre dicha cuenta, retornando el código HTTP 409 Conflict con un mensaje de exclusión mutua."));
 
             list.Add(Heading2("3.6 Tecnologías de Interfaz de Usuario en C# (.NET 10)"));
             list.Add(Paragraph("Para demostrar la interoperabilidad del servicio RESTful en .NET, se implementan cuatro tecnologías de cliente heterogéneas:"));
@@ -81,7 +96,7 @@ namespace DocGen
             // =========================================================================
             // SECCIÓN 4: GUÍA TÉCNICA DE INSTALACIÓN, CONFIGURACIÓN Y DESARROLLO
             // =========================================================================
-            list.Add(Heading1("4 GUIA TECNICA DE INSTALACION, CONFIGURACION Y DESARROLLO PASO A PASO"));
+            list.Add(Heading1("4 GUÍA TÉCNICA DE INSTALACIÓN, CONFIGURACIÓN Y DESARROLLO PASO A PASO"));
 
             // 4.1 Infraestructura de Base de Datos
             list.Add(Heading2("4.1 Configuración de la Infraestructura de Base de Datos Contenerizada"));
@@ -156,25 +171,25 @@ CREATE TABLE cliente (
     dni VARCHAR(20) NOT NULL UNIQUE,
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
-    direccion VARCHAR(200),
     telefono VARCHAR(20),
-    email VARCHAR(100)
+    email VARCHAR(100),
+    direccion VARCHAR(200)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 4. Tabla: cuenta (Soporta bloqueo pesimista SELECT ... FOR UPDATE)
+-- 4. Tabla: cuenta (Saldos en USD con bloqueo SELECT FOR UPDATE)
 CREATE TABLE cuenta (
     numero_cuenta VARCHAR(20) PRIMARY KEY,
-    moneda VARCHAR(10) NOT NULL DEFAULT 'USD',
-    saldo DECIMAL(12, 2) NOT NULL DEFAULT 0.00,
     id_cliente INT NOT NULL,
     id_sucursal INT NOT NULL,
+    moneda VARCHAR(10) NOT NULL DEFAULT 'USD',
+    saldo DECIMAL(12, 2) NOT NULL DEFAULT 0.00,
     estado ENUM('Activa', 'Bloqueada') NOT NULL DEFAULT 'Activa',
     fecha_apertura TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
     FOREIGN KEY (id_sucursal) REFERENCES sucursal(id_sucursal)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 5. Tabla: control_mashup (Semáforo Cromático en Tiempo Real: VERDE = Libre, ROJO = Ocupada en Ventanilla)
+-- 5. Tabla: control_mashup (Semáforo de Concurrencia en Tiempo Real)
 CREATE TABLE control_mashup (
     numero_cuenta VARCHAR(20) PRIMARY KEY,
     estado_mashup ENUM('VERDE', 'ROJO') NOT NULL DEFAULT 'VERDE',
@@ -184,14 +199,14 @@ CREATE TABLE control_mashup (
     FOREIGN KEY (numero_cuenta) REFERENCES cuenta(numero_cuenta) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 6. Tabla: movimiento (Auditoría e Historial Cronológico ACID)
+-- 6. Tabla: movimiento (Auditoría cronológica de transacciones ACID)
 CREATE TABLE movimiento (
     id_movimiento INT AUTO_INCREMENT PRIMARY KEY,
     numero_operacion VARCHAR(50) NOT NULL UNIQUE,
     numero_cuenta VARCHAR(20) NOT NULL,
     id_empleado INT NOT NULL,
     ventanilla INT DEFAULT 1,
-    tipo VARCHAR(40) NOT NULL,
+    tipo ENUM('Deposito', 'Retiro', 'Transferencia') NOT NULL,
     monto DECIMAL(12, 2) NOT NULL,
     saldo_resultante DECIMAL(12, 2) NOT NULL,
     cuenta_referencia VARCHAR(20) DEFAULT NULL,
@@ -201,39 +216,34 @@ CREATE TABLE movimiento (
     FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- =============================================================================
--- DATOS SEMILLA (SEEDERS) - CREDENCIALES: Monster / Monster9
--- Hash BCrypt verificado para 'Monster9': $2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK
--- =============================================================================
+-- Datos Semilla (Seeders)
+INSERT INTO sucursal (id_sucursal, codigo, nombre, ciudad, direccion) VALUES
+(1, 'SUC-001', 'Matriz ESPE Sangolquí', 'Sangolquí', 'Av. General Rumiñahui s/n'),
+(2, 'SUC-002', 'Sucursal Norte La Carolina', 'Quito', 'Av. Amazonas y República'),
+(3, 'SUC-003', 'Sucursal Guayaquil Centro', 'Guayaquil', 'Av. 9 de Octubre y Malecón');
 
-INSERT INTO sucursal (codigo, nombre, ciudad, direccion) VALUES
-('001', 'Sucursal Matriz ESPE', 'Sangolquí', 'Av. Gral. Rumiñahui s/n'),
-('002', 'Sucursal Norte La Carolina', 'Quito', 'Av. Amazonas y Naciones Unidas'),
-('003', 'Sucursal Centro Financiero', 'Guayaquil', 'Av. 9 de Octubre y Malecón');
+-- Empleados: contraseña 'Monster9' hasheada con BCrypt ($2a$10$wE99QO1U76...)
+INSERT INTO empleado (id_empleado, usuario, password, nombre_completo, rol, id_sucursal, ventanilla) VALUES
+(1, 'Monster',   '$2a$10$wE99QO1U76qQJ0yK8U4bOu8uE1Gk0u0m5o6L4V6zFf5vN2m3k7Y2S', 'Monster Admin General', 'Superadmin Monster', 1, 1),
+(2, 'cajero1',   '$2a$10$wE99QO1U76qQJ0yK8U4bOu8uE1Gk0u0m5o6L4V6zFf5vN2m3k7Y2S', 'Cajero Ventanilla 1',   'Cajero',             1, 1),
+(3, 'cajero2',   '$2a$10$wE99QO1U76qQJ0yK8U4bOu8uE1Gk0u0m5o6L4V6zFf5vN2m3k7Y2S', 'Cajero Ventanilla 2',   'Cajero',             1, 2),
+(4, 'cajero3',   '$2a$10$wE99QO1U76qQJ0yK8U4bOu8uE1Gk0u0m5o6L4V6zFf5vN2m3k7Y2S', 'Cajero Ventanilla 3',   'Cajero',             2, 3),
+(5, 'cajero4',   '$2a$10$wE99QO1U76qQJ0yK8U4bOu8uE1Gk0u0m5o6L4V6zFf5vN2m3k7Y2S', 'Cajero Ventanilla 4',   'Cajero',             3, 4),
+(6, 'gerente01', '$2a$10$wE99QO1U76qQJ0yK8U4bOu8uE1Gk0u0m5o6L4V6zFf5vN2m3k7Y2S', 'Gerente Operativo ESPE', 'Gerente',            1, NULL);
 
-INSERT INTO empleado (usuario, password, nombre_completo, rol, id_sucursal, ventanilla) VALUES
-('Monster',  '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'James P. Sullivan (Monster Admin)', 'Superadmin Monster', 1, 1),
-('cajero1',  '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'Alejandro Flores (Ventanilla 1)',   'Cajero',             1, 1),
-('cajero2',  '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'Anthony Morales (Ventanilla 2)',    'Cajero',             1, 2),
-('cajero3',  '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'Leonardo Narváez (Ventanilla 3)',   'Cajero',             1, 3),
-('cajero4',  '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'Mike Wazowski (Ventanilla 4)',      'Cajero',             2, 4),
-('gerente1', '$2a$10$sr3qsj1UdWynnqBnwUfV5OS3slm0Lo5uyHwyyIuNiAfc5jmDLioMK', 'María López (Gerente Sucursal)',    'Gerente',            1, NULL);
+INSERT INTO cliente (id_cliente, dni, nombre, apellido, telefono, email, direccion) VALUES
+(1, '1710000001', 'James P.', 'Sullivan', '0991111111', 'sullivan@monster.edu.ec', 'Monsters Inc. Sector A'),
+(2, '1710000002', 'Mike',     'Wazowski', '0992222222', 'mike@monster.edu.ec',     'Monsters Inc. Sector B'),
+(3, '1710000003', 'Randall',  'Boggs',    '0993333333', 'randall@monster.edu.ec',  'Scream Floor 3'),
+(4, '1710000004', 'Celia',    'Mae',      '0994444444', 'celia@monster.edu.ec',    'Reception Tower');
 
-INSERT INTO cliente (dni, nombre, apellido, direccion, telefono, email) VALUES
-('1700000001', 'James P.',  'Sullivan', 'Monstropolis Av. Central 101', '0991000001', 'monster@monster.edu.ec'),
-('1712345678', 'Alejandro', 'Flores',   'Av. Gral. Rumiñahui, Sangolquí', '0992345678', 'acflores@espe.edu.ec'),
-('1723456789', 'Anthony',   'Morales',  'Av. América, Quito',           '0993456789', 'aamorales@espe.edu.ec'),
-('1734567890', 'Leonardo',  'Narváez',  'Av. 6 de Diciembre, Quito',    '0994567890', 'lvnarvaez@espe.edu.ec'),
-('1745678901', 'Carlos',    'García',   'Av. Amazonas 450, Quito',      '0995678901', 'carlos.garcia@correo.com'),
-('1756789012', 'Ana',       'Torres',   'Av. 9 de Octubre, Guayaquil',  '0996789012', 'ana.torres@correo.com');
-
-INSERT INTO cuenta (numero_cuenta, moneda, saldo, id_cliente, id_sucursal, estado) VALUES
-('001-0001', 'USD', 2500.00, 1, 1, 'Activa'),
-('001-0002', 'USD', 1800.00, 2, 1, 'Activa'),
-('001-0003', 'USD', 3200.50, 3, 1, 'Activa'),
-('001-0004', 'USD',  950.00, 4, 1, 'Activa'),
-('002-0001', 'USD', 4100.00, 5, 2, 'Activa'),
-('003-0001', 'USD', 1500.00, 6, 3, 'Activa');
+INSERT INTO cuenta (numero_cuenta, id_cliente, id_sucursal, moneda, saldo, estado) VALUES
+('001-0001', 1, 1, 'USD', 2500.00, 'Activa'),
+('001-0002', 2, 1, 'USD', 1800.00, 'Activa'),
+('001-0003', 3, 1, 'USD', 3200.50, 'Activa'),
+('001-0004', 4, 1, 'USD',  950.00, 'Activa'),
+('002-0001', 1, 2, 'USD', 4100.00, 'Activa'),
+('003-0001', 2, 3, 'USD', 1500.00, 'Activa');
 
 INSERT INTO control_mashup (numero_cuenta, estado_mashup, ventanilla, bloqueado_por) VALUES
 ('001-0001', 'VERDE', NULL, NULL),
@@ -281,13 +291,13 @@ INSERT INTO movimiento (numero_operacion, numero_cuenta, id_empleado, ventanilla
 
             // 4.2 Servidor ASP.NET Core Web API
             list.Add(Heading2("4.2 Creación del Proyecto Servidor RESTful ASP.NET Core Web API en .NET 10"));
-            list.Add(Paragraph("Para la construcción del servidor RESTful central, se utiliza el SDK de .NET 10 y el framework web Kestrel. Desde la terminal de comandos o Visual Studio 2026/2022, se genera un proyecto web vacío mediante el comando:"));
-            list.Add(CodeBox("dotnet new web -n WS_EurekaBank_DotNet_RESTful\ncd WS_EurekaBank_DotNet_RESTful"));
+            list.Add(Paragraph("Para la construcción del servidor RESTful central, se utiliza el SDK oficial de .NET 10 y el marco web ASP.NET Core Web API sobre el servidor Kestrel. Desde la terminal de comandos de PowerShell o Visual Studio 2026/2022, se genera un proyecto de tipo Web API mediante el comando:"));
+            list.Add(CodeBox("dotnet new webapi -n WS_EurekaBank_DotNet_REST\ncd WS_EurekaBank_DotNet_REST"));
 
-            list.Add(Paragraph("A continuación, se instalan los paquetes NuGet necesarios para el soporte de servicios WCF, conectividad nativa a MySQL y validación criptográfica BCrypt:"));
-            list.Add(CodeBox("dotnet add package ASP.NET Core Web API.Http --version 1.8.0\ndotnet add package ASP.NET Core Web API.Primitives --version 1.8.0\ndotnet add package MySqlConnector --version 2.5.0\ndotnet add package BCrypt.Net-Next --version 4.0.3"));
+            list.Add(Paragraph("A continuación, se instalan los paquetes NuGet necesarios para la conectividad nativa a MySQL (MySqlConnector), validación criptográfica de contraseñas mediante BCrypt (BCrypt.Net-Next) y la generación automática de la documentación interactiva OpenAPI mediante Swagger UI (Swashbuckle.AspNetCore):"));
+            list.Add(CodeBox("dotnet add package MySqlConnector --version 2.5.0\ndotnet add package BCrypt.Net-Next --version 4.0.3\ndotnet add package Swashbuckle.AspNetCore --version 6.9.0"));
 
-            list.Add(TableCaption(4, "Descriptor de Proyecto Servidor ASP.NET Core Web API WS_EurekaBank_DotNet_RESTful.csproj"));
+            list.Add(TableCaption(4, "Descriptor de Proyecto Servidor ASP.NET Core Web API WS_EurekaBank_DotNet_REST.csproj"));
             list.Add(CodeBox("""
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
@@ -295,27 +305,26 @@ INSERT INTO movimiento (numero_operacion, numero_cuenta, id_empleado, ventanilla
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>ec.edu.monster</RootNamespace>
-    <AssemblyName>WS_EurekaBank_DotNet_RESTful</AssemblyName>
-    <NoWarn>$(NoWarn);NU1902;NU1903;NU1904</NoWarn>
+    <AssemblyName>WS_EurekaBank_DotNet_REST</AssemblyName>
+    <NoWarn>$(NoWarn);NU1901;NU1902;NU1903;NU1904</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ASP.NET Core Web API.Http" Version="1.8.0" />
-    <PackageReference Include="ASP.NET Core Web API.Primitives" Version="1.8.0" />
     <PackageReference Include="MySqlConnector" Version="2.5.0" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
   </ItemGroup>
 </Project>
 """));
 
-            list.Add(FigureCaption(2, "Creación y Estructura del Proyecto Servidor ASP.NET Core Web API en Visual Studio / CLI"));
+            list.Add(FigureCaption(2, "Creación y Estructura del Proyecto Servidor RESTful ASP.NET Core Web API en Visual Studio / CLI"));
             list.Add(ScreenshotBox(
                 2,
-                "Creación y Estructura del Proyecto Servidor ASP.NET Core Web API en Visual Studio / CLI",
+                "Creación y Estructura del Proyecto Servidor RESTful ASP.NET Core Web API en Visual Studio / CLI",
                 "Visual Studio 2026 / Visual Studio 2022 Community o terminal PowerShell con .NET 10 SDK.",
-                "Creación del proyecto ASP.NET Core Empty 'WS_EurekaBank_DotNet_RESTful' agregando los paquetes NuGet de ASP.NET Core Web API.",
+                "Creación del proyecto ASP.NET Core Web API 'WS_EurekaBank_DotNet_REST' agregando los paquetes NuGet correspondientes.",
                 "Verificar la instalación de paquetes con 'dotnet list package' y la compilación exitosa mediante 'dotnet build'.",
-                "Compilación limpia sin errores ni advertencias, generando el ensamblado WS_EurekaBank_DotNet_RESTful.dll en net10.0."
+                "Compilación limpia sin errores ni advertencias, generando el ensamblado WS_EurekaBank_DotNet_REST.dll en net10.0."
             ));
 
             // 4.3 Organización Modular MVC
@@ -330,9 +339,10 @@ INSERT INTO movimiento (numero_operacion, numero_cuenta, id_empleado, ventanilla
                 {
                     new[] { "ec.edu.monster.model", "EurekaBankBddModel.cs", "Modelo relacional ACID: conexión MySQL, bloqueo SELECT FOR UPDATE, transacciones y BCrypt." },
                     new[] { "ec.edu.monster.model", "ConcurrenciaMashupModel.cs", "Gestión de exclusión mutua y persistencia del semáforo MashUp (VERDE / ROJO) en base de datos." },
-                    new[] { "ec.edu.monster.model", "ModelosDominio.cs", "Contratos de datos ([DataContract]): CuentaModel, MovimientoModel, OperacionModel, UsuarioModel." },
-                    new[] { "ec.edu.monster.controller", "EurekaBankRestController.cs", "Controlador RESTful: define EurekaBankRestController ([ServiceContract]) y atiende peticiones WCF." },
-                    new[] { "ec.edu.monster.view", "EstadoServidorView.cs", "Vista web HTML generada en el endpoint raíz / para diagnóstico y monitoreo de estado." }
+                    new[] { "ec.edu.monster.model", "ModelosDominio.cs", "Entidades de dominio para serialización JSON: CuentaModel, MovimientoModel, OperacionModel, UsuarioModel." },
+                    new[] { "ec.edu.monster.model", "RestPeticionesModel.cs", "DTOs de peticiones RESTful: LoginRestRequest, TransaccionRestRequest, TransferenciaRestRequest, BloqueoRestRequest." },
+                    new[] { "ec.edu.monster.controller", "EurekaBankRestController.cs", "Controlador RESTful (ControllerBase): mapea verbos semánticos HTTP ([HttpGet], [HttpPost]) y códigos de estado." },
+                    new[] { "ec.edu.monster.view", "EstadoServidorView.cs", "Vista web HTML generada en el endpoint raíz / para diagnóstico y monitoreo de estado en Kestrel." }
                 }
             ));
 
@@ -341,71 +351,99 @@ INSERT INTO movimiento (numero_operacion, numero_cuenta, id_empleado, ventanilla
                 3,
                 "Explorador de Soluciones y Organización Modular MVC del Servidor en Visual Studio",
                 "Entorno de Desarrollo Visual Studio 2026 / 2022 Community.",
-                "Ventana 'Explorador de soluciones' con el proyecto WS_EurekaBank_DotNet_RESTful expandido.",
+                "Ventana 'Explorador de soluciones' con el proyecto WS_EurekaBank_DotNet_REST expandido.",
                 "Desplegar las carpetas ec.edu.monster.controller, ec.edu.monster.model y ec.edu.monster.view.",
                 "Visualización ordenada de los namespaces con todos los archivos .cs compilados sin errores."
             ));
 
             // 4.4 Modelos de Dominio y Persistencia
             list.Add(Heading2("4.4 Modelos de Dominio y Capa de Persistencia Relacional"));
-            list.Add(Paragraph("Los modelos de datos que viajan a través del protocolo RESTful deben decorarse con los atributos de serialización [DataContract] y [DataMember] para asegurar su transformación exacta en tipos de esquema XSD dentro del Swagger / OpenAPI:"));
+            list.Add(Paragraph("Los modelos de datos representan las entidades del dominio bancario y los DTOs de solicitud para las peticiones RESTful. Al utilizar ASP.NET Core Web API, estas clases se serializan y deserializan de forma transparente a objetos JSON utilizando System.Text.Json:"));
 
-            list.Add(TableCaption(6, "Modelos de Dominio y Contratos de Datos ModelosDominio.cs"));
+            list.Add(TableCaption(6, "Modelos de Dominio y DTOs de Peticiones RESTful ModelosDominio.cs y RestPeticionesModel.cs"));
             list.Add(CodeBox("""
-using System.Runtime.Serialization;
-
 namespace ec.edu.monster.model
 {
-    [DataContract(Namespace = "http://ws.monster.edu.ec/")]
     public class UsuarioModel
     {
-        [DataMember(Order = 1)] public bool Autenticado { get; set; }
-        [DataMember(Order = 2)] public int IdEmpleado { get; set; }
-        [DataMember(Order = 3)] public string Usuario { get; set; } = string.Empty;
-        [DataMember(Order = 4)] public string NombreCompleto { get; set; } = string.Empty;
-        [DataMember(Order = 5)] public string Rol { get; set; } = string.Empty;
-        [DataMember(Order = 6)] public int IdSucursal { get; set; }
-        [DataMember(Order = 7)] public int Ventanilla { get; set; }
-        [DataMember(Order = 8)] public string Token { get; set; } = string.Empty;
-        [DataMember(Order = 9)] public string Mensaje { get; set; } = string.Empty;
+        public bool Autenticado { get; set; }
+        public int IdEmpleado { get; set; }
+        public string Usuario { get; set; } = string.Empty;
+        public string NombreCompleto { get; set; } = string.Empty;
+        public string Rol { get; set; } = string.Empty;
+        public int IdSucursal { get; set; }
+        public int Ventanilla { get; set; }
+        public string Token { get; set; } = string.Empty;
+        public string Mensaje { get; set; } = string.Empty;
     }
 
-    [DataContract(Namespace = "http://ws.monster.edu.ec/")]
     public class CuentaModel
     {
-        [DataMember(Order = 1)] public string NumeroCuenta { get; set; } = string.Empty;
-        [DataMember(Order = 2)] public string Moneda { get; set; } = "USD";
-        [DataMember(Order = 3)] public double Saldo { get; set; }
-        [DataMember(Order = 4)] public string EstadoCuenta { get; set; } = "Activa";
-        [DataMember(Order = 5)] public int IdCliente { get; set; }
-        [DataMember(Order = 6)] public string DniCliente { get; set; } = string.Empty;
-        [DataMember(Order = 7)] public string NombreCliente { get; set; } = string.Empty;
-        [DataMember(Order = 8)] public string ApellidoCliente { get; set; } = string.Empty;
-        [DataMember(Order = 9)] public string TelefonoCliente { get; set; } = string.Empty;
-        [DataMember(Order = 10)] public string EmailCliente { get; set; } = string.Empty;
-        [DataMember(Order = 11)] public int IdSucursal { get; set; }
-        [DataMember(Order = 12)] public string NombreSucursal { get; set; } = string.Empty;
-        [DataMember(Order = 13)] public string EstadoMashup { get; set; } = "VERDE";
-        [DataMember(Order = 14)] public int VentanillaOcupada { get; set; }
-        [DataMember(Order = 15)] public string BloqueadoPor { get; set; } = string.Empty;
+        public string NumeroCuenta { get; set; } = string.Empty;
+        public string Moneda { get; set; } = "USD";
+        public double Saldo { get; set; }
+        public string EstadoCuenta { get; set; } = "Activa";
+        public int IdCliente { get; set; }
+        public string DniCliente { get; set; } = string.Empty;
+        public string NombreCliente { get; set; } = string.Empty;
+        public string ApellidoCliente { get; set; } = string.Empty;
+        public string TelefonoCliente { get; set; } = string.Empty;
+        public string EmailCliente { get; set; } = string.Empty;
+        public int IdSucursal { get; set; }
+        public string NombreSucursal { get; set; } = string.Empty;
+        public string EstadoMashup { get; set; } = "VERDE";
+        public int VentanillaOcupada { get; set; }
+        public string BloqueadoPor { get; set; } = string.Empty;
 
         public string TitularCompleto => $"{NombreCliente} {ApellidoCliente}".Trim();
     }
 
-    [DataContract(Namespace = "http://ws.monster.edu.ec/")]
     public class OperacionModel
     {
-        [DataMember(Order = 1)] public bool Exito { get; set; }
-        [DataMember(Order = 2)] public string Codigo { get; set; } = string.Empty;
-        [DataMember(Order = 3)] public string Mensaje { get; set; } = string.Empty;
-        [DataMember(Order = 4)] public string NumeroOperacion { get; set; } = string.Empty;
-        [DataMember(Order = 5)] public string NumeroCuenta { get; set; } = string.Empty;
-        [DataMember(Order = 6)] public double SaldoAnterior { get; set; }
-        [DataMember(Order = 7)] public double MontoOperacion { get; set; }
-        [DataMember(Order = 8)] public double SaldoActual { get; set; }
-        [DataMember(Order = 9)] public string EstadoMashup { get; set; } = "VERDE";
-        [DataMember(Order = 10)] public int Ventanilla { get; set; }
-        [DataMember(Order = 11)] public string FechaHora { get; set; } = string.Empty;
+        public bool Exito { get; set; }
+        public string Codigo { get; set; } = string.Empty;
+        public string Mensaje { get; set; } = string.Empty;
+        public string NumeroOperacion { get; set; } = string.Empty;
+        public string NumeroCuenta { get; set; } = string.Empty;
+        public double SaldoAnterior { get; set; }
+        public double MontoOperacion { get; set; }
+        public double SaldoActual { get; set; }
+        public string EstadoMashup { get; set; } = "VERDE";
+        public int Ventanilla { get; set; }
+        public string FechaHora { get; set; } = string.Empty;
+
+        public static OperacionModel Error(string codigo, string mensaje, string estadoMashup = "VERDE", int ventanilla = 0) =>
+            new() { Exito = false, Codigo = codigo, Mensaje = mensaje, EstadoMashup = estadoMashup, Ventanilla = ventanilla, FechaHora = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") };
+    }
+
+    // DTOs de Entrada para Endpoints RESTful
+    public class LoginRestRequest
+    {
+        public string Usuario { get; set; } = string.Empty;
+        public string Clave { get; set; } = string.Empty;
+    }
+
+    public class TransaccionRestRequest
+    {
+        public string NumeroCuenta { get; set; } = string.Empty;
+        public double Monto { get; set; }
+        public int IdEmpleado { get; set; } = 1;
+        public int Ventanilla { get; set; } = 1;
+    }
+
+    public class TransferenciaRestRequest
+    {
+        public string CuentaOrigen { get; set; } = string.Empty;
+        public string CuentaDestino { get; set; } = string.Empty;
+        public double Monto { get; set; }
+        public int IdEmpleado { get; set; } = 1;
+        public int Ventanilla { get; set; } = 1;
+    }
+
+    public class BloqueoRestRequest
+    {
+        public int Ventanilla { get; set; } = 1;
+        public string Usuario { get; set; } = "Monster";
     }
 }
 """));
@@ -454,8 +492,8 @@ namespace ec.edu.monster.model
                     Rol = rd.GetString(4),
                     IdSucursal = rd.GetInt32(5),
                     Ventanilla = rd.GetInt32(6),
-                    Token = $"MONSTER-DOTNET-{Guid.NewGuid():N}",
-                    Mensaje = "Autenticación exitosa en EurekaBank (.NET)."
+                    Token = $"MONSTER-REST-{Guid.NewGuid():N}",
+                    Mensaje = "Autenticación exitosa en EurekaBank RESTful (.NET)."
                 };
             }
             catch (Exception ex)
@@ -467,10 +505,11 @@ namespace ec.edu.monster.model
         public OperacionModel Depositar(string numeroCuenta, double monto, int idEmpleado, int ventanilla)
         {
             if (monto <= 0)
-                return new OperacionModel { Exito = false, Codigo = "MONTO_INVALIDO", Mensaje = "El monto debe ser positivo." };
+                return OperacionModel.Error("MONTO_INVALIDO", "El monto a depositar debe ser mayor a cero.");
 
-            var lockRes = ConcurrenciaMashupModel.AdquirirBloqueo(numeroCuenta, ventanilla, $"Cajero {idEmpleado}");
-            if (!lockRes.Exito) return lockRes;
+            // Adquirir bloqueo en semáforo MashUp
+            if (!ConcurrenciaMashupModel.BloquearCuenta(numeroCuenta, ventanilla, $"Cajero {idEmpleado}"))
+                return OperacionModel.Error("CONCURRENCIA_BLOQUEADA", $"La cuenta {numeroCuenta} está en uso (ROJO) por otra ventanilla.", "ROJO", ventanilla);
 
             try
             {
@@ -478,22 +517,22 @@ namespace ec.edu.monster.model
                 con.Open();
                 using var tran = con.BeginTransaction(IsolationLevel.ReadCommitted);
 
-                // Bloqueo pesimista a nivel de fila
+                // Bloqueo pesimista a nivel de fila InnoDB
                 const string sqlCta = "SELECT saldo, estado FROM cuenta WHERE numero_cuenta = @cta FOR UPDATE;";
                 using var cmdCta = new MySqlCommand(sqlCta, con, tran);
                 cmdCta.Parameters.AddWithValue("@cta", numeroCuenta);
                 using var rd = cmdCta.ExecuteReader();
                 if (!rd.Read())
-                    return new OperacionModel { Exito = false, Mensaje = "Cuenta no encontrada." };
+                    return OperacionModel.Error("CUENTA_NO_EXISTE", "La cuenta bancaria no existe.");
 
                 decimal saldoActual = rd.GetDecimal(0);
                 string estado = rd.GetString(1);
                 rd.Close();
 
                 if (!string.Equals(estado, "Activa", StringComparison.OrdinalIgnoreCase))
-                    return new OperacionModel { Exito = false, Mensaje = "Cuenta inactiva o bloqueada." };
+                    return OperacionModel.Error("CUENTA_BLOQUEADA", "La cuenta se encuentra inactiva o bloqueada.");
 
-                // Retardo pedagógico para observar semáforo ROJO en tiempo real
+                // Retardo pedagógico para evidenciar la exclusión mutua en tiempo real
                 if (LockDelayMs > 0) Thread.Sleep(LockDelayMs);
 
                 decimal nuevoSaldo = saldoActual + (decimal)monto;
@@ -505,7 +544,7 @@ namespace ec.edu.monster.model
 
                 string opNum = $"DEP-{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}";
                 const string sqlMov = @"INSERT INTO movimiento (numero_operacion, numero_cuenta, id_empleado, ventanilla, tipo, monto, saldo_resultante, descripcion)
-                                        VALUES (@op, @cta, @emp, @ven, 'Deposito', @mon, @res, 'Depósito en efectivo');";
+                                        VALUES (@op, @cta, @emp, @ven, 'Deposito', @mon, @res, 'Depósito en efectivo por ventanilla');";
                 using var cmdMov = new MySqlCommand(sqlMov, con, tran);
                 cmdMov.Parameters.AddWithValue("@op", opNum);
                 cmdMov.Parameters.AddWithValue("@cta", numeroCuenta);
@@ -527,12 +566,13 @@ namespace ec.edu.monster.model
                     MontoOperacion = monto,
                     SaldoActual = (double)nuevoSaldo,
                     Ventanilla = ventanilla,
-                    EstadoMashup = "VERDE"
+                    EstadoMashup = "VERDE",
+                    FechaHora = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
                 };
             }
             finally
             {
-                ConcurrenciaMashupModel.LiberarBloqueo(numeroCuenta);
+                ConcurrenciaMashupModel.LiberarCuenta(numeroCuenta);
             }
         }
     }
@@ -543,83 +583,96 @@ namespace ec.edu.monster.model
 
             list.Add(TableCaption(8, "Gestor de Exclusión Mutua y Semáforo ConcurrenciaMashupModel.cs"));
             list.Add(CodeBox("""
+using System.Collections.Concurrent;
 using MySqlConnector;
 
 namespace ec.edu.monster.model
 {
-    public static class ConcurrenciaMashupModel
+    public class ConcurrenciaMashupModel
     {
-        public static string ConnectionString { get; set; } = EurekaBankBddModel.ConnectionString;
-        private static readonly object _syncRoot = new();
-
-        public static OperacionModel AdquirirBloqueo(string numeroCuenta, int ventanilla, string operador)
+        public class InfoBloqueo
         {
-            lock (_syncRoot)
+            public string NumeroCuenta { get; set; } = string.Empty;
+            public int Ventanilla { get; set; }
+            public string Usuario { get; set; } = string.Empty;
+            public DateTime Inicio { get; set; } = DateTime.Now;
+        }
+
+        private static readonly ConcurrentDictionary<string, InfoBloqueo> BloqueosActivos = new(StringComparer.OrdinalIgnoreCase);
+        private static readonly object SyncLock = new();
+        public static string ConnectionString { get; set; } =
+            "Server=127.0.0.1;Port=3306;Database=eurekabank_db;User ID=root;Password=admin;SslMode=None;AllowPublicKeyRetrieval=True;";
+
+        public static bool BloquearCuenta(string numeroCuenta, int ventanilla, string usuario)
+        {
+            string cta = (numeroCuenta ?? string.Empty).Trim();
+            if (string.IsNullOrEmpty(cta)) return false;
+
+            lock (SyncLock)
             {
-                try
+                if (BloqueosActivos.ContainsKey(cta) || EstaRojoEnBdd(cta))
                 {
-                    using var con = new MySqlConnection(ConnectionString);
-                    con.Open();
-                    const string sqlVer = "SELECT estado_mashup, ventanilla, bloqueado_por FROM control_mashup WHERE numero_cuenta = @cta;";
-                    using var cmdVer = new MySqlCommand(sqlVer, con);
-                    cmdVer.Parameters.AddWithValue("@cta", numeroCuenta);
-                    using var rd = cmdVer.ExecuteReader();
-                    if (rd.Read())
-                    {
-                        string estado = rd.GetString(0);
-                        int ventOcup = rd.IsDBNull(1) ? 0 : rd.GetInt32(1);
-                        string opOcup = rd.IsDBNull(2) ? "" : rd.GetString(2);
-                        rd.Close();
-
-                        if (estado == "ROJO")
-                        {
-                            return new OperacionModel
-                            {
-                                Exito = false,
-                                Codigo = "CUENTA_BLOQUEADA",
-                                Mensaje = $"La cuenta {numeroCuenta} está en uso (ROJO) por Ventanilla {ventOcup} ({opOcup}).",
-                                EstadoMashup = "ROJO"
-                            };
-                        }
-                    }
-                    else
-                    {
-                        rd.Close();
-                    }
-
-                    const string sqlUpd = @"INSERT INTO control_mashup (numero_cuenta, estado_mashup, ventanilla, bloqueado_por)
-                                            VALUES (@cta, 'ROJO', @ven, @op)
-                                            ON DUPLICATE KEY UPDATE estado_mashup = 'ROJO', ventanilla = @ven, bloqueado_por = @op;";
-                    using var cmdUpd = new MySqlCommand(sqlUpd, con);
-                    cmdUpd.Parameters.AddWithValue("@cta", numeroCuenta);
-                    cmdUpd.Parameters.AddWithValue("@ven", ventanilla);
-                    cmdUpd.Parameters.AddWithValue("@op", operador);
-                    cmdUpd.ExecuteNonQuery();
-
-                    return new OperacionModel { Exito = true, EstadoMashup = "ROJO" };
+                    return false;
                 }
-                catch (Exception ex)
+
+                var info = new InfoBloqueo
                 {
-                    return new OperacionModel { Exito = false, Mensaje = "Fallo de concurrencia: " + ex.Message };
-                }
+                    NumeroCuenta = cta,
+                    Ventanilla = ventanilla <= 0 ? 1 : ventanilla,
+                    Usuario = string.IsNullOrWhiteSpace(usuario) ? "Monster" : usuario.Trim(),
+                    Inicio = DateTime.Now
+                };
+                BloqueosActivos[cta] = info;
+                PersistirEstadoMashup(cta, "ROJO", info.Ventanilla, info.Usuario);
+                return true;
             }
         }
 
-        public static void LiberarBloqueo(string numeroCuenta)
+        public static void LiberarCuenta(string numeroCuenta)
         {
-            lock (_syncRoot)
+            string cta = (numeroCuenta ?? string.Empty).Trim();
+            if (string.IsNullOrEmpty(cta)) return;
+
+            lock (SyncLock)
             {
-                try
-                {
-                    using var con = new MySqlConnection(ConnectionString);
-                    con.Open();
-                    const string sql = "UPDATE control_mashup SET estado_mashup = 'VERDE', ventanilla = NULL, bloqueado_por = NULL WHERE numero_cuenta = @cta;";
-                    using var cmd = new MySqlCommand(sql, con);
-                    cmd.Parameters.AddWithValue("@cta", numeroCuenta);
-                    cmd.ExecuteNonQuery();
-                }
-                catch { }
+                BloqueosActivos.TryRemove(cta, out _);
+                PersistirEstadoMashup(cta, "VERDE", null, null);
             }
+        }
+
+        private static bool EstaRojoEnBdd(string numeroCuenta)
+        {
+            try
+            {
+                using var con = new MySqlConnection(ConnectionString);
+                con.Open();
+                const string sql = "SELECT estado_mashup FROM control_mashup WHERE numero_cuenta = @cta LIMIT 1;";
+                using var cmd = new MySqlCommand(sql, con);
+                cmd.Parameters.AddWithValue("@cta", numeroCuenta);
+                var val = cmd.ExecuteScalar()?.ToString();
+                return string.Equals(val, "ROJO", StringComparison.OrdinalIgnoreCase);
+            }
+            catch { return false; }
+        }
+
+        private static void PersistirEstadoMashup(string numeroCuenta, string estado, int? ventanilla, string? usuario)
+        {
+            try
+            {
+                using var con = new MySqlConnection(ConnectionString);
+                con.Open();
+                const string sql = @"
+                    INSERT INTO control_mashup (numero_cuenta, estado_mashup, ventanilla, bloqueado_por)
+                    VALUES (@cta, @est, @ven, @usr)
+                    ON DUPLICATE KEY UPDATE estado_mashup = @est, ventanilla = @ven, bloqueado_por = @usr;";
+                using var cmd = new MySqlCommand(sql, con);
+                cmd.Parameters.AddWithValue("@cta", numeroCuenta);
+                cmd.Parameters.AddWithValue("@est", estado);
+                cmd.Parameters.AddWithValue("@ven", (object?)ventanilla ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@usr", (object?)usuario ?? DBNull.Value);
+                cmd.ExecuteNonQuery();
+            }
+            catch { }
         }
     }
 }
@@ -627,7 +680,7 @@ namespace ec.edu.monster.model
 
             // 4.5 Controlador RESTful y Enrutamiento HTTP Semántico
             list.Add(Heading2("4.5 Controlador RESTful Central y Enrutamiento Semántico ASP.NET Core Web API"));
-            list.Add(Paragraph("En ASP.NET Core Web API, el controlador central hereda de ControllerBase y se decora con [ApiController] y [Route(\"api\")]. Cada método mapea un verbo HTTP semántico ([HttpGet], [HttpPost]), procesando solicitudes JSON y retornando códigos de estado estandarizados (200 OK, 400 Bad Request, 401 Unauthorized, 404 Not Found, 409 Conflict):"));
+            list.Add(Paragraph("En ASP.NET Core Web API, el controlador central hereda de ControllerBase y se decora con los atributos [ApiController] y [Route(\"api\")]. Cada método mapea un verbo HTTP semántico ([HttpGet], [HttpPost]), procesando solicitudes estructuradas en formato JSON y retornando códigos de estado estandarizados (200 OK, 400 Bad Request, 401 Unauthorized, 404 Not Found, 409 Conflict):"));
 
             list.Add(TableCaption(9, "Controlador RESTful Central EurekaBankRestController.cs"));
             list.Add(CodeBox("""
@@ -636,6 +689,10 @@ using ec.edu.monster.model;
 
 namespace ec.edu.monster.controller
 {
+    /// <summary>
+    /// Capa Controlador RESTful (MVC Tradicional) de EurekaBank en ASP.NET Core Web API.
+    /// Retorna códigos HTTP semánticos (200 OK, 400 Bad Request, 401 Unauthorized, 404 Not Found, 409 Conflict).
+    /// </summary>
     [ApiController]
     [Route("api")]
     public class EurekaBankRestController : ControllerBase
@@ -702,26 +759,30 @@ namespace ec.edu.monster.controller
             return ResolverCodigoHttp(res);
         }
 
-        [HttpPost("mashup/bloquear")]
-        public IActionResult Bloquear([FromBody] BloqueoRestRequest req)
+        [HttpPost("cuentas/{numeroCuenta}/bloquear")]
+        public IActionResult BloquearManual(string numeroCuenta, [FromBody] BloqueoRestRequest req)
         {
-            var res = _modelo.BloquearCuentaManual(req.NumeroCuenta, req.Ventanilla, req.Usuario);
+            var res = _modelo.BloquearCuentaManual(numeroCuenta, req.Ventanilla, req.Usuario);
             return ResolverCodigoHttp(res);
         }
 
-        [HttpPost("mashup/liberar")]
-        public IActionResult Liberar([FromBody] DesbloqueoRestRequest req)
+        [HttpPost("cuentas/{numeroCuenta}/desbloquear")]
+        public IActionResult Desbloquear(string numeroCuenta, [FromBody] BloqueoRestRequest req)
         {
-            var res = _modelo.DesbloquearCuenta(req.NumeroCuenta, req.UsuarioAdmin);
+            var res = _modelo.DesbloquearCuenta(numeroCuenta, req.Usuario);
             return ResolverCodigoHttp(res);
         }
 
         private IActionResult ResolverCodigoHttp(OperacionModel res)
         {
             if (res.Exito) return Ok(res);
-            if (res.Codigo == "CUENTA_OCUPADA") return Conflict(res); // HTTP 409 Conflict
-            if (res.Codigo == "CUENTA_NO_EXISTE") return NotFound(res); // HTTP 404 Not Found
-            return BadRequest(res); // HTTP 400 Bad Request
+            return res.Codigo switch
+            {
+                "CONCURRENCIA_BLOQUEADA" => Conflict(res), // HTTP 409 Conflict
+                "CUENTA_NO_EXISTE" => NotFound(res),       // HTTP 404 Not Found
+                "NO_AUTORIZADO" => StatusCode(403, res),   // HTTP 403 Forbidden
+                _ => BadRequest(res)                       // HTTP 400 Bad Request
+            };
         }
     }
 }
@@ -749,15 +810,10 @@ namespace ec.edu.monster.controller
 }
 """));
 
-            list.Add(Paragraph("El punto de entrada Program.cs inicializa el contenedor de inyección de dependencias, registra los servicios de ASP.NET Core Web API, habilita la publicación de metadatos Swagger / OpenAPI mediante ServiceMetadataBehavior y mapea el endpoint RESTful /EurekaBankWS.svc:"));
+            list.Add(Paragraph("El punto de entrada Program.cs inicializa el host Kestrel, registra los controladores de ASP.NET Core Web API, habilita el explorador de endpoints, activa la generación de documentación OpenAPI con SwaggerGen, configura políticas de CORS abiertas y mapea la ruta raíz / hacia la vista diagnóstica HTML:"));
 
-            list.Add(TableCaption(11, "Configuración de Kestrel, Metadatos y Endpoints ASP.NET Core Web API Program.cs"));
+            list.Add(TableCaption(11, "Configuración de Kestrel, Swagger OpenAPI y Enrutamiento RESTful Program.cs"));
             list.Add(CodeBox("""
-using ASP.NET Core Web API;
-using ASP.NET Core Web API.Channels;
-using ASP.NET Core Web API.Configuration;
-using ASP.NET Core Web API.Description;
-using ec.edu.monster.controller;
 using ec.edu.monster.model;
 using ec.edu.monster.view;
 
@@ -774,30 +830,17 @@ if (int.TryParse(builder.Configuration["EurekaBank:LockDelayMs"], out int delayM
     EurekaBankBddModel.LockDelayMs = delayMs;
 }
 
-builder.Services.AddServiceModelServices();
-builder.Services.AddServiceModelMetadata();
-builder.Services.AddSingleton<EurekaBankRestController>();
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddCors(opt => opt.AddDefaultPolicy(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
 var app = builder.Build();
 
-app.UseServiceModel(serviceBuilder =>
-{
-    serviceBuilder.AddService<EurekaBankRestController>(options =>
-    {
-        options.DebugBehavior.IncludeExceptionDetailInFaults = true;
-    });
-
-    var binding = new BasicHttpBinding(BasicHttpSecurityMode.None)
-    {
-        MaxReceivedMessageSize = 10 * 1024 * 1024
-    };
-
-    serviceBuilder.AddServiceEndpoint<EurekaBankRestController, EurekaBankRestController>(
-        binding, "/EurekaBankWS.svc");
-
-    var metadataBehavior = app.Services.GetRequiredService<ServiceMetadataBehavior>();
-    metadataBehavior.HttpGetEnabled = true;
-});
+app.UseCors();
+app.UseSwagger();
+app.UseSwaggerUI();
+app.MapControllers();
 
 app.MapGet("/", () =>
 {
@@ -809,9 +852,8 @@ app.MapGet("/", () =>
 app.Run();
 """));
 
-            list.Add(TableCaption(12, "Vista HTML de Diagnóstico del Servidor EstadoServidorView.cs"));
+            list.Add(TableCaption(12, "Vista HTML de Diagnóstico y Estado del Servidor EstadoServidorView.cs"));
             list.Add(CodeBox("""
-using System.Text;
 using ec.edu.monster.model;
 
 namespace ec.edu.monster.view
@@ -820,23 +862,45 @@ namespace ec.edu.monster.view
     {
         public static string RenderizarHtml(List<CuentaModel> cuentas)
         {
-            var sb = new StringBuilder();
-            sb.Append("<!DOCTYPE html><html><head><meta charset='utf-8'/><title>EurekaBank RESTful .NET 10</title>");
-            sb.Append("<style>body{font-family:sans-serif;background:#0f172a;color:#f8fafc;padding:24px;}");
-            sb.Append(".card{background:#1e293b;padding:20px;border-radius:8px;max-width:900px;margin:auto;}");
-            sb.Append("table{width:100%;border-collapse:collapse;margin-top:16px;}th,td{padding:8px 12px;border:1px solid #334155;}");
-            sb.Append(".badge-green{background:#166534;color:#dcfce7;padding:4px 8px;border-radius:4px;}");
-            sb.Append(".badge-red{background:#991b1b;color:#fee2e2;padding:4px 8px;border-radius:4px;}</style></head><body>");
-            sb.Append("<div class='card'><h2>EurekaBank ASP.NET Core Web API RESTful Server (.NET 10)</h2>");
-            sb.Append("<p>Dominio: <b>ec.edu.monster</b> | Swagger / OpenAPI: <a style='color:#38bdf8' href='/swagger'>/swagger</a></p>");
-            sb.Append("<table><tr><th>Cuenta</th><th>Titular</th><th>Saldo</th><th>Semáforo MashUp</th></tr>");
-            foreach (var c in cuentas)
+            int verdes = cuentas.Count(c => c.EstadoMashup != "ROJO");
+            int rojas = cuentas.Count(c => c.EstadoMashup == "ROJO");
+
+            var filas = string.Join("", cuentas.Select(c =>
             {
-                string cls = c.EstadoMashup == "ROJO" ? "badge-red" : "badge-green";
-                sb.Append($"<tr><td>{c.NumeroCuenta}</td><td>{c.TitularCompleto}</td><td>${c.Saldo:F2}</td><td><span class='{cls}'>{c.EstadoMashup}</span></td></tr>");
-            }
-            sb.Append("</table></div></body></html>");
-            return sb.ToString();
+                string badge = c.EstadoMashup == "ROJO"
+                    ? $"<span style='background:#fee2e2;color:#991b1b;padding:4px 10px;border-radius:999px;font-weight:700;'>ROJO (Ventanilla {c.VentanillaOcupada} - {c.BloqueadoPor})</span>"
+                    : "<span style='background:#dcfce7;color:#166534;padding:4px 10px;border-radius:999px;font-weight:700;'>VERDE (Libre)</span>";
+                return $"<tr><td><b>{c.NumeroCuenta}</b></td><td>{c.NombreCliente} {c.ApellidoCliente}</td><td>${c.Saldo:F2}</td><td>{c.NombreSucursal}</td><td>{badge}</td></tr>";
+            }));
+
+            return $@"<!DOCTYPE html>
+<html lang='es'>
+<head>
+  <meta charset='utf-8'/>
+  <meta http-equiv='refresh' content='2'/>
+  <title>WS_EurekaBank_DotNet_REST - ec.edu.monster</title>
+  <style>
+    body {{ font-family:'Segoe UI',sans-serif; background:#0f172a; color:#f8fafc; margin:0; padding:28px; }}
+    .box {{ max-width:980px; margin:auto; background:#1e293b; border:1px solid #334155; border-radius:12px; padding:24px; }}
+    h1 {{ margin-top:0; color:#38bdf8; font-size:22px; }}
+    a {{ color:#38bdf8; font-weight:700; }}
+    table {{ width:100%; border-collapse:collapse; margin-top:16px; background:#0f172a; border-radius:8px; overflow:hidden; }}
+    th, td {{ padding:10px 12px; border-bottom:1px solid #334155; text-align:left; font-size:14px; }}
+    th {{ background:#334155; color:#e2e8f0; }}
+  </style>
+</head>
+<body>
+  <div class='box'>
+    <h1>Servidor RESTful .NET (ASP.NET Core Web API) — EurekaBank GR04 (ec.edu.monster)</h1>
+    <p>Documentación OpenAPI / Swagger UI: <a href='/swagger'>http://localhost:5140/swagger</a> | Endpoint Cuentas: <a href='/api/cuentas'>/api/cuentas</a></p>
+    <p>Cuentas en VERDE: <b>{verdes}</b> | Cuentas en ROJO (Ocupadas): <b>{rojas}</b></p>
+    <table>
+      <thead><tr><th>Cuenta</th><th>Titular</th><th>Saldo</th><th>Sucursal</th><th>Semáforo MashUp</th></tr></thead>
+      <tbody>{filas}</tbody>
+    </table>
+  </div>
+</body>
+</html>";
         }
     }
 }
@@ -848,14 +912,14 @@ namespace ec.edu.monster.view
                 "Contrato Swagger / OpenAPI Publicado en Kestrel (http://localhost:5140/swagger)",
                 "Navegador web Google Chrome o Microsoft Edge.",
                 "Navegar a la URL: http://localhost:5140/swagger con el servidor Kestrel en ejecución.",
-                "Inspeccionar el documento XML generado automáticamente por ASP.NET Core Web API.",
-                "Estructura XML conteniendo wsdl:definitions, el targetNamespace http://ws.monster.edu.ec/, esquemas de tipos complejos y operaciones transaccionales."
+                "Inspeccionar la interfaz Swagger UI y la especificación OpenAPI 3.0 generada por ASP.NET Core Web API.",
+                "Interfaz interactiva Swagger UI renderizando la documentación de endpoints RESTful, esquemas JSON de entidades y operaciones transaccionales."
             ));
 
-            list.Add(FigureCaption(5, "Interfaz Web de Diagnóstico del Servidor en el Puerto 5140"));
+            list.Add(FigureCaption(5, "Interfaz Web de Diagnóstico del Servidor en el Puerto 5140 (http://localhost:5140/)"));
             list.Add(ScreenshotBox(
                 5,
-                "Interfaz Web de Diagnóstico del Servidor en el Puerto 5140",
+                "Interfaz Web de Diagnóstico del Servidor en el Puerto 5140 (http://localhost:5140/)",
                 "Navegador web Google Chrome o Microsoft Edge.",
                 "Navegar a la URL raíz del servidor: http://localhost:5140/.",
                 "Verificar la tabla de cuentas bancarias y el enlace directo al Swagger / OpenAPI.",
@@ -864,7 +928,7 @@ namespace ec.edu.monster.view
 
             // 4.7 Desarrollo del Cliente Consola
             list.Add(Heading2("4.7 Desarrollo del Cliente de Consola (WSEurekaBankConsoleClient)"));
-            list.Add(Paragraph("El Cliente Consola es una aplicación ejecutable en .NET 10 diseñada para terminales bancarias y tareas de diagnóstico. Consume el servicio RESTful mediante HttpClient y System.Text.Json sin generar stubs pesados, utilizando la librería estándar System.ServiceModel.Primitives:"));
+            list.Add(Paragraph("El Cliente Consola es una aplicación ejecutable en .NET 10 diseñada para terminales bancarias y tareas de diagnóstico. Consume el servicio RESTful mediante HttpClient y System.Text.Json sin dependencias externas pesadas, operando de forma ultrarrápida bajo el patrón MVC Tradicional:"));
 
             list.Add(FigureCaption(6, "Creación del Proyecto Cliente Consola en Visual Studio / CLI"));
             list.Add(ScreenshotBox(
@@ -872,8 +936,8 @@ namespace ec.edu.monster.view
                 "Creación del Proyecto Cliente Consola en Visual Studio / CLI",
                 "Terminal PowerShell con .NET 10 SDK o Visual Studio 2026/2022.",
                 "Comando de creación: dotnet new console -n WSEurekaBankConsoleClient.",
-                "Instalar los paquetes System.ServiceModel.Http y System.ServiceModel.Primitives versión 8.1.2.",
-                "Proyecto creado con target framework net10.0 y referencias de NuGet resueltas."
+                "Compilar el proyecto para verificar target framework net10.0.",
+                "Proyecto creado con target framework net10.0 y dependencias estándar resueltas."
             ));
 
             list.Add(TableCaption(13, "Descriptor de Proyecto Cliente Consola WSEurekaBankConsoleClient.csproj"));
@@ -886,71 +950,82 @@ namespace ec.edu.monster.view
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>ec.edu.monster</RootNamespace>
     <AssemblyName>WSEurekaBankConsoleClient</AssemblyName>
-    <NoWarn>$(NoWarn);NU1901;NU1902;NU1903;NU1904</NoWarn>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
-    <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
-  </ItemGroup>
 </Project>
 """));
 
-            list.Add(TableCaption(14, "Modelo de Consumo RESTful HttpClient EurekaBankRestModel.cs (Consola)"));
+            list.Add(TableCaption(14, "Modelo de Consumo RESTful con HttpClient EurekaBankRestModel.cs (Consola)"));
             list.Add(CodeBox("""
-using System.ServiceModel;
+using System.Text;
+using System.Text.Json;
 
 namespace ec.edu.monster.model
 {
+    /// <summary>
+    /// Capa Modelo (MVC Tradicional) de comunicación HTTP/JSON con el Servidor RESTful .NET.
+    /// Cliente delgado: cero lógica de negocio ni acceso a BDD en el cliente.
+    /// </summary>
     public class EurekaBankRestModel
     {
-        public string EndpointUrl { get; set; } = "http://localhost:5140/EurekaBankWS.svc";
+        private static readonly HttpClient Http = new() { Timeout = TimeSpan.FromSeconds(30) };
+        private static readonly JsonSerializerOptions JsonOpts = new() { PropertyNameCaseInsensitive = true };
 
-        private T Ejecutar<T>(Func<EurekaBankRestController, T> accion)
-        {
-            var binding = new BasicHttpBinding(BasicHttpSecurityMode.None)
-            {
-                MaxReceivedMessageSize = 10 * 1024 * 1024,
-                SendTimeout = TimeSpan.FromSeconds(30),
-                ReceiveTimeout = TimeSpan.FromSeconds(30)
-            };
-            using var factory = new HttpClient y System.Text.Json(binding, new EndpointAddress(EndpointUrl));
-            var canal = factory.CreateChannel();
-            try
-            {
-                var res = accion(canal);
-                ((IClientChannel)canal).Close();
-                return res;
-            }
-            catch
-            {
-                ((IClientChannel)canal).Abort();
-                throw;
-            }
-        }
+        public string EndpointUrl { get; set; } = "http://localhost:5140/api";
+        private string BaseUrl => EndpointUrl.TrimEnd('/');
 
         public UsuarioModel Autenticar(string usuario, string clave)
         {
-            try { return Ejecutar(c => c.AutenticarUsuario(usuario, clave)); }
-            catch (Exception ex) { return new UsuarioModel { Autenticado = false, Mensaje = "Error RESTful: " + ex.Message }; }
+            try
+            {
+                using var content = CrearJson(new { usuario, clave });
+                using var resp = Http.PostAsync($"{BaseUrl}/auth/login", content).GetAwaiter().GetResult();
+                string raw = resp.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                return JsonSerializer.Deserialize<UsuarioModel>(raw, JsonOpts)
+                    ?? new UsuarioModel { Autenticado = false, Mensaje = "Respuesta inválida del servidor REST." };
+            }
+            catch (Exception ex)
+            {
+                return new UsuarioModel { Autenticado = false, Mensaje = "Error conectando al servidor REST: " + ex.Message };
+            }
         }
 
-        public List<CuentaModel> ListarCuentasPorSucursal(int sucursalId)
+        public List<CuentaModel> ListarCuentasPorSucursal(int sucursalId) =>
+            GetJson($"{BaseUrl}/cuentas?sucursal={sucursalId}", new List<CuentaModel>());
+
+        public OperacionModel Depositar(string numeroCuenta, double monto, int idEmpleado, int ventanilla) =>
+            PostOperacion($"{BaseUrl}/movimientos/deposito", new { numeroCuenta, monto, idEmpleado, ventanilla });
+
+        public OperacionModel Transferir(string cuentaOrigen, string cuentaDestino, double monto, int idEmpleado, int ventanilla) =>
+            PostOperacion($"{BaseUrl}/movimientos/transferencia", new { cuentaOrigen, cuentaDestino, monto, idEmpleado, ventanilla });
+
+        private static StringContent CrearJson(object payload) =>
+            new(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+
+        private static T GetJson<T>(string url, T fallback)
         {
-            try { return Ejecutar(c => c.ListarCuentasPorSucursal(sucursalId)); }
-            catch { return new List<CuentaModel>(); }
+            try
+            {
+                using var resp = Http.GetAsync(url).GetAwaiter().GetResult();
+                string raw = resp.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                return JsonSerializer.Deserialize<T>(raw, JsonOpts) ?? fallback;
+            }
+            catch { return fallback; }
         }
 
-        public OperacionModel Depositar(string cuenta, double monto, int idEmpleado, int ventanilla)
+        private static OperacionModel PostOperacion(string url, object payload)
         {
-            try { return Ejecutar(c => c.Depositar(cuenta, monto, idEmpleado, ventanilla)); }
-            catch (Exception ex) { return new OperacionModel { Exito = false, Mensaje = "Error RESTful: " + ex.Message }; }
-        }
-
-        public OperacionModel Transferir(string origen, string destino, double monto, int idEmpleado, int ventanilla)
-        {
-            try { return Ejecutar(c => c.Transferir(origen, destino, monto, idEmpleado, ventanilla)); }
-            catch (Exception ex) { return new OperacionModel { Exito = false, Mensaje = "Error RESTful: " + ex.Message }; }
+            try
+            {
+                using var content = CrearJson(payload);
+                using var resp = Http.PostAsync(url, content).GetAwaiter().GetResult();
+                string raw = resp.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                return JsonSerializer.Deserialize<OperacionModel>(raw, JsonOpts)
+                    ?? new OperacionModel { Exito = false, Codigo = $"HTTP_{(int)resp.StatusCode}", Mensaje = raw };
+            }
+            catch (Exception ex)
+            {
+                return new OperacionModel { Exito = false, Codigo = "ERROR_RED", Mensaje = "Fallo REST: " + ex.Message };
+            }
         }
     }
 }
@@ -1001,12 +1076,13 @@ namespace ec.edu.monster.view
     {
         private readonly AppControlador _controlador = new();
 
-        public void Ejecutar()
+        public void Iniciar(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.Clear();
-            Console.WriteLine("====================================================");
+            Console.WriteLine("=====================================================================");
             Console.WriteLine("  EUREKABANK - CLIENTE CONSOLA RESTful .NET 10 (GR04)  ");
-            Console.WriteLine("====================================================");
+            Console.WriteLine("=====================================================================");
             Console.Write("Usuario: ");
             string? usr = Console.ReadLine();
             Console.Write("Contraseña: ");
@@ -1019,7 +1095,7 @@ namespace ec.edu.monster.view
                 return;
             }
 
-            Console.WriteLine($"\u001b[32m[OK] Bienvenido {login.NombreCompleto} ({login.Rol})\u001b[0m");
+            Console.WriteLine($"\u001b[32m[OK] Bienvenido {login.NombreCompleto} ({login.Rol}) | Ventanilla: {_controlador.VentanillaActiva}\u001b[0m");
             MostrarMenuPrincipal();
         }
 
@@ -1027,7 +1103,7 @@ namespace ec.edu.monster.view
         {
             while (true)
             {
-                Console.WriteLine("\n--- MENU TRANSACCIONAL ---");
+                Console.WriteLine("\n--- MENU TRANSACCIONAL RESTful ---");
                 Console.WriteLine("1. Listar Cuentas Bancarias (Semáforo MashUp)");
                 Console.WriteLine("2. Realizar Depósito en Efectivo");
                 Console.WriteLine("3. Realizar Transferencia entre Cuentas");
@@ -1094,8 +1170,8 @@ namespace ec.edu.monster.view
             list.Add(CodeBox("""
 using ec.edu.monster.view;
 
-var view = new ConsolaView();
-view.Ejecutar();
+var vista = new ConsolaView();
+vista.Iniciar(args);
 """));
 
             list.Add(FigureCaption(7, "Ejecución del Cliente Consola e Inicio de Sesión de Operador (Monster)"));
@@ -1130,7 +1206,7 @@ view.Ejecutar();
 
             // 4.8 Desarrollo del Cliente Escritorio Windows Forms
             list.Add(Heading2("4.8 Desarrollo del Cliente de Escritorio (WSEurekaBankDesktopClient)"));
-            list.Add(Paragraph("El Cliente de Escritorio se desarrolla sobre Windows Forms en .NET 10 (TargetFramework: net10.0-windows). Incorpora formularios interactivos, validaciones numéricas, un DataGridView con renderizado de colores en tiempo real y temporizadores asíncronos para refresco periódico:"));
+            list.Add(Paragraph("El Cliente de Escritorio se desarrolla sobre Windows Forms en .NET 10 (TargetFramework: net10.0-windows). Incorpora formularios interactivos, validaciones numéricas, un DataGridView con renderizado de colores en tiempo real y temporizadores asíncronos para refresco periódico, consumiendo el servicio RESTful mediante HttpClient:"));
 
             list.Add(TableCaption(18, "Descriptor de Proyecto Cliente Escritorio WSEurekaBankDesktopClient.csproj"));
             list.Add(CodeBox("""
@@ -1143,54 +1219,80 @@ view.Ejecutar();
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>ec.edu.monster</RootNamespace>
     <AssemblyName>WSEurekaBankDesktopClient</AssemblyName>
-    <NoWarn>$(NoWarn);NU1901;NU1902;NU1903;NU1904</NoWarn>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
-    <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
+    <None Update="images\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
 """));
 
-            list.Add(TableCaption(19, "Modelo RESTful en Cliente Escritorio EurekaBankRestModel.cs (WinForms)"));
+            list.Add(TableCaption(19, "Modelo de Consumo RESTful en Cliente Escritorio EurekaBankRestModel.cs (WinForms)"));
             list.Add(CodeBox("""
-using System.ServiceModel;
+using System.Text;
+using System.Text.Json;
 
 namespace ec.edu.monster.model
 {
     public class EurekaBankRestModel
     {
-        public string EndpointUrl { get; set; } = "http://localhost:5140/EurekaBankWS.svc";
+        private static readonly HttpClient Http = new() { Timeout = TimeSpan.FromSeconds(30) };
+        private static readonly JsonSerializerOptions JsonOpts = new() { PropertyNameCaseInsensitive = true };
 
-        private T Ejecutar<T>(Func<EurekaBankRestController, T> accion)
+        public string EndpointUrl { get; set; } = "http://localhost:5140/api";
+        private string BaseUrl => EndpointUrl.TrimEnd('/');
+
+        public UsuarioModel Autenticar(string usuario, string clave)
         {
-            var binding = new BasicHttpBinding(BasicHttpSecurityMode.None)
-            {
-                MaxReceivedMessageSize = 10 * 1024 * 1024,
-                SendTimeout = TimeSpan.FromSeconds(30),
-                ReceiveTimeout = TimeSpan.FromSeconds(30)
-            };
-            using var factory = new HttpClient y System.Text.Json(binding, new EndpointAddress(EndpointUrl));
-            var canal = factory.CreateChannel();
             try
             {
-                var res = accion(canal);
-                ((IClientChannel)canal).Close();
-                return res;
+                using var content = new StringContent(JsonSerializer.Serialize(new { usuario, clave }), Encoding.UTF8, "application/json");
+                using var resp = Http.PostAsync($"{BaseUrl}/auth/login", content).GetAwaiter().GetResult();
+                string raw = resp.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                return JsonSerializer.Deserialize<UsuarioModel>(raw, JsonOpts) ?? new UsuarioModel { Autenticado = false, Mensaje = "Respuesta inválida." };
             }
-            catch
+            catch (Exception ex)
             {
-                ((IClientChannel)canal).Abort();
-                throw;
+                return new UsuarioModel { Autenticado = false, Mensaje = "Error conectando a REST: " + ex.Message };
             }
         }
 
-        public UsuarioModel Autenticar(string usr, string pwd) => Ejecutar(c => c.AutenticarUsuario(usr, pwd));
-        public List<SucursalModel> ListarSucursales() => Ejecutar(c => c.ListarSucursales());
-        public List<CuentaModel> ListarCuentasPorSucursal(int sucId) => Ejecutar(c => c.ListarCuentasPorSucursal(sucId));
-        public OperacionModel Depositar(string cta, double mon, int emp, int ven) => Ejecutar(c => c.Depositar(cta, mon, emp, ven));
-        public OperacionModel Transferir(string ori, string des, double mon, int emp, int ven) => Ejecutar(c => c.Transferir(ori, des, mon, emp, ven));
+        public List<SucursalModel> ListarSucursales() => GetJson($"{BaseUrl}/sucursales", new List<SucursalModel>());
+        public List<CuentaModel> ListarCuentasPorSucursal(int sucId) => GetJson($"{BaseUrl}/cuentas?sucursal={sucId}", new List<CuentaModel>());
+
+        public OperacionModel Depositar(string numeroCuenta, double monto, int idEmpleado, int ventanilla) =>
+            PostOperacion($"{BaseUrl}/movimientos/deposito", new { numeroCuenta, monto, idEmpleado, ventanilla });
+
+        public OperacionModel Transferir(string cuentaOrigen, string cuentaDestino, double monto, int idEmpleado, int ventanilla) =>
+            PostOperacion($"{BaseUrl}/movimientos/transferencia", new { cuentaOrigen, cuentaDestino, monto, idEmpleado, ventanilla });
+
+        private static T GetJson<T>(string url, T fallback)
+        {
+            try
+            {
+                using var resp = Http.GetAsync(url).GetAwaiter().GetResult();
+                string raw = resp.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                return JsonSerializer.Deserialize<T>(raw, JsonOpts) ?? fallback;
+            }
+            catch { return fallback; }
+        }
+
+        private static OperacionModel PostOperacion(string url, object payload)
+        {
+            try
+            {
+                using var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+                using var resp = Http.PostAsync(url, content).GetAwaiter().GetResult();
+                string raw = resp.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                return JsonSerializer.Deserialize<OperacionModel>(raw, JsonOpts)
+                    ?? new OperacionModel { Exito = false, Mensaje = raw };
+            }
+            catch (Exception ex)
+            {
+                return new OperacionModel { Exito = false, Mensaje = "Fallo REST: " + ex.Message };
+            }
+        }
     }
 }
 """));
@@ -1206,6 +1308,12 @@ namespace ec.edu.monster.controller
         private readonly EurekaBankRestModel _modelo = new();
         public UsuarioModel? SesionActual { get; private set; }
         public int VentanillaActiva { get; set; } = 1;
+
+        public string EndpointActual
+        {
+            get => _modelo.EndpointUrl;
+            set => _modelo.EndpointUrl = value;
+        }
 
         public UsuarioModel IniciarSesion(string usuario, string clave)
         {
@@ -1244,11 +1352,10 @@ namespace ec.edu.monster.view
         private TextBox _txtClave = new();
         private ComboBox _cboVentanilla = new();
         private Button _btnLogin = new();
-        private Label _lblError = new();
 
         public LoginView()
         {
-            Text = "EurekaBank - Inicio de Sesión (.NET 10)";
+            Text = "EurekaBank RESTful .NET - Inicio de Sesión (GR04)";
             Size = new Size(420, 360);
             StartPosition = FormStartPosition.CenterScreen;
             FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -1313,7 +1420,7 @@ namespace ec.edu.monster.view
         public DashboardView(AppControlador controlador)
         {
             _controlador = controlador;
-            Text = $"EurekaBank Dashboard - Ventanilla {_controlador.VentanillaActiva} ({_controlador.SesionActual?.NombreCompleto})";
+            Text = $"EurekaBank Dashboard RESTful - Ventanilla {_controlador.VentanillaActiva} ({_controlador.SesionActual?.NombreCompleto})";
             Size = new Size(1000, 650);
             StartPosition = FormStartPosition.CenterScreen;
 
@@ -1401,7 +1508,7 @@ namespace ec.edu.monster.view
 
             // 4.9 Desarrollo del Cliente Móvil .NET MAUI
             list.Add(Heading2("4.9 Desarrollo del Cliente Móvil (.NET MAUI)"));
-            list.Add(Paragraph("El Cliente Móvil se desarrolla sobre .NET MAUI (Multi-platform App UI) en .NET 10, optimizado para ejecutarse nativamente en el emulador y dispositivos físicos Android. Utiliza vistas XAML declarativas, enlace de datos en C# puro bajo MVC y manejo de la dirección IP de loopback del emulador Android (10.0.2.2:5140):"));
+            list.Add(Paragraph("El Cliente Móvil se desarrolla sobre .NET MAUI (Multi-platform App UI) en .NET 10, optimizado para ejecutarse nativamente en el emulador y dispositivos físicos Android. Utiliza vistas XAML declarativas, enlace de datos en C# puro bajo MVC y manejo de la dirección IP de loopback del emulador Android (10.0.2.2:5140/api) para la comunicación RESTful:"));
 
             list.Add(FigureCaption(14, "Creación y Estructura del Proyecto Móvil .NET MAUI en Visual Studio"));
             list.Add(ScreenshotBox(
@@ -1417,17 +1524,21 @@ namespace ec.edu.monster.view
             list.Add(CodeBox("""
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net10.0-android;net10.0-windows10.0.19041.0</TargetFrameworks>
+    <TargetFrameworks>net10.0-android</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
     <OutputType>Exe</OutputType>
-    <UseMaui>true</UseMaui>
-    <SingleProject>true</SingleProject>
     <RootNamespace>ec.edu.monster</RootNamespace>
     <AssemblyName>WSEurekaBankMobileClient</AssemblyName>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ApplicationTitle>EurekaBank RESTful .NET</ApplicationTitle>
+    <ApplicationId>ec.edu.monster.climov.rest</ApplicationId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
-    <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
   </ItemGroup>
 </Project>
 """));
@@ -1457,44 +1568,67 @@ namespace ec.edu.monster
 
             list.Add(TableCaption(25, "Modelo de Invocación RESTful en Dispositivo Móvil EurekaBankRestModel.cs (MAUI)"));
             list.Add(CodeBox("""
-using System.ServiceModel;
+using System.Text;
+using System.Text.Json;
 using Microsoft.Maui.Devices;
 
 namespace ec.edu.monster.model
 {
+    /// <summary>
+    /// Capa Modelo (MVC Tradicional puro) para el Cliente Móvil .NET MAUI (RESTful JSON).
+    /// </summary>
     public class EurekaBankRestModel
     {
+        private static readonly HttpClient Http = new() { Timeout = TimeSpan.FromSeconds(30) };
+        private static readonly JsonSerializerOptions JsonOpts = new() { PropertyNameCaseInsensitive = true };
+
         public string EndpointUrl { get; set; } =
             DeviceInfo.Platform == DevicePlatform.Android
-                ? "http://10.0.2.2:5140/EurekaBankWS.svc"
-                : "http://localhost:5140/EurekaBankWS.svc";
+                ? "http://10.0.2.2:5140/api"
+                : "http://localhost:5140/api";
 
-        private T Ejecutar<T>(Func<EurekaBankRestController, T> accion)
+        private string BaseUrl => EndpointUrl.TrimEnd('/');
+
+        public UsuarioModel Autenticar(string usuario, string clave)
         {
-            var binding = new BasicHttpBinding(BasicHttpSecurityMode.None)
-            {
-                MaxReceivedMessageSize = 10 * 1024 * 1024,
-                SendTimeout = TimeSpan.FromSeconds(30),
-                ReceiveTimeout = TimeSpan.FromSeconds(30)
-            };
-            using var factory = new HttpClient y System.Text.Json(binding, new EndpointAddress(EndpointUrl));
-            var canal = factory.CreateChannel();
             try
             {
-                var res = accion(canal);
-                ((IClientChannel)canal).Close();
-                return res;
+                using var content = new StringContent(JsonSerializer.Serialize(new { usuario, clave }), Encoding.UTF8, "application/json");
+                using var resp = Http.PostAsync($"{BaseUrl}/auth/login", content).GetAwaiter().GetResult();
+                string raw = resp.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                return JsonSerializer.Deserialize<UsuarioModel>(raw, JsonOpts) ?? new UsuarioModel { Autenticado = false, Mensaje = "Respuesta inválida." };
             }
-            catch
+            catch (Exception ex)
             {
-                ((IClientChannel)canal).Abort();
-                throw;
+                return new UsuarioModel { Autenticado = false, Mensaje = "Error REST: " + ex.Message };
             }
         }
 
-        public UsuarioModel Autenticar(string usr, string pwd) => Ejecutar(c => c.AutenticarUsuario(usr, pwd));
-        public List<CuentaModel> ListarCuentas() => Ejecutar(c => c.ListarCuentasPorSucursal(0));
-        public OperacionModel Depositar(string cta, double mon, int emp, int ven) => Ejecutar(c => c.Depositar(cta, mon, emp, ven));
+        public List<CuentaModel> ListarCuentas()
+        {
+            try
+            {
+                using var resp = Http.GetAsync($"{BaseUrl}/cuentas").GetAwaiter().GetResult();
+                string raw = resp.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                return JsonSerializer.Deserialize<List<CuentaModel>>(raw, JsonOpts) ?? new List<CuentaModel>();
+            }
+            catch { return new List<CuentaModel>(); }
+        }
+
+        public OperacionModel Depositar(string numeroCuenta, double monto, int idEmpleado, int ventanilla)
+        {
+            try
+            {
+                using var content = new StringContent(JsonSerializer.Serialize(new { numeroCuenta, monto, idEmpleado, ventanilla }), Encoding.UTF8, "application/json");
+                using var resp = Http.PostAsync($"{BaseUrl}/movimientos/deposito", content).GetAwaiter().GetResult();
+                string raw = resp.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                return JsonSerializer.Deserialize<OperacionModel>(raw, JsonOpts) ?? new OperacionModel { Exito = false, Mensaje = raw };
+            }
+            catch (Exception ex)
+            {
+                return new OperacionModel { Exito = false, Mensaje = "Fallo REST: " + ex.Message };
+            }
+        }
     }
 }
 """));
@@ -1510,6 +1644,12 @@ namespace ec.edu.monster.controller
         private readonly EurekaBankRestModel _modelo = new();
         public UsuarioModel? SesionActual { get; private set; }
         public int VentanillaActiva { get; set; } = 1;
+
+        public string EndpointActual
+        {
+            get => _modelo.EndpointUrl;
+            set => _modelo.EndpointUrl = value;
+        }
 
         public UsuarioModel IniciarSesion(string usuario, string clave)
         {
@@ -1536,23 +1676,46 @@ namespace ec.edu.monster.controller
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ec.edu.monster.view.LoginView"
-             Title="EurekaBank Mobile">
+             Title="EurekaBank Móvil - RESTful .NET"
+             BackgroundColor="#0F172A">
     <ScrollView>
-        <VerticalStackLayout Padding="30" Spacing="16">
-            <Label Text="EUREKABANK MOBILE" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" />
-            <Entry x:Name="TxtUsuario" Placeholder="Usuario Operador" Text="Monster" />
-            <Entry x:Name="TxtClave" Placeholder="Contraseña" IsPassword="True" Text="Monster9" />
-            <Picker x:Name="PkrVentanilla" Title="Seleccionar Ventanilla">
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>Ventanilla 1</x:String>
-                        <x:String>Ventanilla 2</x:String>
-                        <x:String>Ventanilla 3</x:String>
-                        <x:String>Ventanilla 4</x:String>
-                    </x:Array>
-                </Picker.ItemsSource>
-            </Picker>
-            <Button Text="INICIAR SESIÓN" Clicked="OnLoginClicked" BackgroundColor="#1E3A8A" TextColor="White" />
+        <VerticalStackLayout Padding="24" Spacing="14" VerticalOptions="Center" MaximumWidthRequest="440">
+            <Border BackgroundColor="White" StrokeThickness="0" Padding="24">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="EUREKABANK - BANCA MOVIL" FontSize="19" FontAttributes="Bold" TextColor="#0F172A" HorizontalOptions="Center" />
+                    <Label Text="Cliente .NET MAUI (RESTful) | ec.edu.monster" FontSize="12" TextColor="#64748B" HorizontalOptions="Center" />
+
+                    <Label Text="Usuario Operador:" FontSize="12" FontAttributes="Bold" TextColor="#334155" />
+                    <Entry x:Name="TxtUsuario" Text="Monster" TextColor="#0F172A" BackgroundColor="#F8FAFC" />
+
+                    <Label Text="Contraseña:" FontSize="12" FontAttributes="Bold" TextColor="#334155" />
+                    <Entry x:Name="TxtClave" Text="Monster9" IsPassword="True" TextColor="#0F172A" BackgroundColor="#F8FAFC" />
+
+                    <Label Text="Ventanilla Móvil:" FontSize="12" FontAttributes="Bold" TextColor="#334155" />
+                    <Picker x:Name="PckVentanilla" TextColor="#0F172A" BackgroundColor="#F8FAFC">
+                        <Picker.Items>
+                            <x:String>Ventanilla 1</x:String>
+                            <x:String>Ventanilla 2</x:String>
+                            <x:String>Ventanilla 3</x:String>
+                            <x:String>Ventanilla 4</x:String>
+                        </Picker.Items>
+                    </Picker>
+
+                    <Button x:Name="BtnIngresar"
+                            Text="INGRESAR A BANCA MOVIL"
+                            BackgroundColor="#2563EB"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="46"
+                            Clicked="OnIngresarClicked" />
+
+                    <Label x:Name="LblEstado" Text="" FontSize="12" FontAttributes="Bold" TextColor="#DC2626" HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </Border>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
@@ -1564,7 +1727,7 @@ namespace ec.edu.monster.controller
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ec.edu.monster.view.DashboardView"
-             Title="Dashboard Móvil">
+             Title="Dashboard Móvil RESTful">
     <Grid RowDefinitions="Auto,*">
         <VerticalStackLayout Grid.Row="0" Padding="16" BackgroundColor="#F1F5F9">
             <Label x:Name="LblInfo" Text="Operador: Monster" FontAttributes="Bold" />
@@ -1597,8 +1760,8 @@ namespace ec.edu.monster.controller
                 "Pantalla de Autenticación y Ventanilla en Emulador Android (.NET MAUI)",
                 "Emulador Android (Pixel 7 / Android 14 API 34).",
                 "Pantalla de login de la app WSEurekaBankMobileClient.",
-                "Ingresar 'Monster', 'Monster9', seleccionar 'Ventanilla 1' y pulsar 'INICIAR SESIÓN'.",
-                "Validación de credenciales con el host RESTful (10.0.2.2:5140) y transición hacia el Dashboard de cuentas."
+                "Ingresar 'Monster', 'Monster9', seleccionar 'Ventanilla 1' y pulsar 'INGRESAR A BANCA MOVIL'.",
+                "Validación de credenciales con el host RESTful (10.0.2.2:5140/api) y transición hacia el Dashboard de cuentas."
             ));
 
             list.Add(FigureCaption(16, "Monitoreo de Cuentas y Operaciones Transaccionales en Cliente Móvil"));
@@ -1613,7 +1776,7 @@ namespace ec.edu.monster.controller
 
             // 4.10 Desarrollo del Cliente Web ASP.NET Core MVC
             list.Add(Heading2("4.10 Desarrollo del Cliente Web (ASP.NET Core MVC)"));
-            list.Add(Paragraph("El Cliente Web se construye con ASP.NET Core MVC en .NET 10, implementando controladores dedicados (LoginController y DashboardController), vistas Razor y sondeo reactivo en tiempo real mediante JavaScript (fetch periódico cada 0.9 segundos):"));
+            list.Add(Paragraph("El Cliente Web se construye con ASP.NET Core MVC en .NET 10, implementando controladores desacoplados (LoginController y DashboardController), vistas Razor y sondeo reactivo en tiempo real mediante JavaScript (fetch periódico cada 0.9 segundos) para consultar el estado del semáforo MashUp:"));
 
             list.Add(TableCaption(29, "Descriptor de Proyecto Cliente Web WSEurekaBankWebClient.csproj"));
             list.Add(CodeBox("""
@@ -1624,39 +1787,37 @@ namespace ec.edu.monster.controller
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>ec.edu.monster</RootNamespace>
     <AssemblyName>WSEurekaBankWebClient</AssemblyName>
-    <NoWarn>$(NoWarn);NU1901;NU1902;NU1903;NU1904</NoWarn>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
-    <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
-  </ItemGroup>
 </Project>
 """));
 
             list.Add(TableCaption(30, "Configuración del Pipeline Web y Middleware ASP.NET Core Program.cs"));
             list.Add(CodeBox("""
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using ec.edu.monster.controller;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
-builder.Services.AddSession(options =>
+string? ep = builder.Configuration["EurekaBank:EndpointUrl"];
+if (!string.IsNullOrWhiteSpace(ep))
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
+    AppControlador.EndpointGlobal = ep;
+}
+
+// Configuración MVC Tradicional ubicando las vistas en ec.edu.monster.view
+builder.Services.AddControllersWithViews()
+    .AddRazorOptions(options =>
+    {
+        options.ViewLocationFormats.Clear();
+        options.ViewLocationFormats.Add("/ec.edu.monster.view/{1}/{0}.cshtml");
+        options.ViewLocationFormats.Add("/ec.edu.monster.view/{0}.cshtml");
+    });
 
 var app = builder.Build();
 
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-}
-
 app.UseStaticFiles();
 app.UseRouting();
-app.UseSession();
-app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
@@ -1667,42 +1828,69 @@ app.Run();
 
             list.Add(TableCaption(31, "Modelo RESTful en Cliente Web EurekaBankRestModel.cs (MVC)"));
             list.Add(CodeBox("""
-using System.ServiceModel;
+using System.Text;
+using System.Text.Json;
 
 namespace ec.edu.monster.model
 {
     public class EurekaBankRestModel
     {
-        public string EndpointUrl { get; set; } = "http://localhost:5140/EurekaBankWS.svc";
+        private static readonly HttpClient Http = new() { Timeout = TimeSpan.FromSeconds(30) };
+        private static readonly JsonSerializerOptions JsonOpts = new() { PropertyNameCaseInsensitive = true };
 
-        private T Ejecutar<T>(Func<EurekaBankRestController, T> accion)
+        public string EndpointUrl { get; set; } = "http://localhost:5140/api";
+        private string BaseUrl => EndpointUrl.TrimEnd('/');
+
+        public UsuarioModel Autenticar(string usuario, string clave)
         {
-            var binding = new BasicHttpBinding(BasicHttpSecurityMode.None)
-            {
-                MaxReceivedMessageSize = 10 * 1024 * 1024,
-                SendTimeout = TimeSpan.FromSeconds(30),
-                ReceiveTimeout = TimeSpan.FromSeconds(30)
-            };
-            using var factory = new HttpClient y System.Text.Json(binding, new EndpointAddress(EndpointUrl));
-            var canal = factory.CreateChannel();
             try
             {
-                var res = accion(canal);
-                ((IClientChannel)canal).Close();
-                return res;
+                using var content = new StringContent(JsonSerializer.Serialize(new { usuario, clave }), Encoding.UTF8, "application/json");
+                using var resp = Http.PostAsync($"{BaseUrl}/auth/login", content).GetAwaiter().GetResult();
+                string raw = resp.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                return JsonSerializer.Deserialize<UsuarioModel>(raw, JsonOpts) ?? new UsuarioModel { Autenticado = false, Mensaje = "Respuesta inválida." };
             }
-            catch
+            catch (Exception ex)
             {
-                ((IClientChannel)canal).Abort();
-                throw;
+                return new UsuarioModel { Autenticado = false, Mensaje = "Error REST: " + ex.Message };
             }
         }
 
-        public UsuarioModel Autenticar(string usr, string pwd) => Ejecutar(c => c.AutenticarUsuario(usr, pwd));
-        public List<CuentaModel> ListarCuentas(int sucId) => Ejecutar(c => c.ListarCuentasPorSucursal(sucId));
-        public List<MovimientoModel> ConsultarExtracto(string cta) => Ejecutar(c => c.ConsultarExtracto(cta));
-        public OperacionModel Depositar(string cta, double mon, int emp, int ven) => Ejecutar(c => c.Depositar(cta, mon, emp, ven));
-        public OperacionModel Transferir(string ori, string des, double mon, int emp, int ven) => Ejecutar(c => c.Transferir(ori, des, mon, emp, ven));
+        public List<CuentaModel> ListarCuentasPorSucursal(int sucId) => GetJson($"{BaseUrl}/cuentas?sucursal={sucId}", new List<CuentaModel>());
+        public List<CuentaModel> ConsultarCuentasPorCliente(string dni) => GetJson($"{BaseUrl}/clientes/{Uri.EscapeDataString(dni)}/cuentas", new List<CuentaModel>());
+        public List<MovimientoModel> ConsultarExtracto(string cta) => GetJson($"{BaseUrl}/cuentas/{Uri.EscapeDataString(cta)}/movimientos", new List<MovimientoModel>());
+
+        public OperacionModel Depositar(string cta, double monto, int emp, int ven) =>
+            PostOperacion($"{BaseUrl}/movimientos/deposito", new { numeroCuenta = cta, monto, idEmpleado = emp, ventanilla = ven });
+
+        public OperacionModel Transferir(string ori, string des, double monto, int emp, int ven) =>
+            PostOperacion($"{BaseUrl}/movimientos/transferencia", new { cuentaOrigen = ori, cuentaDestino = des, monto, idEmpleado = emp, ventanilla = ven });
+
+        private static T GetJson<T>(string url, T fallback)
+        {
+            try
+            {
+                using var resp = Http.GetAsync(url).GetAwaiter().GetResult();
+                string raw = resp.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                return JsonSerializer.Deserialize<T>(raw, JsonOpts) ?? fallback;
+            }
+            catch { return fallback; }
+        }
+
+        private static OperacionModel PostOperacion(string url, object payload)
+        {
+            try
+            {
+                using var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+                using var resp = Http.PostAsync(url, content).GetAwaiter().GetResult();
+                string raw = resp.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                return JsonSerializer.Deserialize<OperacionModel>(raw, JsonOpts) ?? new OperacionModel { Exito = false, Mensaje = raw };
+            }
+            catch (Exception ex)
+            {
+                return new OperacionModel { Exito = false, Mensaje = "Fallo REST: " + ex.Message };
+            }
+        }
     }
 }
 """));
@@ -1728,7 +1916,7 @@ namespace ec.edu.monster.controller
             if (res.Autenticado)
             {
                 res.Ventanilla = ventanilla;
-                AppControlador.GuardarSesionCookie(Response, res);
+                AppControlador.GuardarSesionCookie(Response, res, ventanilla);
                 return RedirectToAction("Index", "Dashboard");
             }
             ViewBag.Error = res.Mensaje;
@@ -1738,7 +1926,7 @@ namespace ec.edu.monster.controller
         [HttpGet]
         public IActionResult Salir()
         {
-            AppControlador.BorrarSesionCookie(Response);
+            Response.Cookies.Delete("EurekaBank_Sesion_REST");
             return RedirectToAction("Index");
         }
     }
@@ -1795,7 +1983,7 @@ namespace ec.edu.monster.controller
         {
             var sesion = AppControlador.LeerSesionCookie(Request);
             if (sesion == null) return Unauthorized();
-            var res = _controlador.Depositar(cuenta, monto);
+            var res = _controlador.Depositar(cuenta, monto, sesion.IdEmpleado, sesion.Ventanilla);
             return Json(res);
         }
     }
@@ -2009,27 +2197,27 @@ namespace ec.edu.monster.model
                 new[] { 1000, 2200, 2400, 2404, 1000 },
                 new List<string[]>
                 {
-                    new[] { "CP-01", "Autenticación BCrypt Operador Monster", "Ingreso de 'Monster' y clave 'Monster9' vía RESTful.", "Token generado y rol Superadmin asignado.", "EXITOSO" },
-                    new[] { "CP-02", "Rechazo de Credenciales Inválidas", "Ingreso de clave errónea para operador cajero1.", "Mensaje de rechazo sin emitir token.", "EXITOSO" },
-                    new[] { "CP-03", "Depósito Atómico con Bloqueo Pesimista", "Depósito de $150.00 sobre 001-0001 con delay de 4.5s.", "Saldo incrementa y se genera registro en movimiento.", "EXITOSO" },
-                    new[] { "CP-04", "Exclusión Mutua Concurrente (ROJO)", "Ventanilla 2 intenta operar mientras Ventanilla 1 procesa.", "Rechazo de concurrencia con mensaje de cuenta en uso.", "EXITOSO" },
-                    new[] { "CP-05", "Transferencia ACID entre Cuentas", "Transferencia de $100.00 de 001-0001 a 001-0002.", "Débito y crédito aplicados atómicamente.", "EXITOSO" },
-                    new[] { "CP-06", "Rollback por Saldo Insuficiente", "Intento de retiro de $99,999.00 sobre cuenta activa.", "Transacción cancelada y saldo inalterado.", "EXITOSO" },
-                    new[] { "CP-07", "Consumo Móvil en Loopback Android", "Conexión de emulador a http://10.0.2.2:5140/.", "Listado y depósito exitoso desde .NET MAUI.", "EXITOSO" },
+                    new[] { "CP-01", "Autenticación BCrypt Operador Monster", "Ingreso de 'Monster' y clave 'Monster9' vía POST /api/auth/login.", "Código HTTP 200 OK con token y rol Superadmin asignado.", "EXITOSO" },
+                    new[] { "CP-02", "Rechazo de Credenciales Inválidas", "Ingreso de clave errónea para operador cajero1 vía POST /api/auth/login.", "Código HTTP 401 Unauthorized sin emitir token.", "EXITOSO" },
+                    new[] { "CP-03", "Depósito Atómico con Bloqueo Pesimista", "Depósito de $150.00 sobre 001-0001 con retardo simulado de 4.5s.", "Saldo incrementa, registro en movimiento y HTTP 200 OK.", "EXITOSO" },
+                    new[] { "CP-04", "Exclusión Mutua Concurrente (ROJO)", "Ventanilla 2 intenta operar mientras Ventanilla 1 procesa depósito.", "Código HTTP 409 Conflict con mensaje de cuenta en uso.", "EXITOSO" },
+                    new[] { "CP-05", "Transferencia ACID entre Cuentas", "Transferencia de $100.00 de 001-0001 a 001-0002 vía POST.", "Débito y crédito aplicados atómicamente con HTTP 200 OK.", "EXITOSO" },
+                    new[] { "CP-06", "Rollback por Saldo Insuficiente", "Intento de retiro de $99,999.00 sobre cuenta activa vía POST.", "Código HTTP 400 Bad Request y saldo inalterado.", "EXITOSO" },
+                    new[] { "CP-07", "Consumo Móvil en Loopback Android", "Conexión de emulador Android a http://10.0.2.2:5140/api.", "Listado y depósito exitoso desde .NET MAUI.", "EXITOSO" },
                     new[] { "CP-08", "Sondeo Reactivo MashUp en Web", "Actualización AJAX cada 0.9s en Dashboard/Index.cshtml.", "Cambio cromático visible sin recargar la página.", "EXITOSO" }
                 }
             ));
 
-            list.Add(TableCaption(38, "Guía de Diagnóstico y Resolución de Errores Frecuentes (Troubleshooting .NET)"));
+            list.Add(TableCaption(38, "Guía de Diagnóstico y Resolución de Errores Frecuentes (Troubleshooting .NET REST)"));
             list.Add(TechnicalTable(
                 new[] { "Síntoma / Error", "Causa Técnica Principal", "Solución Recomendada y Comprobada" },
                 new[] { 2500, 3000, 3504 },
                 new List<string[]>
                 {
                     new[] { "Error de conexión con la base de datos (Port 3306)", "El contenedor Podman/Docker de MySQL no está iniciado.", "Ejecutar 'podman compose up -d' dentro del directorio 03. BDD." },
-                    new[] { "Timeout o conexión rechazada en emulador Android", "Se configuró 'localhost' en lugar de la IP de loopback.", "Utilizar '10.0.2.2:5140' en el archivo EurekaBankRestModel.cs de MAUI." },
-                    new[] { "Error 'No se puede agregar fila sin columnas' en WinForms", "La cuadrícula DataGridView se refrescó antes de inicializarse.", "Llamar a ConfigurarColumnasCuentas() si Columns.Count == 0." },
-                    new[] { "Advertencia de tamaño de mensaje RESTful excedido", "La respuesta WCF supera el tamaño por defecto (64 KB).", "Configurar MaxReceivedMessageSize = 10 * 1024 * 1024 en BasicHttpBinding." }
+                    new[] { "Timeout o conexión rechazada en emulador Android", "Se configuró 'localhost' en lugar de la IP de loopback.", "Utilizar '10.0.2.2:5140/api' en el archivo EurekaBankRestModel.cs de MAUI." },
+                    new[] { "Error HTTP 409 Conflict en depósito o retiro", "La cuenta bancaria se encuentra en estado ROJO por otra ventanilla.", "Esperar a que finalice la transacción en curso o desbloquear la cuenta con el usuario Superadmin Monster." },
+                    new[] { "Error HTTP 401 Unauthorized en autenticación", "Las credenciales no coinciden con el hash BCrypt almacenado.", "Verificar que el usuario sea 'Monster' y la clave 'Monster9', o reiniciar la base con eureka_bank.sql." }
                 }
             ));
 
@@ -2037,27 +2225,27 @@ namespace ec.edu.monster.model
             // SECCIÓN 5: CONCLUSIONES
             // =========================================================================
             list.Add(Heading1("5 CONCLUSIONES"));
-            list.Add(BulletParagraph("1.", "La implementación de servicios web RESTful sobre la plataforma moderna .NET 10 mediante ASP.NET Core Web API demuestra que es factible mantener la compatibilidad con estándares industriales rigurosos (Swagger / OpenAPI, RESTful 1.1, BasicHttpBinding) sin renunciar al rendimiento de Kestrel y a la portabilidad multiplataforma sobre contenedores Linux y Windows."));
-            list.Add(BulletParagraph("2.", "La aplicación estricta del patrón arquitectónico MVC Tradicional Puro (Model, View, Controller) en todos los proyectos clientes (Consola, Escritorio Windows Forms, Móvil .NET MAUI y Web ASP.NET Core) garantiza un desacoplamiento absoluto de la lógica de presentación respecto a la comunicación RESTful, facilitando el mantenimiento y la evolución independiente de cada interfaz de usuario."));
-            list.Add(BulletParagraph("3.", "El mecanismo de Semáforo MashUp de Concurrencia en tiempo real, respaldado por la tabla control_mashup y bloqueos pesimistas SELECT ... FOR UPDATE a nivel del motor InnoDB de MySQL, resuelve satisfactoriamente las condiciones de carrera y previene la inconsistencia de saldos en operaciones bancarias simultáneas entre múltiples ventanillas."));
-            list.Add(BulletParagraph("4.", "La integración de cuatro tecnologías cliente heterogéneas bajo el lenguaje unificado C# evidencia la versatilidad del ecosistema .NET contemporáneo para abordar escenarios de terminales ligeras de consola, aplicaciones de escritorio ricas, dispositivos móviles táctiles y aplicaciones web reactivas con sincronización continua."));
+            list.Add(BulletParagraph("1.", "La implementación de servicios web RESTful sobre la plataforma moderna .NET 10 mediante ASP.NET Core Web API demuestra que es factible alcanzar un rendimiento óptimo, baja latencia y mínimo consumo de memoria en comparación con arquitecturas legadas basadas en SOAP, prescindiendo de pesadas envolturas XML y aprovechando de forma nativa la semántica del protocolo HTTP y la serialización JSON con System.Text.Json."));
+            list.Add(BulletParagraph("2.", "La aplicación estricta del patrón arquitectónico MVC Tradicional Puro (Model, View, Controller) en todos los proyectos clientes (Consola, Escritorio Windows Forms, Móvil .NET MAUI y Web ASP.NET Core) garantiza un desacoplamiento absoluto de la lógica de presentación respecto a la comunicación RESTful mediante HttpClient, facilitando el mantenimiento, las pruebas unitarias y la evolución independiente de cada interfaz de usuario."));
+            list.Add(BulletParagraph("3.", "El mecanismo de Semáforo MashUp de Concurrencia en tiempo real, respaldado por la tabla control_mashup y bloqueos pesimistas SELECT ... FOR UPDATE a nivel del motor InnoDB de MySQL, resuelve satisfactoriamente las condiciones de carrera y previene la inconsistencia de saldos en operaciones bancarias simultáneas entre múltiples ventanillas, retornando códigos semánticos HTTP 409 Conflict ante intentos de acceso concurrente."));
+            list.Add(BulletParagraph("4.", "La integración de cuatro tecnologías cliente heterogéneas bajo el lenguaje unificado C# (.NET 10) evidencia la versatilidad del ecosistema .NET contemporáneo para abordar escenarios de terminales ligeras de consola, aplicaciones de escritorio ricas, dispositivos móviles nativos y aplicaciones web reactivas con sincronización continua vía sondeo AJAX."));
 
             // =========================================================================
             // SECCIÓN 6: RECOMENDACIONES
             // =========================================================================
             list.Add(Heading1("6 RECOMENDACIONES"));
-            list.Add(BulletParagraph("1.", "En entornos de producción bancaria, se recomienda habilitar transporte seguro TLS/HTTPS obligatorio en Kestrel (BasicHttpSecurityMode.Transport) y utilizar certificados digitales institucionales para prevenir la interceptación de mensajes XML en tránsito."));
-            list.Add(BulletParagraph("2.", "Para la sincronización reactiva en clientes web y de escritorio, se sugiere evaluar la adopción de WebSockets o SignalR Core en reemplazo del sondeo periódico (polling), reduciendo la sobrecarga de red en escenarios con cientos de ventanillas concurrentes."));
-            list.Add(BulletParagraph("3.", "Se recomienda configurar políticas de reintento automático con retroceso exponencial (Polly en .NET) en la capa Modelo de los clientes, gestionando de forma transparente caídas temporales de conectividad de red o sobrecargas transitorias del servidor."));
-            list.Add(BulletParagraph("4.", "Para la gestión de secretos y credenciales de base de datos en entornos empresariales, es aconsejable delegar el ConnectionString a variables de entorno protegidas o sistemas de gestión de claves como Azure Key Vault o HashiCorp Vault."));
+            list.Add(BulletParagraph("1.", "En entornos de producción bancaria, se recomienda habilitar transporte seguro TLS/HTTPS obligatorio en Kestrel y utilizar tokens de acceso firmados digitalmente (JSON Web Tokens - JWT) o OAuth2 en el encabezado Authorization para garantizar la confidencialidad de las cargas útiles JSON y la autenticación sin estado de las peticiones."));
+            list.Add(BulletParagraph("2.", "Para la sincronización reactiva en clientes web y de escritorio, se sugiere evaluar la adopción de WebSockets o SignalR Core en reemplazo del sondeo periódico (polling), reduciendo la sobrecarga de conexiones HTTP y la latencia de red en escenarios con cientos de ventanillas concurrentes."));
+            list.Add(BulletParagraph("3.", "Se recomienda configurar políticas de reintento automático con retroceso exponencial (utilizando la biblioteca Polly en .NET) en la capa Modelo de los clientes, gestionando de forma transparente caídas temporales de conectividad de red o sobrecargas transitorias del servidor RESTful."));
+            list.Add(BulletParagraph("4.", "Para la gestión de secretos y credenciales de base de datos en entornos empresariales, es aconsejable delegar la cadena de conexión ConnectionString a variables de entorno protegidas o sistemas de gestión de claves como Azure Key Vault o HashiCorp Vault, evitando contraseñas en texto plano en appsettings.json."));
 
             // =========================================================================
             // SECCIÓN 7: REFERENCIAS BIBLIOGRÁFICAS
             // =========================================================================
-            list.Add(Heading1("7 REFERENCIAS BIBLIOGRAFICAS"));
-            list.Add(Paragraph("[1] Microsoft Corporation, «ASP.NET Core Web API: WCF for .NET Core and .NET 5+», Microsoft Docs, 2026. [En línea]. Disponible en: https://github.com/ASP.NET Core Web API/ASP.NET Core Web API."));
-            list.Add(Paragraph("[2] W3C, «Simple Object Access Protocol (RESTful) 1.1», World Wide Web Consortium Recommendation, 2000. [En línea]. Disponible en: https://www.w3.org/TR/2000/NOTE-RESTful-20000508/."));
-            list.Add(Paragraph("[3] W3C, «Web Services Description Language (Swagger / OpenAPI) 1.1», W3C Note, 2001. [En línea]. Disponible en: https://www.w3.org/TR/wsdl."));
+            list.Add(Heading1("7 REFERENCIAS BIBLIOGRÁFICAS"));
+            list.Add(Paragraph("[1] Microsoft Corporation, «Overview of ASP.NET Core Web APIs», Microsoft Learn, 2024. [En línea]. Disponible en: https://learn.microsoft.com/aspnet/core/web-api/."));
+            list.Add(Paragraph("[2] R. T. Fielding, «Architectural Styles and the Design of Network-based Software Architectures», Ph.D. dissertation, Department of Information and Computer Science, University of California, Irvine, 2000."));
+            list.Add(Paragraph("[3] OpenAPI Initiative, «OpenAPI Specification v3.0.3», Linux Foundation, 2020. [En línea]. Disponible en: https://spec.openapis.org/oas/v3.0.3."));
             list.Add(Paragraph("[4] A. Troelsen y P. Japikse, Pro C# 10 with .NET 6: Foundational Principles and Practices in Programming, 11a ed. Nueva York, EE. UU.: Apress, 2022."));
             list.Add(Paragraph("[5] E. Gamma, R. Helm, R. Johnson, y J. Vlissides, Design Patterns: Elements of Reusable Object-Oriented Software. Boston, MA: Addison-Wesley, 1994."));
             list.Add(Paragraph("[6] Oracle Corporation, «MySQL 8.0 Reference Manual: InnoDB Locking and Transaction Model», Oracle Docs, 2026. [En línea]. Disponible en: https://dev.mysql.com/doc/refman/8.0/en/innodb-locking.html."));

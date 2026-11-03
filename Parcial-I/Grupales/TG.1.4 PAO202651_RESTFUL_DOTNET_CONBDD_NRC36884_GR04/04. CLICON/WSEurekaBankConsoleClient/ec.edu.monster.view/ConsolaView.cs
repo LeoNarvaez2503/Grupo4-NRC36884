@@ -25,7 +25,7 @@ namespace ec.edu.monster.view
             {
                 Console.Write("\nUsuario (ej. Monster): ");
                 string usr = Console.ReadLine()?.Trim() ?? "";
-                Console.Write("Contrasena: ");
+                Console.Write("Contraseña: ");
                 string pwd = Console.ReadLine()?.Trim() ?? "";
 
                 var login = _controlador.IniciarSesion(usr, pwd);
@@ -49,27 +49,27 @@ namespace ec.edu.monster.view
                 Console.WriteLine("\n=====================================================================");
                 Console.WriteLine($" EUREKABANK CONSOLA RESTful .NET | Ventanilla {_controlador.VentanillaActiva} | Operador: {_controlador.SesionActual.Usuario}");
                 Console.WriteLine("=====================================================================");
-                Console.WriteLine(" 1. Monitorear Semaforo MashUp de Cuentas (VERDE / ROJO)");
-                Console.WriteLine(" 2. Consultar Cuenta por Numero o DNI");
+                Console.WriteLine(" 1. Monitorear Semáforo MashUp de Cuentas (VERDE / ROJO)");
+                Console.WriteLine(" 2. Consultar Cuenta por Número o DNI");
                 Console.WriteLine(" 3. Consultar Extracto Bancario");
-                Console.WriteLine(" 4. Realizar Deposito");
+                Console.WriteLine(" 4. Realizar Depósito");
                 Console.WriteLine(" 5. Realizar Retiro");
                 Console.WriteLine(" 6. Realizar Transferencia entre Cuentas");
-                Console.WriteLine(" 7. Simular Concurrencia Critica (3 Ventanillas Simultaneas)");
+                Console.WriteLine(" 7. Simular Concurrencia Crítica (3 Ventanillas Simultáneas)");
                 Console.WriteLine(" 8. Cambiar Ventanilla Activa (1..4)");
                 Console.WriteLine(" 9. Desbloquear Cuenta (Superadmin Monster / Gerencia)");
                 Console.WriteLine(" 0. Salir");
-                Console.Write("Seleccione una opcion: ");
+                Console.Write("Seleccione una opción: ");
 
                 switch (Console.ReadLine()?.Trim())
                 {
                     case "1": ImprimirCuentas(_controlador.ObtenerCuentasPorSucursal(0)); break;
                     case "2":
-                        Console.Write("Ingrese Numero de Cuenta o DNI: ");
+                        Console.Write("Ingrese Número de Cuenta o DNI: ");
                         ImprimirCuentas(_controlador.BuscarCuentasPorCliente(Console.ReadLine() ?? ""));
                         break;
                     case "3":
-                        Console.Write("Numero de Cuenta (ej. 001-0001): ");
+                        Console.Write("Número de Cuenta (ej. 001-0001): ");
                         ImprimirExtracto(_controlador.ObtenerExtracto(Console.ReadLine() ?? ""));
                         break;
                     case "4":
@@ -118,10 +118,10 @@ namespace ec.edu.monster.view
             Console.WriteLine($"[DEMO] Resultado Login: Autenticado={login.Autenticado} | Usuario={login.NombreCompleto} | Rol={login.Rol}");
             if (!login.Autenticado) Environment.Exit(1);
 
-            Console.WriteLine("\n[DEMO] 2. Estado inicial de cuentas y Semaforo MashUp:");
+            Console.WriteLine("\n[DEMO] 2. Estado inicial de cuentas y Semáforo MashUp:");
             ImprimirCuentas(_controlador.ObtenerCuentasPorSucursal(0));
 
-            Console.WriteLine("\n[DEMO] 3. Prueba Critica de Concurrencia (3 Ventanillas Simultaneas sobre 001-0001):");
+            Console.WriteLine("\n[DEMO] 3. Prueba Crítica de Concurrencia (3 Ventanillas Simultáneas sobre 001-0001):");
             SimularTresVentanillas("001-0001");
 
             Console.WriteLine("\n[DEMO] 4. Estado final de cuentas tras liberar semaforo (VERDE):");
@@ -153,7 +153,7 @@ namespace ec.edu.monster.view
 
         private static void ImprimirCuentas(List<CuentaModel> cuentas)
         {
-            Console.WriteLine($"{"CUENTA",-10} | {"TITULAR",-24} | {"SALDO",-11} | {"SEMAFORO MASHUP",-28}");
+            Console.WriteLine($"{"CUENTA",-10} | {"TITULAR",-24} | {"SALDO",-11} | {"SEMÁFORO MASHUP",-28}");
             Console.WriteLine(new string('-', 82));
             foreach (var c in cuentas)
             {

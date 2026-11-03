@@ -198,86 +198,56 @@ namespace DocGen
 
         public static XElement ScreenshotBox(int figNum, string title, string entorno, string parametros, string accion, string resultado)
         {
-            var pHeader = new XElement(W + "p",
-                new XElement(W + "pPr",
-                    new XElement(W + "spacing", new XAttribute(W + "before", "60"), new XAttribute(W + "after", "60")),
-                    new XElement(W + "jc", new XAttribute(W + "val", "center"))
-                ),
+            var pPr = new XElement(W + "pPr",
+                new XElement(W + "spacing", new XAttribute(W + "before", "80"), new XAttribute(W + "after", "140"), new XAttribute(W + "line", "240"), new XAttribute(W + "lineRule", "auto")),
+                new XElement(W + "jc", new XAttribute(W + "val", "left"))
+            );
+
+            var p = new XElement(W + "p", pPr,
                 new XElement(W + "r",
-                    new XElement(W + "rPr", new XElement(W + "b"), new XElement(W + "color", new XAttribute(W + "val", "FFFFFF")), new XElement(W + "sz", new XAttribute(W + "val", "19"))),
-                    new XElement(W + "t", $"[ ESPACIO RESERVADO PARA CAPTURA: FIGURA {figNum} ]")
-                )
-            );
-
-            var p1 = ItemDesc("• Entorno / Herramienta:", entorno);
-            var p2 = ItemDesc("• Pantalla / Formulario:", title);
-            var p3 = ItemDesc("• Parámetros / Datos:", parametros);
-            var p4 = ItemDesc("• Acción a Realizar:", accion);
-            var p5 = ItemDesc("• Resultado Visible:", resultado);
-
-            var tc = new XElement(W + "tc",
-                new XElement(W + "tcPr",
-                    new XElement(W + "tcW", new XAttribute(W + "w", "8504"), new XAttribute(W + "type", "dxa")),
-                    new XElement(W + "shd", new XAttribute(W + "val", "clear"), new XAttribute(W + "color", "auto"), new XAttribute(W + "fill", "F8FAFC")),
-                    new XElement(W + "tcMar",
-                        new XElement(W + "top", new XAttribute(W + "w", "140"), new XAttribute(W + "type", "dxa")),
-                        new XElement(W + "left", new XAttribute(W + "w", "200"), new XAttribute(W + "type", "dxa")),
-                        new XElement(W + "bottom", new XAttribute(W + "w", "140"), new XAttribute(W + "type", "dxa")),
-                        new XElement(W + "right", new XAttribute(W + "w", "200"), new XAttribute(W + "type", "dxa"))
-                    )
-                ),
-                p1, p2, p3, p4, p5
-            );
-
-            var tcHeader = new XElement(W + "tc",
-                new XElement(W + "tcPr",
-                    new XElement(W + "tcW", new XAttribute(W + "w", "8504"), new XAttribute(W + "type", "dxa")),
-                    new XElement(W + "shd", new XAttribute(W + "val", "clear"), new XAttribute(W + "color", "auto"), new XAttribute(W + "fill", "1E3A8A")),
-                    new XElement(W + "tcMar",
-                        new XElement(W + "top", new XAttribute(W + "w", "80"), new XAttribute(W + "type", "dxa")),
-                        new XElement(W + "left", new XAttribute(W + "w", "140"), new XAttribute(W + "type", "dxa")),
-                        new XElement(W + "bottom", new XAttribute(W + "w", "80"), new XAttribute(W + "type", "dxa")),
-                        new XElement(W + "right", new XAttribute(W + "w", "140"), new XAttribute(W + "type", "dxa"))
-                    )
-                ),
-                pHeader
-            );
-
-            var tbl = new XElement(W + "tbl",
-                new XElement(W + "tblPr",
-                    new XElement(W + "tblW", new XAttribute(W + "w", "8504"), new XAttribute(W + "type", "dxa")),
-                    new XElement(W + "tblBorders",
-                        new XElement(W + "top", new XAttribute(W + "val", "single"), new XAttribute(W + "sz", "12"), new XAttribute(W + "space", "0"), new XAttribute(W + "color", "2563EB")),
-                        new XElement(W + "left", new XAttribute(W + "val", "single"), new XAttribute(W + "sz", "12"), new XAttribute(W + "space", "0"), new XAttribute(W + "color", "2563EB")),
-                        new XElement(W + "bottom", new XAttribute(W + "val", "single"), new XAttribute(W + "sz", "12"), new XAttribute(W + "space", "0"), new XAttribute(W + "color", "2563EB")),
-                        new XElement(W + "right", new XAttribute(W + "val", "single"), new XAttribute(W + "sz", "12"), new XAttribute(W + "space", "0"), new XAttribute(W + "color", "2563EB")),
-                        new XElement(W + "insideH", new XAttribute(W + "val", "single"), new XAttribute(W + "sz", "8"), new XAttribute(W + "space", "0"), new XAttribute(W + "color", "93C5FD")),
-                        new XElement(W + "insideV", new XAttribute(W + "val", "none"))
+                    new XElement(W + "rPr",
+                        new XElement(W + "rFonts", new XAttribute(W + "ascii", "Calibri"), new XAttribute(W + "hAnsi", "Calibri")),
+                        new XElement(W + "b"),
+                        new XElement(W + "sz", new XAttribute(W + "val", "20")),
+                        new XElement(W + "szCs", new XAttribute(W + "val", "20")),
+                        new XElement(W + "color", new XAttribute(W + "val", "1E3A8A"))
                     ),
-                    new XElement(W + "jc", new XAttribute(W + "val", "center"))
+                    new XElement(W + "t", $"[ ESPACIO RESERVADO PARA CAPTURA: FIGURA {figNum} ]"),
+                    new XElement(W + "br")
                 ),
-                new XElement(W + "tblGrid", new XElement(W + "gridCol", new XAttribute(W + "w", "8504"))),
-                new XElement(W + "tr", tcHeader),
-                new XElement(W + "tr", tc)
+                CreateDescRun("• Entorno / Herramienta: ", entorno),
+                new XElement(W + "r", new XElement(W + "br")),
+                CreateDescRun("• Pantalla / Formulario: ", title),
+                new XElement(W + "r", new XElement(W + "br")),
+                CreateDescRun("• Parámetros / Datos: ", parametros),
+                new XElement(W + "r", new XElement(W + "br")),
+                CreateDescRun("• Acción a Realizar: ", accion),
+                new XElement(W + "r", new XElement(W + "br")),
+                CreateDescRun("• Resultado Visible: ", resultado)
             );
 
-            return tbl;
+            return p;
 
-            static XElement ItemDesc(string lbl, string desc)
+            static IEnumerable<XElement> CreateDescRun(string lbl, string desc)
             {
-                return new XElement(W + "p",
-                    new XElement(W + "pPr",
-                        new XElement(W + "spacing", new XAttribute(W + "after", "60"), new XAttribute(W + "line", "220"), new XAttribute(W + "lineRule", "auto")),
-                        new XElement(W + "jc", new XAttribute(W + "val", "left"))
+                yield return new XElement(W + "r",
+                    new XElement(W + "rPr",
+                        new XElement(W + "rFonts", new XAttribute(W + "ascii", "Calibri"), new XAttribute(W + "hAnsi", "Calibri")),
+                        new XElement(W + "b"),
+                        new XElement(W + "sz", new XAttribute(W + "val", "19")),
+                        new XElement(W + "szCs", new XAttribute(W + "val", "19")),
+                        new XElement(W + "color", new XAttribute(W + "val", "1E3A8A"))
                     ),
-                    new XElement(W + "r",
-                        new XElement(W + "rPr", new XElement(W + "b"), new XElement(W + "sz", new XAttribute(W + "val", "19")), new XElement(W + "color", new XAttribute(W + "val", "1E3A8A"))),
-                        new XElement(W + "t", new XAttribute(XNamespace.Xml + "space", "preserve"), lbl + " ")
+                    new XElement(W + "t", new XAttribute(XNamespace.Xml + "space", "preserve"), lbl)
+                );
+                yield return new XElement(W + "r",
+                    new XElement(W + "rPr",
+                        new XElement(W + "rFonts", new XAttribute(W + "ascii", "Calibri"), new XAttribute(W + "hAnsi", "Calibri")),
+                        new XElement(W + "sz", new XAttribute(W + "val", "19")),
+                        new XElement(W + "szCs", new XAttribute(W + "val", "19")),
+                        new XElement(W + "color", new XAttribute(W + "val", "334155"))
                     ),
-                    new XElement(W + "r",
-                        new XElement(W + "rPr", new XElement(W + "sz", new XAttribute(W + "val", "19")), new XElement(W + "color", new XAttribute(W + "val", "334155"))),
-                        new XElement(W + "t", desc)
-                    )
+                    new XElement(W + "t", desc)
                 );
             }
         }
