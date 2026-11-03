@@ -111,3 +111,12 @@ desktop.ini
 ~$*.docx
 ~$*.xlsx
 ~$*.pptx
+
+# ---------------------------------------------------------------------
+# Respaldos de Documentacion y Herramienta DocGen
+# ---------------------------------------------------------------------
+*.docx.bak
+*.bak
+DocGen/
+**/DocGen/
+

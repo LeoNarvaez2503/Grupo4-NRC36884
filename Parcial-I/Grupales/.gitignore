@@ -1,0 +1,13 @@
+# =====================================================================
+# GITIGNORE - GRUPALES (GRUPO 04)
+# =====================================================================
+
+# Respaldos de Manuales y Documentacion (.docx.bak y .bak)
+*.docx.bak
+*.bak
+
+# Herramienta y proyecto generador DocGen
+DocGen/
+**/DocGen/
+bin/
+obj/

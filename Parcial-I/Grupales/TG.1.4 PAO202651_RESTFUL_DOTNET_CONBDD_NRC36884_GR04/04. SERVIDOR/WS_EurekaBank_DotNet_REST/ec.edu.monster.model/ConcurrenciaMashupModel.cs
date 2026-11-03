@@ -1,5 +1,5 @@
 using System.Collections.Concurrent;
-using MySqlConnector;
+using Microsoft.Data.SqlClient;
 
 namespace ec.edu.monster.model
 {
@@ -16,7 +16,7 @@ namespace ec.edu.monster.model
         private static readonly ConcurrentDictionary<string, InfoBloqueo> BloqueosActivos = new(StringComparer.OrdinalIgnoreCase);
         private static readonly object SyncLock = new();
         public static string ConnectionString { get; set; } =
-            "Server=127.0.0.1;Port=3306;Database=eurekabank_db;User ID=root;Password=admin;SslMode=None;AllowPublicKeyRetrieval=True;";
+            "Server=127.0.0.1,1433;Database=eurekabank_db;User Id=sa;Password=Monster9#Admin;TrustServerCertificate=True;";
 
         public static bool BloquearCuenta(string numeroCuenta, int ventanilla, string usuario)
         {
@@ -67,9 +67,9 @@ namespace ec.edu.monster.model
                 PersistirEstadoMashup(cta, "VERDE", null, null);
                 try
                 {
-                    using var con = new MySqlConnection(ConnectionString);
+                    using var con = new SqlConnection(ConnectionString);
                     con.Open();
-                    using var cmd = new MySqlCommand("UPDATE cuenta SET estado = 'Activa' WHERE numero_cuenta = @cta", con);
+                    using var cmd = new SqlCommand("UPDATE cuenta SET estado = 'Activa' WHERE numero_cuenta = @cta", con);
                     cmd.Parameters.AddWithValue("@cta", cta);
                     cmd.ExecuteNonQuery();
                 }
@@ -90,9 +90,9 @@ namespace ec.edu.monster.model
 
             try
             {
-                using var con = new MySqlConnection(ConnectionString);
+                using var con = new SqlConnection(ConnectionString);
                 con.Open();
-                using var cmd = new MySqlCommand(
+                using var cmd = new SqlCommand(
                     "SELECT estado_mashup, COALESCE(ventanilla, 1), COALESCE(bloqueado_por, 'Operador') FROM control_mashup WHERE numero_cuenta = @cta",
                     con);
                 cmd.Parameters.AddWithValue("@cta", cta);
@@ -118,9 +118,9 @@ namespace ec.edu.monster.model
         {
             try
             {
-                using var con = new MySqlConnection(ConnectionString);
+                using var con = new SqlConnection(ConnectionString);
                 con.Open();
-                using var cmd = new MySqlCommand("SELECT estado_mashup FROM control_mashup WHERE numero_cuenta = @cta", con);
+                using var cmd = new SqlCommand("SELECT estado_mashup FROM control_mashup WHERE numero_cuenta = @cta", con);
                 cmd.Parameters.AddWithValue("@cta", cta);
                 var val = cmd.ExecuteScalar()?.ToString();
                 return string.Equals(val, "ROJO", StringComparison.OrdinalIgnoreCase);
@@ -135,17 +135,20 @@ namespace ec.edu.monster.model
         {
             try
             {
-                using var con = new MySqlConnection(ConnectionString);
+                using var con = new SqlConnection(ConnectionString);
                 con.Open();
                 const string sql = @"
-                    INSERT INTO control_mashup (numero_cuenta, estado_mashup, ventanilla, bloqueado_por)
-                    VALUES (@cta, @est, @ven, @usr)
-                    ON DUPLICATE KEY UPDATE
-                        estado_mashup = VALUES(estado_mashup),
-                        ventanilla = VALUES(ventanilla),
-                        bloqueado_por = VALUES(bloqueado_por),
-                        actualizado_en = CURRENT_TIMESTAMP;";
-                using var cmd = new MySqlCommand(sql, con);
+                    IF EXISTS (SELECT 1 FROM control_mashup WHERE numero_cuenta = @cta)
+                        UPDATE control_mashup
+                        SET estado_mashup = @est,
+                            ventanilla = @ven,
+                            bloqueado_por = @usr,
+                            actualizado_en = GETDATE()
+                        WHERE numero_cuenta = @cta;
+                    ELSE
+                        INSERT INTO control_mashup (numero_cuenta, estado_mashup, ventanilla, bloqueado_por, actualizado_en)
+                        VALUES (@cta, @est, @ven, @usr, GETDATE());";
+                using var cmd = new SqlCommand(sql, con);
                 cmd.Parameters.AddWithValue("@cta", cta);
                 cmd.Parameters.AddWithValue("@est", estado);
                 cmd.Parameters.AddWithValue("@ven", ventanilla.HasValue ? ventanilla.Value : DBNull.Value);

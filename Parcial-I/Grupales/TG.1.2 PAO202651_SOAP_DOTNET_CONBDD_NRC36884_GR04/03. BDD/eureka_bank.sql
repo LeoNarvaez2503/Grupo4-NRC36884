@@ -1,71 +1,86 @@
 -- =============================================================================
 -- SISTEMA BANCARIO TRANSACCIONAL EUREKABANK - GRUPO 04 (GR04)
--- DOMINIO: ec.edu.monster | MOTOR: MySQL / MariaDB (Docker / Podman Local :3306)
--- CREDENCIAL MAESTRA: Usuario = Monster | Contraseña = Monster9
+-- DOMINIO: ec.edu.monster | MOTOR: Microsoft SQL Server 2022 (Docker / Podman Local :1433)
+-- CREDENCIAL MAESTRA DE APLICACION: Usuario = Monster | Contraseña = Monster9
+-- CREDENCIAL ADMINISTRADOR BDD: sa | Contraseña = Monster9#Admin
 -- =============================================================================
 
-DROP DATABASE IF EXISTS eurekabank_db;
-CREATE DATABASE eurekabank_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+IF DB_ID('eurekabank_db') IS NOT NULL
+BEGIN
+    ALTER DATABASE eurekabank_db SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE eurekabank_db;
+END;
+GO
+
+CREATE DATABASE eurekabank_db;
+GO
+
 USE eurekabank_db;
+GO
 
 -- 1. Tabla: sucursal
 CREATE TABLE sucursal (
-    id_sucursal INT AUTO_INCREMENT PRIMARY KEY,
+    id_sucursal INT IDENTITY(1,1) PRIMARY KEY,
     codigo VARCHAR(10) NOT NULL UNIQUE,
     nombre VARCHAR(100) NOT NULL,
     ciudad VARCHAR(100) NOT NULL,
     direccion VARCHAR(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
+GO
 
 -- 2. Tabla: empleado (Autenticación y Auditoría de 4 Ventanillas + Gerencia + Superadmin Monster)
 CREATE TABLE empleado (
-    id_empleado INT AUTO_INCREMENT PRIMARY KEY,
+    id_empleado INT IDENTITY(1,1) PRIMARY KEY,
     usuario VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     nombre_completo VARCHAR(150) NOT NULL,
-    rol ENUM('Superadmin Monster', 'Gerente', 'Cajero') NOT NULL,
+    rol VARCHAR(50) NOT NULL CHECK (rol IN ('Superadmin Monster', 'Gerente', 'Cajero')),
     id_sucursal INT NOT NULL DEFAULT 1,
-    ventanilla INT DEFAULT NULL,
-    FOREIGN KEY (id_sucursal) REFERENCES sucursal(id_sucursal)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    ventanilla INT NULL,
+    CONSTRAINT FK_empleado_sucursal FOREIGN KEY (id_sucursal) REFERENCES sucursal(id_sucursal)
+);
+GO
 
 -- 3. Tabla: cliente
 CREATE TABLE cliente (
-    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT IDENTITY(1,1) PRIMARY KEY,
     dni VARCHAR(20) NOT NULL UNIQUE,
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
-    direccion VARCHAR(200),
-    telefono VARCHAR(20),
-    email VARCHAR(100)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    direccion VARCHAR(200) NULL,
+    telefono VARCHAR(20) NULL,
+    email VARCHAR(100) NULL
+);
+GO
 
--- 4. Tabla: cuenta (Soporta bloqueo pesimista SELECT ... FOR UPDATE)
+-- 4. Tabla: cuenta (Soporta bloqueo pesimista con WITH (UPDLOCK, ROWLOCK))
 CREATE TABLE cuenta (
     numero_cuenta VARCHAR(20) PRIMARY KEY,
     moneda VARCHAR(10) NOT NULL DEFAULT 'USD',
     saldo DECIMAL(12, 2) NOT NULL DEFAULT 0.00,
     id_cliente INT NOT NULL,
     id_sucursal INT NOT NULL,
-    estado ENUM('Activa', 'Bloqueada') NOT NULL DEFAULT 'Activa',
-    fecha_apertura TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
-    FOREIGN KEY (id_sucursal) REFERENCES sucursal(id_sucursal)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    estado VARCHAR(20) NOT NULL DEFAULT 'Activa' CHECK (estado IN ('Activa', 'Bloqueada')),
+    fecha_apertura DATETIME2 NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT FK_cuenta_cliente FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
+    CONSTRAINT FK_cuenta_sucursal FOREIGN KEY (id_sucursal) REFERENCES sucursal(id_sucursal)
+);
+GO
 
 -- 5. Tabla: control_mashup (Semáforo Cromático en Tiempo Real: VERDE = Libre, ROJO = Ocupada en Ventanilla)
 CREATE TABLE control_mashup (
     numero_cuenta VARCHAR(20) PRIMARY KEY,
-    estado_mashup ENUM('VERDE', 'ROJO') NOT NULL DEFAULT 'VERDE',
-    ventanilla INT DEFAULT NULL,
-    bloqueado_por VARCHAR(100) DEFAULT NULL,
-    actualizado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (numero_cuenta) REFERENCES cuenta(numero_cuenta) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    estado_mashup VARCHAR(10) NOT NULL DEFAULT 'VERDE' CHECK (estado_mashup IN ('VERDE', 'ROJO')),
+    ventanilla INT NULL,
+    bloqueado_por VARCHAR(100) NULL,
+    actualizado_en DATETIME2 NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT FK_mashup_cuenta FOREIGN KEY (numero_cuenta) REFERENCES cuenta(numero_cuenta) ON DELETE CASCADE
+);
+GO
 
 -- 6. Tabla: movimiento (Auditoría e Historial Cronológico ACID)
 CREATE TABLE movimiento (
-    id_movimiento INT AUTO_INCREMENT PRIMARY KEY,
+    id_movimiento INT IDENTITY(1,1) PRIMARY KEY,
     numero_operacion VARCHAR(50) NOT NULL UNIQUE,
     numero_cuenta VARCHAR(20) NOT NULL,
     id_empleado INT NOT NULL,
@@ -73,12 +88,13 @@ CREATE TABLE movimiento (
     tipo VARCHAR(40) NOT NULL,
     monto DECIMAL(12, 2) NOT NULL,
     saldo_resultante DECIMAL(12, 2) NOT NULL,
-    cuenta_referencia VARCHAR(20) DEFAULT NULL,
-    descripcion VARCHAR(200) DEFAULT NULL,
-    fecha_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (numero_cuenta) REFERENCES cuenta(numero_cuenta),
-    FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    cuenta_referencia VARCHAR(20) NULL,
+    descripcion VARCHAR(200) NULL,
+    fecha_hora DATETIME2 NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT FK_movimiento_cuenta FOREIGN KEY (numero_cuenta) REFERENCES cuenta(numero_cuenta),
+    CONSTRAINT FK_movimiento_empleado FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado)
+);
+GO
 
 -- =============================================================================
 -- DATOS SEMILLA (SEEDERS) - CREDENCIALES: Monster / Monster9
@@ -123,11 +139,12 @@ INSERT INTO control_mashup (numero_cuenta, estado_mashup, ventanilla, bloqueado_
 ('003-0001', 'VERDE', NULL, NULL);
 
 INSERT INTO movimiento (numero_operacion, numero_cuenta, id_empleado, ventanilla, tipo, monto, saldo_resultante, cuenta_referencia, descripcion, fecha_hora) VALUES
-('APE-100001', '001-0001', 1, 1, 'Deposito', 2000.00, 2000.00, NULL, 'Apertura de cuenta ahorro Monster', DATE_SUB(NOW(), INTERVAL 3 DAY)),
-('DEP-100002', '001-0001', 2, 1, 'Deposito',  500.00, 2500.00, NULL, 'Depósito en efectivo Ventanilla 1', DATE_SUB(NOW(), INTERVAL 1 DAY)),
-('APE-100003', '001-0002', 1, 1, 'Deposito', 2000.00, 2000.00, NULL, 'Apertura de cuenta ahorro',         DATE_SUB(NOW(), INTERVAL 2 DAY)),
-('RET-100004', '001-0002', 3, 2, 'Retiro',    200.00, 1800.00, NULL, 'Retiro por ventanilla 2',           DATE_SUB(NOW(), INTERVAL 12 HOUR)),
-('APE-100005', '001-0003', 1, 1, 'Deposito', 3200.50, 3200.50, NULL, 'Apertura de cuenta ahorro',         DATE_SUB(NOW(), INTERVAL 2 DAY)),
-('APE-100006', '001-0004', 4, 3, 'Deposito',  950.00,  950.00, NULL, 'Apertura de cuenta ahorro',         DATE_SUB(NOW(), INTERVAL 1 DAY)),
-('APE-100007', '002-0001', 5, 4, 'Deposito', 4100.00, 4100.00, NULL, 'Apertura Sucursal Norte',           DATE_SUB(NOW(), INTERVAL 1 DAY)),
-('APE-100008', '003-0001', 1, 1, 'Deposito', 1500.00, 1500.00, NULL, 'Apertura Sucursal Guayaquil',       DATE_SUB(NOW(), INTERVAL 1 DAY));
+('APE-100001', '001-0001', 1, 1, 'Deposito', 2000.00, 2000.00, NULL, 'Apertura de cuenta ahorro Monster', DATEADD(DAY, -3, GETDATE())),
+('DEP-100002', '001-0001', 2, 1, 'Deposito',  500.00, 2500.00, NULL, 'Depósito en efectivo Ventanilla 1', DATEADD(DAY, -1, GETDATE())),
+('APE-100003', '001-0002', 1, 1, 'Deposito', 2000.00, 2000.00, NULL, 'Apertura de cuenta ahorro',         DATEADD(DAY, -2, GETDATE())),
+('RET-100004', '001-0002', 3, 2, 'Retiro',    200.00, 1800.00, NULL, 'Retiro por ventanilla 2',           DATEADD(HOUR, -12, GETDATE())),
+('APE-100005', '001-0003', 1, 1, 'Deposito', 3200.50, 3200.50, NULL, 'Apertura de cuenta ahorro',         DATEADD(DAY, -2, GETDATE())),
+('APE-100006', '001-0004', 4, 3, 'Deposito',  950.00,  950.00, NULL, 'Apertura de cuenta ahorro',         DATEADD(DAY, -1, GETDATE())),
+('APE-100007', '002-0001', 5, 4, 'Deposito', 4100.00, 4100.00, NULL, 'Apertura Sucursal Norte',           DATEADD(DAY, -1, GETDATE())),
+('APE-100008', '003-0001', 1, 1, 'Deposito', 1500.00, 1500.00, NULL, 'Apertura Sucursal Guayaquil',       DATEADD(DAY, -1, GETDATE()));
+GO

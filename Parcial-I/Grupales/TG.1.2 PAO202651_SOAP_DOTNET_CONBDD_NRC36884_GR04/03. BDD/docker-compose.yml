@@ -1,21 +1,21 @@
 version: "3.9"
 
-# Configuracion de persistencia local contenerizada (Docker / Podman) - Grupo 04 (GR04)
-# Contenedor activo compatible: mysql-db (puerto 3306:3306, usuario root, clave admin)
+# Configuración de persistencia local contenerizada (Docker / Podman) - Grupo 04 (GR04)
+# Contenedor activo: mssql-db (puerto 1433:1433, usuario sa, clave Monster9#Admin)
 services:
-  mysql-db:
-    image: docker.io/library/mysql:latest
-    container_name: mysql-db
+  mssql-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql-db
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: eurekabank_db
-      TZ: America/Guayaquil
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Monster9#Admin"
+      MSSQL_PID: "Developer"
     ports:
-      - "3306:3306"
+      - "1433:1433"
     volumes:
-      - eurekabank_mysql_data:/var/lib/mysql
-      - ./eureka_bank.sql:/docker-entrypoint-initdb.d/01_eureka_bank.sql:ro
+      - eurekabank_mssql_data:/var/opt/mssql
+      - ./eureka_bank.sql:/usr/config/eureka_bank.sql:ro
 
 volumes:
-  eurekabank_mysql_data:
+  eurekabank_mssql_data:
