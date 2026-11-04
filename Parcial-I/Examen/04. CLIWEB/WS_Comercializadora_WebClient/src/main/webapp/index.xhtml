@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:pt="jakarta.faces.passthrough">
+<h:head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>CelStore &amp; BanQuito Core — Grupo 04 (Monster)</title>
+    
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Outfit:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+
+    <style>
+        :root {
+            --brand-primary: #0f4c81;
+            --brand-navy: #092540;
+            --brand-dark: #00172e;
+            --brand-accent: #f59e0b;
+            --brand-accent-hover: #d97706;
+            --bg-light: #f8fafc;
+            --surface: rgba(255, 255, 255, 0.88);
+            --border-color: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --success: #10b981;
+            --success-dark: #059669;
+            --danger: #ef4444;
+            --danger-dark: #dc2626;
+            --info: #0284c7;
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --shadow-card: 0 4px 20px -2px rgba(15, 76, 129, 0.08), 0 2px 6px -1px rgba(0,0,0,0.04);
+            --shadow-hover: 0 12px 28px -4px rgba(15, 76, 129, 0.16);
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-light); color: var(--text-main); line-height: 1.5;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background-image: url('#{request.contextPath}/images/sullivan.png');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: min(85vw, 950px) auto;
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* --- HERO BANNER CON MASCOTA SULLIVAN DE FONDO --- */
+        .hero-banner {
+            background-color: #092540;
+            background-image: 
+                linear-gradient(90deg, 
+                    #092540 0%, 
+                    rgba(9, 37, 64, 0.96) 35%, 
+                    rgba(9, 37, 64, 0.82) 60%, 
+                    rgba(15, 76, 129, 0.40) 82%, 
+                    rgba(9, 37, 64, 0.70) 100%
+                ),
+                url('#{request.contextPath}/images/sullivan.png');
+            background-position: right 25px center;
+            background-size: auto 120%;
+            background-repeat: no-repeat;
+            color: #ffffff; padding: 34px 40px;
+            box-shadow: 0 8px 28px rgba(9, 37, 64, 0.35);
+            border-bottom: 3.5px solid var(--brand-accent);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-container {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+            position: relative; z-index: 2;
+        }
+        .hero-text { flex: 1; min-width: 320px; }
+        .hero-badge-pill {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.5);
+            color: #fde68a; font-size: 11px; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.6px; padding: 4px 12px; border-radius: 999px; margin-bottom: 10px;
+        }
+        .hero-title {
+            font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 800; margin: 0 0 6px 0;
+            color: #ffffff; letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .hero-title span { color: var(--brand-accent); }
+        .hero-subtitle {
+            font-size: 14px; color: #cbd5e1; margin: 0 0 14px 0; max-width: 700px;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        }
+        .hero-meta-row {
+            display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+        }
+        .hero-meta-tag {
+            background: rgba(9, 37, 64, 0.65); backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.22); border-radius: 6px;
+            padding: 4px 10px; font-size: 12px; font-weight: 600; color: #f1f5f9;
+        }
+
+        /* --- SULLIVAN MASCOT CARD --- */
+        .hero-mascot-card {
+            display: flex; align-items: center; gap: 16px;
+            background: rgba(9, 37, 64, 0.75); backdrop-filter: blur(14px);
+            border: 1.5px solid rgba(245, 158, 11, 0.55); border-radius: 16px;
+            padding: 14px 22px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            transition: all 0.3s ease; text-align: right;
+        }
+        .hero-mascot-card:hover {
+            border-color: var(--brand-accent);
+            box-shadow: 0 12px 36px rgba(245, 158, 11, 0.3);
+            transform: translateY(-2px);
+        }
+        .hero-mascot-info { text-align: right; }
+        .hero-mascot-title { font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 800; color: #ffffff; }
+        .hero-mascot-desc { font-size: 11px; color: #cbd5e1; margin-top: 2px; line-height: 1.35; }
+        .hero-mascot-badge {
+            background: var(--brand-accent); color: #000; font-weight: 800; font-size: 10px;
+            padding: 3px 10px; border-radius: 6px; display: inline-block; margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- BARRA DE NAVEGACIÓN --- */
+        .nav-wrapper {
+            background: #ffffff; border-bottom: 1px solid var(--border-color);
+            position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+        .nav-tabs-bar {
+            max-width: 1400px; margin: 0 auto; padding: 0 24px; display: flex; gap: 8px; flex-wrap: wrap;
+        }
+        .nav-tab-btn {
+            background: none; border: none; padding: 14px 20px; font-size: 14px; font-weight: 600;
+            color: var(--text-muted); cursor: pointer; border-bottom: 3px solid transparent;
+            display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s ease;
+        }
+        .nav-tab-btn:hover { color: var(--brand-primary); }
+        .nav-tab-btn.active {
+            color: var(--brand-primary); border-bottom-color: var(--brand-primary);
+            font-weight: 700; background: rgba(15, 76, 129, 0.04);
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .app-container { max-width: 1400px; margin: 24px auto; padding: 0 24px; }
+        .grid-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; }
+        @media (max-width: 1024px) { .grid-layout { grid-template-columns: 1fr; } }
+
+        /* --- TARJETAS --- */
+        .card-custom {
+            background: var(--surface); border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color); padding: 24px;
+            box-shadow: var(--shadow-card); margin-bottom: 24px;
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            transition: box-shadow 0.2s ease;
+        }
+        .card-custom:hover { box-shadow: var(--shadow-hover); }
+        .card-header-flex {
+            display: flex; align-items: center; justify-content: space-between;
+            padding-bottom: 14px; margin-bottom: 18px; border-bottom: 1px solid var(--border-color);
+        }
+        .card-title {
+            font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700;
+            color: var(--brand-navy); margin: 0; display: flex; align-items: center; gap: 8px;
+        }
+        .card-subtitle { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+
+        /* --- BOTONERA 4 CLIENTES RÚBRICA --- */
+        .rubrica-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 14px; margin-bottom: 24px;
+        }
+        .rubrica-card-btn {
+            background: rgba(255, 255, 255, 0.88); border: 2px solid var(--border-color); border-radius: var(--radius-md);
+            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+            padding: 14px 16px; cursor: pointer; text-align: left; transition: all 0.2s ease;
+            display: block; text-decoration: none; position: relative; overflow: hidden;
+        }
+        .rubrica-card-btn:hover {
+            transform: translateY(-3px); box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+        }
+        .rubrica-card-btn.cliente-1:hover { border-color: var(--success); }
+        .rubrica-card-btn.cliente-2:hover { border-color: var(--danger); }
+        .rubrica-card-btn.cliente-3:hover { border-color: var(--brand-accent); }
+        .rubrica-card-btn.cliente-4:hover { border-color: var(--brand-primary); }
+
+        .rubrica-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .rubrica-name { font-weight: 700; font-size: 14px; color: var(--text-main); }
+        .rubrica-badge {
+            font-size: 10px; font-weight: 800; text-transform: uppercase;
+            padding: 2px 8px; border-radius: 999px; letter-spacing: 0.5px;
+        }
+        .rubrica-badge.green { background: #dcfce7; color: #15803d; }
+        .rubrica-badge.red { background: #fee2e2; color: #b91c1c; }
+        .rubrica-badge.amber { background: #fef3c7; color: #b45309; }
+        .rubrica-badge.blue { background: #dbeafe; color: #1d4ed8; }
+        .rubrica-details { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+        .rubrica-highlight { font-weight: 700; margin-top: 4px; display: block; font-size: 12px; }
+
+        /* --- FORMULARIOS --- */
+        .form-group { margin-bottom: 16px; }
+        .form-label {
+            display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600;
+            color: #334155; margin-bottom: 6px;
+        }
+        .form-input {
+            width: 100%; padding: 11px 14px; border: 1.5px solid var(--border-color);
+            border-radius: var(--radius-md); font-size: 14px; font-family: inherit;
+            background: #ffffff; color: var(--text-main); transition: all 0.2s ease;
+        }
+        .form-input:focus {
+            outline: none; border-color: var(--brand-primary);
+            box-shadow: 0 0 0 3px rgba(15, 76, 129, 0.12);
+        }
+        .form-select {
+            width: 100%; padding: 11px 14px; border: 1.5px solid var(--border-color);
+            border-radius: var(--radius-md); font-size: 14px; font-family: inherit;
+            background: #ffffff; color: var(--text-main); cursor: pointer;
+        }
+        .form-select:focus { outline: none; border-color: var(--brand-primary); }
+
+        .payment-radio-group { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 6px; }
+        .payment-radio-group table { border-collapse: collapse; }
+        .payment-radio-group td { padding: 6px 12px; }
+        .payment-radio-group label {
+            margin-left: 8px; font-size: 14px; font-weight: 500; cursor: pointer;
+        }
+
+        /* --- BOTONES DE ACCIÓN --- */
+        .btn-modern {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 12px 22px; border-radius: var(--radius-md); font-size: 14px; font-weight: 700;
+            cursor: pointer; border: none; transition: all 0.2s ease; text-decoration: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+        .btn-modern:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(0,0,0,0.12); }
+        .btn-primary-gradient {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, #0a3156 100%);
+            color: #ffffff;
+        }
+        .btn-success-gradient {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+        }
+        .btn-danger-gradient {
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+            color: #ffffff;
+        }
+        .btn-accent-gradient {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #000000;
+        }
+
+        /* --- KPI SUMMARY BOXES --- */
+        .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .kpi-card {
+            background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-md);
+            padding: 14px 16px; text-align: center;
+        }
+        .kpi-title { font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--text-muted); letter-spacing: 0.5px; }
+        .kpi-value { font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 800; margin-top: 4px; color: var(--text-main); }
+        .kpi-value.green { color: var(--success); }
+        .kpi-value.blue { color: var(--brand-primary); }
+        .kpi-value.red { color: var(--danger); }
+        .kpi-value.gold { color: var(--brand-accent-hover); }
+
+        /* --- ALERTAS --- */
+        .status-alert {
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px 18px; border-radius: var(--radius-md); font-size: 13px; font-weight: 600;
+            margin-bottom: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .status-alert.alert-success { background: #ecfdf5; border: 1.5px solid #a7f3d0; color: #065f46; }
+        .status-alert.alert-danger { background: #fef2f2; border: 1.5px solid #fecaca; color: #991b1b; }
+        .status-alert.alert-warning { background: #fffbeb; border: 1.5px solid #fde68a; color: #92400e; }
+        .status-alert.alert-info { background: #f0f9ff; border: 1.5px solid #bae6fd; color: #075985; }
+
+        /* --- TABLAS --- */
+        .table-responsive { width: 100%; overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border-color); }
+        table.modern-table { width: 100%; border-collapse: collapse; font-size: 13px; background: #ffffff; }
+        table.modern-table th {
+            background: #092540; color: #ffffff; padding: 12px 14px; text-align: left;
+            font-weight: 700; border-bottom: 2px solid var(--border-color);
+        }
+        table.modern-table td {
+            padding: 11px 14px; border-bottom: 1px solid #f1f5f9; color: #334155;
+        }
+        table.modern-table tr:hover { background: #f8fafc; }
+        table.modern-table tr:last-child td { border-bottom: none; }
+        .text-right { text-align: right; }
+        .text-center { text-align: center; }
+        .fw-bold { font-weight: 700; }
+        .badge-status {
+            display: inline-block; padding: 3px 10px; border-radius: 999px;
+            font-size: 11px; font-weight: 700; text-transform: uppercase;
+        }
+        .badge-status.efectivo { background: #dcfce7; color: #15803d; }
+        .badge-status.credito { background: #dbeafe; color: #1e40af; }
+
+        /* --- PRODUCT GRID (CATÁLOGO ELEGANTE) --- */
+        .product-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 18px; margin-top: 14px;
+        }
+        .product-card {
+            background: rgba(255, 255, 255, 0.88); border: 1.5px solid var(--border-color); border-radius: var(--radius-md);
+            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+            padding: 18px; display: flex; flex-direction: column; justify-content: space-between;
+            transition: all 0.25s ease; position: relative;
+        }
+        .product-card:hover {
+            transform: translateY(-4px); box-shadow: var(--shadow-hover);
+            border-color: var(--brand-primary);
+        }
+        .product-brand-tag {
+            font-size: 10px; font-weight: 800; text-transform: uppercase;
+            background: #f1f5f9; color: var(--brand-primary);
+            padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px;
+        }
+        .product-name {
+            font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700;
+            color: var(--brand-navy); margin: 0 0 6px 0;
+        }
+        .product-specs {
+            font-size: 12px; color: var(--text-muted); line-height: 1.45;
+            margin-bottom: 14px; flex: 1;
+        }
+        .product-footer {
+            display: flex; align-items: center; justify-content: space-between;
+            border-top: 1px solid var(--border-color); padding-top: 12px;
+        }
+        .product-price-val {
+            font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 800;
+            color: var(--brand-primary);
+        }
+
+        .hero-logout-btn {
+            background: rgba(239, 68, 68, 0.25); border: 1px solid rgba(239, 68, 68, 0.6);
+            color: #fca5a5; font-size: 11px; font-weight: 700; padding: 4px 10px;
+            border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center;
+            transition: all 0.2s ease; cursor: pointer;
+        }
+        .hero-logout-btn:hover { background: rgba(239, 68, 68, 0.5); color: #ffffff; }
+
+        /* --- FOOTER --- */
+        .app-footer {
+            margin-top: 40px; padding: 24px; text-align: center;
+            background: #ffffff; border-top: 1px solid var(--border-color);
+            color: var(--text-muted); font-size: 12px;
+        }
+        .app-footer strong { color: var(--brand-navy); }
+    </style>
+</h:head>
+<f:metadata>
+    <f:event type="preRenderView" listener="#{loginView.verificarSesion}" />
+</f:metadata>
+<h:body>
+
+    <!-- HERO HEADER CON SULLIVAN (MONSTER CORE) -->
+    <header class="hero-banner">
+        <div class="hero-container">
+            <div class="hero-text">
+                <div class="hero-badge-pill">
+                    <i class="bi bi-shield-check"></i> Alianza Estratégica Distribuida — Grupo 04 (Monster)
+                </div>
+                <h1 class="hero-title">CelStore <span>&amp; BanQuito Core</span></h1>
+                <p class="hero-subtitle">
+                    Sistema de Facturación de Smartphones con Crédito Directo Bancario y Amortización Francesa (16.5% Anual).
+                </p>
+                <div class="hero-meta-row">
+                    <span class="hero-meta-tag"><i class="bi bi-mortarboard me-1"></i> NRC: 36884 | Arquitectura Software ESPE</span>
+                    <span class="hero-meta-tag"><i class="bi bi-server me-1"></i> BanQuito Core REST (:8080)</span>
+                    <span class="hero-meta-tag"><i class="bi bi-percent me-1"></i> Tasa Anual: 16.5%</span>
+                    <span class="hero-meta-tag"><i class="bi bi-cash-stack me-1"></i> Descuento Efectivo: 42%</span>
+                </div>
+            </div>
+
+            <!-- Insignia Corporativa sobre el fondo de Sullivan -->
+            <div class="hero-mascot-card">
+                <div class="hero-mascot-info">
+                    <span class="hero-mascot-badge">★ GRUPO 04 - MONSTER</span>
+                    <div class="hero-mascot-title">James P. Sullivan</div>
+                    <div class="hero-mascot-desc">Mascota Oficial Grupo 04<br/>Alianza Celulares &amp; BanQuito</div>
+                    <div style="font-size:10px; font-weight:800; color:#10b981; margin-top:6px;">● CORE BANQUITO CONECTADO</div>
+                    <div style="margin-top:8px;">
+                        <h:form style="display:inline;">
+                            <h:commandLink action="#{loginView.logout}" styleClass="hero-logout-btn">
+                                <i class="bi bi-box-arrow-right me-1"></i> Cerrar Sesión (#{loginView.usuario})
+                            </h:commandLink>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- BARRA DE PESTAÑAS NATIVAS JSF -->
+    <div class="nav-wrapper">
+        <h:form id="navForm">
+            <div class="nav-tabs-bar">
+                <h:commandButton value="1. Facturación &amp; Crédito Directo" action="#{comercializadoraView.setTabActiva('facturacion')}"
+                                 styleClass="nav-tab-btn #{comercializadoraView.tabActiva == 'facturacion' ? 'active' : ''}">
+                    <f:ajax render=":panelContenido :navForm" />
+                </h:commandButton>
+                <h:commandButton value="2. Catálogo de Celulares (CRUD)" action="#{comercializadoraView.setTabActiva('catalogo')}"
+                                 styleClass="nav-tab-btn #{comercializadoraView.tabActiva == 'catalogo' ? 'active' : ''}">
+                    <f:ajax render=":panelContenido :navForm" />
+                </h:commandButton>
+                <h:commandButton value="3. Consulta de Amortización" action="#{comercializadoraView.setTabActiva('amortizacion')}"
+                                 styleClass="nav-tab-btn #{comercializadoraView.tabActiva == 'amortizacion' ? 'active' : ''}">
+                    <f:ajax render=":panelContenido :navForm" />
+                </h:commandButton>
+                <h:commandButton value="4. Historial de Facturas" action="#{comercializadoraView.setTabActiva('historial')}"
+                                 styleClass="nav-tab-btn #{comercializadoraView.tabActiva == 'historial' ? 'active' : ''}">
+                    <f:ajax render=":panelContenido :navForm" />
+                </h:commandButton>
+                <div style="margin-left:auto; display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:#10b981; padding:6px 12px; background:rgba(16,185,129,0.1); border-radius:999px; margin-top:8px; margin-bottom:8px;">
+                    <span style="width:8px; height:8px; background:#10b981; border-radius:50%; display:inline-block; box-shadow:0 0 8px #10b981;"></span>
+                    <span>● Reactivo en Vivo (2.5s)</span>
+                </div>
+            </div>
+        </h:form>
+    </div>
+
+    <!-- CONTENIDO DINÁMICO DE PESTAÑAS -->
+    <main class="app-container">
+        <h:panelGroup id="panelContenido" layout="block">
+
+            <!-- =============================================================== -->
+            <!-- PESTAÑA 1: FACTURACIÓN Y CRÉDITO DIRECTO                        -->
+            <!-- =============================================================== -->
+            <ui:fragment rendered="#{comercializadoraView.tabActiva == 'facturacion'}">
+
+                <!-- Botonera de los 4 Casos Oficiales de Prueba (Rúbrica) -->
+                <div class="card-custom">
+                    <div class="card-header-flex">
+                        <div>
+                            <h2 class="card-title"><i class="bi bi-lightning-charge-fill" style="color:var(--brand-accent);"></i> Casos Oficiales de Prueba ante el Tribunal (Rúbrica)</h2>
+                            <div class="card-subtitle">Demostración inmediata con 1 solo clic de los 4 clientes evaluados</div>
+                        </div>
+                    </div>
+
+                    <h:form id="formRubrica">
+                        <div class="rubrica-grid">
+                            <h:commandLink action="#{comercializadoraView.seleccionarCliente1}" styleClass="rubrica-card-btn cliente-1">
+                                <f:ajax render=":panelContenido" />
+                                <div class="rubrica-top-row">
+                                    <span class="rubrica-name">1. Carlos Andrade</span>
+                                    <span class="rubrica-badge green">Aprobado</span>
+                                </div>
+                                <div class="rubrica-details">C.I. 1710000001 | Motorola Edge 40 ($450)</div>
+                                <span class="rubrica-highlight" style="color:var(--success);">Crédito 6m → Cuota $78.65</span>
+                            </h:commandLink>
+
+                            <h:commandLink action="#{comercializadoraView.seleccionarCliente2}" styleClass="rubrica-card-btn cliente-2">
+                                <f:ajax render=":panelContenido" />
+                                <div class="rubrica-top-row">
+                                    <span class="rubrica-name">2. Andrea Morales</span>
+                                    <span class="rubrica-badge red">Rechazo Cupo</span>
+                                </div>
+                                <div class="rubrica-details">C.I. 1710000002 | Samsung Galaxy ($850)</div>
+                                <span class="rubrica-highlight" style="color:var(--danger);">Cupo $177.75 &lt; $850.00</span>
+                            </h:commandLink>
+
+                            <h:commandLink action="#{comercializadoraView.seleccionarCliente3}" styleClass="rubrica-card-btn cliente-3">
+                                <f:ajax render=":panelContenido" />
+                                <div class="rubrica-top-row">
+                                    <span class="rubrica-name">3. Mateo Salazar</span>
+                                    <span class="rubrica-badge amber">Rechazo Edad</span>
+                                </div>
+                                <div class="rubrica-details">C.I. 1710000003 | Varón de 22 años</div>
+                                <span class="rubrica-highlight" style="color:var(--brand-accent-hover);">Política: Debe ser &gt;= 25 años</span>
+                            </h:commandLink>
+
+                            <h:commandLink action="#{comercializadoraView.seleccionarCliente4}" styleClass="rubrica-card-btn cliente-4">
+                                <f:ajax render=":panelContenido" />
+                                <div class="rubrica-top-row">
+                                    <span class="rubrica-name">4. Elena Castro</span>
+                                    <span class="rubrica-badge blue">Efectivo -42%</span>
+                                </div>
+                                <div class="rubrica-details">C.I. 1710000004 | Motorola Edge ($450)</div>
+                                <span class="rubrica-highlight" style="color:var(--info);">Descuento $189 → Total $261</span>
+                            </h:commandLink>
+                        </div>
+                    </h:form>
+                </div>
+
+                <!-- Alertas de Validación / Emisión -->
+                <ui:fragment rendered="#{not empty comercializadoraView.mensajeAlerta}">
+                    <div class="status-alert alert-#{comercializadoraView.tipoAlerta}">
+                        <i class="bi #{comercializadoraView.tipoAlerta == 'success' ? 'bi-check-circle-fill' : (comercializadoraView.tipoAlerta == 'danger' ? 'bi-x-circle-fill' : 'bi-exclamation-triangle-fill')} fs-5"></i>
+                        <div>
+                            <strong>#{comercializadoraView.tipoAlerta == 'success' ? 'ÉXITO' : (comercializadoraView.tipoAlerta == 'danger' ? 'RECHAZADO' : 'ATENCIÓN')}:</strong>
+                            #{comercializadoraView.mensajeAlerta}
+                        </div>
+                    </div>
+                </ui:fragment>
+
+                <!-- Grid de Facturación -->
+                <div class="grid-layout">
+                    <!-- Formulario Principal -->
+                    <div class="card-custom">
+                        <div class="card-header-flex">
+                            <h2 class="card-title"><i class="bi bi-cart-check-fill" style="color:var(--brand-primary);"></i> Emisión de Factura Comercial</h2>
+                            <span class="hero-badge-pill" style="margin-bottom:0;">Terminal de Venta</span>
+                        </div>
+
+                        <h:form id="formFacturacion">
+                            <!-- Datos del Cliente -->
+                            <div class="form-group">
+                                <label class="form-label"><i class="bi bi-person-vcard"></i> Cédula del Cliente:</label>
+                                <div style="display:flex; gap:8px;">
+                                    <h:inputText id="txtCedula" value="#{comercializadoraView.cedula}" styleClass="form-input" pt:placeholder="Ej: 1710000001" required="true" />
+                                    <h:commandButton value="Verificar en BanQuito" action="#{comercializadoraView.verificarSujeto}" styleClass="btn-modern btn-primary-gradient" style="white-space:nowrap;">
+                                        <f:ajax execute="@this txtCedula" render=":panelContenido" />
+                                    </h:commandButton>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label"><i class="bi bi-person"></i> Nombre Completo:</label>
+                                <h:inputText id="txtNombre" value="#{comercializadoraView.nombre}" styleClass="form-input" pt:placeholder="Nombre del cliente" required="true" />
+                            </div>
+
+                            <!-- Teléfono y Forma de Pago -->
+                            <div class="form-group">
+                                <label class="form-label"><i class="bi bi-phone"></i> Seleccionar Teléfono Celular:</label>
+                                <h:selectOneMenu id="cmbTelefono" value="#{comercializadoraView.codTelefono}" styleClass="form-select">
+                                    <f:selectItems value="#{comercializadoraView.telefonos}" var="tel"
+                                                   itemValue="#{tel.codTelefono}"
+                                                   itemLabel="#{tel.marca} #{tel.modelo} — $#{tel.precio}" />
+                                    <f:ajax listener="#{comercializadoraView.actualizarCalculosPrecios}" render=":panelContenido" />
+                                </h:selectOneMenu>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label"><i class="bi bi-credit-card-2-front"></i> Modalidad de Pago:</label>
+                                <h:selectOneRadio value="#{comercializadoraView.formaPago}" styleClass="payment-radio-group">
+                                    <f:selectItem itemValue="CREDITO_DIRECTO" itemLabel="Crédito Directo BanQuito (16.5% Anual)" />
+                                    <f:selectItem itemValue="EFECTIVO" itemLabel="Pago en Efectivo (42% Descuento Inmediato)" />
+                                    <f:ajax listener="#{comercializadoraView.actualizarCalculosPrecios}" render=":panelContenido" />
+                                </h:selectOneRadio>
+                            </div>
+
+                            <!-- Plazo en Cuotas (Solo si es Crédito) -->
+                            <ui:fragment rendered="#{comercializadoraView.formaPago == 'CREDITO_DIRECTO'}">
+                                <div class="form-group">
+                                    <label class="form-label"><i class="bi bi-calendar3"></i> Plazo del Crédito (Meses):</label>
+                                    <h:selectOneMenu value="#{comercializadoraView.cuotas}" styleClass="form-select">
+                                        <f:selectItem itemValue="3" itemLabel="3 Cuotas Mensuales" />
+                                        <f:selectItem itemValue="6" itemLabel="6 Cuotas Mensuales" />
+                                        <f:selectItem itemValue="9" itemLabel="9 Cuotas Mensuales" />
+                                        <f:selectItem itemValue="12" itemLabel="12 Cuotas Mensuales" />
+                                        <f:selectItem itemValue="18" itemLabel="18 Cuotas Mensuales" />
+                                        <f:ajax listener="#{comercializadoraView.simularCreditoBanQuito}" render=":panelContenido" />
+                                    </h:selectOneMenu>
+                                </div>
+                            </ui:fragment>
+
+                            <!-- Botón de Emitir Factura -->
+                            <div style="margin-top:24px;">
+                                <h:commandButton value="🛒 Emitir y Registrar Factura" action="#{comercializadoraView.emitirFactura}"
+                                                 styleClass="btn-modern btn-success-gradient" style="width:100%; font-size:16px; padding:15px;">
+                                    <f:ajax execute="@form" render=":panelContenido" />
+                                </h:commandButton>
+                            </div>
+                        </h:form>
+                    </div>
+
+                    <!-- Panel Resumen Financiero y Amortización -->
+                    <div>
+                        <h:panelGroup id="panelCalculos" layout="block">
+                            <div class="card-custom">
+                                <div class="card-header-flex">
+                                    <h2 class="card-title"><i class="bi bi-calculator-fill" style="color:var(--brand-accent);"></i> Resumen de la Operación</h2>
+                                    <span class="hero-badge-pill" style="margin-bottom:0; background:#f1f5f9; color:var(--text-main); border:1px solid var(--border-color);">
+                                        #{comercializadoraView.formaPago}
+                                    </span>
+                                </div>
+
+                                <div class="kpi-row">
+                                    <div class="kpi-card">
+                                        <div class="kpi-title">Precio Lista</div>
+                                        <div class="kpi-value">$ <h:outputText value="#{comercializadoraView.precioTelefono}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText></div>
+                                    </div>
+
+                                    <ui:fragment rendered="#{comercializadoraView.formaPago == 'EFECTIVO'}">
+                                        <div class="kpi-card">
+                                            <div class="kpi-title">Descuento (42%)</div>
+                                            <div class="kpi-value red">-$ <h:outputText value="#{comercializadoraView.descuentoEfectivo}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText></div>
+                                        </div>
+                                        <div class="kpi-card">
+                                            <div class="kpi-title">Total Neto a Pagar</div>
+                                            <div class="kpi-value green">$ <h:outputText value="#{comercializadoraView.totalPagarEfectivo}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText></div>
+                                        </div>
+                                    </ui:fragment>
+
+                                    <ui:fragment rendered="#{comercializadoraView.formaPago == 'CREDITO_DIRECTO'}">
+                                        <div class="kpi-card">
+                                            <div class="kpi-title">Cupo Aprobado</div>
+                                            <div class="kpi-value green">
+                                                $ <h:outputText value="#{comercializadoraView.capacidadCredito.montoMaximo}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText>
+                                            </div>
+                                        </div>
+                                        <div class="kpi-card">
+                                            <div class="kpi-title">Cuota Fija Mensual</div>
+                                            <div class="kpi-value blue">
+                                                $ <h:outputText value="#{comercializadoraView.cuotaEstimada}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText>
+                                            </div>
+                                        </div>
+                                    </ui:fragment>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+
+                        <!-- Tabla de Amortización Francesa -->
+                        <h:panelGroup id="panelAmort" layout="block">
+                            <ui:fragment rendered="#{not empty comercializadoraView.tablaSimulada}">
+                                <div class="card-custom">
+                                    <div class="card-header-flex">
+                                        <div>
+                                            <h2 class="card-title"><i class="bi bi-table" style="color:var(--brand-primary);"></i> Tabla de Amortización Francesa</h2>
+                                            <div class="card-subtitle">Tasa Anual: 16.5% | Cuotas Fijas Mensuales</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="table-responsive">
+                                        <h:dataTable value="#{comercializadoraView.tablaSimulada}" var="c" styleClass="modern-table">
+                                            <h:column>
+                                                <f:facet name="header">Cuota</f:facet>
+                                                <span class="fw-bold"># #{c.numCuota}</span>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">Valor Cuota</f:facet>
+                                                <span class="fw-bold" style="color:var(--brand-primary);">$ #{c.valorCuota}</span>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">Interés</f:facet>
+                                                $ #{c.interesPagado}
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">Capital</f:facet>
+                                                $ #{c.capitalPagado}
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">Saldo</f:facet>
+                                                <span class="fw-bold">$ #{c.saldo}</span>
+                                            </h:column>
+                                        </h:dataTable>
+                                    </div>
+                                </div>
+                            </ui:fragment>
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </ui:fragment>
+
+            <!-- =============================================================== -->
+            <!-- PESTAÑA 2: CATÁLOGO DE TELÉFONOS (CRUD & GRID)                   -->
+            <!-- =============================================================== -->
+            <ui:fragment rendered="#{comercializadoraView.tabActiva == 'catalogo'}">
+                <div class="grid-layout">
+                    <!-- Formulario de Registro -->
+                    <div class="card-custom">
+                        <div class="card-header-flex">
+                            <h2 class="card-title"><i class="bi bi-plus-circle-fill" style="color:var(--brand-primary);"></i> Registrar Nuevo Celular</h2>
+                            <span class="card-subtitle">Inventario CelStore</span>
+                        </div>
+
+                        <h:form id="formNuevoTel">
+                            <div class="form-group">
+                                <label class="form-label">Marca del Fabricante:</label>
+                                <h:inputText value="#{comercializadoraView.nuevoMarca}" styleClass="form-input" pt:placeholder="Ej: Motorola, Samsung, Apple, Xiaomi" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Modelo del Dispositivo:</label>
+                                <h:inputText value="#{comercializadoraView.nuevoModelo}" styleClass="form-input" pt:placeholder="Ej: Edge 40 Neo 5G, Galaxy S24" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Precio Catálogo ($ USD):</label>
+                                <h:inputText value="#{comercializadoraView.nuevoPrecio}" styleClass="form-input" pt:type="number" pt:step="0.01" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Especificaciones Técnicas:</label>
+                                <h:inputText value="#{comercializadoraView.nuevoCaracteristicas}" styleClass="form-input" pt:placeholder="Pantalla OLED, 256GB, 12GB RAM, 50MP OIS" />
+                            </div>
+                            <h:commandButton value="Guardar en Catálogo" action="#{comercializadoraView.crearTelefono}" styleClass="btn-modern btn-primary-gradient" style="width:100%; margin-top:10px;">
+                                <f:ajax execute="@form" render=":panelContenido" />
+                            </h:commandButton>
+                        </h:form>
+                    </div>
+
+                    <!-- Lista Resumida de Gestión CRUD -->
+                    <div class="card-custom">
+                        <div class="card-header-flex">
+                            <h2 class="card-title"><i class="bi bi-gear-fill" style="color:var(--brand-accent);"></i> Gestión y Bajas del Catálogo</h2>
+                            <span class="card-subtitle">#{comercializadoraView.telefonos.size()} dispositivos</span>
+                        </div>
+
+                        <h:form id="formListaTel">
+                            <div class="table-responsive">
+                                <h:dataTable value="#{comercializadoraView.telefonos}" var="tel" styleClass="modern-table">
+                                    <h:column>
+                                        <f:facet name="header">ID</f:facet>
+                                        #{tel.codTelefono}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Dispositivo</f:facet>
+                                        <strong>#{tel.marca} #{tel.modelo}</strong>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Precio</f:facet>
+                                        <strong style="color:var(--brand-primary);">$ #{tel.precio}</strong>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Acción</f:facet>
+                                        <h:commandButton value="Dar de Baja" action="#{comercializadoraView.desactivarTelefono(tel.codTelefono)}"
+                                                         styleClass="btn-modern btn-danger-gradient" style="padding:6px 12px; font-size:11px;">
+                                            <f:ajax render=":panelContenido" />
+                                        </h:commandButton>
+                                    </h:column>
+                                </h:dataTable>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+
+                <!-- Galería Visual de Dispositivos (E-Commerce Cards) -->
+                <div class="card-custom">
+                    <div class="card-header-flex">
+                        <div>
+                            <h2 class="card-title"><i class="bi bi-grid-3x3-gap-fill" style="color:var(--brand-primary);"></i> Vitrina Oficial CelStore</h2>
+                            <div class="card-subtitle">Seleccione cualquier dispositivo para pasar directamente a facturación</div>
+                        </div>
+                    </div>
+
+                    <h:form id="formGaleriaTel">
+                        <div class="product-grid">
+                            <ui:repeat value="#{comercializadoraView.telefonos}" var="item">
+                                <div class="product-card">
+                                    <div>
+                                        <span class="product-brand-tag">#{item.marca}</span>
+                                        <div class="product-name">#{item.modelo}</div>
+                                        <div class="product-specs">#{item.caracteristicas}</div>
+                                    </div>
+                                    <div class="product-footer">
+                                        <div>
+                                            <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Precio Lista</div>
+                                            <div class="product-price-val">$ #{item.precio}</div>
+                                        </div>
+                                        <h:commandButton value="Facturar Dispositivo" action="#{comercializadoraView.seleccionarTelefonoParaFactura(item.codTelefono)}"
+                                                         styleClass="btn-modern btn-primary-gradient" style="font-size:12px; padding:8px 14px;">
+                                            <f:ajax render=":panelContenido :navForm" />
+                                        </h:commandButton>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                        </div>
+                    </h:form>
+                </div>
+            </ui:fragment>
+
+            <!-- =============================================================== -->
+            <!-- PESTAÑA 3: CONSULTA DE AMORTIZACIÓN BANQUITO                     -->
+            <!-- =============================================================== -->
+            <ui:fragment rendered="#{comercializadoraView.tabActiva == 'amortizacion'}">
+                <div class="card-custom">
+                    <div class="card-header-flex">
+                        <div>
+                            <h2 class="card-title"><i class="bi bi-bank2" style="color:var(--brand-primary);"></i> Consulta de Tabla de Amortización en BanQuito Core</h2>
+                            <div class="card-subtitle">Búsqueda directa en la base banquito_db</div>
+                        </div>
+                    </div>
+
+                    <h:form id="formBusqAmort">
+                        <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:20px; align-items:flex-end;">
+                            <div style="flex:1; min-width:220px;">
+                                <label class="form-label"><i class="bi bi-hash"></i> Por Código de Crédito Bancario (#):</label>
+                                <h:inputText value="#{comercializadoraView.busqCredito}" styleClass="form-input" pt:placeholder="Ej: 1, 2" />
+                            </div>
+                            <div style="flex:1; min-width:220px;">
+                                <label class="form-label"><i class="bi bi-person-badge"></i> O por Cédula del Cliente:</label>
+                                <h:inputText value="#{comercializadoraView.busqCedula}" styleClass="form-input" pt:placeholder="Ej: 1710000001" />
+                            </div>
+                            <div>
+                                <h:commandButton value="Consultar en BanQuito" action="#{comercializadoraView.consultarAmortizacion}"
+                                                 styleClass="btn-modern btn-primary-gradient" style="height:44px;">
+                                    <f:ajax execute="@form" render=":panelContenido" />
+                                </h:commandButton>
+                            </div>
+                        </div>
+                    </h:form>
+
+                    <ui:fragment rendered="#{not empty comercializadoraView.infoClienteConsultado}">
+                        <div class="status-alert alert-info">
+                            <i class="bi bi-info-circle-fill"></i>
+                            <div><strong>Resultado:</strong> #{comercializadoraView.infoClienteConsultado}</div>
+                        </div>
+                    </ui:fragment>
+
+                    <ui:fragment rendered="#{not empty comercializadoraView.tablaConsultada}">
+                        <div class="table-responsive">
+                            <h:dataTable value="#{comercializadoraView.tablaConsultada}" var="tc" styleClass="modern-table">
+                                <h:column>
+                                    <f:facet name="header">Cuota #</f:facet>
+                                    <span class="fw-bold">#{tc.numCuota}</span>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Valor Cuota Fija</f:facet>
+                                    <strong style="color:var(--brand-primary);">$ #{tc.valorCuota}</strong>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Interés Pagado</f:facet>
+                                    $ #{tc.interesPagado}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Capital Pagado</f:facet>
+                                    $ #{tc.capitalPagado}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Saldo Restante</f:facet>
+                                    <strong style="color:var(--text-main);">$ #{tc.saldo}</strong>
+                                </h:column>
+                            </h:dataTable>
+                        </div>
+                    </ui:fragment>
+                </div>
+            </ui:fragment>
+
+            <!-- =============================================================== -->
+            <!-- PESTAÑA 4: HISTORIAL DE FACTURAS EMITIDAS                        -->
+            <!-- =============================================================== -->
+            <ui:fragment rendered="#{comercializadoraView.tabActiva == 'historial'}">
+                <!-- Dashboard de KPIs de Ventas -->
+                <div class="kpi-row" style="margin-bottom:24px;">
+                    <div class="kpi-card" style="background:#ffffff; box-shadow:var(--shadow-card);">
+                        <div class="kpi-title">Total Facturado Acumulado</div>
+                        <div class="kpi-value green">$ <h:outputText value="#{comercializadoraView.totalMontoFacturas}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText></div>
+                    </div>
+                    <div class="kpi-card" style="background:#ffffff; box-shadow:var(--shadow-card);">
+                        <div class="kpi-title">Ventas Crédito BanQuito</div>
+                        <div class="kpi-value blue">#{comercializadoraView.cantidadFacturasCredito} facturas</div>
+                    </div>
+                    <div class="kpi-card" style="background:#ffffff; box-shadow:var(--shadow-card);">
+                        <div class="kpi-title">Ventas en Efectivo (-42%)</div>
+                        <div class="kpi-value gold">#{comercializadoraView.cantidadFacturasEfectivo} facturas</div>
+                    </div>
+                </div>
+
+                <div class="card-custom">
+                    <div class="card-header-flex">
+                        <div>
+                            <h2 class="card-title"><i class="bi bi-receipt" style="color:var(--brand-primary);"></i> Historial de Facturas Emitidas</h2>
+                            <div class="card-subtitle">Registros en la base comercializadora_db</div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <h:dataTable value="#{comercializadoraView.historialFacturas}" var="hf" styleClass="modern-table">
+                            <h:column>
+                                <f:facet name="header">Factura #</f:facet>
+                                <strong>#{hf.numFactura}</strong>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Comprobante</f:facet>
+                                <span style="font-family:monospace; font-size:12px;">#{hf.numeroComprobante}</span>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Cliente</f:facet>
+                                <strong>#{hf.nombreCliente}</strong>
+                                <br/><small style="color:var(--text-muted);">C.I. #{hf.cedulaCliente}</small>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Dispositivo</f:facet>
+                                #{hf.modeloTelefono}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Forma de Pago</f:facet>
+                                <span class="badge-status #{hf.formaPago == 'EFECTIVO' ? 'efectivo' : 'credito'}">#{hf.formaPago}</span>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Precio Catálogo</f:facet>
+                                $ #{hf.precioUnitario}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Descuento</f:facet>
+                                <span style="color:var(--danger);">-$ #{hf.valorDescuento}</span>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Total Facturado</f:facet>
+                                <strong style="color:var(--success); font-size:14px;">$ #{hf.totalPagar}</strong>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Crédito BanQuito</f:facet>
+                                #{hf.codCreditoBanco != null ? '#'.concat(hf.codCreditoBanco.toString()) : '-'}
+                            </h:column>
+                        </h:dataTable>
+                    </div>
+                </div>
+            </ui:fragment>
+
+        </h:panelGroup>
+    </main>
+
+    <!-- FORMULARIO OCULTO PARA POLLING REACTIVO (PATRÓN EUREKABANK) -->
+    <h:form id="pollForm" style="display:none;">
+        <h:commandButton id="btnAutoPoll" action="#{comercializadoraView.sincronizarDatos}">
+            <f:ajax execute="@this" render=":panelContenido" />
+        </h:commandButton>
+    </h:form>
+
+    <!-- FOOTER INSTITUCIONAL -->
+    <footer class="app-footer">
+        <div><strong>CelStore &amp; BanQuito Core</strong> — Universidad de las Fuerzas Armadas ESPE</div>
+        <div style="margin-top:4px;">NRC: 36884 · Arquitectura de Software · Grupo 04 (Monster)</div>
+    </footer>
+
+    <!-- SCRIPT DE SINCRONIZACIÓN REACTIVA AUTOMÁTICA CADA 2.5s (IDÉNTICO A EUREKABANK) -->
+    <script>
+        setInterval(function () {
+            try {
+                var activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+                // Si el usuario está interactuando o escribiendo en un input o select, no interrumpir
+                if (activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select') {
+                    return;
+                }
+                var btn = document.getElementById('pollForm:btnAutoPoll');
+                if (btn) {
+                    btn.click();
+                }
+            } catch (e) {
+                console.error("Error en polling reactivo:", e);
+            }
+        }, 2500);
+    </script>
+
+</h:body>
+</html>

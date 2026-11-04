@@ -53,4 +53,18 @@ public class FacturaModel {
         public double saldo;
         public String estado;
     }
+
+    public static class FacturaItem implements Serializable {
+        public int numFactura;
+        public String numeroComprobante;
+        public String fecha;
+        public String cedulaCliente;
+        public String nombreCliente;
+        public String modeloTelefono;
+        public String formaPago;
+        public double precioUnitario;
+        public double valorDescuento;
+        public double totalPagar;
+        public Integer codCreditoBanco;
+    }
 }

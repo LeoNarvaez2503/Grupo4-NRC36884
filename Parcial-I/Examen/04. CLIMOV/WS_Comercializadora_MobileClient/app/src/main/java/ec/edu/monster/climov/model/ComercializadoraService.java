@@ -19,11 +19,70 @@ public class ComercializadoraService {
     private final ConfiguracionConexion config = new ConfiguracionConexion();
     private final Gson gson = new Gson();
 
+    public boolean autenticar(String usuario, String clave) {
+        try {
+            String url = config.getComEndpoint() + "/auth/login?usuario=" 
+                    + URLEncoder.encode(usuario != null ? usuario.trim() : "", "UTF-8")
+                    + "&clave=" + URLEncoder.encode(clave != null ? clave.trim() : "", "UTF-8");
+            String json = realizarPeticion(url, "GET", null);
+            if (json != null && json.contains("\"autenticado\":true")) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "Monster".equalsIgnoreCase(usuario != null ? usuario.trim() : "") && "Monster9".equals(clave != null ? clave.trim() : "");
+    }
+
     public List<TelefonoModel> listarTelefonos() {
         try {
             String json = realizarPeticion(config.getComEndpoint() + "/telefonos", "GET", null);
             if (json != null) {
                 return gson.fromJson(json, new TypeToken<List<TelefonoModel>>() {}.getType());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+    public boolean crearTelefono(TelefonoModel telefono) {
+        try {
+            String json = gson.toJson(telefono);
+            String resp = realizarPeticion(config.getComEndpoint() + "/telefonos", "POST", json);
+            return resp != null && !resp.contains("\"error\"");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean actualizarTelefono(TelefonoModel telefono) {
+        try {
+            String json = gson.toJson(telefono);
+            String resp = realizarPeticion(config.getComEndpoint() + "/telefonos/actualizar", "POST", json);
+            return resp != null && !resp.contains("\"error\"");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean eliminarTelefono(int codTelefono) {
+        try {
+            String resp = realizarPeticion(config.getComEndpoint() + "/telefonos/eliminar?id=" + codTelefono, "POST", null);
+            return resp != null && !resp.contains("\"error\"");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public List<FacturaItem> listarFacturas() {
+        try {
+            String json = realizarPeticion(config.getComEndpoint() + "/facturas", "GET", null);
+            if (json != null) {
+                return gson.fromJson(json, new TypeToken<List<FacturaItem>>() {}.getType());
             }
         } catch (Exception e) {
             e.printStackTrace();

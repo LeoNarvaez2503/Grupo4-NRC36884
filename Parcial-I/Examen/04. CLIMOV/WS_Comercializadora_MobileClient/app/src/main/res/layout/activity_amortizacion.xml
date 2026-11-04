@@ -1,65 +1,217 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:background="@color/light_gray">
+
+    <!-- Sullivan de Fondo para toda la pantalla (sutil 0.08 opacidad) -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:alpha="0.08"
+        android:scaleType="fitCenter"
+        android:src="@drawable/sullivan" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <!-- HEADER CON SULLIVAN DE FONDO -->
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Consultas BanQuito Crédito"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="12dp" />
+            android:background="@drawable/bg_hero_gradient">
 
-        <EditText
-            android:id="@+id/etCedulaConsulta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Cédula a verificar en BanQuito"
-            android:text="1710000001"
-            android:inputType="number" />
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="110dp"
+                android:layout_gravity="end|center_vertical"
+                android:alpha="0.30"
+                android:scaleType="centerCrop"
+                android:src="@drawable/sullivan" />
 
-        <Button
-            android:id="@+id/btnVerificarSujeto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Verificar Sujeto de Crédito"
-            android:layout_marginBottom="12dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        <EditText
-            android:id="@+id/etCodCreditoConsulta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Código de Crédito (ej. 1)"
-            android:text="1"
-            android:inputType="number" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/badge_gold"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:text="★ MONSTER - GRUPO 04"
+                    android:textColor="@color/accent"
+                    android:textSize="9sp"
+                    android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btnConsultarTabla"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Consultar Tabla de Amortización"
-            android:layout_marginBottom="12dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Consultas BanQuito Core"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvResultadoConsulta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Resultados de consulta aparecerán aquí..."
-            android:textSize="13sp"
-            android:layout_marginBottom="12dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sujeto de Crédito y Tablas Francesas"
+                    android:textColor="#CBD5E1"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </FrameLayout>
 
         <LinearLayout
-            android:id="@+id/layoutTablaConsulta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
+            <!-- CONSULTA 1: SUJETO DE CRÉDITO -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:background="@drawable/card_rounded_white"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1. Verificar Sujeto de Crédito"
+                    android:textColor="@color/primary"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Consulta directa al Core Bancario BanQuito"
+                    android:textColor="@color/gray"
+                    android:textSize="11sp" />
+
+                <EditText
+                    android:id="@+id/etCedulaConsulta"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/card_rounded_white"
+                    android:hint="Cédula a verificar (ej. 1710000001)"
+                    android:inputType="number"
+                    android:paddingHorizontal="12dp"
+                    android:text="1710000001"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+                <Button
+                    android:id="@+id/btnVerificarSujeto"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:backgroundTint="@color/primary"
+                    android:text="🔍 Verificar en BanQuito Core"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- CONSULTA 2: TABLA DE AMORTIZACIÓN POR CÓDIGO -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:background="@drawable/card_rounded_white"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2. Consultar Tabla de Amortización"
+                    android:textColor="@color/primary"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Búsqueda por Código de Crédito Bancario"
+                    android:textColor="@color/gray"
+                    android:textSize="11sp" />
+
+                <EditText
+                    android:id="@+id/etCodCreditoConsulta"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/card_rounded_white"
+                    android:hint="Código de Crédito (ej. 1)"
+                    android:inputType="number"
+                    android:paddingHorizontal="12dp"
+                    android:text="1"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+                <Button
+                    android:id="@+id/btnConsultarTabla"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:backgroundTint="@color/accent"
+                    android:text="📋 Consultar Tabla Francesa"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- CARD RESULTADOS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card_rounded_white"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RESULTADO DE LA CONSULTA"
+                    android:textColor="@color/gray"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvResultadoConsulta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="Resultados de consulta aparecerán aquí..."
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:id="@+id/layoutTablaConsulta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical" />
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
+</FrameLayout>

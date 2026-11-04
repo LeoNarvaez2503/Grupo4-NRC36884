@@ -22,6 +22,18 @@ CREATE TABLE TELEFONO_CELULAR (
     PRIMARY KEY (COD_TELEFONO)
 ) ENGINE=InnoDB;
 
+-- 2. Usuarios del Sistema (Autenticación Centralizada)
+CREATE TABLE IF NOT EXISTS USUARIO (
+    COD_USUARIO INT NOT NULL AUTO_INCREMENT,
+    USUARIO VARCHAR(50) NOT NULL UNIQUE,
+    CLAVE VARCHAR(255) NOT NULL,
+    NOMBRE VARCHAR(100) NOT NULL,
+    ROL VARCHAR(50) NOT NULL DEFAULT 'ADMINISTRADOR',
+    ESTADO VARCHAR(20) NOT NULL DEFAULT 'ACTIVO',
+    FECHA_CREACION TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (COD_USUARIO)
+) ENGINE=InnoDB;
+
 -- 2. Facturación de Ventas (Efectivo con 42% desc. o Crédito Directo BanQuito)
 CREATE TABLE FACTURA (
     NUM_FACTURA INT NOT NULL AUTO_INCREMENT,
@@ -55,3 +67,9 @@ INSERT INTO TELEFONO_CELULAR (COD_TELEFONO, MARCA, MODELO, PRECIO, CARACTERISTIC
 (3, 'Apple', 'iPhone 15 128GB', 950.00, 'Pantalla Super Retina XDR 6.1", Chip A16 Bionic, Dynamic Island, Cámara principal 48MP, Puerto USB-C', 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=300', 'DISPONIBLE'),
 (4, 'Xiaomi', 'Redmi Note 13 Pro', 280.00, 'Pantalla AMOLED 6.67" 120Hz, 256GB, 8GB RAM, Cámara 200MP con OIS, Batería 5000mAh Turbo Charging 67W', 'https://images.unsplash.com/photo-1511707171634-5f897ff02560?w=300', 'DISPONIBLE'),
 (5, 'Honor', 'Magic 6 Lite 5G', 340.00, 'Pantalla curva AMOLED 6.78" 1.5K, 256GB, 8GB+8GB RAM Turbo, Pantalla ultrarresistente Honor Ultra-Bounce, Batería 5800mAh', 'https://images.unsplash.com/photo-1565849904461-04a58ad377e0?w=300', 'DISPONIBLE');
+
+-- =======================================================================
+-- POBLAMIENTO INICIAL DE USUARIOS AUTORIZADOS
+-- =======================================================================
+INSERT INTO USUARIO (COD_USUARIO, USUARIO, CLAVE, NOMBRE, ROL, ESTADO) VALUES
+(1, 'Monster', 'Monster9', 'Administrador Monster Core', 'ADMIN', 'ACTIVO');

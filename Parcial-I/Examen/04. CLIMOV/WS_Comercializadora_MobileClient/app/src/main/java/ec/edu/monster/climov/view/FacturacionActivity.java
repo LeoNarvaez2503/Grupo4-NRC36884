@@ -36,6 +36,17 @@ public class FacturacionActivity extends AppCompatActivity {
     private LinearLayout layoutTablaAmortizacion;
 
     private List<TelefonoModel> listaTelefonos = new ArrayList<>();
+    private boolean activo = false;
+    private int ultimoChecksumTelefonos = -1;
+
+    private final Runnable tareaPollingTelefonos = new Runnable() {
+        @Override
+        public void run() {
+            if (!activo) return;
+            sincronizarTelefonosSilencioso();
+            mainHandler.postDelayed(this, 2500);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +83,58 @@ public class FacturacionActivity extends AppCompatActivity {
         btnEmitir.setOnClickListener(v -> procesarFacturacion());
 
         cargarTelefonos();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        activo = true;
+        mainHandler.post(tareaPollingTelefonos);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        activo = false;
+        mainHandler.removeCallbacks(tareaPollingTelefonos);
+    }
+
+    private void sincronizarTelefonosSilencioso() {
+        executor.execute(() -> {
+            List<TelefonoModel> nuevos = controlador.listarTelefonos();
+            int checksum = calcularChecksum(nuevos);
+            mainHandler.post(() -> {
+                if (!activo || nuevos == null) return;
+                if (nuevos.size() != listaTelefonos.size() || checksum != ultimoChecksumTelefonos) {
+                    ultimoChecksumTelefonos = checksum;
+                    TelefonoModel selActual = (TelefonoModel) spnTelefonos.getSelectedItem();
+                    int selCod = selActual != null ? selActual.getCodTelefono() : -1;
+
+                    listaTelefonos = nuevos;
+                    ArrayAdapter<TelefonoModel> adapter = new ArrayAdapter<>(FacturacionActivity.this,
+                            android.R.layout.simple_spinner_dropdown_item, listaTelefonos);
+                    spnTelefonos.setAdapter(adapter);
+
+                    if (selCod > 0) {
+                        for (int i = 0; i < listaTelefonos.size(); i++) {
+                            if (listaTelefonos.get(i).getCodTelefono() == selCod) {
+                                spnTelefonos.setSelection(i);
+                                break;
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    }
+
+    private int calcularChecksum(List<TelefonoModel> tels) {
+        if (tels == null) return 0;
+        int sum = 0;
+        for (TelefonoModel t : tels) {
+            sum = 31 * sum + t.getCodTelefono() + (int)(t.getPrecio() * 100);
+        }
+        return sum;
     }
 
     private void demoCliente(int caso) {

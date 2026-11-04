@@ -25,6 +25,10 @@ public class ConsolaView {
 
     public void iniciar() {
         mostrarEncabezado();
+        if (!autenticar()) {
+            System.out.println(ANSI_RED + "Acceso denegado. Número de intentos superado." + ANSI_RESET);
+            return;
+        }
         boolean salir = false;
         while (!salir) {
             mostrarMenu();
@@ -63,6 +67,25 @@ public class ConsolaView {
                     System.out.println(ANSI_RED + "Opción inválida. Intente de nuevo." + ANSI_RESET);
             }
         }
+    }
+
+    private boolean autenticar() {
+        System.out.println(ANSI_YELLOW + "\n--- AUTENTICACIÓN REQUERIDA (GRUPO 04 - MONSTER) ---" + ANSI_RESET);
+        int intentos = 0;
+        while (intentos < 3) {
+            System.out.print("Usuario: ");
+            String user = scanner.nextLine().trim();
+            System.out.print("Contraseña: ");
+            String pass = scanner.nextLine().trim();
+            if (controlador.autenticar(user, pass)) {
+                System.out.println(ANSI_GREEN + "✔ Autenticación exitosa desde BDD. ¡Bienvenido, " + user + "!" + ANSI_RESET);
+                return true;
+            } else {
+                intentos++;
+                System.out.println(ANSI_RED + "❌ Credenciales incorrectas. (Requerido: Monster / Monster9) Intentos restantes: " + (3 - intentos) + ANSI_RESET);
+            }
+        }
+        return false;
     }
 
     private void mostrarEncabezado() {

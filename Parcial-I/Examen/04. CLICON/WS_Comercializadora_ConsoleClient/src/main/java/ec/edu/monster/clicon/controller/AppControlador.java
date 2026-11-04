@@ -13,6 +13,10 @@ public class AppControlador {
         this.service = new ComercializadoraService();
     }
 
+    public boolean autenticar(String usuario, String clave) {
+        return service.autenticar(usuario, clave);
+    }
+
     public List<TelefonoModel> listarTelefonos() {
         return service.listarTelefonos();
     }

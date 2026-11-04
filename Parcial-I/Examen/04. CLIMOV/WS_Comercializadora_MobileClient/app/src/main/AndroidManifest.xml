@@ -6,15 +6,15 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/sullivan"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/sullivan"
         android:supportsRtl="true"
         android:theme="@style/Theme.WSComercializadoraMobile"
         android:usesCleartextTraffic="true">
         
         <activity
-            android:name=".MainActivity"
+            android:name=".view.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,9 +22,14 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+
         <activity android:name=".view.FacturacionActivity" android:exported="false" />
         <activity android:name=".view.CatalogoActivity" android:exported="false" />
         <activity android:name=".view.AmortizacionActivity" android:exported="false" />
+        <activity android:name=".view.HistorialActivity" android:exported="false" />
 
     </application>
 

@@ -21,8 +21,24 @@ public class AppControlador {
         return instancia;
     }
 
+    public boolean autenticar(String usuario, String clave) {
+        return service.autenticar(usuario, clave);
+    }
+
     public List<TelefonoModel> listarTelefonos() {
         return service.listarTelefonos();
+    }
+
+    public boolean crearTelefono(TelefonoModel tel) {
+        return service.crearTelefono(tel);
+    }
+
+    public boolean actualizarTelefono(TelefonoModel tel) {
+        return service.actualizarTelefono(tel);
+    }
+
+    public boolean eliminarTelefono(int codTelefono) {
+        return service.eliminarTelefono(codTelefono);
     }
 
     public SujetoCreditoResponse verificarSujeto(String cedula) {
@@ -39,5 +55,9 @@ public class AppControlador {
 
     public List<CuotaAmortizacion> consultarTablaAmortizacion(int codCredito) {
         return service.consultarTablaAmortizacion(codCredito);
+    }
+
+    public List<FacturaItem> listarFacturas() {
+        return service.listarFacturas();
     }
 }

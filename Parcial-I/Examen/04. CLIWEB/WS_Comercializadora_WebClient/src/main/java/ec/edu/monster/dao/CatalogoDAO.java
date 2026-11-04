@@ -86,6 +86,25 @@ public class CatalogoDAO {
         }
     }
 
+    public boolean eliminar(int id) throws SQLException {
+        String sqlFacturas = "SELECT COUNT(*) FROM FACTURA WHERE COD_TELEFONO = ?";
+        try (Connection conn = ConexionDB.getConexion();
+             PreparedStatement psCheck = conn.prepareStatement(sqlFacturas)) {
+            psCheck.setInt(1, id);
+            try (ResultSet rs = psCheck.executeQuery()) {
+                if (rs.next() && rs.getInt(1) > 0) {
+                    return desactivar(id);
+                }
+            }
+        }
+        String sql = "DELETE FROM TELEFONO_CELULAR WHERE COD_TELEFONO = ?";
+        try (Connection conn = ConexionDB.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            return ps.executeUpdate() > 0;
+        }
+    }
+
     private TelefonoCelular mapearTelefono(ResultSet rs) throws SQLException {
         TelefonoCelular t = new TelefonoCelular();
         t.setCodTelefono(rs.getInt("COD_TELEFONO"));

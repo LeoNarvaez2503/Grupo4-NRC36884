@@ -1,7 +1,7 @@
 package ec.edu.monster.cliesc;
 
 import ec.edu.monster.cliesc.controller.AppControlador;
-import ec.edu.monster.cliesc.view.DesktopView;
+import ec.edu.monster.cliesc.view.LoginView;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -14,8 +14,8 @@ public class WS_Comercializadora_DesktopClient {
             } catch (Exception ignored) {}
 
             AppControlador controlador = new AppControlador();
-            DesktopView view = new DesktopView(controlador);
-            view.setVisible(true);
+            LoginView loginView = new LoginView(controlador);
+            loginView.setVisible(true);
         });
     }
 }

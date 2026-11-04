@@ -1,34 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/light_gray">
 
-    <TextView
+    <!-- Sullivan de Fondo para toda la pantalla (sutil 0.08 opacidad) -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:alpha="0.08"
+        android:scaleType="fitCenter"
+        android:src="@drawable/sullivan" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
+
+    <!-- HEADER CON SULLIVAN DE FONDO -->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Catálogo de Teléfonos Celulares"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="12dp" />
+        android:background="@drawable/bg_hero_gradient">
 
-    <Button
-        android:id="@+id/btnRefrescarCatalogo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Refrescar Lista"
-        android:layout_marginBottom="12dp" />
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="110dp"
+            android:layout_gravity="end|center_vertical"
+            android:alpha="0.30"
+            android:scaleType="centerCrop"
+            android:src="@drawable/sullivan" />
 
         <LinearLayout
-            android:id="@+id/layoutListaTelefonos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/badge_gold"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:text="★ MONSTER - GRUPO 04"
+                android:textColor="@color/accent"
+                android:textSize="9sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Catálogo de Celulares"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Modelos Disponibles en CelStore"
+                android:textColor="#CBD5E1"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Botonera Superior CRUD -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnNuevoCelular"
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1.2"
+                android:backgroundTint="@color/primary"
+                android:text="➕ Nuevo Celular"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnRefrescarCatalogo"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_weight="1"
+                android:background="@drawable/card_rounded_white"
+                android:text="🔄 Refrescar"
+                android:textAllCaps="false"
+                android:textColor="@color/brand_navy"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/layoutListaTelefonos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+    </LinearLayout>
 
 </LinearLayout>
+</FrameLayout>

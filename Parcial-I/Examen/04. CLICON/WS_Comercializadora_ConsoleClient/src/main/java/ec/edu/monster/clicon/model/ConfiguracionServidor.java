@@ -9,14 +9,41 @@ import java.time.Duration;
 public class ConfiguracionServidor {
     private String comEndpoint = "http://localhost:8090/api";
     private String banquitoEndpoint = "http://localhost:8080/api/credito";
+    private String resolvedCom = null;
     private String resolvedBanquito = null;
 
     public String getComEndpoint() {
-        return comEndpoint;
+        if (resolvedCom != null) {
+            return resolvedCom;
+        }
+        try {
+            HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofMillis(800)).build();
+            HttpRequest req = HttpRequest.newBuilder().uri(URI.create(comEndpoint + "/telefonos")).timeout(Duration.ofMillis(800)).GET().build();
+            HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
+            if (res.statusCode() == 200) {
+                resolvedCom = comEndpoint;
+                return resolvedCom;
+            }
+        } catch (Exception ignored) {}
+
+        String payaraComUrl = "http://localhost:8080/WS_Comercializadora_WebClient/api";
+        try {
+            HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofMillis(800)).build();
+            HttpRequest req = HttpRequest.newBuilder().uri(URI.create(payaraComUrl + "/telefonos")).timeout(Duration.ofMillis(800)).GET().build();
+            HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
+            if (res.statusCode() == 200) {
+                resolvedCom = payaraComUrl;
+                return resolvedCom;
+            }
+        } catch (Exception ignored) {}
+
+        resolvedCom = comEndpoint;
+        return resolvedCom;
     }
 
     public void setComEndpoint(String comEndpoint) {
         this.comEndpoint = comEndpoint;
+        this.resolvedCom = comEndpoint;
     }
 
     public String getBanquitoEndpoint() {
