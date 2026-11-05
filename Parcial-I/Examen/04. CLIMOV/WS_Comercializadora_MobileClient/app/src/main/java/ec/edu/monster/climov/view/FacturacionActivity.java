@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.view.Gravity;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -18,6 +19,7 @@ import ec.edu.monster.climov.model.FacturaModel.*;
 import ec.edu.monster.climov.model.TelefonoModel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -34,6 +36,29 @@ public class FacturacionActivity extends AppCompatActivity {
     private Spinner spnCuotas;
     private TextView tvResultadoFactura;
     private LinearLayout layoutTablaAmortizacion;
+
+    // Carrito de compras (varios articulos en una sola factura)
+    private static final int MAX_POR_ITEM = 10;
+    private EditText etCantidad;
+    private LinearLayout layoutCarrito;
+    private TextView tvTituloCarrito;
+    private TextView tvTotalCarrito;
+    private final List<LineaCarrito> carrito = new ArrayList<>();
+
+    /** Renglon del carrito en el cliente: telefono + cantidad. */
+    private static class LineaCarrito {
+        final TelefonoModel tel;
+        int cantidad;
+
+        LineaCarrito(TelefonoModel tel, int cantidad) {
+            this.tel = tel;
+            this.cantidad = cantidad;
+        }
+
+        double subtotal() {
+            return Math.round(tel.getPrecio() * cantidad * 100.0) / 100.0;
+        }
+    }
 
     private List<TelefonoModel> listaTelefonos = new ArrayList<>();
     private boolean activo = false;
@@ -60,6 +85,15 @@ public class FacturacionActivity extends AppCompatActivity {
         spnCuotas = findViewById(R.id.spnCuotas);
         tvResultadoFactura = findViewById(R.id.tvResultadoFactura);
         layoutTablaAmortizacion = findViewById(R.id.layoutTablaAmortizacion);
+        etCantidad = findViewById(R.id.etCantidad);
+        layoutCarrito = findViewById(R.id.layoutCarrito);
+        tvTituloCarrito = findViewById(R.id.tvTituloCarrito);
+        tvTotalCarrito = findViewById(R.id.tvTotalCarrito);
+        findViewById(R.id.btnAgregarCarrito).setOnClickListener(v -> agregarAlCarrito());
+        findViewById(R.id.btnVaciarCarrito).setOnClickListener(v -> {
+            carrito.clear();
+            renderCarrito();
+        });
 
         // Spinners
         ArrayAdapter<String> fpAdapter = new ArrayAdapter<>(this,
@@ -83,6 +117,7 @@ public class FacturacionActivity extends AppCompatActivity {
         btnEmitir.setOnClickListener(v -> procesarFacturacion());
 
         cargarTelefonos();
+        renderCarrito();
     }
 
     @Override
@@ -172,7 +207,133 @@ public class FacturacionActivity extends AppCompatActivity {
     private void seleccionarTelefonoIndex(int idx) {
         if (spnTelefonos.getAdapter() != null && idx < spnTelefonos.getAdapter().getCount()) {
             spnTelefonos.setSelection(idx);
+            // Caso de rubrica: el carrito queda con 1 unidad de ese telefono
+            carrito.clear();
+            carrito.add(new LineaCarrito((TelefonoModel) spnTelefonos.getAdapter().getItem(idx), 1));
+            renderCarrito();
         }
+    }
+
+    // =====================================================================
+    // CARRITO DE COMPRAS
+    // =====================================================================
+
+    private LineaCarrito buscarLinea(int codTelefono) {
+        for (LineaCarrito l : carrito) {
+            if (l.tel.getCodTelefono() == codTelefono) return l;
+        }
+        return null;
+    }
+
+    private double subtotalCarrito() {
+        double sum = 0;
+        for (LineaCarrito l : carrito) sum += l.subtotal();
+        return Math.round(sum * 100.0) / 100.0;
+    }
+
+    private int totalArticulos() {
+        int n = 0;
+        for (LineaCarrito l : carrito) n += l.cantidad;
+        return n;
+    }
+
+    private void agregarAlCarrito() {
+        TelefonoModel sel = (TelefonoModel) spnTelefonos.getSelectedItem();
+        if (sel == null) {
+            tvResultadoFactura.setTextColor(Color.RED);
+            tvResultadoFactura.setText("Seleccione un teléfono del catálogo.");
+            return;
+        }
+        int cant;
+        try {
+            cant = Integer.parseInt(etCantidad.getText().toString().trim());
+        } catch (NumberFormatException e) {
+            cant = 0;
+        }
+        if (cant < 1) {
+            tvResultadoFactura.setTextColor(Color.RED);
+            tvResultadoFactura.setText("La cantidad debe ser al menos 1.");
+            return;
+        }
+        LineaCarrito existente = buscarLinea(sel.getCodTelefono());
+        int nueva = (existente != null ? existente.cantidad : 0) + cant;
+        if (nueva > MAX_POR_ITEM) {
+            tvResultadoFactura.setTextColor(Color.RED);
+            tvResultadoFactura.setText("Máximo " + MAX_POR_ITEM + " unidades por artículo.");
+            return;
+        }
+        if (existente != null) existente.cantidad = nueva; else carrito.add(new LineaCarrito(sel, cant));
+        etCantidad.setText("1");
+        tvResultadoFactura.setTextColor(Color.parseColor("#187846"));
+        tvResultadoFactura.setText("✔ " + cant + " × " + sel.getMarca() + " " + sel.getModelo() + " agregado al carrito.");
+        renderCarrito();
+    }
+
+    private void renderCarrito() {
+        layoutCarrito.removeAllViews();
+        tvTituloCarrito.setText("🛒 CARRITO DE COMPRAS (" + totalArticulos() + (totalArticulos() == 1 ? " artículo)" : " artículos)"));
+        tvTotalCarrito.setText(String.format(Locale.US, "Total carrito: $%.2f", subtotalCarrito()));
+
+        if (carrito.isEmpty()) {
+            TextView vacio = new TextView(this);
+            vacio.setText("El carrito está vacío. Elija un teléfono y pulse «Agregar al Carrito».");
+            vacio.setTextSize(11f);
+            vacio.setTextColor(Color.parseColor("#64748B"));
+            vacio.setPadding(0, 4, 0, 4);
+            layoutCarrito.addView(vacio);
+            return;
+        }
+
+        for (LineaCarrito l : new ArrayList<>(carrito)) {
+            LinearLayout fila = new LinearLayout(this);
+            fila.setOrientation(LinearLayout.HORIZONTAL);
+            fila.setGravity(Gravity.CENTER_VERTICAL);
+            fila.setPadding(0, 2, 0, 2);
+
+            TextView tv = new TextView(this);
+            tv.setText(String.format(Locale.US, "%d × %s %s\n$%.2f c/u  →  $%.2f",
+                    l.cantidad, l.tel.getMarca(), l.tel.getModelo(), l.tel.getPrecio(), l.subtotal()));
+            tv.setTextSize(11f);
+            tv.setTextColor(Color.parseColor("#1E293B"));
+            LinearLayout.LayoutParams lpTxt = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+            tv.setLayoutParams(lpTxt);
+
+            Button menos = crearBotonMini("−");
+            menos.setOnClickListener(v -> {
+                if (l.cantidad <= 1) carrito.remove(l); else l.cantidad--;
+                renderCarrito();
+            });
+            Button mas = crearBotonMini("+");
+            mas.setOnClickListener(v -> {
+                if (l.cantidad < MAX_POR_ITEM) l.cantidad++;
+                renderCarrito();
+            });
+            Button quitar = crearBotonMini("✕");
+            quitar.setOnClickListener(v -> {
+                carrito.remove(l);
+                renderCarrito();
+            });
+
+            fila.addView(tv);
+            fila.addView(menos);
+            fila.addView(mas);
+            fila.addView(quitar);
+            layoutCarrito.addView(fila);
+        }
+    }
+
+    private Button crearBotonMini(String texto) {
+        Button b = new Button(this);
+        b.setText(texto);
+        b.setTextSize(12f);
+        b.setAllCaps(false);
+        b.setMinWidth(0);
+        b.setMinimumWidth(0);
+        b.setPadding(0, 0, 0, 0);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(88, 80);
+        lp.setMargins(4, 0, 0, 0);
+        b.setLayoutParams(lp);
+        return b;
     }
 
     private void cargarTelefonos() {
@@ -187,13 +348,18 @@ public class FacturacionActivity extends AppCompatActivity {
     }
 
     private void procesarFacturacion() {
-        TelefonoModel sel = (TelefonoModel) spnTelefonos.getSelectedItem();
-        if (sel == null) return;
+        if (carrito.isEmpty()) {
+            tvResultadoFactura.setTextColor(Color.RED);
+            tvResultadoFactura.setText("❌ El carrito está vacío. Agregue al menos un teléfono para facturar.");
+            return;
+        }
 
         FacturaRequest req = new FacturaRequest();
         req.cedula = etCedula.getText().toString().trim();
         req.nombre = etNombre.getText().toString().trim();
-        req.codTelefono = sel.getCodTelefono();
+        for (LineaCarrito l : carrito) {
+            req.items.add(new ItemCarrito(l.tel.getCodTelefono(), l.cantidad));
+        }
         req.formaPago = (String) spnFormaPago.getSelectedItem();
         req.cuotas = (Integer) spnCuotas.getSelectedItem();
 
@@ -205,7 +371,9 @@ public class FacturacionActivity extends AppCompatActivity {
             mainHandler.post(() -> {
                 if (resp.exito) {
                     tvResultadoFactura.setTextColor(Color.parseColor("#187846"));
-                    tvResultadoFactura.setText("✅ FACTURA #" + resp.facturaId + " EMITIDA CON ÉXITO\n" + resp.mensaje);
+                    tvResultadoFactura.setText("✅ FACTURA #" + resp.facturaId + " EMITIDA CON ÉXITO\n" + resp.mensaje + detalleFactura(resp.factura));
+                    carrito.clear();       // compra finalizada: el carrito se vacia
+                    renderCarrito();
                     if (resp.tabla != null && !resp.tabla.isEmpty()) {
                         mostrarTablaAmortizacion(resp.tabla);
                     }
@@ -215,6 +383,24 @@ public class FacturacionActivity extends AppCompatActivity {
                 }
             });
         });
+    }
+
+    /** Texto del detalle de la factura: todos los articulos + totales. */
+    private String detalleFactura(FacturaInfo fi) {
+        if (fi == null || fi.items == null || fi.items.isEmpty()) return "";
+        StringBuilder sb = new StringBuilder("\n\n— DETALLE DE LA FACTURA —");
+        for (FacturaDetalle d : fi.items) {
+            sb.append(String.format(Locale.US, "\n%d × %s  ($%.2f c/u)  = $%.2f", d.cantidad, d.modeloTelefono, d.precioUnitario, d.subtotal));
+        }
+        sb.append(String.format(Locale.US, "\nSubtotal: $%.2f", fi.subtotal));
+        if (fi.valorDescuento > 0) {
+            sb.append(String.format(Locale.US, "\nDescuento (%.0f%%): -$%.2f", fi.porcentajeDescuento, fi.valorDescuento));
+        }
+        sb.append(String.format(Locale.US, "\nTOTAL A PAGAR: $%.2f", fi.totalPagar));
+        if (fi.codCreditoBanco != null && fi.numCuotas != null && fi.valorCuota != null) {
+            sb.append(String.format(Locale.US, "\nCrédito BanQuito #%d: %d cuotas de $%.2f", fi.codCreditoBanco, fi.numCuotas, fi.valorCuota));
+        }
+        return sb.toString();
     }
 
     private void mostrarTablaAmortizacion(List<CuotaAmortizacion> cuotas) {

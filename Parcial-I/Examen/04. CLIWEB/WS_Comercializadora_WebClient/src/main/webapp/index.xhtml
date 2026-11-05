@@ -507,6 +507,73 @@
                     </div>
                 </ui:fragment>
 
+                <!-- Factura emitida: cabecera + todos los items del carrito -->
+                <ui:fragment rendered="#{comercializadoraView.ultimaFactura != null}">
+                    <div class="card-custom" style="border:2px solid var(--success);">
+                        <div class="card-header-flex">
+                            <div>
+                                <h2 class="card-title"><i class="bi bi-receipt-cutoff" style="color:var(--success);"></i> Factura #{comercializadoraView.ultimaFactura.numFactura}</h2>
+                                <div class="card-subtitle">Comprobante #{comercializadoraView.ultimaFactura.numeroComprobante} · #{comercializadoraView.ultimaFactura.totalArticulos} artículo(s)</div>
+                            </div>
+                            <h:form>
+                                <h:commandButton value="Cerrar" action="#{comercializadoraView.cerrarFactura}" styleClass="btn-modern btn-primary-gradient" style="padding:6px 14px; font-size:12px;">
+                                    <f:ajax execute="@this" render=":panelContenido" />
+                                </h:commandButton>
+                            </h:form>
+                        </div>
+
+                        <div style="margin-bottom:12px;">
+                            <strong>#{comercializadoraView.ultimaFactura.nombreCliente}</strong>
+                            <small style="color:var(--text-muted);"> · C.I. #{comercializadoraView.ultimaFactura.cedulaCliente} · #{comercializadoraView.ultimaFactura.formaPago}</small>
+                        </div>
+
+                        <div class="table-responsive">
+                            <h:dataTable value="#{comercializadoraView.ultimaFactura.items}" var="li" styleClass="modern-table">
+                                <h:column>
+                                    <f:facet name="header">Dispositivo</f:facet>
+                                    <strong>#{li.modeloTelefono}</strong>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Cant.</f:facet>
+                                    #{li.cantidad}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">P. Unit.</f:facet>
+                                    $ <h:outputText value="#{li.precioUnitario}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Subtotal</f:facet>
+                                    <strong>$ <h:outputText value="#{li.subtotal}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText></strong>
+                                </h:column>
+                            </h:dataTable>
+                        </div>
+
+                        <div style="text-align:right; margin-top:14px; line-height:1.8;">
+                            <div>Subtotal: $ <h:outputText value="#{comercializadoraView.ultimaFactura.subtotal}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText></div>
+                            <ui:fragment rendered="#{comercializadoraView.ultimaFactura.valorDescuento > 0}">
+                                <div style="color:var(--danger);">Descuento (#{comercializadoraView.ultimaFactura.porcentajeDescuento}%): -$ <h:outputText value="#{comercializadoraView.ultimaFactura.valorDescuento}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText></div>
+                            </ui:fragment>
+                            <div style="font-size:20px;"><strong>TOTAL: <span style="color:var(--success);">$ <h:outputText value="#{comercializadoraView.ultimaFactura.totalPagar}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText></span></strong></div>
+                            <ui:fragment rendered="#{comercializadoraView.ultimaFactura.codCreditoBanco != null}">
+                                <div style="color:var(--info);">Crédito BanQuito N° #{comercializadoraView.ultimaFactura.codCreditoBanco}: #{comercializadoraView.ultimaFactura.numCuotas} cuotas de $ <h:outputText value="#{comercializadoraView.ultimaFactura.valorCuota}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText></div>
+                            </ui:fragment>
+                        </div>
+
+                        <ui:fragment rendered="#{not empty comercializadoraView.tablaFactura}">
+                            <h3 style="margin-top:18px; font-size:15px;">Tabla de Amortización del Crédito</h3>
+                            <div class="table-responsive">
+                                <h:dataTable value="#{comercializadoraView.tablaFactura}" var="cf" styleClass="modern-table">
+                                    <h:column><f:facet name="header">Cuota</f:facet># #{cf.numCuota}</h:column>
+                                    <h:column><f:facet name="header">Valor Cuota</f:facet>$ #{cf.valorCuota}</h:column>
+                                    <h:column><f:facet name="header">Interés</f:facet>$ #{cf.interesPagado}</h:column>
+                                    <h:column><f:facet name="header">Capital</f:facet>$ #{cf.capitalPagado}</h:column>
+                                    <h:column><f:facet name="header">Saldo</f:facet>$ #{cf.saldo}</h:column>
+                                </h:dataTable>
+                            </div>
+                        </ui:fragment>
+                    </div>
+                </ui:fragment>
+
                 <!-- Grid de Facturación -->
                 <div class="grid-layout">
                     <!-- Formulario Principal -->
@@ -545,6 +612,76 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="form-label"><i class="bi bi-123"></i> Cantidad:</label>
+                                <div style="display:flex; gap:8px;">
+                                    <h:inputText id="txtCantidad" value="#{comercializadoraView.cantidadAgregar}" styleClass="form-input"
+                                                 pt:type="number" pt:min="1" pt:max="10" style="max-width:110px;" />
+                                    <h:commandButton value="➕ Agregar al Carrito" action="#{comercializadoraView.agregarAlCarrito}"
+                                                     styleClass="btn-modern btn-primary-gradient" style="flex:1;">
+                                        <f:ajax execute="cmbTelefono txtCantidad" render=":panelContenido" />
+                                    </h:commandButton>
+                                </div>
+                            </div>
+
+                            <!-- Carrito de compras -->
+                            <div class="form-group">
+                                <label class="form-label"><i class="bi bi-cart3"></i> Carrito de Compras (#{comercializadoraView.totalArticulos} artículo(s)):</label>
+
+                                <ui:fragment rendered="#{comercializadoraView.carritoVacio}">
+                                    <div style="padding:14px; border:1px dashed var(--border-color); border-radius:10px; color:var(--text-muted); text-align:center; font-size:13px;">
+                                        El carrito está vacío. Elija un teléfono, indique la cantidad y pulse «Agregar al Carrito».
+                                    </div>
+                                </ui:fragment>
+
+                                <ui:fragment rendered="#{not comercializadoraView.carritoVacio}">
+                                    <div class="table-responsive">
+                                        <h:dataTable value="#{comercializadoraView.carrito}" var="it" styleClass="modern-table">
+                                            <h:column>
+                                                <f:facet name="header">Dispositivo</f:facet>
+                                                <strong>#{it.modeloTelefono}</strong>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">P. Unit.</f:facet>
+                                                $ <h:outputText value="#{it.precioUnitario}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">Cant.</f:facet>
+                                                <h:commandButton value="−" action="#{comercializadoraView.decrementarItem(it.codTelefono)}"
+                                                                 styleClass="btn-modern btn-primary-gradient" style="padding:2px 9px; font-size:13px;">
+                                                    <f:ajax execute="@this" render=":panelContenido" />
+                                                </h:commandButton>
+                                                <strong style="margin:0 8px;">#{it.cantidad}</strong>
+                                                <h:commandButton value="+" action="#{comercializadoraView.incrementarItem(it.codTelefono)}"
+                                                                 styleClass="btn-modern btn-primary-gradient" style="padding:2px 9px; font-size:13px;">
+                                                    <f:ajax execute="@this" render=":panelContenido" />
+                                                </h:commandButton>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">Subtotal</f:facet>
+                                                <strong style="color:var(--brand-primary);">$ <h:outputText value="#{it.subtotal}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText></strong>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header"></f:facet>
+                                                <h:commandButton value="Quitar" action="#{comercializadoraView.quitarDelCarrito(it.codTelefono)}"
+                                                                 styleClass="btn-modern btn-danger-gradient" style="padding:4px 10px; font-size:11px;">
+                                                    <f:ajax execute="@this" render=":panelContenido" />
+                                                </h:commandButton>
+                                            </h:column>
+                                        </h:dataTable>
+                                    </div>
+                                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+                                        <h:commandButton value="🗑 Vaciar carrito" action="#{comercializadoraView.vaciarCarrito}"
+                                                         styleClass="btn-modern btn-danger-gradient" style="padding:6px 12px; font-size:12px;">
+                                            <f:ajax execute="@this" render=":panelContenido" />
+                                        </h:commandButton>
+                                        <div style="font-size:16px;">Total carrito:
+                                            <strong style="color:var(--brand-primary);">$ <h:outputText value="#{comercializadoraView.subtotalCarrito}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText></strong>
+                                        </div>
+                                    </div>
+                                </ui:fragment>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="form-label"><i class="bi bi-credit-card-2-front"></i> Modalidad de Pago:</label>
                                 <h:selectOneRadio value="#{comercializadoraView.formaPago}" styleClass="payment-radio-group">
                                     <f:selectItem itemValue="CREDITO_DIRECTO" itemLabel="Crédito Directo BanQuito (16.5% Anual)" />
@@ -570,7 +707,7 @@
 
                             <!-- Botón de Emitir Factura -->
                             <div style="margin-top:24px;">
-                                <h:commandButton value="🛒 Emitir y Registrar Factura" action="#{comercializadoraView.emitirFactura}"
+                                <h:commandButton value="🧾 Emitir Factura del Carrito" action="#{comercializadoraView.emitirFactura}"
                                                  styleClass="btn-modern btn-success-gradient" style="width:100%; font-size:16px; padding:15px;">
                                     <f:ajax execute="@form" render=":panelContenido" />
                                 </h:commandButton>
@@ -591,7 +728,7 @@
 
                                 <div class="kpi-row">
                                     <div class="kpi-card">
-                                        <div class="kpi-title">Precio Lista</div>
+                                        <div class="kpi-title">Total Carrito (#{comercializadoraView.totalArticulos} art.)</div>
                                         <div class="kpi-value">$ <h:outputText value="#{comercializadoraView.precioTelefono}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText></div>
                                     </div>
 
@@ -747,7 +884,7 @@
                     <div class="card-header-flex">
                         <div>
                             <h2 class="card-title"><i class="bi bi-grid-3x3-gap-fill" style="color:var(--brand-primary);"></i> Vitrina Oficial CelStore</h2>
-                            <div class="card-subtitle">Seleccione cualquier dispositivo para pasar directamente a facturación</div>
+                            <div class="card-subtitle">Agregue dispositivos al carrito y pase a facturación</div>
                         </div>
                     </div>
 
@@ -765,7 +902,7 @@
                                             <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Precio Lista</div>
                                             <div class="product-price-val">$ #{item.precio}</div>
                                         </div>
-                                        <h:commandButton value="Facturar Dispositivo" action="#{comercializadoraView.seleccionarTelefonoParaFactura(item.codTelefono)}"
+                                        <h:commandButton value="🛒 Agregar al Carrito" action="#{comercializadoraView.seleccionarTelefonoParaFactura(item.codTelefono)}"
                                                          styleClass="btn-modern btn-primary-gradient" style="font-size:12px; padding:8px 14px;">
                                             <f:ajax render=":panelContenido :navForm" />
                                         </h:commandButton>
@@ -888,16 +1025,19 @@
                                 <br/><small style="color:var(--text-muted);">C.I. #{hf.cedulaCliente}</small>
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Dispositivo</f:facet>
-                                #{hf.modeloTelefono}
+                                <f:facet name="header">Artículos</f:facet>
+                                <ui:repeat value="#{hf.items}" var="hi">
+                                    <div style="font-size:13px;">#{hi.cantidad} × <strong>#{hi.modeloTelefono}</strong>
+                                        <small style="color:var(--text-muted);">($ #{hi.precioUnitario} c/u)</small></div>
+                                </ui:repeat>
                             </h:column>
                             <h:column>
                                 <f:facet name="header">Forma de Pago</f:facet>
                                 <span class="badge-status #{hf.formaPago == 'EFECTIVO' ? 'efectivo' : 'credito'}">#{hf.formaPago}</span>
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Precio Catálogo</f:facet>
-                                $ #{hf.precioUnitario}
+                                <f:facet name="header">Subtotal</f:facet>
+                                $ #{hf.subtotal}
                             </h:column>
                             <h:column>
                                 <f:facet name="header">Descuento</f:facet>

@@ -4,6 +4,7 @@ import ec.edu.monster.clicon.controller.AppControlador;
 import ec.edu.monster.clicon.model.FacturaModel.*;
 import ec.edu.monster.clicon.model.TelefonoModel;
 import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,6 +19,8 @@ public class ConsolaView {
 
     private final AppControlador controlador;
     private final Scanner scanner;
+    private final List<ItemCarrito> carrito = new ArrayList<>();
+    private static final int MAX_POR_ITEM = 10;
 
     public ConsolaView(AppControlador controlador) {
         this.controlador = controlador;
@@ -59,10 +62,10 @@ public class ConsolaView {
                     consultarMontoMaximo();
                     break;
                 case "4":
-                    facturarEfectivo();
+                    menuCarrito();
                     break;
                 case "5":
-                    facturarCreditoDirecto();
+                    facturarCarrito();
                     break;
                 case "6":
                     consultarTablaAmortizacion();
@@ -117,8 +120,8 @@ public class ConsolaView {
         System.out.println(" 1. Ver Catalogo de Celulares Disponibles");
         System.out.println(" 2. Verificar Sujeto de Credito (BanQuito - por Cedula)");
         System.out.println(" 3. Consultar Monto Maximo de Credito Aprobado (por Codigo Cliente)");
-        System.out.println(" 4. Facturar Venta en Efectivo (Aplica Descuento Oficial 42%)");
-        System.out.println(" 5. Facturar Venta con Credito Directo BanQuito");
+        System.out.println(" 4. Carrito de Compras: agregar / quitar / ver articulos (" + totalArticulos() + " en el carrito)");
+        System.out.println(" 5. Facturar el Carrito (Efectivo con 42% o Credito Directo BanQuito)");
         System.out.println(" 6. Consultar Tabla de Amortizacion de un Credito Otorgado");
         System.out.println(ANSI_YELLOW + " 7. [DEMO TRIBUNAL] Ejecutar Pruebas Automatizadas de los Clientes Oficiales" + ANSI_RESET);
         System.out.println(" 8. Agregar Nuevo Telefono al Catalogo");
@@ -186,52 +189,185 @@ public class ConsolaView {
         }
     }
 
-    private void facturarEfectivo() {
-        System.out.println("\n" + ANSI_CYAN + "=== FACTURACION CON PAGO EN EFECTIVO (DESCUENTO 42%) ===" + ANSI_RESET);
-        verCatalogoTelefonos();
-        try {
-            System.out.print("Ingrese Cedula del comprador: ");
-            String cedula = scanner.nextLine().trim();
-            System.out.print("Ingrese Nombre del comprador: ");
-            String nombre = scanner.nextLine().trim();
-            System.out.print("Ingrese ID del Telefono a comprar: ");
-            int codTel = Integer.parseInt(scanner.nextLine().trim());
+    // =====================================================================
+    // CARRITO DE COMPRAS
+    // =====================================================================
 
-            FacturaRequest req = new FacturaRequest();
-            req.cedula = cedula;
-            req.nombre = nombre;
-            req.codTelefono = codTel;
-            req.formaPago = "EFECTIVO";
+    private int totalArticulos() {
+        int n = 0;
+        for (ItemCarrito i : carrito) n += i.cantidad;
+        return n;
+    }
 
-            FacturaResponse resp = controlador.facturar(req);
-            imprimirFactura(resp);
-        } catch (Exception e) {
-            System.out.println(ANSI_RED + "Error en los datos ingresados: " + clean(e.getMessage()) + ANSI_RESET);
+    private TelefonoModel buscarTelefono(List<TelefonoModel> lista, int cod) {
+        for (TelefonoModel t : lista) {
+            if (t.getCodTelefono() == cod) return t;
+        }
+        return null;
+    }
+
+    private double subtotalCarrito(List<TelefonoModel> catalogo) {
+        double sum = 0;
+        for (ItemCarrito i : carrito) {
+            TelefonoModel t = buscarTelefono(catalogo, i.codTelefono);
+            if (t != null) sum += t.getPrecio() * i.cantidad;
+        }
+        return sum;
+    }
+
+    private void menuCarrito() {
+        boolean volver = false;
+        while (!volver) {
+            verCarrito();
+            System.out.println(ANSI_BOLD + "\n--- CARRITO DE COMPRAS ---" + ANSI_RESET);
+            System.out.println(" A. Agregar telefono al carrito");
+            System.out.println(" Q. Quitar telefono del carrito");
+            System.out.println(" V. Vaciar carrito");
+            System.out.println(" F. Facturar el carrito ahora");
+            System.out.println(" 0. Volver al menu principal");
+            System.out.print("Opcion: ");
+            String op = scanner.nextLine().trim().toUpperCase();
+            switch (op) {
+                case "A": agregarAlCarrito(); break;
+                case "Q": quitarDelCarrito(); break;
+                case "V":
+                    carrito.clear();
+                    System.out.println(ANSI_YELLOW + "Carrito vaciado." + ANSI_RESET);
+                    break;
+                case "F": facturarCarrito(); break;
+                case "0": volver = true; break;
+                default: System.out.println(ANSI_RED + "Opcion invalida." + ANSI_RESET);
+            }
         }
     }
 
-    private void facturarCreditoDirecto() {
-        System.out.println("\n" + ANSI_CYAN + "=== FACTURACION CON CREDITO DIRECTO BANQUITO ===" + ANSI_RESET);
+    private void agregarAlCarrito() {
+        List<TelefonoModel> catalogo = controlador.listarTelefonos();
+        if (catalogo.isEmpty()) {
+            System.out.println(ANSI_RED + "No hay telefonos disponibles o el servicio esta offline." + ANSI_RESET);
+            return;
+        }
         verCatalogoTelefonos();
         try {
-            System.out.print("Ingrese Cedula del cliente (debe existir en BanQuito): ");
+            System.out.print("ID del telefono a agregar: ");
+            int cod = Integer.parseInt(scanner.nextLine().trim());
+            TelefonoModel t = buscarTelefono(catalogo, cod);
+            if (t == null) {
+                System.out.println(ANSI_RED + "El telefono #" + cod + " no existe en el catalogo." + ANSI_RESET);
+                return;
+            }
+            System.out.print("Cantidad (1 a " + MAX_POR_ITEM + ") [1]: ");
+            String q = scanner.nextLine().trim();
+            int cant = q.isEmpty() ? 1 : Integer.parseInt(q);
+            if (cant < 1) {
+                System.out.println(ANSI_RED + "La cantidad debe ser al menos 1." + ANSI_RESET);
+                return;
+            }
+            ItemCarrito existente = null;
+            for (ItemCarrito i : carrito) {
+                if (i.codTelefono == cod) { existente = i; break; }
+            }
+            int nueva = (existente != null ? existente.cantidad : 0) + cant;
+            if (nueva > MAX_POR_ITEM) {
+                System.out.println(ANSI_RED + "Maximo " + MAX_POR_ITEM + " unidades por articulo." + ANSI_RESET);
+                return;
+            }
+            if (existente != null) existente.cantidad = nueva; else carrito.add(new ItemCarrito(cod, cant));
+            System.out.println(ANSI_GREEN + "[OK] " + cant + " x " + clean(t.getMarca()) + " " + clean(t.getModelo()) + " agregado al carrito." + ANSI_RESET);
+        } catch (NumberFormatException e) {
+            System.out.println(ANSI_RED + "Numero invalido." + ANSI_RESET);
+        }
+    }
+
+    private void quitarDelCarrito() {
+        if (carrito.isEmpty()) {
+            System.out.println(ANSI_YELLOW + "El carrito ya esta vacio." + ANSI_RESET);
+            return;
+        }
+        try {
+            System.out.print("ID del telefono a quitar: ");
+            int cod = Integer.parseInt(scanner.nextLine().trim());
+            ItemCarrito encontrado = null;
+            for (ItemCarrito i : carrito) {
+                if (i.codTelefono == cod) { encontrado = i; break; }
+            }
+            if (encontrado == null) {
+                System.out.println(ANSI_RED + "Ese telefono no esta en el carrito." + ANSI_RESET);
+                return;
+            }
+            System.out.print("Unidades a quitar (Enter = todas) [" + encontrado.cantidad + "]: ");
+            String q = scanner.nextLine().trim();
+            int quitar = q.isEmpty() ? encontrado.cantidad : Integer.parseInt(q);
+            if (quitar >= encontrado.cantidad) {
+                carrito.remove(encontrado);
+            } else if (quitar > 0) {
+                encontrado.cantidad -= quitar;
+            }
+            System.out.println(ANSI_YELLOW + "Carrito actualizado." + ANSI_RESET);
+        } catch (NumberFormatException e) {
+            System.out.println(ANSI_RED + "Numero invalido." + ANSI_RESET);
+        }
+    }
+
+    private void verCarrito() {
+        System.out.println("\n" + ANSI_CYAN + "=== CARRITO DE COMPRAS ===" + ANSI_RESET);
+        if (carrito.isEmpty()) {
+            System.out.println("  (vacio)");
+            return;
+        }
+        List<TelefonoModel> catalogo = controlador.listarTelefonos();
+        System.out.printf("%-5s | %-34s | %-10s | %-5s | %-11s%n", "ID", "DISPOSITIVO", "P. UNIT.", "CANT.", "SUBTOTAL");
+        System.out.println("---------------------------------------------------------------------------");
+        for (ItemCarrito i : carrito) {
+            TelefonoModel t = buscarTelefono(catalogo, i.codTelefono);
+            String nombre = t != null ? clean(t.getMarca() + " " + t.getModelo()) : "(no disponible)";
+            double pu = t != null ? t.getPrecio() : 0;
+            System.out.printf("%-5d | %-34s | $%-9.2f | %-5d | $%-10.2f%n", i.codTelefono, nombre, pu, i.cantidad, pu * i.cantidad);
+        }
+        System.out.println("---------------------------------------------------------------------------");
+        double sub = subtotalCarrito(catalogo);
+        System.out.printf(ANSI_BOLD + "  Articulos: %d | TOTAL CARRITO: $%.2f%n" + ANSI_RESET, totalArticulos(), sub);
+        System.out.printf("  (En efectivo con 42%% de descuento pagaria: $%.2f)%n", sub * 0.58);
+    }
+
+    /** Factura TODO el carrito en una sola factura (Efectivo o Credito Directo). */
+    private void facturarCarrito() {
+        System.out.println("\n" + ANSI_CYAN + "=== FACTURAR CARRITO ===" + ANSI_RESET);
+        if (carrito.isEmpty()) {
+            System.out.println(ANSI_RED + "El carrito esta vacio. Use la opcion 4 para agregar telefonos." + ANSI_RESET);
+            return;
+        }
+        verCarrito();
+        try {
+            System.out.print("\nForma de pago: 1) Efectivo (42% desc.)  2) Credito Directo BanQuito: ");
+            String fp = scanner.nextLine().trim();
+            if (!fp.equals("1") && !fp.equals("2")) {
+                System.out.println(ANSI_RED + "Forma de pago invalida." + ANSI_RESET);
+                return;
+            }
+            System.out.print("Ingrese Cedula del cliente: ");
             String cedula = scanner.nextLine().trim();
             System.out.print("Ingrese Nombre del cliente: ");
             String nombre = scanner.nextLine().trim();
-            System.out.print("Ingrese ID del Telefono a financiar: ");
-            int codTel = Integer.parseInt(scanner.nextLine().trim());
-            System.out.print("Ingrese Plazo en meses (3 a 18): ");
-            int cuotas = Integer.parseInt(scanner.nextLine().trim());
 
             FacturaRequest req = new FacturaRequest();
             req.cedula = cedula;
             req.nombre = nombre;
-            req.codTelefono = codTel;
-            req.formaPago = "CREDITO_DIRECTO";
-            req.cuotas = cuotas;
+            for (ItemCarrito i : carrito) req.items.add(new ItemCarrito(i.codTelefono, i.cantidad));
+
+            if (fp.equals("1")) {
+                req.formaPago = "EFECTIVO";
+            } else {
+                req.formaPago = "CREDITO_DIRECTO";
+                System.out.print("Ingrese Plazo en meses (3 a 18): ");
+                req.cuotas = Integer.parseInt(scanner.nextLine().trim());
+            }
 
             FacturaResponse resp = controlador.facturar(req);
             imprimirFactura(resp);
+            if (resp != null && resp.exito) {
+                carrito.clear(); // compra finalizada
+            }
         } catch (Exception e) {
             System.out.println(ANSI_RED + "Error en los datos ingresados: " + clean(e.getMessage()) + ANSI_RESET);
         }
@@ -263,7 +399,7 @@ public class ConsolaView {
         FacturaRequest r1 = new FacturaRequest();
         r1.cedula = "1710000001";
         r1.nombre = "Carlos Andrade";
-        r1.codTelefono = 1; // Motorola $450
+        r1.items.add(new ItemCarrito(1, 1)); // Motorola $450
         r1.formaPago = "CREDITO_DIRECTO";
         r1.cuotas = 6;
         FacturaResponse f1 = controlador.facturar(r1);
@@ -274,7 +410,7 @@ public class ConsolaView {
         FacturaRequest r2 = new FacturaRequest();
         r2.cedula = "1710000002";
         r2.nombre = "Andrea Morales";
-        r2.codTelefono = 2; // Samsung $850 (cupo maximo es $579.38 -> denegado)
+        r2.items.add(new ItemCarrito(2, 1)); // Samsung $850 (cupo maximo es $579.38 -> denegado)
         r2.formaPago = "CREDITO_DIRECTO";
         r2.cuotas = 12;
         FacturaResponse f2 = controlador.facturar(r2);
@@ -285,7 +421,7 @@ public class ConsolaView {
         FacturaRequest r3 = new FacturaRequest();
         r3.cedula = "1710000003";
         r3.nombre = "Mateo Salazar";
-        r3.codTelefono = 1;
+        r3.items.add(new ItemCarrito(1, 1));
         r3.formaPago = "CREDITO_DIRECTO";
         r3.cuotas = 6;
         FacturaResponse f3 = controlador.facturar(r3);
@@ -296,7 +432,7 @@ public class ConsolaView {
         FacturaRequest r4 = new FacturaRequest();
         r4.cedula = "1710000004";
         r4.nombre = "Elena Castro";
-        r4.codTelefono = 1; // Motorola $450 -> Total $261
+        r4.items.add(new ItemCarrito(1, 1)); // Motorola $450 -> Total $261
         r4.formaPago = "EFECTIVO";
         FacturaResponse f4 = controlador.facturar(r4);
         imprimirFactura(f4);
@@ -306,11 +442,22 @@ public class ConsolaView {
         FacturaRequest r5 = new FacturaRequest();
         r5.cedula = "1710000006";
         r5.nombre = "David Paredes";
-        r5.codTelefono = 3; // iPhone 15 $950
+        r5.items.add(new ItemCarrito(3, 1)); // iPhone 15 $950
         r5.formaPago = "CREDITO_DIRECTO";
         r5.cuotas = 12;
         FacturaResponse f5 = controlador.facturar(r5);
         imprimirFactura(f5);
+
+        // Caso 6: carrito con VARIOS articulos en una sola factura (efectivo)
+        System.out.println("\n" + ANSI_BOLD + ">>> CASO 6: CARRITO MULTI-ARTICULO (Elena Castro - Efectivo 42%) - 2 x ID 1 + 1 x ID 3 en UNA factura" + ANSI_RESET);
+        FacturaRequest r6 = new FacturaRequest();
+        r6.cedula = "1710000004";
+        r6.nombre = "Elena Castro";
+        r6.items.add(new ItemCarrito(1, 2));
+        r6.items.add(new ItemCarrito(3, 1));
+        r6.formaPago = "EFECTIVO";
+        FacturaResponse f6 = controlador.facturar(r6);
+        imprimirFactura(f6);
 
         System.out.println("\n" + ANSI_GREEN + "Bateria de pruebas finalizada." + ANSI_RESET);
     }
@@ -353,6 +500,26 @@ public class ConsolaView {
         System.out.println("  TRANSACCION EXITOSA: Factura #" + f.facturaId);
         System.out.println("================================================================================" + ANSI_RESET);
         System.out.println("  Detalle: " + clean(f.mensaje));
+
+        FacturaInfo fi = f.factura;
+        if (fi != null && fi.items != null && !fi.items.isEmpty()) {
+            System.out.println("\n  Comprobante: " + clean(fi.numeroComprobante) + " | Cliente: " + clean(fi.nombreCliente) + " (C.I. " + clean(fi.cedulaCliente) + ")");
+            System.out.println("  Forma de pago: " + clean(fi.formaPago));
+            System.out.printf("  %-34s | %-10s | %-5s | %-11s%n", "DISPOSITIVO", "P. UNIT.", "CANT.", "SUBTOTAL");
+            System.out.println("  ---------------------------------------------------------------------");
+            for (FacturaDetalle d : fi.items) {
+                System.out.printf("  %-34s | $%-9.2f | %-5d | $%-10.2f%n", clean(d.modeloTelefono), d.precioUnitario, d.cantidad, d.subtotal);
+            }
+            System.out.println("  ---------------------------------------------------------------------");
+            System.out.printf("  Subtotal: $%.2f%n", fi.subtotal);
+            if (fi.valorDescuento > 0) {
+                System.out.printf("  Descuento (%.0f%%): -$%.2f%n", fi.porcentajeDescuento, fi.valorDescuento);
+            }
+            System.out.printf(ANSI_BOLD + "  TOTAL A PAGAR: $%.2f%n" + ANSI_RESET, fi.totalPagar);
+            if (fi.codCreditoBanco != null && fi.numCuotas != null && fi.valorCuota != null) {
+                System.out.printf("  Credito BanQuito #%d: %d cuotas de $%.2f%n", fi.codCreditoBanco, fi.numCuotas, fi.valorCuota);
+            }
+        }
 
         if (f.tabla != null && !f.tabla.isEmpty()) {
             imprimirTablaAmortizacion(f.tabla);

@@ -5,6 +5,7 @@ import ec.edu.monster.cliesc.model.FacturaModel.*;
 import ec.edu.monster.cliesc.model.TelefonoModel;
 import java.awt.*;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -44,6 +45,27 @@ public class DesktopView extends JFrame {
     private JTextField txtCedula;
     private JTextField txtNombre;
     private JComboBox<TelefonoModel> cmbTelefonos;
+    private JSpinner spnCantidad;
+    private DefaultTableModel modeloCarrito;
+    private JTable tablaCarrito;
+    private JLabel lblTotalCarrito;
+    private final List<LineaCarrito> carrito = new ArrayList<>();
+    private static final int MAX_POR_ITEM = 10;
+
+    /** Renglon del carrito en el cliente: telefono + cantidad. */
+    private static class LineaCarrito {
+        final TelefonoModel tel;
+        int cantidad;
+
+        LineaCarrito(TelefonoModel tel, int cantidad) {
+            this.tel = tel;
+            this.cantidad = cantidad;
+        }
+
+        double subtotal() {
+            return Math.round(tel.getPrecio() * cantidad * 100.0) / 100.0;
+        }
+    }
     private JComboBox<String> cmbFormaPago;
     private JComboBox<Integer> cmbCuotas;
     private JLabel lblPrecioOriginal;
@@ -414,7 +436,7 @@ public class DesktopView extends JFrame {
         title.setForeground(COLOR_NAVY_DARK);
         card.add(title, BorderLayout.NORTH);
 
-        JPanel form = new JPanel(new GridLayout(5, 2, 10, 12));
+        JPanel form = new JPanel(new GridLayout(6, 2, 10, 8));
         form.setBackground(Color.WHITE);
 
         txtCedula = new JTextField("1710000001");
@@ -423,10 +445,22 @@ public class DesktopView extends JFrame {
         cmbFormaPago = new JComboBox<>(new String[]{"CREDITO_DIRECTO", "EFECTIVO"});
         cmbCuotas = new JComboBox<>(new Integer[]{3, 6, 9, 12, 18});
         cmbCuotas.setSelectedItem(6);
+        spnCantidad = new JSpinner(new SpinnerNumberModel(1, 1, MAX_POR_ITEM, 1));
 
-        cmbTelefonos.addActionListener(e -> actualizarCalculosEnVivo());
         cmbFormaPago.addActionListener(e -> actualizarCalculosEnVivo());
         cmbCuotas.addActionListener(e -> actualizarCalculosEnVivo());
+
+        JButton btnAgregar = new JButton("➕ Agregar al Carrito");
+        btnAgregar.setBackground(COLOR_ACCENT);
+        btnAgregar.setForeground(Color.BLACK);
+        btnAgregar.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        btnAgregar.setFocusPainted(false);
+        btnAgregar.addActionListener(e -> agregarAlCarrito());
+
+        JPanel filaCantidad = new JPanel(new BorderLayout(8, 0));
+        filaCantidad.setBackground(Color.WHITE);
+        filaCantidad.add(spnCantidad, BorderLayout.WEST);
+        filaCantidad.add(btnAgregar, BorderLayout.CENTER);
 
         form.add(new JLabel("Cédula Solicitante:"));
         form.add(txtCedula);
@@ -434,18 +468,78 @@ public class DesktopView extends JFrame {
         form.add(txtNombre);
         form.add(new JLabel("Teléfono Celular:"));
         form.add(cmbTelefonos);
+        form.add(new JLabel("Cantidad:"));
+        form.add(filaCantidad);
         form.add(new JLabel("Modalidad de Pago:"));
         form.add(cmbFormaPago);
         form.add(new JLabel("Plazo Cuotas (Crédito):"));
         form.add(cmbCuotas);
 
-        card.add(form, BorderLayout.CENTER);
+        // Carrito de compras (varios articulos en una sola factura)
+        JPanel panelCarrito = new JPanel(new BorderLayout(0, 6));
+        panelCarrito.setBackground(Color.WHITE);
+
+        JLabel lblCarrito = new JLabel("🛒 Carrito de Compras:");
+        lblCarrito.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        lblCarrito.setForeground(COLOR_NAVY_DARK);
+
+        modeloCarrito = new DefaultTableModel(new Object[]{"Dispositivo", "P. Unit ($)", "Cant.", "Subtotal ($)"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tablaCarrito = new JTable(modeloCarrito);
+        estilizarTablaModerna(tablaCarrito);
+        tablaCarrito.getColumnModel().getColumn(0).setPreferredWidth(230);
+        tablaCarrito.getColumnModel().getColumn(1).setPreferredWidth(70);
+        tablaCarrito.getColumnModel().getColumn(2).setPreferredWidth(45);
+        tablaCarrito.getColumnModel().getColumn(3).setPreferredWidth(80);
+        JScrollPane scrollCarrito = new JScrollPane(tablaCarrito);
+        scrollCarrito.setPreferredSize(new Dimension(300, 120));
+
+        JButton btnQuitarUno = new JButton("➖ Quitar 1");
+        JButton btnQuitarItem = new JButton("🗑 Quitar Ítem");
+        JButton btnVaciar = new JButton("Vaciar");
+        for (JButton b : new JButton[]{btnQuitarUno, btnQuitarItem, btnVaciar}) {
+            b.setFocusPainted(false);
+            b.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        }
+        btnQuitarUno.addActionListener(e -> quitarUnoDelCarrito());
+        btnQuitarItem.addActionListener(e -> quitarItemDelCarrito());
+        btnVaciar.addActionListener(e -> vaciarCarrito());
+
+        lblTotalCarrito = new JLabel("Total carrito: $0.00 (0 artículos)", SwingConstants.RIGHT);
+        lblTotalCarrito.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        lblTotalCarrito.setForeground(COLOR_PRIMARY);
+
+        JPanel filaBotonesCarrito = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 0));
+        filaBotonesCarrito.setBackground(Color.WHITE);
+        filaBotonesCarrito.add(btnQuitarUno);
+        filaBotonesCarrito.add(btnQuitarItem);
+        filaBotonesCarrito.add(btnVaciar);
+
+        JPanel pieCarrito = new JPanel(new BorderLayout(8, 0));
+        pieCarrito.setBackground(Color.WHITE);
+        pieCarrito.add(filaBotonesCarrito, BorderLayout.WEST);
+        pieCarrito.add(lblTotalCarrito, BorderLayout.CENTER);
+
+        panelCarrito.add(lblCarrito, BorderLayout.NORTH);
+        panelCarrito.add(scrollCarrito, BorderLayout.CENTER);
+        panelCarrito.add(pieCarrito, BorderLayout.SOUTH);
+
+        JPanel centro = new JPanel(new BorderLayout(0, 10));
+        centro.setBackground(Color.WHITE);
+        centro.add(form, BorderLayout.NORTH);
+        centro.add(panelCarrito, BorderLayout.CENTER);
+
+        card.add(centro, BorderLayout.CENTER);
 
         // Botonera Inferior del Formulario
         JPanel actions = new JPanel(new BorderLayout(8, 8));
         actions.setBackground(Color.WHITE);
 
-        lblAlertaEstado = new JLabel("Seleccione un cliente de prueba o ingrese los datos para facturar.");
+        lblAlertaEstado = new JLabel("Agregue teléfonos al carrito (o elija un cliente de prueba) y emita la factura.");
         lblAlertaEstado.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         lblAlertaEstado.setForeground(COLOR_TEXT_MUTED);
 
@@ -459,7 +553,7 @@ public class DesktopView extends JFrame {
         btnVerificar.setFocusPainted(false);
         btnVerificar.addActionListener(e -> verificarCreditoEnVivo());
 
-        JButton btnEmitir = new JButton("💳 Emitir Factura Oficial");
+        JButton btnEmitir = new JButton("💳 Emitir Factura del Carrito");
         btnEmitir.setBackground(COLOR_SUCCESS);
         btnEmitir.setForeground(Color.BLACK);
         btnEmitir.setFont(new Font("Segoe UI", Font.BOLD, 13));
@@ -488,7 +582,7 @@ public class DesktopView extends JFrame {
         JPanel kpiRow = new JPanel(new GridLayout(1, 4, 8, 0));
         kpiRow.setBackground(Color.WHITE);
 
-        lblPrecioOriginal = new JLabel("$450.00", SwingConstants.CENTER);
+        lblPrecioOriginal = new JLabel("$0.00", SwingConstants.CENTER);
         lblPrecioOriginal.setFont(new Font("Segoe UI", Font.BOLD, 16));
         lblPrecioOriginal.setForeground(COLOR_PRIMARY);
 
@@ -500,11 +594,11 @@ public class DesktopView extends JFrame {
         lblCuotaEstimada.setFont(new Font("Segoe UI", Font.BOLD, 16));
         lblCuotaEstimada.setForeground(COLOR_PRIMARY);
 
-        lblTotalPagar = new JLabel("$450.00", SwingConstants.CENTER);
+        lblTotalPagar = new JLabel("$0.00", SwingConstants.CENTER);
         lblTotalPagar.setFont(new Font("Segoe UI", Font.BOLD, 16));
         lblTotalPagar.setForeground(COLOR_SUCCESS);
 
-        kpiRow.add(crearKpiBox("PRECIO ORIGINAL", lblPrecioOriginal));
+        kpiRow.add(crearKpiBox("TOTAL CARRITO", lblPrecioOriginal));
         kpiRow.add(crearKpiBox("DESC / CUPO", lblDescuentoOCupo));
         kpiRow.add(crearKpiBox("CUOTA MENSUAL", lblCuotaEstimada));
         kpiRow.add(crearKpiBox("TOTAL OPERACIÓN", lblTotalPagar));
@@ -698,7 +792,7 @@ public class DesktopView extends JFrame {
         top.add(btnRefrescar);
 
         modeloHistorialFacturas = new DefaultTableModel(
-                new Object[]{"Factura #", "Comprobante", "Fecha", "Cliente", "Cédula", "Celular", "Forma Pago", "Precio ($)", "Desc ($)", "Total ($)", "Crédito #"}, 0);
+                new Object[]{"Factura #", "Comprobante", "Fecha", "Cliente", "Cédula", "Artículos", "Forma Pago", "Subtotal ($)", "Desc ($)", "Total ($)", "Crédito #"}, 0);
         JTable tabla = new JTable(modeloHistorialFacturas);
         estilizarTablaModerna(tabla);
 
@@ -753,17 +847,117 @@ public class DesktopView extends JFrame {
             if (t.getModelo().toLowerCase().contains(keyword.toLowerCase())
                     || t.getMarca().toLowerCase().contains(keyword.toLowerCase())) {
                 cmbTelefonos.setSelectedIndex(i);
+                // Caso de rubrica: el carrito queda con 1 unidad de ese telefono
+                carrito.clear();
+                carrito.add(new LineaCarrito(t, 1));
                 break;
             }
         }
+        refrescarCarrito();
+    }
+
+    // =========================================================================
+    // CARRITO DE COMPRAS
+    // =========================================================================
+    private LineaCarrito buscarLinea(int codTelefono) {
+        for (LineaCarrito l : carrito) {
+            if (l.tel.getCodTelefono() == codTelefono) return l;
+        }
+        return null;
+    }
+
+    private double subtotalCarrito() {
+        double sum = 0;
+        for (LineaCarrito l : carrito) sum += l.subtotal();
+        return Math.round(sum * 100.0) / 100.0;
+    }
+
+    private int totalArticulos() {
+        int n = 0;
+        for (LineaCarrito l : carrito) n += l.cantidad;
+        return n;
+    }
+
+    private void agregarAlCarrito() {
+        TelefonoModel sel = (TelefonoModel) cmbTelefonos.getSelectedItem();
+        if (sel == null) {
+            lblAlertaEstado.setText("Seleccione un teléfono del catálogo.");
+            return;
+        }
+        if ("INACTIVO".equalsIgnoreCase(sel.getEstado())) {
+            lblAlertaEstado.setText("<html><b style='color:#ef4444;'>✖ Ese teléfono ya no está disponible para la venta.</b></html>");
+            return;
+        }
+        int cant = (Integer) spnCantidad.getValue();
+        LineaCarrito existente = buscarLinea(sel.getCodTelefono());
+        int nueva = (existente != null ? existente.cantidad : 0) + cant;
+        if (nueva > MAX_POR_ITEM) {
+            lblAlertaEstado.setText("<html><b style='color:#ef4444;'>✖ Máximo " + MAX_POR_ITEM + " unidades por artículo.</b></html>");
+            return;
+        }
+        if (existente != null) existente.cantidad = nueva; else carrito.add(new LineaCarrito(sel, cant));
+        spnCantidad.setValue(1);
+        lblAlertaEstado.setText("<html><b style='color:#10b981;'>✔ " + cant + " × " + sel.getMarca() + " " + sel.getModelo() + " agregado al carrito.</b></html>");
+        refrescarCarrito();
+        reevaluarCreditoSiAplica();
+    }
+
+    private void quitarUnoDelCarrito() {
+        int fila = tablaCarrito.getSelectedRow();
+        if (fila < 0 || fila >= carrito.size()) {
+            lblAlertaEstado.setText("Seleccione un renglón del carrito.");
+            return;
+        }
+        LineaCarrito l = carrito.get(fila);
+        if (l.cantidad <= 1) carrito.remove(fila); else l.cantidad--;
+        refrescarCarrito();
+        if (fila < modeloCarrito.getRowCount()) tablaCarrito.setRowSelectionInterval(fila, fila);
+        reevaluarCreditoSiAplica();
+    }
+
+    private void quitarItemDelCarrito() {
+        int fila = tablaCarrito.getSelectedRow();
+        if (fila < 0 || fila >= carrito.size()) {
+            lblAlertaEstado.setText("Seleccione un renglón del carrito.");
+            return;
+        }
+        carrito.remove(fila);
+        refrescarCarrito();
+        reevaluarCreditoSiAplica();
+    }
+
+    private void vaciarCarrito() {
+        carrito.clear();
+        refrescarCarrito();
+        lblAlertaEstado.setText("Carrito vaciado.");
+        modeloAmortizacionFactura.setRowCount(0);
+    }
+
+    private void refrescarCarrito() {
+        modeloCarrito.setRowCount(0);
+        for (LineaCarrito l : carrito) {
+            modeloCarrito.addRow(new Object[]{
+                l.tel.getMarca() + " " + l.tel.getModelo(),
+                String.format("%.2f", l.tel.getPrecio()),
+                l.cantidad,
+                String.format("%.2f", l.subtotal())
+            });
+        }
+        lblTotalCarrito.setText(String.format("Total carrito: $%.2f (%d artículo%s)", subtotalCarrito(), totalArticulos(), totalArticulos() == 1 ? "" : "s"));
         actualizarCalculosEnVivo();
     }
 
-    private void actualizarCalculosEnVivo() {
-        TelefonoModel sel = (TelefonoModel) cmbTelefonos.getSelectedItem();
-        if (sel == null) return;
+    /** Si el pago es a credito, vuelve a consultar BanQuito porque cambio el total a financiar. */
+    private void reevaluarCreditoSiAplica() {
+        if ("CREDITO_DIRECTO".equals(cmbFormaPago.getSelectedItem()) && !carrito.isEmpty() && !txtCedula.getText().isBlank()) {
+            verificarCreditoEnVivo();
+        } else if (carrito.isEmpty()) {
+            modeloAmortizacionFactura.setRowCount(0);
+        }
+    }
 
-        double precio = sel.getPrecio();
+    private void actualizarCalculosEnVivo() {
+        double precio = subtotalCarrito();
         lblPrecioOriginal.setText(String.format("$%.2f", precio));
 
         String fp = (String) cmbFormaPago.getSelectedItem();
@@ -785,9 +979,13 @@ public class DesktopView extends JFrame {
 
     private void verificarCreditoEnVivo() {
         String cedula = txtCedula.getText().trim();
-        TelefonoModel tel = (TelefonoModel) cmbTelefonos.getSelectedItem();
+        final double totalCarrito = subtotalCarrito();
         int cuotas = (Integer) cmbCuotas.getSelectedItem();
-        if (tel == null || cedula.isBlank()) return;
+        if (cedula.isBlank()) return;
+        if (carrito.isEmpty()) {
+            lblAlertaEstado.setText("<html><b style='color:#f59e0b;'>El carrito está vacío: agregue al menos un teléfono.</b></html>");
+            return;
+        }
 
         lblAlertaEstado.setText("Consultando Core Bancario BanQuito...");
 
@@ -801,7 +999,7 @@ public class DesktopView extends JFrame {
                 calif = controlador.verificarSujeto(cedula);
                 if (calif != null && calif.codCliente != null && calif.codCliente > 0) {
                     capacidad = controlador.consultarMontoMaximo(calif.codCliente);
-                    if (calif.esSujeto && capacidad != null && tel.getPrecio() <= capacidad.montoMaximo) {
+                    if (calif.esSujeto && capacidad != null && totalCarrito <= capacidad.montoMaximo) {
                         amort = controlador.consultarTablaAmortizacion(1); // Muestra simulación
                     }
                 }
@@ -822,14 +1020,14 @@ public class DesktopView extends JFrame {
                 double cupo = capacidad != null ? capacidad.montoMaximo : 0.0;
                 lblDescuentoOCupo.setText(String.format("Cupo: $%.2f", cupo));
 
-                if (tel.getPrecio() > cupo) {
-                    lblAlertaEstado.setText(String.format("<html><b style='color:#ef4444;'>✖ Capacidad Insuficiente: Precio ($%.2f) excede cupo aprobado ($%.2f).</b></html>", tel.getPrecio(), cupo));
+                if (totalCarrito > cupo) {
+                    lblAlertaEstado.setText(String.format("<html><b style='color:#ef4444;'>✖ Capacidad Insuficiente: Total del carrito ($%.2f) excede cupo aprobado ($%.2f).</b></html>", totalCarrito, cupo));
                     lblCuotaEstimada.setText("$0.00");
                     modeloAmortizacionFactura.setRowCount(0);
                     return;
                 }
 
-                double cuotaAprox = Math.round((tel.getPrecio() * (0.01375 / (1 - Math.pow(1 + 0.01375, -cuotas)))) * 100.0) / 100.0;
+                double cuotaAprox = Math.round((totalCarrito * (0.01375 / (1 - Math.pow(1 + 0.01375, -cuotas)))) * 100.0) / 100.0;
                 lblCuotaEstimada.setText(String.format("$%.2f/m", cuotaAprox));
                 lblAlertaEstado.setText(String.format("<html><b style='color:#10b981;'>✔ Crédito Aprobado por BanQuito: Cupo $%.2f. Cuota fija estimada: $%.2f a %d meses.</b></html>", cupo, cuotaAprox, cuotas));
 
@@ -842,9 +1040,14 @@ public class DesktopView extends JFrame {
         FacturaRequest req = new FacturaRequest();
         req.cedula = txtCedula.getText().trim();
         req.nombre = txtNombre.getText().trim();
-        TelefonoModel sel = (TelefonoModel) cmbTelefonos.getSelectedItem();
-        if (sel == null) return;
-        req.codTelefono = sel.getCodTelefono();
+        if (carrito.isEmpty()) {
+            lblAlertaEstado.setText("<html><b style='color:#f59e0b;'>El carrito está vacío: agregue al menos un teléfono para facturar.</b></html>");
+            JOptionPane.showMessageDialog(this, "El carrito está vacío. Agregue al menos un teléfono.", "Carrito vacío", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        for (LineaCarrito l : carrito) {
+            req.items.add(new ItemCarrito(l.tel.getCodTelefono(), l.cantidad));
+        }
         req.formaPago = (String) cmbFormaPago.getSelectedItem();
         req.cuotas = (Integer) cmbCuotas.getSelectedItem();
 
@@ -862,10 +1065,14 @@ public class DesktopView extends JFrame {
                     FacturaResponse resp = get();
                     if (resp.exito) {
                         lblAlertaEstado.setText("<html><b style='color:#10b981;'>✔ Factura #" + resp.facturaId + " emitida exitosamente.</b></html>");
-                        JOptionPane.showMessageDialog(DesktopView.this, resp.mensaje, "Facturación Exitosa", JOptionPane.INFORMATION_MESSAGE);
                         if (resp.tabla != null && !resp.tabla.isEmpty()) {
                             cargarTablaAmortizacion(modeloAmortizacionFactura, resp.tabla);
+                        } else {
+                            modeloAmortizacionFactura.setRowCount(0);
                         }
+                        carrito.clear();           // compra finalizada: el carrito se vacia
+                        refrescarCarrito();
+                        mostrarFacturaEmitida(resp);
                         cargarHistorialFacturas();
                     } else {
                         lblAlertaEstado.setText("<html><b style='color:#ef4444;'>✖ " + resp.mensaje + "</b></html>");
@@ -876,6 +1083,50 @@ public class DesktopView extends JFrame {
                 }
             }
         }.execute();
+    }
+
+    /** Muestra la factura emitida con TODOS sus items (cabecera + detalle + totales). */
+    private void mostrarFacturaEmitida(FacturaResponse resp) {
+        FacturaInfo fi = resp.factura;
+        if (fi == null || fi.items == null || fi.items.isEmpty()) {
+            JOptionPane.showMessageDialog(this, resp.mensaje, "Facturación Exitosa", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        DefaultTableModel mod = new DefaultTableModel(new Object[]{"Dispositivo", "P. Unit ($)", "Cant.", "Subtotal ($)"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        for (FacturaDetalle d : fi.items) {
+            mod.addRow(new Object[]{d.modeloTelefono, String.format("%.2f", d.precioUnitario), d.cantidad, String.format("%.2f", d.subtotal)});
+        }
+        JTable tbl = new JTable(mod);
+        estilizarTablaModerna(tbl);
+        tbl.getColumnModel().getColumn(0).setPreferredWidth(260);
+
+        StringBuilder head = new StringBuilder("<html><b>Factura #" + fi.numFactura + "</b> — " + fi.numeroComprobante
+                + "<br>Cliente: " + fi.nombreCliente + " (C.I. " + fi.cedulaCliente + ")"
+                + "<br>Forma de pago: " + fi.formaPago + "</html>");
+        StringBuilder pie = new StringBuilder("<html><div style='text-align:right'>Subtotal: $" + String.format("%.2f", fi.subtotal));
+        if (fi.valorDescuento > 0) {
+            pie.append("<br><span style='color:#ef4444'>Descuento (").append(String.format("%.0f", fi.porcentajeDescuento))
+               .append("%): -$").append(String.format("%.2f", fi.valorDescuento)).append("</span>");
+        }
+        pie.append("<br><b style='font-size:14px'>TOTAL A PAGAR: $").append(String.format("%.2f", fi.totalPagar)).append("</b>");
+        if (fi.codCreditoBanco != null && fi.numCuotas != null && fi.valorCuota != null) {
+            pie.append("<br>Crédito BanQuito #").append(fi.codCreditoBanco).append(": ")
+               .append(fi.numCuotas).append(" cuotas de $").append(String.format("%.2f", fi.valorCuota));
+        }
+        pie.append("</div></html>");
+
+        JPanel panel = new JPanel(new BorderLayout(0, 8));
+        panel.add(new JLabel(head.toString()), BorderLayout.NORTH);
+        JScrollPane sp = new JScrollPane(tbl);
+        sp.setPreferredSize(new Dimension(480, 30 + 26 * Math.min(Math.max(fi.items.size(), 2), 8)));
+        panel.add(sp, BorderLayout.CENTER);
+        panel.add(new JLabel(pie.toString()), BorderLayout.SOUTH);
+        JOptionPane.showMessageDialog(this, panel, "Facturación Exitosa", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void cargarTablaAmortizacion(DefaultTableModel mod, List<CuotaAmortizacion> cuotas) {
@@ -930,9 +1181,9 @@ public class DesktopView extends JFrame {
                 f.fecha,
                 f.nombreCliente,
                 f.cedulaCliente,
-                f.modeloTelefono,
+                f.resumenArticulos(),
                 f.formaPago,
-                String.format("%.2f", f.precioUnitario),
+                String.format("%.2f", f.subtotal > 0 ? f.subtotal : f.precioUnitario),
                 String.format("%.2f", f.valorDescuento),
                 String.format("%.2f", f.totalPagar),
                 f.codCreditoBanco != null ? "#" + f.codCreditoBanco : "-"
@@ -1006,9 +1257,9 @@ public class DesktopView extends JFrame {
                     f.fecha,
                     f.nombreCliente,
                     f.cedulaCliente,
-                    f.modeloTelefono,
+                    f.resumenArticulos(),
                     f.formaPago,
-                    String.format("%.2f", f.precioUnitario),
+                    String.format("%.2f", f.subtotal > 0 ? f.subtotal : f.precioUnitario),
                     String.format("%.2f", f.valorDescuento),
                     String.format("%.2f", f.totalPagar),
                     f.codCreditoBanco != null ? "#" + f.codCreditoBanco : "-"

@@ -4,9 +4,11 @@ import ec.edu.monster.dao.CatalogoDAO;
 import ec.edu.monster.dao.FacturaDAO;
 import ec.edu.monster.modelo.BanQuitoDTOs.*;
 import ec.edu.monster.modelo.Factura;
+import ec.edu.monster.modelo.FacturaDetalle;
 import ec.edu.monster.modelo.TelefonoCelular;
 import ec.edu.monster.servicio.BanQuitoRestClient;
 import ec.edu.monster.servicio.FacturacionService;
+import ec.edu.monster.servicio.FacturacionService.ItemCarrito;
 import ec.edu.monster.servicio.FacturacionService.ResultadoFactura;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
@@ -42,7 +44,12 @@ public class ComercializadoraView implements Serializable {
     private String formaPago = "CREDITO_DIRECTO"; // "EFECTIVO" o "CREDITO_DIRECTO"
     private int cuotas = 6;
 
-    private double precioTelefono = 450.00;
+    // --- Carrito de compras (varios items por factura) ---
+    private int cantidadAgregar = 1;
+    private final List<FacturaDetalle> carrito = new ArrayList<>();
+    private Factura ultimaFactura;
+
+    private double precioTelefono = 0.00; // total (subtotal) del carrito
     private double descuentoEfectivo = 0.00;
     private double totalPagarEfectivo = 0.00;
     private double cuotaEstimada = 0.00;
@@ -112,22 +119,145 @@ public class ComercializadoraView implements Serializable {
     }
 
     public void actualizarCalculosPrecios() {
-        TelefonoCelular sel = buscarTelefonoPorId(this.codTelefono);
-        if (sel != null) {
-            this.precioTelefono = sel.getPrecio();
-        } else {
-            this.precioTelefono = 0.0;
-        }
+        this.precioTelefono = getSubtotalCarrito();
         this.descuentoEfectivo = Math.round(this.precioTelefono * 0.42 * 100.0) / 100.0;
         this.totalPagarEfectivo = Math.round((this.precioTelefono - this.descuentoEfectivo) * 100.0) / 100.0;
     }
 
     public void onTelefonoChange() {
+        // Cambiar el telefono del selector no altera el carrito; solo se recalculan totales.
         actualizarCalculosPrecios();
+    }
+
+    // =========================================================================
+    // CARRITO DE COMPRAS
+    // =========================================================================
+
+    /** Agrega al carrito el telefono elegido en el selector (con la cantidad indicada). */
+    public void agregarAlCarrito() {
+        agregarTelefono(this.codTelefono, this.cantidadAgregar);
+    }
+
+    /** Agrega 1 unidad (usado desde la vitrina del catalogo) y abre la pestana de facturacion. */
+    public void seleccionarTelefonoParaFactura(int codTel) {
+        this.tabActiva = "facturacion";
+        this.codTelefono = codTel;
+        agregarTelefono(codTel, 1);
+    }
+
+    private void agregarTelefono(int codTel, int cantidad) {
+        TelefonoCelular t = null;
+        for (TelefonoCelular x : this.telefonos) {
+            if (x.getCodTelefono() == codTel) { t = x; break; }
+        }
+        if (t == null) {
+            avisar("Seleccione un teléfono válido del catálogo.", "warning");
+            return;
+        }
+        if ("INACTIVO".equalsIgnoreCase(t.getEstado())) {
+            avisar("El teléfono " + t.getMarca() + " " + t.getModelo() + " ya no está disponible para la venta.", "warning");
+            return;
+        }
+        if (cantidad < 1) {
+            avisar("La cantidad debe ser al menos 1.", "warning");
+            return;
+        }
+
+        FacturaDetalle existente = buscarEnCarrito(codTel);
+        int nueva = (existente != null ? existente.getCantidad() : 0) + cantidad;
+        if (nueva > FacturacionService.MAX_CANTIDAD_POR_ITEM) {
+            avisar("Máximo " + FacturacionService.MAX_CANTIDAD_POR_ITEM + " unidades por artículo.", "warning");
+            return;
+        }
+        if (existente != null) {
+            fijarCantidad(existente, nueva);
+        } else {
+            carrito.add(new FacturaDetalle(t.getCodTelefono(), t.getMarca() + " " + t.getModelo(), t.getPrecio(), cantidad));
+        }
+        this.cantidadAgregar = 1;
+        avisar(cantidad + " × " + t.getMarca() + " " + t.getModelo() + " agregado al carrito. Total de artículos: " + getTotalArticulos() + ".", "info");
+        carritoCambio();
+    }
+
+    public void incrementarItem(int codTel) {
+        FacturaDetalle d = buscarEnCarrito(codTel);
+        if (d != null && d.getCantidad() < FacturacionService.MAX_CANTIDAD_POR_ITEM) {
+            fijarCantidad(d, d.getCantidad() + 1);
+            carritoCambio();
+        }
+    }
+
+    public void decrementarItem(int codTel) {
+        FacturaDetalle d = buscarEnCarrito(codTel);
+        if (d == null) return;
+        if (d.getCantidad() <= 1) {
+            carrito.remove(d);
+        } else {
+            fijarCantidad(d, d.getCantidad() - 1);
+        }
+        carritoCambio();
+    }
+
+    public void quitarDelCarrito(int codTel) {
+        carrito.removeIf(d -> d.getCodTelefono() == codTel);
+        carritoCambio();
+    }
+
+    public void vaciarCarrito() {
+        carrito.clear();
+        avisar("Carrito vaciado.", "info");
+        carritoCambio();
+    }
+
+    private FacturaDetalle buscarEnCarrito(int codTel) {
+        for (FacturaDetalle d : carrito) {
+            if (d.getCodTelefono() == codTel) return d;
+        }
+        return null;
+    }
+
+    private void fijarCantidad(FacturaDetalle d, int cantidad) {
+        d.setCantidad(cantidad);
+        d.setSubtotal(Math.round(d.getPrecioUnitario() * cantidad * 100.0) / 100.0);
+    }
+
+    /** Recalcula totales y, si el pago es a credito, vuelve a consultar a BanQuito con el nuevo total. */
+    private void carritoCambio() {
+        actualizarCalculosPrecios();
+        if (carrito.isEmpty()) {
+            this.tablaSimulada.clear();
+            this.cuotaEstimada = 0.0;
+            this.verificado = false;
+            return;
+        }
         if ("CREDITO_DIRECTO".equals(this.formaPago) && this.cedula != null && !this.cedula.isBlank()) {
             verificarCredito();
         }
     }
+
+    private void avisar(String mensaje, String tipo) {
+        this.mensajeAlerta = mensaje;
+        this.tipoAlerta = tipo;
+    }
+
+    public double getSubtotalCarrito() {
+        double sum = 0.0;
+        for (FacturaDetalle d : carrito) sum += d.getSubtotal();
+        return Math.round(sum * 100.0) / 100.0;
+    }
+
+    public int getTotalArticulos() {
+        int n = 0;
+        for (FacturaDetalle d : carrito) n += d.getCantidad();
+        return n;
+    }
+
+    public boolean isCarritoVacio() { return carrito.isEmpty(); }
+    public List<FacturaDetalle> getCarrito() { return carrito; }
+    public Factura getUltimaFactura() { return ultimaFactura; }
+    public void cerrarFactura() { this.ultimaFactura = null; this.tablaFactura = new ArrayList<>(); }
+    public int getCantidadAgregar() { return cantidadAgregar; }
+    public void setCantidadAgregar(int cantidadAgregar) { this.cantidadAgregar = cantidadAgregar; }
 
     public void onFormaPagoChange() {
         actualizarCalculosPrecios();
@@ -198,6 +328,9 @@ public class ComercializadoraView implements Serializable {
                     || (t.getMarca() != null && t.getMarca().toLowerCase().contains(keyword.toLowerCase()))
                     || Math.abs(t.getPrecio() - precioFallback) < 0.01) {
                 this.codTelefono = t.getCodTelefono();
+                // Caso de rubrica: el carrito queda con 1 unidad de ese telefono
+                this.carrito.clear();
+                this.carrito.add(new FacturaDetalle(t.getCodTelefono(), t.getMarca() + " " + t.getModelo(), t.getPrecio(), 1));
                 return;
             }
         }
@@ -216,6 +349,15 @@ public class ComercializadoraView implements Serializable {
         }
 
         actualizarCalculosPrecios();
+
+        if (this.carrito.isEmpty()) {
+            this.mensajeAlerta = "El carrito está vacío. Agregue al menos un teléfono antes de consultar el crédito.";
+            this.tipoAlerta = "warning";
+            this.verificado = false;
+            this.tablaSimulada.clear();
+            this.cuotaEstimada = 0.0;
+            return;
+        }
 
         try {
             // 1. Invocar BanQuito REST API: es sujeto de crédito?
@@ -236,7 +378,7 @@ public class ComercializadoraView implements Serializable {
             double cupoMax = this.capacidadCredito != null ? this.capacidadCredito.montoMaximo : 0.0;
 
             if (this.precioTelefono > cupoMax) {
-                this.mensajeAlerta = String.format("Capacidad Insuficiente: El teléfono cuesta $%.2f pero el cupo máximo aprobado por BanQuito es de $%.2f.", this.precioTelefono, cupoMax);
+                this.mensajeAlerta = String.format("Capacidad Insuficiente: El total del carrito es $%.2f (%d artículo(s)) pero el cupo máximo aprobado por BanQuito es de $%.2f.", this.precioTelefono, getTotalArticulos(), cupoMax);
                 this.tipoAlerta = "danger";
                 this.verificado = false;
                 this.tablaSimulada.clear();
@@ -274,25 +416,38 @@ public class ComercializadoraView implements Serializable {
             return;
         }
 
+        if (this.carrito.isEmpty()) {
+            this.mensajeAlerta = "El carrito está vacío. Agregue al menos un teléfono para facturar.";
+            this.tipoAlerta = "warning";
+            return;
+        }
+
         try {
-            if ("EFECTIVO".equalsIgnoreCase(this.formaPago)) {
-                this.ultimoResultado = facturacionService.facturarEfectivo(this.cedula, this.nombre, this.codTelefono);
-                this.tablaFactura.clear();
-            } else {
-                this.ultimoResultado = facturacionService.facturarCreditoDirecto(this.cedula, this.nombre, this.codTelefono, this.cuotas);
-                if (this.ultimoResultado.exito()) {
-                    this.tablaFactura = this.ultimoResultado.tabla();
-                } else {
-                    this.tablaFactura.clear();
-                }
+            List<ItemCarrito> items = new ArrayList<>();
+            for (FacturaDetalle d : this.carrito) {
+                items.add(new ItemCarrito(d.getCodTelefono(), d.getCantidad()));
             }
 
+            if ("EFECTIVO".equalsIgnoreCase(this.formaPago)) {
+                this.ultimoResultado = facturacionService.facturarEfectivo(this.cedula, this.nombre, items);
+                this.tablaFactura = new ArrayList<>();
+            } else {
+                this.ultimoResultado = facturacionService.facturarCreditoDirecto(this.cedula, this.nombre, items, this.cuotas);
+                this.tablaFactura = this.ultimoResultado.exito() && this.ultimoResultado.tabla() != null
+                        ? this.ultimoResultado.tabla() : new ArrayList<>();
+            }
+
+            this.mensajeAlerta = this.ultimoResultado.mensaje();
             if (this.ultimoResultado.exito()) {
-                this.mensajeAlerta = this.ultimoResultado.mensaje();
                 this.tipoAlerta = "success";
+                this.ultimaFactura = this.ultimoResultado.factura();
+                this.carrito.clear();           // compra finalizada: el carrito se vacia
+                this.tablaSimulada.clear();
+                this.cuotaEstimada = 0.0;
+                this.verificado = false;
+                actualizarCalculosPrecios();
                 recargarHistorial();
             } else {
-                this.mensajeAlerta = this.ultimoResultado.mensaje();
                 this.tipoAlerta = "danger";
             }
         } catch (Exception ex) {
@@ -412,15 +567,6 @@ public class ComercializadoraView implements Serializable {
     }
 
     public void simularCreditoBanQuito() {
-        if ("CREDITO_DIRECTO".equals(this.formaPago)) {
-            verificarCredito();
-        }
-    }
-
-    public void seleccionarTelefonoParaFactura(int codTel) {
-        this.codTelefono = codTel;
-        this.tabActiva = "facturacion";
-        actualizarCalculosPrecios();
         if ("CREDITO_DIRECTO".equals(this.formaPago)) {
             verificarCredito();
         }

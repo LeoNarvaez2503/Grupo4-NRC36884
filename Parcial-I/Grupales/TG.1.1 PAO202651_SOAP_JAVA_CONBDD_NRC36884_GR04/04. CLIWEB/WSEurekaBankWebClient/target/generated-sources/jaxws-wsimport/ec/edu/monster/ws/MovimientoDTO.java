@@ -7,9 +7,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Clase Java para movimientoDTO complex type.
+ * <p>Java class for movimientoDTO complex type.
  * 
- * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>{@code
  * <complexType name="movimientoDTO">
@@ -67,7 +67,7 @@ public class MovimientoDTO {
     protected int ventanilla;
 
     /**
-     * Obtiene el valor de la propiedad cuentaReferencia.
+     * Gets the value of the cuentaReferencia property.
      * 
      * @return
      *     possible object is
@@ -79,7 +79,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Define el valor de la propiedad cuentaReferencia.
+     * Sets the value of the cuentaReferencia property.
      * 
      * @param value
      *     allowed object is
@@ -91,7 +91,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Obtiene el valor de la propiedad descripcion.
+     * Gets the value of the descripcion property.
      * 
      * @return
      *     possible object is
@@ -103,7 +103,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Define el valor de la propiedad descripcion.
+     * Sets the value of the descripcion property.
      * 
      * @param value
      *     allowed object is
@@ -115,7 +115,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Obtiene el valor de la propiedad fechaHora.
+     * Gets the value of the fechaHora property.
      * 
      * @return
      *     possible object is
@@ -127,7 +127,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Define el valor de la propiedad fechaHora.
+     * Sets the value of the fechaHora property.
      * 
      * @param value
      *     allowed object is
@@ -139,7 +139,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Obtiene el valor de la propiedad idEmpleado.
+     * Gets the value of the idEmpleado property.
      * 
      */
     public int getIdEmpleado() {
@@ -147,7 +147,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Define el valor de la propiedad idEmpleado.
+     * Sets the value of the idEmpleado property.
      * 
      */
     public void setIdEmpleado(int value) {
@@ -155,7 +155,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Obtiene el valor de la propiedad idMovimiento.
+     * Gets the value of the idMovimiento property.
      * 
      */
     public int getIdMovimiento() {
@@ -163,7 +163,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Define el valor de la propiedad idMovimiento.
+     * Sets the value of the idMovimiento property.
      * 
      */
     public void setIdMovimiento(int value) {
@@ -171,7 +171,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Obtiene el valor de la propiedad monto.
+     * Gets the value of the monto property.
      * 
      */
     public double getMonto() {
@@ -179,7 +179,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Define el valor de la propiedad monto.
+     * Sets the value of the monto property.
      * 
      */
     public void setMonto(double value) {
@@ -187,7 +187,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Obtiene el valor de la propiedad nombreEmpleado.
+     * Gets the value of the nombreEmpleado property.
      * 
      * @return
      *     possible object is
@@ -199,7 +199,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Define el valor de la propiedad nombreEmpleado.
+     * Sets the value of the nombreEmpleado property.
      * 
      * @param value
      *     allowed object is
@@ -211,7 +211,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Obtiene el valor de la propiedad numeroCuenta.
+     * Gets the value of the numeroCuenta property.
      * 
      * @return
      *     possible object is
@@ -223,7 +223,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Define el valor de la propiedad numeroCuenta.
+     * Sets the value of the numeroCuenta property.
      * 
      * @param value
      *     allowed object is
@@ -235,7 +235,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Obtiene el valor de la propiedad numeroOperacion.
+     * Gets the value of the numeroOperacion property.
      * 
      * @return
      *     possible object is
@@ -247,7 +247,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Define el valor de la propiedad numeroOperacion.
+     * Sets the value of the numeroOperacion property.
      * 
      * @param value
      *     allowed object is
@@ -259,7 +259,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Obtiene el valor de la propiedad saldoResultante.
+     * Gets the value of the saldoResultante property.
      * 
      */
     public double getSaldoResultante() {
@@ -267,7 +267,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Define el valor de la propiedad saldoResultante.
+     * Sets the value of the saldoResultante property.
      * 
      */
     public void setSaldoResultante(double value) {
@@ -275,7 +275,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Obtiene el valor de la propiedad tipo.
+     * Gets the value of the tipo property.
      * 
      * @return
      *     possible object is
@@ -287,7 +287,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Define el valor de la propiedad tipo.
+     * Sets the value of the tipo property.
      * 
      * @param value
      *     allowed object is
@@ -299,7 +299,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Obtiene el valor de la propiedad ventanilla.
+     * Gets the value of the ventanilla property.
      * 
      */
     public int getVentanilla() {
@@ -307,7 +307,7 @@ public class MovimientoDTO {
     }
 
     /**
-     * Define el valor de la propiedad ventanilla.
+     * Sets the value of the ventanilla property.
      * 
      */
     public void setVentanilla(int value) {
