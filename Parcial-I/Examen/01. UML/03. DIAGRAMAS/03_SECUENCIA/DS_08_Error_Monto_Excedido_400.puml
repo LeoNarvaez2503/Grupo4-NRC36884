@@ -1,0 +1,50 @@
+﻿@startuml DS_08_Error_Monto_Excedido_400
+title DS_08: Diagrama de Secuencia - Excepcion: Precio de Telefono Supera Cupo Maximo Aprobado
+autonumber
+skinparam monochrome false
+skinparam shadowing true
+
+actor "Cliente / Vendedor" as User
+boundary "Comercializadora Frontend" as Frontend
+control "ComercializadoraController" as Controller
+participant "ComercializadoraService" as ComService
+participant "BanQuito REST Client" as BanQuitoClient
+control "BanQuito REST API" as BanQuitoAPI
+
+User -> Frontend: Solicita credito para celular 'iPhone 15 Pro Max' ($1,400.00)
+Frontend -> Controller: procesarFactura(cedula, idTelefono, 'CREDITO_DIRECTO', 12)
+activate Controller
+
+Controller -> ComService: facturarConCreditoDirecto(cedula, idTelefono, 12)
+activate ComService
+
+ComService -> BanQuitoClient: verificarSujeto(cedula)
+activate BanQuitoClient
+BanQuitoClient -> BanQuitoAPI: GET /api/credito/es-sujeto/{cedula}
+BanQuitoAPI --> BanQuitoClient: 200 OK { esSujeto: true, codCliente: "CLI01" }
+BanQuitoClient --> ComService: Sujeto OK
+deactivate BanQuitoClient
+
+ComService -> BanQuitoClient: obtenerMontoMaximo("CLI01")
+activate BanQuitoClient
+BanQuitoClient -> BanQuitoAPI: GET /api/credito/monto-maximo/CLI01
+BanQuitoAPI --> BanQuitoClient: 200 OK { montoMaximo: 954.00 }
+BanQuitoClient --> ComService: Cupo Maximo = $954.00
+deactivate BanQuitoClient
+
+note over ComService
+  Validacion de Capacidad:
+  Precio Solicitado ($1,400.00) > Monto Maximo Aprobado ($954.00)
+  REGLA DE NEGOCIO VIOLADA:
+  "No se puede financiar un telefono cuyo valor exceda el credito maximo aprobado"
+end note
+
+ComService --> Controller: throw MontoExcedidoException("El valor del equipo ($1400.00) supera el cupo maximo autorizado ($954.00)")
+deactivate ComService
+
+Controller --> Frontend: HTTP 400 Bad Request\n{ "error": "MONTO_EXCEDIDO", "mensaje": "Cupo insuficiente", "montoMaximo": 954.00 }
+deactivate Controller
+
+Frontend --> User: Muestra advertencia en pantalla:\n"Credito no autorizado: el telefono seleccionado excede su capacidad maxima de pago ($954.00). Sugerir telefono de menor gama o pago en efectivo."
+
+@enduml

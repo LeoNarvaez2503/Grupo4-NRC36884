@@ -71,7 +71,7 @@ public class FacturacionService {
 
             // 1. Invocar BanQuito REST API para validar si es sujeto de crédito
             SujetoCreditoResponse calif = banquitoClient.validarSujetoCredito(cedula);
-            if (!calif.esSujeto) {
+            if (calif == null || !calif.esSujeto) { String mot = (calif != null && calif.motivo != null) ? calif.motivo : "No calificado"; return new ResultadoFactura(false, "Crédito Denegado por BanQuito: " + mot, 0, new ArrayList<>()); } if (false) {
                 return new ResultadoFactura(false, "Crédito Denegado por BanQuito: " + calif.motivo, 0, new ArrayList<>());
             }
 

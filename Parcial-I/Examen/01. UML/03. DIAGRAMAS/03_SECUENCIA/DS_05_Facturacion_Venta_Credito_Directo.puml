@@ -1,0 +1,64 @@
+﻿@startuml DS_05_Facturacion_Venta_Credito_Directo
+title DS_05: Diagrama de Secuencia - Facturacion en Comercializadora con Credito Directo BanQuito
+autonumber
+skinparam monochrome false
+skinparam shadowing true
+
+actor "Cliente Comprador" as Cliente
+actor "Vendedor Comercializadora" as Vendedor
+boundary "Comercializadora Frontend\n(Web / Desktop)" as Frontend
+control "ComercializadoraController" as Controller
+participant "ComercializadoraService" as ComService
+participant "BanQuito REST Client" as BanQuitoClient
+control "BanQuito REST API" as BanQuitoAPI
+database "Comercializadora MariaDB\n(comercializadora_db)" as ComDB
+
+Cliente -> Vendedor: Desea comprar 'Samsung Galaxy S23' ($850.00) a Credito Directo (12 cuotas)
+Vendedor -> Frontend: Ingresa Cedula '1710000001', Selecciona Telefono ID=2 y Forma='CREDITO_DIRECTO'
+Frontend -> Controller: procesarFactura(cedula, idTelefono, 'CREDITO_DIRECTO', 12)
+activate Controller
+
+Controller -> ComService: facturarConCreditoDirecto(cedula, idTelefono, 12)
+activate ComService
+
+ComService -> BanQuitoClient: verificarSujeto(cedula)
+activate BanQuitoClient
+BanQuitoClient -> BanQuitoAPI: GET /api/credito/es-sujeto/1710000001
+BanQuitoAPI --> BanQuitoClient: 200 OK { esSujeto: true, codCliente: "CLI01" }
+BanQuitoClient --> ComService: SujetoCredito OK (codCliente='CLI01')
+deactivate BanQuitoClient
+
+ComService -> BanQuitoClient: obtenerMontoMaximo("CLI01")
+activate BanQuitoClient
+BanQuitoClient -> BanQuitoAPI: GET /api/credito/monto-maximo/CLI01
+BanQuitoAPI --> BanQuitoClient: 200 OK { montoMaximo: 954.00 }
+BanQuitoClient --> ComService: Cupo = $954.00
+deactivate BanQuitoClient
+
+note over ComService: Validacion de Cupo:\nPrecio ($850.00) <= Monto Maximo ($954.00) -> APROBADO
+
+ComService -> BanQuitoClient: otorgarCredito("CLI01", 850.00, 12)
+activate BanQuitoClient
+BanQuitoClient -> BanQuitoAPI: POST /api/credito/otorgar\n{ codCliente: "CLI01", precioTelefono: 850.00, numeroCuotas: 12 }
+BanQuitoAPI --> BanQuitoClient: 201 Created { codCredito: 102, cuotaFija: 77.26, tabla: [...] }
+BanQuitoClient --> ComService: CreditoOtorgado (codCredito=102)
+deactivate BanQuitoClient
+
+ComService -> ComDB: INSERT INTO FACTURA (FECHA, CEDULA, FORMA_PAGO, TOTAL, COD_CREDITO) VALUES (NOW(), '1710000001', 'CREDITO_DIRECTO', 850.00, 102)
+activate ComDB
+ComDB --> ComService: idFactura = 501
+
+ComService -> ComDB: INSERT INTO DETALLE_FACTURA (ID_FACTURA, ID_TELEFONO, CANTIDAD, PRECIO_UNITARIO, SUBTOTAL) VALUES (501, 2, 1, 850.00, 850.00)
+ComDB --> ComService: OK
+deactivate ComDB
+
+ComService --> Controller: FacturaResponseDTO { idFactura: 501, formaPago: 'CREDITO_DIRECTO', total: 850.00, codCredito: 102, cuotaFija: 77.26 }
+deactivate ComService
+
+Controller --> Frontend: 200 OK Factura generada
+deactivate Controller
+
+Frontend --> Vendedor: Muestra Factura #501 y comprobante de credito BanQuito #102
+Vendedor --> Cliente: Entrega factura, equipo celular y cronograma de 12 cuotas
+
+@enduml

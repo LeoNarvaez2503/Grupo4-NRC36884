@@ -1,0 +1,51 @@
+﻿@startuml DS_04_Otorgar_Credito_y_Generar_Amortizacion
+title DS_04: Diagrama de Secuencia - Otorgamiento de Credito y Generacion de Tabla de Amortizacion Francesa
+autonumber
+skinparam monochrome false
+skinparam shadowing true
+
+actor "Cliente / Vendedor" as User
+boundary "Comercializadora App" as ClientApp
+control "CreditoResource" as Resource
+participant "CreditoService" as Service
+database "BanQuito MariaDB" as DB
+
+User -> ClientApp: Confirma compra: Celular $650.00 en 6 cuotas
+activate ClientApp
+
+ClientApp -> Resource: POST /api/credito/otorgar\n{ "codCliente": "CLI01", "precioTelefono": 650.00, "numeroCuotas": 6 }
+activate Resource
+
+Resource -> Service: otorgarCredito("CLI01", 650.00, 6)
+activate Service
+
+Service -> DB: Iniciar Transaccion ACID (Connection.setAutoCommit(false))
+activate DB
+
+Service -> DB: INSERT INTO CREDITO (COD_CLIENTE, MONTO, PLAZO, TASA, ESTADO) VALUES ('CLI01', 650.00, 6, 0.165, 'ACTIVO')
+DB --> Service: codCredito Generado = 101
+
+note over Service
+  Calculo Cuota Francesa:
+  TasaPeriodo = 0.165 / 12 = 0.01375
+  CuotaFija = 650 / [ (1 - (1+0.01375)^-6) / 0.01375 ] = $113.58
+end note
+
+loop n = 1 hasta 6 cuotas
+    Service -> DB: INSERT INTO AMORTIZACION (COD_CREDITO, NUM_CUOTA, VALOR_CUOTA, INTERES_PAGADO, CAPITAL_PAGADO, SALDO) VALUES (101, n, ...)
+end
+
+Service -> DB: COMMIT Transaccion
+DB --> Service: Transaccion confirmada exitosamente
+deactivate DB
+
+Service --> Resource: CreditoOtorgadoDTO { codCredito: 101, monto: 650.00, cuotas: 6, cuotaFija: 113.58, amortizacion: [...] }
+deactivate Service
+
+Resource --> ClientApp: HTTP 201 Created\n{ "codCredito": 101, "monto": 650.00, "cuotaFija": 113.58, "tablaAmortizacion": [...] }
+deactivate Resource
+
+ClientApp --> User: Muestra confirmacion de credito otorgado y tabla completa de pagos
+deactivate ClientApp
+
+@enduml

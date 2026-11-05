@@ -1,0 +1,45 @@
+﻿@startuml DA_02_Facturacion_Comercializadora
+title DA_02: Diagrama de Actividad - Proceso de Facturacion Comercializadora (Efectivo y Credito Directo)
+skinparam activityFontSize 12
+skinparam activityBorderColor #1E3A8A
+skinparam activityBackgroundColor #F0F8FF
+
+start
+
+:Cliente selecciona telefono celular del catalogo comercial;
+:Vendedor solicita datos del cliente (Cedula, Nombre);
+:Seleccionar Forma de Pago;
+
+if (Forma de Pago seleccionada?) then (Efectivo)
+    :Aplicar Descuento Comercial del 42%;\nPrecioFinal = PrecioLista * (1 - 0.42);
+    :Registrar Factura con FormaPago = 'EFECTIVO';
+    :Insertar DetalleFactura con precio descontado;
+    :Recibir pago fisico y entregar comprobante;
+    stop
+else (Credito Directo BanQuito)
+    :Invocar GET /api/credito/es-sujeto/{cedula};
+    if (Es Sujeto de Credito?) then (No)
+        :Mostrar motivo de rechazo de BanQuito;
+        :Ofrecer cambio de forma de pago a Efectivo;
+        stop
+    else (Si)
+        :Invocar GET /api/credito/monto-maximo/{codCliente};
+        :Recuperar montoMaximoAprobado de BanQuito;
+        if (PrecioLista <= montoMaximoAprobado?) then (No)
+            :Mostrar alerta: "Monto del celular ($X) excede cupo maximo aprobado ($Y)";
+            :Rechazar solicitud de financiamiento directo;
+            stop
+        else (Si)
+            :Solicitar al cliente plazo en meses (3 a 18 cuotas);
+            :Invocar POST /api/credito/otorgar\ncon codCliente, precioLista y cuotas;
+            :BanQuito registra Credito y Tabla de Amortizacion Francesa (16.5% anual);
+            :BanQuito retorna codigo de credito aprobado y cronograma de cuotas;
+            :Registrar Factura en Comercializadora\ncon FormaPago = 'CREDITO_DIRECTO' y codCredito;
+            :Insertar DetalleFactura;
+            :Imprimir Factura y Tabla de Amortizacion para el cliente;
+            stop
+        endif
+    endif
+endif
+
+@enduml

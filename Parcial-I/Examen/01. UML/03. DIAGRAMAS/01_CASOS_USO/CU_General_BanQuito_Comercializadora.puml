@@ -1,0 +1,70 @@
+@startuml CU_General_BanQuito_Comercializadora
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+skinparam shadowing true
+skinparam usecase {
+    BackgroundColor #F0F8FF
+    BorderColor #1E3A8A
+    ArrowColor #0F172A
+}
+
+title CU_GENERAL: Sistema Integrado BanQuito (Modulo de Credito) y Comercializadora de Celulares
+
+left to right direction
+
+actor "Cliente / Solicitante" as Cliente
+actor "Comercializadora de Celulares\n(Consola, Desktop, Web, Movil)" as Comercializadora << Consumer System >>
+actor "Vendedor Comercializadora" as Vendedor
+actor "Oficial de Credito BanQuito" as Oficial
+
+rectangle "Sistema Comercializadora de Celulares" {
+    usecase "CU04: Facturar Venta de Celulares" as CU_Facturar
+    usecase "Venta Efectivo (42% Descuento)" as CU_Efectivo
+    usecase "Venta Credito Directo BanQuito" as CU_CreditoDirecto
+    usecase "CU05: Gestionar Catalogo de Celulares" as CU_Catalogo
+
+    CU_Facturar <.. CU_Efectivo : <<extend>>
+    CU_Facturar <.. CU_CreditoDirecto : <<extend>>
+}
+
+rectangle "Sistema Bancario BanQuito Core (RESTful)" {
+    usecase "CU01: Verificar Sujeto de Credito" as CU_Verificar
+    usecase "CU02: Calcular Capacidad de Pago y Monto Maximo" as CU_CalcularMonto
+    usecase "CU03: Gestionar Credito y Amortizacion" as CU_GestionCredito
+    
+    usecase "Evaluar Politicas Bancarias Core\n(RN-01 a RN-04)" as RN_Politicas
+    usecase "Generar y Consultar Amortizacion Francesa\n(Tasa 16.5% Anual)" as Amort_Francesa
+
+    CU_Verificar ..> RN_Politicas : <<include>>
+    CU_GestionCredito ..> Amort_Francesa : <<include>>
+}
+
+' Interacciones de Actores
+Cliente --> CU_Facturar : Compra celular (Efectivo o Credito)
+Cliente --> CU_Catalogo : Consulta equipos y precios
+Vendedor --> CU_Facturar : Emite facturas comerciales
+Vendedor --> CU_Catalogo : Mantiene precios y modelos
+
+Oficial --> CU_Verificar : Audita verificaciones crediticias
+Oficial --> CU_GestionCredito : Autoriza y consulta amortizaciones
+
+' Integracion SOA RESTful entre Comercializadora y BanQuito
+CU_CreditoDirecto ..> CU_Verificar : <<consume REST>> POST /api/creditos/verificar-sujeto
+CU_CreditoDirecto ..> CU_CalcularMonto : <<consume REST>> POST /api/creditos/calcular-monto
+CU_CreditoDirecto ..> CU_GestionCredito : <<consume REST>> POST /api/creditos/otorgar
+
+Comercializadora ..> CU_Verificar : invoca via HTTP/JSON
+Comercializadora ..> CU_CalcularMonto : invoca via HTTP/JSON
+Comercializadora ..> CU_GestionCredito : invoca via HTTP/JSON
+
+note bottom of CU_Facturar
+  Caso de uso generico que unifica todas las modalidades
+  de venta y cobro para cualquier modelo de celular.
+end note
+
+note bottom of CU_GestionCredito
+  Caso de uso generico que engloba otorgamiento,
+  calculo de amortizacion y consulta de pagos.
+end note
+
+@enduml

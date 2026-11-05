@@ -1,0 +1,52 @@
+﻿@startuml DS_02_Verificar_Sujeto_Credito_Rechazado
+title DS_02: Diagrama de Secuencia - Verificacion de Sujeto de Credito Rechazado por Politicas
+autonumber
+skinparam monochrome false
+skinparam shadowing true
+
+actor "Cliente / Vendedor" as User
+boundary "Comercializadora App" as ClientApp
+control "CreditoResource" as Resource
+participant "CreditoService" as Service
+database "BanQuito MariaDB" as DB
+
+== Escenario A: Solicitante Masculino Menor de 25 Anos (Mateo Salazar - 22 anos) ==
+
+User -> ClientApp: Ingresa cedula '1710000003' (Mateo Salazar)
+ClientApp -> Resource: GET /api/credito/es-sujeto/1710000003
+Resource -> Service: verificarSujetoCredito("1710000003")
+Service -> DB: SELECT * FROM CLIENTE WHERE CEDULA = '1710000003'
+DB --> Service: Registro Cliente (Gen='M', FecNac='2002-08-10', Edad=22)
+note over Service: RN-03: Edad 22 < 25 anos\nResultado: esSujeto = false
+Service --> Resource: SujetoCreditoDTO { esSujeto: false, motivo: "Rechazado: Edad menor a 25 anos para genero masculino" }
+Resource --> ClientApp: HTTP 200 OK { esSujeto: false, motivo: "..." }
+ClientApp --> User: Alerta: "Credito Rechazado por Politica de Edad"
+
+== Escenario B: Cliente sin Depositos en los Ultimos 30 Dias (Elena Castro) ==
+
+User -> ClientApp: Ingresa cedula '1710000004' (Elena Castro)
+ClientApp -> Resource: GET /api/credito/es-sujeto/1710000004
+Resource -> Service: verificarSujetoCredito("1710000004")
+Service -> DB: SELECT * FROM CLIENTE WHERE CEDULA = '1710000004'
+DB --> Service: Registro Cliente (Gen='F', FecNac='1995-02-14')
+Service -> DB: SELECT COUNT(*) FROM MOVIMIENTO WHERE ... AND TIPO='DEP' AND FECHA >= NOW() - INTERVAL 30 DAY
+DB --> Service: Count = 0
+note over Service: RN-02: Sin depositos en ultimo mes\nResultado: esSujeto = false
+Service --> Resource: SujetoCreditoDTO { esSujeto: false, motivo: "Rechazado: Sin transacciones de deposito en ultimos 30 dias" }
+Resource --> ClientApp: HTTP 200 OK { esSujeto: false, motivo: "..." }
+ClientApp --> User: Alerta: "Credito Rechazado por Inactividad Reciente"
+
+== Escenario C: Cliente con Credito Activo Preexistente (Roberto Benitez) ==
+
+User -> ClientApp: Ingresa cedula '1710000005' (Roberto Benitez)
+ClientApp -> Resource: GET /api/credito/es-sujeto/1710000005
+Resource -> Service: verificarSujetoCredito("1710000005")
+Service -> DB: Validaciones RN-01, RN-02, RN-03 OK
+Service -> DB: SELECT COUNT(*) FROM CREDITO WHERE COD_CLIENTE='CLI05' AND ESTADO='ACTIVO'
+DB --> Service: Count = 1 (Credito #CR001 ACTIVO)
+note over Service: RN-04: Mantiene credito activo vigente\nResultado: esSujeto = false
+Service --> Resource: SujetoCreditoDTO { esSujeto: false, motivo: "Rechazado: Cliente mantiene un credito activo preexistente" }
+Resource --> ClientApp: HTTP 200 OK { esSujeto: false, motivo: "..." }
+ClientApp --> User: Alerta: "Credito Rechazado por Credito Vigente"
+
+@enduml

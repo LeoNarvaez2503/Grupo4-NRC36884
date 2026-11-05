@@ -1,0 +1,34 @@
+@startuml CU_03_Gestion_Credito_y_Amortizacion
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+
+title CU_03: Gestionar Credito y Amortizacion Francesa
+
+left to right direction
+
+actor "Cliente / Solicitante" as Cliente
+actor "Comercializadora de Celulares\n(Cliente RESTful)" as Comercializadora
+actor "Oficial de Credito BanQuito" as Oficial
+
+rectangle "BanQuito Core - Modulo de Credito" {
+    usecase "CU03: Gestionar Credito y Amortizacion" as CU03
+    usecase "Otorgar Credito Directo\n(Validar Monto <= MontoMaximo, Estado='ACTIVO')" as Sub01
+    usecase "Generar Tabla de Amortizacion Francesa\n(Cuota Fija a Tasa Fija del 16.5% Anual)" as Sub02
+    usecase "Consultar Tabla de Amortizacion y Cuotas\n(Detalle de Cuota, Capital, Interes y Saldo)" as Sub03
+
+    CU03 ..> Sub01 : <<include>>
+    CU03 ..> Sub02 : <<include>>
+    CU03 ..> Sub03 : <<include>>
+}
+
+Comercializadora --> CU03 : POST /api/creditos/otorgar | GET /api/creditos/{id}/amortizacion
+Cliente --> Comercializadora : Recibe cronograma oficial de pagos
+Oficial --> CU03 : Autoriza desembolso y consulta cartera
+
+note bottom of CU03
+  Caso de uso generico que unifica el otorgamiento
+  del prestamo, el calculo matematico de cuotas
+  y la consulta del cronograma de amortizacion.
+end note
+
+@enduml

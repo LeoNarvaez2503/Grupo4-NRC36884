@@ -1,0 +1,101 @@
+﻿@startuml DC_02_Arquitectura_Capa_Servicios_RESTful
+title DC_02: Diagrama de Clases - Arquitectura Tecnica de Capas (ec.edu.monster.*)
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing true
+
+package "ec.edu.monster.servidor (BanQuito Core REST Backend)" {
+    class CreditoResource << (R,#5DADE2) REST Resource >> {
+        - CreditoService creditoService
+        + esSujeto(cedula: String): Response
+        + montoMaximo(codCliente: String): Response
+        + otorgarCredito(request: OtorgarCreditoDTO): Response
+        + tablaAmortizacion(codCredito: Long): Response
+        + simular(monto: BigDecimal, cuotas: int): Response
+    }
+
+    class CreditoService {
+        - ClienteDAO clienteDAO
+        - MovimientoDAO movimientoDAO
+        - CreditoDAO creditoDAO
+        + verificarSujetoCredito(cedula: String): SujetoCreditoDTO
+        + calcularMontoMaximo(codCliente: String): CapacidadPagoDTO
+        + otorgarCredito(codCliente: String, precio: BigDecimal, cuotas: int): CreditoOtorgadoDTO
+        + obtenerTablaAmortizacion(codCredito: Long): List<AmortizacionDTO>
+        + simularCuotaFrancesa(monto: BigDecimal, cuotas: int): List<AmortizacionDTO>
+    }
+
+    class ClienteDAO {
+        + buscarPorCedula(cedula: String): Cliente
+        + buscarPorCodigo(codCliente: String): Cliente
+    }
+
+    class MovimientoDAO {
+        + tieneDepositoUltimoMes(codCliente: String): boolean
+        + obtenerPromedioDepositos90d(codCliente: String): BigDecimal
+        + obtenerPromedioRetiros90d(codCliente: String): BigDecimal
+    }
+
+    class CreditoDAO {
+        + tieneCreditoActivo(codCliente: String): boolean
+        + insertarCredito(credito: Credito): Long
+        + insertarAmortizacion(cuotas: List<Amortizacion>): void
+        + obtenerCreditoPorId(codCredito: Long): Credito
+        + obtenerCuotasPorCredito(codCredito: Long): List<Amortizacion>
+    }
+
+    class ConexionBDD {
+        - static DataSource dataSource
+        + static getConnection(): Connection
+    }
+
+    CreditoResource --> CreditoService
+    CreditoService --> ClienteDAO
+    CreditoService --> MovimientoDAO
+    CreditoService --> CreditoDAO
+    ClienteDAO ..> ConexionBDD
+    MovimientoDAO ..> ConexionBDD
+    CreditoDAO ..> ConexionBDD
+}
+
+package "ec.edu.monster.cliente (Comercializadora Multi-Platform Client)" {
+    class ComercializadoraService {
+        - String banquitoBaseUrl
+        - HttpClient httpClient
+        + verificarSujetoCredito(cedula: String): SujetoCreditoDTO
+        + obtenerMontoMaximo(codCliente: String): CapacidadPagoDTO
+        + otorgarCreditoBanQuito(codCli: String, precio: BigDecimal, cuotas: int): CreditoOtorgadoDTO
+        + obtenerTablaAmortizacion(codCredito: Long): List<AmortizacionDTO>
+        + listarTelefonos(): List<TelefonoModel>
+        + facturarEfectivo(cedula: String, idTel: Long): FacturaModel
+        + facturarCreditoDirecto(cedula: String, idTel: Long, cuotas: int): FacturaModel
+    }
+
+    class AppControlador {
+        - ComercializadoraService service
+        + procesarFacturacion(cedula: String, idTel: Long, formaPago: String, cuotas: int): FacturaModel
+        + verificarSujeto(cedula: String): SujetoCreditoDTO
+        + calcularMonto(codCliente: String): CapacidadPagoDTO
+    }
+
+    class DesktopFrame << (F,#F5B041) Swing GUI >> {
+        - JTable tblAmortizacion
+        - JComboBox cmbTelefonos
+        - JButton btnVerificar
+        - JButton btnFacturar
+    }
+
+    class ConsolaView << (V,#58D68D) CLI >> {
+        + ejecutarMenu(): void
+        + ejecutarBateriaPruebasDemo(): void
+    }
+
+    AppControlador --> ComercializadoraService
+    DesktopFrame --> AppControlador
+    ConsolaView --> AppControlador
+}
+
+' Comunicacion RESTful entre capas
+ComercializadoraService ..> CreditoResource : <<HTTP / JSON>> Invoca endpoints RESTful
+
+@enduml

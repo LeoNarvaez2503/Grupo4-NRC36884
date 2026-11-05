@@ -7,8 +7,8 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 
 public class ConfiguracionServidor {
-    private String comEndpoint = "http://localhost:8090/api";
-    private String banquitoEndpoint = "http://localhost:8080/api/credito";
+    private String comEndpoint = "http://localhost:8080/WS_Comercializadora_WebClient/api";
+    private String banquitoEndpoint = "http://localhost:8080/WS_BanQuito_Java_REST/api/credito";
     private String resolvedCom = null;
     private String resolvedBanquito = null;
 
@@ -16,6 +16,7 @@ public class ConfiguracionServidor {
         if (resolvedCom != null) {
             return resolvedCom;
         }
+        // 1. Probar Payara Oficial (puerto 8080)
         try {
             HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofMillis(800)).build();
             HttpRequest req = HttpRequest.newBuilder().uri(URI.create(comEndpoint + "/telefonos")).timeout(Duration.ofMillis(800)).GET().build();
@@ -26,13 +27,14 @@ public class ConfiguracionServidor {
             }
         } catch (Exception ignored) {}
 
-        String payaraComUrl = "http://localhost:8080/WS_Comercializadora_WebClient/api";
+        // 2. Probar Servidor Standalone (puerto 8090)
+        String fallback8090 = "http://localhost:8090/api";
         try {
             HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofMillis(800)).build();
-            HttpRequest req = HttpRequest.newBuilder().uri(URI.create(payaraComUrl + "/telefonos")).timeout(Duration.ofMillis(800)).GET().build();
+            HttpRequest req = HttpRequest.newBuilder().uri(URI.create(fallback8090 + "/telefonos")).timeout(Duration.ofMillis(800)).GET().build();
             HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
             if (res.statusCode() == 200) {
-                resolvedCom = payaraComUrl;
+                resolvedCom = fallback8090;
                 return resolvedCom;
             }
         } catch (Exception ignored) {}
@@ -50,6 +52,7 @@ public class ConfiguracionServidor {
         if (resolvedBanquito != null) {
             return resolvedBanquito;
         }
+        // 1. Probar Payara Oficial
         try {
             HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofMillis(800)).build();
             HttpRequest req = HttpRequest.newBuilder().uri(URI.create(banquitoEndpoint)).timeout(Duration.ofMillis(800)).GET().build();
@@ -60,13 +63,14 @@ public class ConfiguracionServidor {
             }
         } catch (Exception ignored) {}
 
-        String payaraUrl = "http://localhost:8080/WS_BanQuito_Java_REST/api/credito";
+        // 2. Probar ruta directa
+        String cortaUrl = "http://localhost:8080/api/credito";
         try {
             HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofMillis(800)).build();
-            HttpRequest req = HttpRequest.newBuilder().uri(URI.create(payaraUrl)).timeout(Duration.ofMillis(800)).GET().build();
+            HttpRequest req = HttpRequest.newBuilder().uri(URI.create(cortaUrl)).timeout(Duration.ofMillis(800)).GET().build();
             HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
             if (res.statusCode() == 200) {
-                resolvedBanquito = payaraUrl;
+                resolvedBanquito = cortaUrl;
                 return resolvedBanquito;
             }
         } catch (Exception ignored) {}

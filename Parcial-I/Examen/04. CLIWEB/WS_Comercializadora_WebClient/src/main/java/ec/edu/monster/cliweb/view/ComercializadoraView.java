@@ -51,8 +51,8 @@ public class ComercializadoraView implements Serializable {
     private String mensajeAlerta = "";
     private String tipoAlerta = "info"; // "success", "danger", "warning", "info"
     private boolean verificado = false;
-    private SujetoCreditoResponse sujetoCredito;
-    private MontoMaximoResponse capacidadCredito;
+    private SujetoCreditoResponse sujetoCredito = new SujetoCreditoResponse();
+    private MontoMaximoResponse capacidadCredito = new MontoMaximoResponse();
     private List<CuotaAmortizacion> tablaSimulada = new ArrayList<>();
     private List<CuotaAmortizacion> tablaFactura = new ArrayList<>();
     private ResultadoFactura ultimoResultado;
@@ -352,10 +352,16 @@ public class ComercializadoraView implements Serializable {
         this.infoClienteConsultado = "";
 
         try {
+            boolean buscoPorCredito = false;
             if (this.busqCredito != null && this.busqCredito > 0) {
                 this.tablaConsultada = banquitoClient.obtenerTablaAmortizacion(this.busqCredito);
-                this.infoClienteConsultado = "Crédito BanQuito #" + this.busqCredito;
-            } else if (this.busqCedula != null && !this.busqCedula.trim().isBlank()) {
+                if (!this.tablaConsultada.isEmpty()) {
+                    this.infoClienteConsultado = "Crédito BanQuito #" + this.busqCredito + " encontrado exitosamente (" + this.tablaConsultada.size() + " cuotas).";
+                    buscoPorCredito = true;
+                }
+            }
+
+            if (!buscoPorCredito && this.busqCedula != null && !this.busqCedula.trim().isBlank()) {
                 SujetoCreditoResponse sujeto = banquitoClient.validarSujetoCredito(this.busqCedula.trim());
                 if (sujeto != null && sujeto.codCliente > 0) {
                     Factura fEncontrada = null;
@@ -367,25 +373,25 @@ public class ComercializadoraView implements Serializable {
                     }
                     int credId = fEncontrada != null && fEncontrada.getCodCreditoBanco() != null ? fEncontrada.getCodCreditoBanco() : 1;
                     this.tablaConsultada = banquitoClient.obtenerTablaAmortizacion(credId);
-                    this.infoClienteConsultado = String.format("Cliente: %s | Cédula: %s | Crédito #: %d", sujeto.nombre, sujeto.cedula, credId);
+                    this.infoClienteConsultado = String.format("Cliente: %s | Cédula: %s | Crédito Asociado: #%d (%d cuotas)", sujeto.nombre, sujeto.cedula, credId, this.tablaConsultada.size());
                 } else {
-                    this.mensajeAlerta = "No se encontró cliente con la cédula " + this.busqCedula;
-                    this.tipoAlerta = "warning";
+                    this.infoClienteConsultado = "No se encontró ningún cliente bancario con la cédula " + this.busqCedula;
                     return;
                 }
-            } else {
-                this.mensajeAlerta = "Ingrese el código de crédito o la cédula a consultar.";
-                this.tipoAlerta = "warning";
+            } else if (!buscoPorCredito) {
+                if (this.busqCredito != null && this.busqCredito > 0) {
+                    this.infoClienteConsultado = "No se encontró el Crédito #" + this.busqCredito + ". Ingrese un código de crédito válido (ej: 1, 52, 53, 54, 55) o borre ese campo para buscar por cédula.";
+                } else {
+                    this.infoClienteConsultado = "Ingrese un número de crédito bancario o la cédula del cliente a consultar.";
+                }
                 return;
             }
 
             if (this.tablaConsultada.isEmpty()) {
-                this.mensajeAlerta = "No se encontraron registros de amortización para la consulta.";
-                this.tipoAlerta = "warning";
+                this.infoClienteConsultado = "No se registraron cuotas de amortización para la búsqueda solicitada.";
             }
         } catch (Exception ex) {
-            this.mensajeAlerta = "Error al consultar amortización: " + ex.getMessage();
-            this.tipoAlerta = "danger";
+            this.infoClienteConsultado = "Error al consultar amortización en BanQuito: " + ex.getMessage();
         }
     }
 
@@ -473,6 +479,10 @@ public class ComercializadoraView implements Serializable {
     public boolean isVerificado() { return verificado; }
 
     public SujetoCreditoResponse getSujetoCredito() { return sujetoCredito; }
+    public double getCupoAprobado() {
+        return this.capacidadCredito != null ? this.capacidadCredito.getMontoMaximo() : 0.0;
+    }
+
     public MontoMaximoResponse getCapacidadCredito() { return capacidadCredito; }
     public List<CuotaAmortizacion> getTablaSimulada() { return tablaSimulada; }
     public List<CuotaAmortizacion> getTablaFactura() { return tablaFactura; }

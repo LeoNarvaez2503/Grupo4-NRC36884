@@ -1,0 +1,34 @@
+@startuml CU_02_Calcular_Capacidad_y_Monto_Credito
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+
+title CU_02: Calcular Capacidad de Pago y Monto Maximo de Credito
+
+left to right direction
+
+actor "Cliente / Solicitante" as Cliente
+actor "Comercializadora de Celulares\n(Cliente RESTful)" as Comercializadora
+actor "Oficial de Credito BanQuito" as Oficial
+
+rectangle "BanQuito Core - Modulo de Credito" {
+    usecase "CU02: Calcular Capacidad de Pago y Monto Maximo" as CU02
+    usecase "Evaluar Flujo Financiero\n(Capacidad = (Ingresos - Egresos) * 40%)" as Sub01
+    usecase "Proyectar Monto Maximo Financiable\n(MontoMax = Capacidad * PlazoMeses)" as Sub02
+    usecase "Validar Limites Institucionales\n(Monto Maximo <= Politica Institucional BanQuito)" as Sub03
+
+    CU02 ..> Sub01 : <<include>>
+    CU02 ..> Sub02 : <<include>>
+    CU02 ..> Sub03 : <<include>>
+}
+
+Comercializadora --> CU02 : POST /api/creditos/calcular-monto (JSON)
+Cliente --> Comercializadora : Solicita plazo (3, 6, 9 o 12 meses)
+Oficial --> CU02 : Supervisa politicas de riesgo crediticio
+
+note bottom of CU02
+  Caso de uso generico que abarca el calculo
+  de capacidad de endeudamiento y proyeccion
+  de monto maximo a cualquier plazo solicitado.
+end note
+
+@enduml

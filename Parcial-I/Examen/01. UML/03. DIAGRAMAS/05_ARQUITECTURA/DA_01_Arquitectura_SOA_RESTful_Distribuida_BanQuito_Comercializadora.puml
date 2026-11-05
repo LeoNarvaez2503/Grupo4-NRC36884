@@ -1,0 +1,64 @@
+﻿@startuml DA_01_Arquitectura_SOA_RESTful_Distribuida_BanQuito_Comercializadora
+title DA_01: Arquitectura SOA RESTful Distribuida - BanQuito Core & Comercializadora
+skinparam monochrome false
+skinparam shadowing true
+skinparam packageStyle rectangle
+
+node "Capa de Presentacion Multicanal (Clientes)" as CapaClientes #E8F8F5 {
+    artifact "Cliente Consola\n(WS_Comercializadora_ConsoleClient)\nJava CLI / JUnit Tests" as CliCon #D1F2EB
+    artifact "Cliente Escritorio\n(WS_Comercializadora_DesktopClient)\nJava Swing / JTable" as CliEsc #D1F2EB
+    artifact "Cliente Web\n(WS_Comercializadora_WebClient)\nJakarta EE / Servlet / HTML5" as CliWeb #D1F2EB
+    artifact "Cliente Movil\n(WS_Comercializadora_MobileClient)\nAndroid Studio / Gradle / APK" as CliMov #D1F2EB
+}
+
+node "Servidor Comercializadora de Celulares\n(Host Local / Puerto 8081)" as ServidorComercializadora #FEF9E7 {
+    component "Controlador de Facturacion\n(AppControlador)" as CtrlCom
+    component "Servicio de Negocio Comercializadora\n(ComercializadoraService)" as SvcCom
+    component "Cliente HTTP RESTful\n(Java HttpClient / JSON-B)" as RestClientCom
+    component "Modulo DAO Comercializadora\n(JDBC TelefonoDAO, FacturaDAO)" as DaoCom
+
+    CtrlCom --> SvcCom
+    SvcCom --> DaoCom
+    SvcCom --> RestClientCom
+}
+
+node "Servidor BanQuito Core (Backend RESTful)\n(Apache Tomcat / GlassFish / Puerto 8080)" as ServidorBanQuito #EBF5FB {
+    component "API RESTful BanQuito\n(CreditoResource / JAX-RS)" as RestApiBanQuito
+    component "Modulo de Logica Crediticia\n(CreditoService)" as SvcBanQuito
+    component "Capa de Acceso a Datos\n(ClienteDAO, MovimientoDAO, CreditoDAO)" as DaoBanQuito
+    component "Gestor de Conexion y Pool JDBC\n(ConexionBDD / HikariCP)" as PoolBanQuito
+
+    RestApiBanQuito --> SvcBanQuito
+    SvcBanQuito --> DaoBanQuito
+    DaoBanQuito --> PoolBanQuito
+}
+
+node "Capa de Persistencia Contenerizada\n(Docker / Podman - Puerto 3306)" as CapaBDD #F5EEF8 {
+    database "MariaDB 10.x Server" as MariaDB {
+        frame "banquito_db" as DB_BanQuito {
+            [CLIENTE]
+            [CUENTA]
+            [MOVIMIENTO]
+            [CREDITO]
+            [AMORTIZACION]
+        }
+        frame "comercializadora_db" as DB_Comercializadora {
+            [TELEFONO]
+            [FACTURA]
+            [DETALLE_FACTURA]
+        }
+    }
+}
+
+' Flujos de Comunicacion
+CliCon --> CtrlCom : Invocacion interna Java
+CliEsc --> CtrlCom : Eventos Swing GUI
+CliWeb --> CtrlCom : Peticiones HTTP Servlet
+CliMov --> CtrlCom : Peticiones HTTP Mobile
+
+RestClientCom --> RestApiBanQuito : Protocolo HTTP / JSON\nEndpoints RESTful:\n- GET /api/credito/es-sujeto/{cedula}\n- GET /api/credito/monto-maximo/{codCliente}\n- POST /api/credito/otorgar\n- GET /api/credito/tabla-amortizacion/{codCredito}
+
+DaoCom --> DB_Comercializadora : JDBC TCP/3306\nTransacciones Facturacion
+PoolBanQuito --> DB_BanQuito : JDBC TCP/3306\nTransacciones ACID Credito
+
+@enduml

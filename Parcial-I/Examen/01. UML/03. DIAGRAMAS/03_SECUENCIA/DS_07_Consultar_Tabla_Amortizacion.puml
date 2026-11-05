@@ -1,0 +1,36 @@
+﻿@startuml DS_07_Consultar_Tabla_Amortizacion
+title DS_07: Diagrama de Secuencia - Consulta de Tabla de Amortizacion de Credito
+autonumber
+skinparam monochrome false
+skinparam shadowing true
+
+actor "Cliente / Oficial" as User
+boundary "Comercializadora / Core App" as App
+control "CreditoResource" as Resource
+participant "CreditoService" as Service
+database "BanQuito MariaDB" as DB
+
+User -> App: Consulta estado de credito #101
+App -> Resource: GET /api/credito/tabla-amortizacion/101
+activate Resource
+
+Resource -> Service: obtenerTablaAmortizacion(101)
+activate Service
+
+Service -> DB: SELECT * FROM CREDITO WHERE COD_CREDITO = 101
+activate DB
+DB --> Service: Credito { codCredito: 101, codCliente: 'CLI01', monto: 650.00, plazo: 6, tasa: 0.165, estado: 'ACTIVO' }
+
+Service -> DB: SELECT * FROM AMORTIZACION WHERE COD_CREDITO = 101 ORDER BY NUM_CUOTA ASC
+DB --> Service: Lista de 6 Cuotas (numCuota, valorCuota, interesPagado, capitalPagado, saldo)
+deactivate DB
+
+Service --> Resource: TablaAmortizacionDTO { credito: {...}, cuotas: [...] }
+deactivate Service
+
+Resource --> App: HTTP 200 OK\n{ "codCredito": 101, "monto": 650.00, "plazo": 6, "cuotas": [...] }
+deactivate Resource
+
+App --> User: Despliega tabla interactiva con cuotas mensuales, intereses y saldo decreciente
+
+@enduml

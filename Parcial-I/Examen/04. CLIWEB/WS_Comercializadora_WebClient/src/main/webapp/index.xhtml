@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
       xmlns:f="jakarta.faces.core"
@@ -610,7 +610,7 @@
                                         <div class="kpi-card">
                                             <div class="kpi-title">Cupo Aprobado</div>
                                             <div class="kpi-value green">
-                                                $ <h:outputText value="#{comercializadoraView.capacidadCredito.montoMaximo}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText>
+                                                $ <h:outputText value="#{comercializadoraView.cupoAprobado}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2" /></h:outputText>
                                             </div>
                                         </div>
                                         <div class="kpi-card">
@@ -932,7 +932,7 @@
             try {
                 var activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
                 // Si el usuario está interactuando o escribiendo en un input o select, no interrumpir
-                if (activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select') {
+                if (activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select' || activeTag === 'button') {
                     return;
                 }
                 var btn = document.getElementById('pollForm:btnAutoPoll');
@@ -942,7 +942,7 @@
             } catch (e) {
                 console.error("Error en polling reactivo:", e);
             }
-        }, 2500);
+        }, 5000);
     </script>
 
 </h:body>

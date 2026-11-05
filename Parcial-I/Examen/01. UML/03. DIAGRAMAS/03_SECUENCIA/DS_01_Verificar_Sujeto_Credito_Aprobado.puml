@@ -1,0 +1,52 @@
+﻿@startuml DS_01_Verificar_Sujeto_Credito_Aprobado
+title DS_01: Diagrama de Secuencia - Verificacion de Sujeto de Credito Aprobado (200 OK)
+autonumber
+skinparam monochrome false
+skinparam shadowing true
+
+actor "Cliente / Vendedor" as User
+boundary "Comercializadora App\n(Web / Desktop / Movil)" as ClientApp
+control "CreditoResource\n(JAX-RS Endpoint)" as Resource
+participant "CreditoService\n(Logica de Negocio)" as Service
+database "BanQuito MariaDB\n(banquito_db)" as DB
+
+User -> ClientApp: Ingresa cedula '1710000001' y consulta calificacion
+activate ClientApp
+
+ClientApp -> Resource: GET /api/credito/es-sujeto/1710000001
+activate Resource
+
+Resource -> Service: verificarSujetoCredito("1710000001")
+activate Service
+
+Service -> DB: SELECT * FROM CLIENTE WHERE CEDULA = '1710000001'
+activate DB
+DB --> Service: Registro Cliente (Cod='CLI01', Gen='M', FecNac='1990-05-15')
+deactivate DB
+
+note over Service: RN-01: Cliente existe en Core (true)\nRN-03: Edad = 34 anos >= 25 anos (true)
+
+Service -> DB: SELECT COUNT(*) FROM MOVIMIENTO WHERE COD_CUENTA IN (...) AND TIPO='DEP' AND FECHA >= CURDATE() - INTERVAL 30 DAY
+activate DB
+DB --> Service: Count = 3 depositos
+deactivate DB
+
+note over Service: RN-02: Deposito ultimo mes (true)
+
+Service -> DB: SELECT COUNT(*) FROM CREDITO WHERE COD_CLIENTE = 'CLI01' AND ESTADO = 'ACTIVO'
+activate DB
+DB --> Service: Count = 0 creditos activos
+deactivate DB
+
+note over Service: RN-04: Sin credito activo (true)\nResultado: esSujeto = true
+
+Service --> Resource: SujetoCreditoDTO { esSujeto: true, motivo: "Aprobado: Cumple todas las politicas", ... }
+deactivate Service
+
+Resource --> ClientApp: HTTP 200 OK\n{ "esSujeto": true, "codCliente": "CLI01", ... }
+deactivate Resource
+
+ClientApp --> User: Muestra "Califica como Sujeto de Credito BanQuito" (Habilita Credito Directo)
+deactivate ClientApp
+
+@enduml

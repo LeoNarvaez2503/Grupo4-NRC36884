@@ -1,0 +1,72 @@
+﻿@startuml DA_01_Verificar_Sujeto_Credito
+title DA_01: Diagrama de Actividad - Verificacion de Sujeto de Credito (4 Politicas BanQuito)
+skinparam activityFontSize 12
+skinparam activityBorderColor #1E3A8A
+skinparam activityBackgroundColor #F0F8FF
+
+start
+
+:Comercializadora envia peticion HTTP GET;\n/api/credito/es-sujeto/{cedula};
+
+:BanQuito Core recibe cedula y valida formato;
+
+' Regla 1: Cliente existe
+:Consultar tabla CLIENTE por Cedula\n(RN-01: Pertenencia al Banco);
+
+if (Cliente existe en Core?) then (No)
+    :Generar motivo: "Rechazado: El solicitante no es cliente de BanQuito";
+    :esSujeto = false;
+    :Retornar HTTP 200 OK con JSON rechazo;
+    stop
+else (Si)
+    :Recuperar codigo, nombres, genero y fecha de nacimiento;
+endif
+
+' Regla 3: Edad y Genero
+:Calcular edad exacta a partir de fecha de nacimiento;
+if (Genero es Masculino 'M'?) then (Si)
+    if (Edad >= 25 anos?) then (Si)
+        :cumpleEdadGenero = true;
+    else (No)
+        :Generar motivo: "Rechazado: Solicitante masculino menor de 25 anos";
+        :esSujeto = false;
+        :Retornar HTTP 200 OK con JSON rechazo;
+        stop
+    endif
+else (Femenino 'F')
+    :No aplica restriccion de edad minima;\n(cumpleEdadGenero = true);
+endif
+
+' Regla 2: Deposito en el ultimo mes
+:Consultar tabla MOVIMIENTO de las cuentas del cliente\n(RN-02: Transacciones en ultimos 30 dias);
+
+if (Registra al menos un deposito (DEP) en ultimos 30 dias?) then (Si)
+    :cumpleDepositoUltimoMes = true;
+else (No)
+    :Generar motivo: "Rechazado: Cliente sin depositos registrados en los ultimos 30 dias";
+    :esSujeto = false;
+    :Retornar HTTP 200 OK con JSON rechazo;
+    stop
+endif
+
+' Regla 4: Inexistencia de credito activo
+:Consultar tabla CREDITO por codigo de cliente\n(RN-04: Exclusividad crediticia);
+
+if (Tiene algun credito con ESTADO = 'ACTIVO'?) then (Si)
+    :Generar motivo: "Rechazado: Cliente ya posee un credito activo vigente";
+    :esSujeto = false;
+    :Retornar HTTP 200 OK con JSON rechazo;
+    stop
+else (No)
+    :cumpleSinCreditoActivo = true;
+endif
+
+' Aprobacion
+:Establecer esSujeto = true;
+:Generar mensaje: "Aprobado: El cliente califica como sujeto de credito bancario";
+:Serializar respuesta JSON con desglose de las 4 reglas;
+:Retornar HTTP 200 OK a la Comercializadora;
+
+stop
+
+@enduml

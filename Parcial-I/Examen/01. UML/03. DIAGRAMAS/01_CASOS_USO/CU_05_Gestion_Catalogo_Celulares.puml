@@ -1,0 +1,30 @@
+@startuml CU_05_Gestion_Catalogo_Celulares
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+
+title CU_05: Gestionar Catalogo de Telefonos Celulares
+
+left to right direction
+
+actor "Administrador / Vendedor Comercializadora" as Admin
+actor "Cliente Comprador" as Cliente
+
+rectangle "Comercializadora de Telefonos Celulares" {
+    usecase "CU05: Gestionar Catalogo de Celulares" as Catalogo
+    usecase "Consultar Modelos, Especificaciones y Precios" as Consultar
+    usecase "Actualizar Precios y Disponibilidad de Equipos" as Actualizar
+
+    Catalogo ..> Consultar : <<include>>
+    Catalogo ..> Actualizar : <<include>>
+}
+
+Admin --> Catalogo : Mantiene el catalogo comercial
+Cliente --> Consultar : Explora catalogo y precios
+
+note bottom of Catalogo
+  Caso de uso generico que abarca la administracion,
+  consulta de precios y disponibilidad para
+  todas las marcas y modelos de celulares.
+end note
+
+@enduml

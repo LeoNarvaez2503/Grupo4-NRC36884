@@ -1,0 +1,45 @@
+﻿@startuml DS_03_Calcular_Monto_Maximo_Credito
+title DS_03: Diagrama de Secuencia - Calculo de Monto Maximo de Credito Aprobado
+autonumber
+skinparam monochrome false
+skinparam shadowing true
+
+actor "Vendedor Comercializadora" as User
+boundary "Comercializadora App" as ClientApp
+control "CreditoResource" as Resource
+participant "CreditoService" as Service
+database "BanQuito MariaDB" as DB
+
+User -> ClientApp: Solicita cupo de credito para cliente 'CLI01'
+ClientApp -> Resource: GET /api/credito/monto-maximo/CLI01
+activate Resource
+
+Resource -> Service: calcularMontoMaximo("CLI01")
+activate Service
+
+Service -> DB: SELECT AVG(MONTO) FROM MOVIMIENTO WHERE ... TIPO='DEP' AND FECHA >= NOW() - INTERVAL 90 DAY
+activate DB
+DB --> Service: PromedioDepositos = 850.00
+deactivate DB
+
+Service -> DB: SELECT AVG(MONTO) FROM MOVIMIENTO WHERE ... TIPO='RET' AND FECHA >= NOW() - INTERVAL 90 DAY
+activate DB
+DB --> Service: PromedioRetiros = 320.00
+deactivate DB
+
+note over Service
+  Calculo de Capacidad:
+  Diferencia = 850.00 - 320.00 = 530.00
+  MontoMaximo = ((530.00) * 0.30) * 6
+  MontoMaximo = 159.00 * 6 = $954.00
+end note
+
+Service --> Resource: CapacidadPagoDTO { codCliente: "CLI01", promedioDepositos: 850.00, promedioRetiros: 320.00, montoMaximo: 954.00 }
+deactivate Service
+
+Resource --> ClientApp: HTTP 200 OK\n{ "codCliente": "CLI01", "montoMaximo": 954.00, ... }
+deactivate Resource
+
+ClientApp --> User: Muestra cupo aprobado: $954.00 (Disponible para financiar celulares hasta dicho valor)
+
+@enduml

@@ -1,0 +1,35 @@
+@startuml CU_04_Facturacion_Venta_Celulares
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+
+title CU_04: Facturar Venta de Telefonos Celulares (Efectivo y Credito Directo)
+
+left to right direction
+
+actor "Cliente Comprador" as Cliente
+actor "Vendedor / Cajero Comercializadora" as Vendedor
+actor "Servicio REST BanQuito Core" as BanQuito << External System >>
+
+rectangle "Comercializadora de Telefonos Celulares" {
+    usecase "CU04: Facturar Venta de Celulares" as Facturar
+    usecase "Aplicar Descuento 42% en Pago al Contado / Efectivo" as Descuento42
+    usecase "Vincular Financiamiento de Credito Directo BanQuito" as CreditoDirecto
+    usecase "Emitir Factura y Comprobante de Venta" as EmitirFactura
+
+    Facturar ..> EmitirFactura : <<include>>
+    Descuento42 ..> Facturar : <<extend>> (Pago en Efectivo)
+    CreditoDirecto ..> Facturar : <<extend>> (Pago a Credito)
+
+    CreditoDirecto ..> BanQuito : <<consume REST>> (Verifica y Otorga Credito)
+}
+
+Cliente --> Facturar : Solicita adquisicion de equipo celular
+Vendedor --> Facturar : Procesa la venta y emite factura
+
+note bottom of Facturar
+  Caso de uso generico que abarca cualquier venta
+  de celular, aplicando descuento en efectivo o
+  gestionando credito bancario directo.
+end note
+
+@enduml

@@ -1,0 +1,38 @@
+@startuml CU_01_Verificar_Sujeto_Credito
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+
+title CU_01: Verificar Sujeto de Credito (BanQuito Core)
+
+left to right direction
+
+actor "Cliente / Solicitante" as Cliente
+actor "Comercializadora de Celulares\n(Cliente RESTful)" as Comercializadora
+actor "Oficial de Credito BanQuito" as Oficial
+
+rectangle "BanQuito Core - Modulo de Credito" {
+    usecase "CU01: Verificar Sujeto de Credito" as CU01
+    usecase "RN-01: Validar Existencia de Cuenta de Ahorros\n(Core Bancario BanQuito)" as RN01
+    usecase "RN-02: Validar Deposito en Ultimo Mes\n(Al menos 1 deposito ultimos 30 dias)" as RN02
+    usecase "RN-03: Validar Edad Minima y Genero\n(Edad >= 25 si Masculino; Femenino sin limite)" as RN03
+    usecase "RN-04: Validar Inexistencia Credito Activo\n(Sin deudas impagas o creditos vigentes)" as RN04
+    usecase "Notificar Resultado de Evaluacion\n(Sujeto: SI/NO y Motivo de Evaluacion)" as CU_Notif
+
+    CU01 ..> RN01 : <<include>>
+    CU01 ..> RN02 : <<include>>
+    CU01 ..> RN03 : <<include>>
+    CU01 ..> RN04 : <<include>>
+    CU01 ..> CU_Notif : <<include>>
+}
+
+Comercializadora --> CU01 : POST /api/creditos/verificar-sujeto (JSON)
+Cliente --> Comercializadora : Presenta cedula e ingresos/egresos
+Oficial --> CU01 : Monitorea y audita evaluacion
+
+note bottom of CU01
+  Caso de uso generico que encapsula
+  la evaluacion integral de requisitos
+  bancarios para cualquier solicitante.
+end note
+
+@enduml

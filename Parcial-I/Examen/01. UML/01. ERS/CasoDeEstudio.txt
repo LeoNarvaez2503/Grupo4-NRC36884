@@ -1,0 +1,46 @@
+CASO DE ESTUDIO: SISTEMA INTEGRADO BANCO BANQUITO (MÓDULO DE CRÉDITO) Y COMERCIALIZADORA DE TELÉFONOS CELULARES
+
+El Banco BanQuito ha formado una alianza estratégica con una compañía comercializadora de teléfonos celulares para proveer de una línea de crédito directo a los clientes del banco que deseen adquirir un teléfono inteligente de acuerdo a su capacidad real de pago.
+
+El proyecto de ingeniería de software implica el desarrollo de dos aplicaciones desacopladas pero altamente integradas mediante servicios web RESTful (HTTP/JSON) en lenguaje Java, persistiendo la información de forma relacional en un motor MariaDB contenerizado localmente mediante Docker/Podman:
+
+1. Sistema de la Comercializadora de Teléfonos Celulares:
+- Facturación sin inventario: No requiere control de stock numérico de unidades físicas, sino una entidad donde se encuentren los modelos de teléfonos celulares disponibles para la venta con sus precios de lista.
+- Formas de Pago: En virtud de la alianza con BanQuito, se contemplan dos formas de pago:
+  a) Pago en Efectivo: Se aplica un descuento comercial automático del 42% sobre el precio de venta de lista.
+  b) Crédito Directo: El sistema de la comercializadora invoca el servicio web RESTful de BanQuito para verificar si el comprador es sujeto de crédito. Si la calificación es aprobatoria y el precio del teléfono es menor o igual al monto máximo aprobado, se autoriza y formaliza la venta a crédito directo, vinculando el número de crédito bancario a la factura comercial.
+
+2. Módulo de Crédito del Banco BanQuito (Core Bancario RESTful):
+Expone una interfaz de servicios web RESTful para evaluar solicitudes de financiamiento:
+- Políticas para verificar si una persona es Sujeto de Crédito (4 Reglas Mandatorias):
+  1) Regla RN-01: Verificar si el solicitante es cliente registrado en el Core Bancario.
+  2) Regla RN-02: Verificar que el cliente al menos posea una transacción de depósito en el último mes (30 días).
+  3) Regla RN-03: Verificar que el cliente no sea menor de 25 años si su género es masculino. (Las clientas de género femenino no presentan restricción de edad mínima).
+  4) Regla RN-04: Verificar que el cliente actualmente no tenga un crédito activo vigente en el banco.
+- Reglas para el Cálculo del Monto Máximo de Crédito Aprobado:
+  1) Obtener el promedio de todos los depósitos registrados en los últimos 3 meses (90 días).
+  2) Obtener el promedio de todos los retiros registrados en los últimos 3 meses (90 días).
+  3) El monto máximo de crédito corresponde al 30% de la diferencia de los promedios de depósitos menos los promedios de retiros multiplicado por 6:
+     MontoMáximo = ((Promedio Depósitos - Promedio Retiros) * 30%) * 6
+- Generación de Tabla de Amortización (Sistema Francés):
+  Si el precio del teléfono es menor o igual al monto máximo aprobado, el módulo aprueba automáticamente la transacción y genera la tabla de amortización:
+  1) Tipo de crédito: Cuota fija mensual (Sistema Francés).
+  2) Plazo: Seleccionado por el cliente entre 3 y 18 meses.
+  3) Tasa de interés: 16.5% anual (Tasa periódica mensual = 16.5% / 12 = 1.375% mensual = 0.01375).
+  4) Fórmula de cálculo de cuota fija:
+     Cuota = ValorTeléfono / [ (1 - (1 + TasaPeriodo)^(-NúmeroCuotas)) / TasaPeriodo ]
+  5) Formato de la tabla: # Cuota, Valor Cuota, Interés Pagado, Capital Pagado, Saldo Restante.
+
+3. Ecosistema de Clientes Multicanal:
+El sistema cuenta con cuatro interfaces de cliente para operar la Comercializadora:
+- Cliente Web (Jakarta EE / Faces / HTML5)
+- Cliente Escritorio (Java Swing)
+- Cliente Consola (Java CLI interactivo y automatizado)
+- Cliente Móvil (Android Nativo / Gradle)
+
+Tecnologías del Proyecto:
+- IDE: Apache NetBeans / VS Code / IntelliJ / Android Studio
+- Lenguaje: Java JDK 1.8 / 17 / 21
+- Backend RESTful: Jakarta RESTful Web Services (JAX-RS / Jersey) sobre Apache Tomcat / Payara / GlassFish
+- Base de Datos: MariaDB Server en contenedor local Docker/Podman (puerto 3306)
+- Modelado: Sybase / SAP PowerDesigner 16.5 y PlantUML

@@ -1,0 +1,51 @@
+﻿@startuml DA_03_Calculo_Capacidad_Pago_y_Amortizacion
+title DA_03: Diagrama de Actividad - Calculo de Capacidad de Pago y Amortizacion Francesa
+skinparam activityFontSize 12
+skinparam activityBorderColor #1E3A8A
+skinparam activityBackgroundColor #F0F8FF
+
+start
+
+partition "Calculo de Capacidad Maxima (Monto Maximo Aprobado)" {
+    :Recibir codCliente;
+    :Obtener todos los depositos (DEP) de los ultimos 90 dias;
+    :Calcular PromedioDepositos = TotalDepositos / N_Depositos;
+    :Obtener todos los retiros (RET) de los ultimos 90 dias;
+    :Calcular PromedioRetiros = TotalRetiros / N_Retiros;
+    :Calcular DiferenciaNeta = PromedioDepositos - PromedioRetiros;
+    if (DiferenciaNeta > 0?) then (Si)
+        :MontoMaximo = ((PromedioDepositos - PromedioRetiros) * 0.30) * 6;
+    else (No)
+        :MontoMaximo = 0.00;
+    endif
+}
+
+partition "Generacion de Tabla de Amortizacion Francesa" {
+    :Recibir MontoCredito y NumeroCuotas (3 a 18 meses);
+    :TasaAnual = 0.165 (16.5%);
+    :TasaPeriodo = TasaAnual / 12 (0.01375 mensual);
+    :Calcular Cuota Fija:\nCuota = MontoCredito / [ (1 - (1 + TasaPeriodo)^(-NumeroCuotas)) / TasaPeriodo ];
+    :SaldoInicial = MontoCredito;
+    :Inicializar n = 1;
+
+    while (n <= NumeroCuotas?) is (Si)
+        :InteresPagado = SaldoInicial * TasaPeriodo;
+        if (Es la ultima cuota (n == NumeroCuotas)?) then (Si)
+            :CapitalPagado = SaldoInicial;
+            :CuotaAjustada = CapitalPagado + InteresPagado;
+            :SaldoFinal = 0.00;
+        else (No)
+            :CapitalPagado = Cuota - InteresPagado;
+            :SaldoFinal = SaldoInicial - CapitalPagado;
+            :CuotaAjustada = Cuota;
+        endif
+        :Registrar fila de amortizacion en BDD\n(#Cuota, Cuota, Interes, Capital, SaldoFinal);
+        :SaldoInicial = SaldoFinal;
+        :n = n + 1;
+    endwhile (No)
+}
+
+:Retornar codigo de credito y lista de cuotas;
+stop
+
+@enduml

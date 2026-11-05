@@ -1,0 +1,139 @@
+﻿@startuml DC_01_Modelo_Dominio_BanQuito_Comercializadora
+title DC_01: Diagrama de Clases - Modelo de Dominio Integrado (BanQuito Core & Comercializadora)
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing true
+
+package "BanQuito Core (Modulo de Credito)" #F0F8FF {
+    class Cliente {
+        - String codCliente
+        - String cedula
+        - String nombres
+        - String apellidos
+        - String genero
+        - LocalDate fechaNacimiento
+        - String telefono
+        - String correo
+        - String estado
+        + calcularEdad(): int
+        + esMayorDe25(): boolean
+        + esMasculino(): boolean
+    }
+
+    class Cuenta {
+        - String codCuenta
+        - String codCliente
+        - String tipoCuenta
+        - BigDecimal saldo
+        - String estado
+        - LocalDate fechaApertura
+    }
+
+    class Movimiento {
+        - Long idMovimiento
+        - String codCuenta
+        - LocalDateTime fecha
+        - String tipo
+        - BigDecimal monto
+        - BigDecimal saldoPosterior
+        - String descripcion
+    }
+
+    class Credito {
+        - Long codCredito
+        - String codCliente
+        - BigDecimal montoAprobado
+        - Integer plazoMeses
+        - BigDecimal tasaInteresAnual
+        - BigDecimal cuotaFijaMensual
+        - LocalDate fechaAprobacion
+        - String estado
+    }
+
+    class Amortizacion {
+        - Long idAmortizacion
+        - Long codCredito
+        - Integer numeroCuota
+        - BigDecimal valorCuota
+        - BigDecimal interesPagado
+        - BigDecimal capitalPagado
+        - BigDecimal saldoRestante
+        - LocalDate fechaVencimiento
+    }
+
+    class SujetoCreditoResultado {
+        - boolean esSujeto
+        - String codCliente
+        - String cedula
+        - boolean cumpleCliente
+        - boolean cumpleDepositoUltimoMes
+        - boolean cumpleEdadGenero
+        - boolean cumpleSinCreditoActivo
+        - String motivo
+    }
+
+    class CapacidadPagoResultado {
+        - String codCliente
+        - BigDecimal promedioDepositos90d
+        - BigDecimal promedioRetiros90d
+        - BigDecimal diferenciaPromedios
+        - BigDecimal montoMaximoCredito
+    }
+}
+
+package "Comercializadora de Telefonos Celulares" #FFF8F0 {
+    class Telefono {
+        - Long idTelefono
+        - String marca
+        - String modelo
+        - BigDecimal precioLista
+        - String gama
+        - String descripcion
+        - boolean disponible
+        + calcularPrecioEfectivo(): BigDecimal
+    }
+
+    class Factura {
+        - Long idFactura
+        - LocalDateTime fechaEmision
+        - String cedulaCliente
+        - String nombreCliente
+        - String formaPago
+        - BigDecimal subtotal
+        - BigDecimal descuento
+        - BigDecimal total
+        - Long codCreditoBanQuito
+    }
+
+    class DetalleFactura {
+        - Long idDetalle
+        - Long idFactura
+        - Long idTelefono
+        - Integer cantidad
+        - BigDecimal precioUnitario
+        - BigDecimal subtotal
+    }
+
+    enum FormaPago {
+        EFECTIVO
+        CREDITO_DIRECTO
+    }
+}
+
+' Relaciones BanQuito Core
+Cliente "1" -- "1..*" Cuenta : posee >
+Cuenta "1" -- "0..*" Movimiento : registra >
+Cliente "1" -- "0..*" Credito : solicita >
+Credito "1" -- "3..18" Amortizacion : desglosa en >
+
+' Relaciones Comercializadora
+Factura "1" -- "1..*" DetalleFactura : contiene >
+Telefono "1" -- "0..*" DetalleFactura : incluye >
+Factura ..> FormaPago : utiliza >
+
+' Interconexion entre Comercializadora y BanQuito Core
+Factura "0..1" ..> "0..1" Credito : referencia credito directo >
+Comercializadora ..> SujetoCreditoResultado : consume >
+Comercializadora ..> CapacidadPagoResultado : consume >
+
+@enduml

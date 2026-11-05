@@ -1,5 +1,5 @@
 -- =======================================================================
--- SISTEMA DE LA COMERCIALIZADORA DE TELÉFONOS CELULARES
+-- SISTEMA DE LA COMERCIALIZADORA DE TELEFONOS CELULARES
 -- Base de Datos: comercializadora_db
 -- NRC: 36884 - Grupo 04
 -- =======================================================================
@@ -10,7 +10,7 @@ USE comercializadora_db;
 DROP TABLE IF EXISTS FACTURA;
 DROP TABLE IF EXISTS TELEFONO_CELULAR;
 
--- 1. Catálogo de Teléfonos Celulares (Sin inventario de stock físico, solo entidad catálogo)
+-- 1. Catalogo de Telefonos Celulares (Sin inventario de stock fisico, solo entidad catalogo)
 CREATE TABLE TELEFONO_CELULAR (
     COD_TELEFONO INT NOT NULL AUTO_INCREMENT,
     MARCA VARCHAR(50) NOT NULL,
@@ -18,11 +18,11 @@ CREATE TABLE TELEFONO_CELULAR (
     PRECIO NUMERIC(10,2) NOT NULL,
     CARACTERISTICAS TEXT NOT NULL,
     IMAGEN_URL VARCHAR(255) NULL,
-    ESTADO VARCHAR(20) NOT NULL DEFAULT 'DISPONIBLE', -- 'DISPONIBLE', 'INACTIVO'
+    ESTADO VARCHAR(20) NOT NULL DEFAULT 'DISPONIBLE',
     PRIMARY KEY (COD_TELEFONO)
 ) ENGINE=InnoDB;
 
--- 2. Usuarios del Sistema (Autenticación Centralizada)
+-- 2. Usuarios del Sistema (Autenticacion Centralizada)
 CREATE TABLE IF NOT EXISTS USUARIO (
     COD_USUARIO INT NOT NULL AUTO_INCREMENT,
     USUARIO VARCHAR(50) NOT NULL UNIQUE,
@@ -34,18 +34,18 @@ CREATE TABLE IF NOT EXISTS USUARIO (
     PRIMARY KEY (COD_USUARIO)
 ) ENGINE=InnoDB;
 
--- 2. Facturación de Ventas (Efectivo con 42% desc. o Crédito Directo BanQuito)
+-- 3. Facturacion de Ventas (Efectivo con 42% desc. o Credito Directo BanQuito)
 CREATE TABLE FACTURA (
     NUM_FACTURA INT NOT NULL AUTO_INCREMENT,
     NUMERO_COMPROBANTE VARCHAR(50) NOT NULL UNIQUE,
-    FECHA DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FECHA TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     COD_CLIENTE_BANCO INT NULL,
     CEDULA_CLIENTE VARCHAR(20) NOT NULL,
     NOMBRE_CLIENTE VARCHAR(100) NOT NULL,
     COD_TELEFONO INT NOT NULL,
     MODELO_TELEFONO VARCHAR(100) NOT NULL,
     PRECIO_UNITARIO NUMERIC(10,2) NOT NULL,
-    FORMA_PAGO VARCHAR(20) NOT NULL, -- 'EFECTIVO' o 'CREDITO_DIRECTO'
+    FORMA_PAGO VARCHAR(20) NOT NULL,
     PORCENTAJE_DESCUENTO NUMERIC(5,2) NOT NULL DEFAULT 0.00,
     VALOR_DESCUENTO NUMERIC(10,2) NOT NULL DEFAULT 0.00,
     TOTAL_PAGAR NUMERIC(10,2) NOT NULL,
@@ -59,17 +59,32 @@ CREATE TABLE FACTURA (
 ) ENGINE=InnoDB;
 
 -- =======================================================================
--- POBLAMIENTO INICIAL DEL CATÁLOGO DE TELÉFONOS CELULARES
+-- POBLAMIENTO INICIAL: CATALOGO DE TELEFONOS CELULARES DISPONIBLES
 -- =======================================================================
-INSERT INTO TELEFONO_CELULAR (COD_TELEFONO, MARCA, MODELO, PRECIO, CARACTERISTICAS, IMAGEN_URL, ESTADO) VALUES
-(1, 'Motorola', 'Edge 40 Neo 5G', 450.00, 'Pantalla pOLED 6.55" 144Hz, 256GB Almacenamiento, 12GB RAM, Cámara 50MP OIS, Carga rápida 68W, Certificación IP68', 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=300', 'DISPONIBLE'),
-(2, 'Samsung', 'Galaxy S24 5G', 850.00, 'Pantalla Dynamic AMOLED 2X 6.2" 120Hz, 256GB, 8GB RAM, Procesador Exynos 2400 / Snapdragon 8 Gen 3, Galaxy AI', 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=300', 'DISPONIBLE'),
-(3, 'Apple', 'iPhone 15 128GB', 950.00, 'Pantalla Super Retina XDR 6.1", Chip A16 Bionic, Dynamic Island, Cámara principal 48MP, Puerto USB-C', 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=300', 'DISPONIBLE'),
-(4, 'Xiaomi', 'Redmi Note 13 Pro', 280.00, 'Pantalla AMOLED 6.67" 120Hz, 256GB, 8GB RAM, Cámara 200MP con OIS, Batería 5000mAh Turbo Charging 67W', 'https://images.unsplash.com/photo-1511707171634-5f897ff02560?w=300', 'DISPONIBLE'),
-(5, 'Honor', 'Magic 6 Lite 5G', 340.00, 'Pantalla curva AMOLED 6.78" 1.5K, 256GB, 8GB+8GB RAM Turbo, Pantalla ultrarresistente Honor Ultra-Bounce, Batería 5800mAh', 'https://images.unsplash.com/photo-1565849904461-04a58ad377e0?w=300', 'DISPONIBLE');
 
--- =======================================================================
--- POBLAMIENTO INICIAL DE USUARIOS AUTORIZADOS
--- =======================================================================
+INSERT INTO TELEFONO_CELULAR (COD_TELEFONO, MARCA, MODELO, PRECIO, CARACTERISTICAS, ESTADO) VALUES
+(1, 'Samsung', 'Galaxy S24 Ultra 512GB', 1450.00, 'Snapdragon 8 Gen 3, 12GB RAM, Camara 200MP, Pantalla Dynamic AMOLED 2X 6.8', 'DISPONIBLE'),
+(2, 'Apple',   'iPhone 15 Pro Max 256GB',  1399.00, 'Chip A17 Pro, Titanio Aeroespacial, Zoom 5x, Pantalla Super Retina XDR 6.7', 'DISPONIBLE'),
+(3, 'Xiaomi',  'Xiaomi 14 Pro 256GB',       850.00, 'Snapdragon 8 Gen 3, Camara Leica Summilux, Carga Rapida 120W HyperCharge', 'DISPONIBLE'),
+(4, 'Motorola','Edge 50 Ultra 512GB',        920.00, 'Snapdragon 8s Gen 3, 16GB RAM, Pantalla pOLED 144Hz, Carga TurboPower 125W', 'DISPONIBLE'),
+(5, 'Samsung', 'Galaxy A55 5G 128GB',        420.00, 'Exynos 1480, 8GB RAM, Camara 50MP OIS, Pantalla Super AMOLED 120Hz 6.6', 'DISPONIBLE'),
+(6, 'Xiaomi',  'Redmi Note 13 Pro+ 512GB',   450.00, 'MediaTek Dimensity 7200-Ultra, Camara 200MP OIS, Carga 120W, IP68', 'DISPONIBLE'),
+(7, 'Apple',   'iPhone 13 128GB',            650.00, 'Chip A15 Bionic, Doble Camara 12MP, Pantalla Super Retina XDR 6.1 OLED', 'DISPONIBLE'),
+(8, 'Motorola','Moto G84 5G 256GB',          280.00, 'Snapdragon 695, 12GB RAM, Pantalla pOLED 120Hz, Audio Dolby Atmos', 'DISPONIBLE');
+
 INSERT INTO USUARIO (COD_USUARIO, USUARIO, CLAVE, NOMBRE, ROL, ESTADO) VALUES
-(1, 'Monster', 'Monster9', 'Administrador Monster Core', 'ADMIN', 'ACTIVO');
+(1, 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'Administrador General', 'ADMINISTRADOR', 'ACTIVO'),
+(2, 'cajero1', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'Juan Perez (Vendedor Ventanilla 1)', 'VENDEDOR', 'ACTIVO'),
+(3, 'cajero2', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'Maria Gomez (Vendedora Ventanilla 2)', 'VENDEDOR', 'ACTIVO');
+
+INSERT INTO FACTURA (
+    NUM_FACTURA, NUMERO_COMPROBANTE, FECHA, COD_CLIENTE_BANCO, CEDULA_CLIENTE, NOMBRE_CLIENTE,
+    COD_TELEFONO, MODELO_TELEFONO, PRECIO_UNITARIO, FORMA_PAGO, PORCENTAJE_DESCUENTO, VALOR_DESCUENTO,
+    TOTAL_PAGAR, COD_CREDITO_BANCO, NUM_CUOTAS, VALOR_CUOTA, OBSERVACION
+) VALUES
+(1, 'FAC-EFEC-2026-0001', DATE_SUB(NOW(), INTERVAL 5 DAY), NULL, '1710000004', 'Elena Castro',
+ 5, 'Samsung Galaxy A55 5G 128GB', 420.00, 'EFECTIVO', 42.00, 176.40,
+ 243.60, NULL, NULL, NULL, 'Venta al contado en efectivo con 42% de descuento directo'),
+(2, 'FAC-CRED-2026-0002', DATE_SUB(NOW(), INTERVAL 10 DAY), 5, '1710000005', 'Roberto Benitez',
+ 6, 'Xiaomi Redmi Note 13 Pro+ 512GB', 450.00, 'CREDITO_DIRECTO', 0.00, 0.00,
+ 450.00, 1, 6, 78.65, 'Venta a credito directo financiado por BanQuito a 6 meses con cuota francesa de $78.65');

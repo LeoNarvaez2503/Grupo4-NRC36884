@@ -1,0 +1,47 @@
+﻿@startuml DS_06_Facturacion_Venta_Efectivo_42_Descuento
+title DS_06: Diagrama de Secuencia - Facturacion en Efectivo con 42% de Descuento
+autonumber
+skinparam monochrome false
+skinparam shadowing true
+
+actor "Cliente Comprador" as Cliente
+actor "Vendedor Comercializadora" as Vendedor
+boundary "Comercializadora Frontend" as Frontend
+control "ComercializadoraController" as Controller
+participant "ComercializadoraService" as ComService
+database "Comercializadora MariaDB" as ComDB
+
+Cliente -> Vendedor: Desea comprar 'iPhone 15' ($1,000.00) en EFECTIVO
+Vendedor -> Frontend: Ingresa Cedula '1710000002', Selecciona Telefono ID=1 y Forma='EFECTIVO'
+Frontend -> Controller: procesarFactura(cedula, idTelefono, 'EFECTIVO')
+activate Controller
+
+Controller -> ComService: facturarEnEfectivo(cedula, idTelefono)
+activate ComService
+
+note over ComService
+  Calculo de Descuento en Efectivo (42%):
+  PrecioLista = 1000.00
+  Descuento = 1000.00 * 0.42 = 420.00
+  TotalFactura = 1000.00 - 420.00 = $580.00
+  (Operacion local sin invocar BanQuito)
+end note
+
+ComService -> ComDB: INSERT INTO FACTURA (FECHA, CEDULA, FORMA_PAGO, SUBTOTAL, DESCUENTO, TOTAL) VALUES (NOW(), '1710000002', 'EFECTIVO', 1000.00, 420.00, 580.00)
+activate ComDB
+ComDB --> ComService: idFactura = 502
+
+ComService -> ComDB: INSERT INTO DETALLE_FACTURA (ID_FACTURA, ID_TELEFONO, CANTIDAD, PRECIO_UNITARIO, SUBTOTAL) VALUES (502, 1, 1, 580.00, 580.00)
+ComDB --> ComService: OK
+deactivate ComDB
+
+ComService --> Controller: FacturaResponseDTO { idFactura: 502, formaPago: 'EFECTIVO', precioLista: 1000.00, descuento: 420.00, total: 580.00 }
+deactivate ComService
+
+Controller --> Frontend: 200 OK Factura generada
+deactivate Controller
+
+Frontend --> Vendedor: Muestra Factura #502 por $580.00 con desglose del 42% de descuento
+Vendedor --> Cliente: Cobra $580.00 en efectivo y entrega comprobante y telefono
+
+@enduml
