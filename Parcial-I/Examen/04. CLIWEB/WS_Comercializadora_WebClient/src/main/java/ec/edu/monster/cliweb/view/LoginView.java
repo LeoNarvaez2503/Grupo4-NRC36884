@@ -22,6 +22,7 @@ public class LoginView implements Serializable {
 
     private final UsuarioDAO usuarioDAO = new UsuarioDAO();
 
+    private String hostServidor = ec.edu.monster.servicio.BanQuitoRestClient.getHost();
     private String usuario = "Monster";
     private String clave = "";
     private boolean autenticado = false;
@@ -30,6 +31,8 @@ public class LoginView implements Serializable {
     private String rol = "ADMIN";
 
     public String login() {
+        ec.edu.monster.servicio.BanQuitoRestClient.configurarHost(hostServidor);
+        this.hostServidor = ec.edu.monster.servicio.BanQuitoRestClient.getHost();
         UsuarioDTO res = usuarioDAO.autenticar(usuario, clave);
         if (res.isAutenticado()) {
             this.autenticado = true;
@@ -80,4 +83,12 @@ public class LoginView implements Serializable {
 
     public String getRol() { return rol; }
     public void setRol(String rol) { this.rol = rol; }
+
+    public String getHostServidor() {
+        return hostServidor;
+    }
+
+    public void setHostServidor(String hostServidor) {
+        this.hostServidor = hostServidor;
+    }
 }

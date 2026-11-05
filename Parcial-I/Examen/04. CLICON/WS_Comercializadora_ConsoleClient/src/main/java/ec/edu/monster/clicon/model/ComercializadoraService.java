@@ -16,6 +16,10 @@ import java.util.List;
 public class ComercializadoraService {
 
     private final ConfiguracionServidor config = new ConfiguracionServidor();
+
+    public ConfiguracionServidor getConfig() {
+        return config;
+    }
     private final HttpClient httpClient = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(10))
             .build();

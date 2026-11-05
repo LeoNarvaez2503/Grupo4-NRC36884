@@ -23,11 +23,10 @@ import java.util.Map;
 public class BanQuitoRestClient implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private static final String HOST = cargarHostCentral();
-    private static final String DEFAULT_BASE_URL = "http://" + HOST + ":8080/api/credito";
-    private static final String PAYARA_BASE_URL = "http://" + HOST + ":8080/WS_BanQuito_Java_REST/api/credito";
-    private final String baseUrl;
-    private volatile String resolvedBaseUrl;
+    /** Host de BanQuito compartido por todas las instancias: 04. CONFIG/servidor.properties o el campo del login. */
+    private static volatile String hostActual = cargarHostCentral();
+    private static volatile String resolvedBaseUrl;
+    private static volatile String resolvedHost;
     private final transient HttpClient client;
     private final transient Gson gson;
 
@@ -50,41 +49,55 @@ public class BanQuitoRestClient implements Serializable {
         return host;
     }
 
+    public static String getHost() {
+        return hostActual;
+    }
+
+    /** Cambia el host de BanQuito para toda la aplicacion (por ejemplo desde el login). */
+    public static synchronized void configurarHost(String nuevoHost) {
+        String h = nuevoHost == null ? "" : nuevoHost.trim();
+        if (h.startsWith("http://")) h = h.substring(7);
+        if (h.startsWith("https://")) h = h.substring(8);
+        int corte = h.indexOf('/');
+        if (corte >= 0) h = h.substring(0, corte);
+        int dosPuntos = h.indexOf(':');
+        if (dosPuntos >= 0) h = h.substring(0, dosPuntos);
+        if (h.isEmpty()) return;
+        hostActual = h;
+        resolvedBaseUrl = null;
+        resolvedHost = null;
+    }
+
     public BanQuitoRestClient() {
-        this(DEFAULT_BASE_URL);
+        this((String) null);
     }
 
     public BanQuitoRestClient(String baseUrl) {
-        this.baseUrl = baseUrl != null ? baseUrl : DEFAULT_BASE_URL;
         this.client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10)).build();
         this.gson = new Gson();
     }
 
     private String getBaseUrl() {
-        if (resolvedBaseUrl != null) {
+        String host = hostActual;
+        if (resolvedBaseUrl != null && host.equals(resolvedHost)) {
             return resolvedBaseUrl;
         }
-        // Intentar baseUrl inicial (ej: http://localhost:8080/api/credito)
-        try {
-            HttpRequest req = HttpRequest.newBuilder().uri(URI.create(baseUrl)).timeout(Duration.ofSeconds(2)).GET().build();
-            HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
-            if (res.statusCode() == 200) {
-                resolvedBaseUrl = baseUrl;
-                return resolvedBaseUrl;
-            }
-        } catch (Exception ignored) {}
-
-        // Si falló o dio 404, probar la ruta en Payara/GlassFish (/WS_BanQuito_Java_REST/api/credito)
-        try {
-            HttpRequest req = HttpRequest.newBuilder().uri(URI.create(PAYARA_BASE_URL)).timeout(Duration.ofSeconds(2)).GET().build();
-            HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
-            if (res.statusCode() == 200) {
-                resolvedBaseUrl = PAYARA_BASE_URL;
-                return resolvedBaseUrl;
-            }
-        } catch (Exception ignored) {}
-
-        resolvedBaseUrl = baseUrl;
+        String directa = "http://" + host + ":8080/api/credito";
+        String payara = "http://" + host + ":8080/WS_BanQuito_Java_REST/api/credito";
+        // Intentar la ruta directa (servidor embebido) y luego la de Payara/GlassFish
+        for (String candidata : new String[]{directa, payara}) {
+            try {
+                HttpRequest req = HttpRequest.newBuilder().uri(URI.create(candidata)).timeout(Duration.ofSeconds(2)).GET().build();
+                HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
+                if (res.statusCode() == 200) {
+                    resolvedHost = host;
+                    resolvedBaseUrl = candidata;
+                    return resolvedBaseUrl;
+                }
+            } catch (Exception ignored) {}
+        }
+        resolvedHost = host;
+        resolvedBaseUrl = directa;
         return resolvedBaseUrl;
     }
 

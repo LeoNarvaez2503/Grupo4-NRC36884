@@ -309,6 +309,12 @@
                                    pt:placeholder="Ingrese contraseña" required="true" />
                 </div>
 
+                <div class="form-group">
+                    <label class="form-label"><i class="bi bi-hdd-network-fill"></i> Servidor BanQuito (IP o host):</label>
+                    <h:inputText id="txtHostServidor" value="#{loginView.hostServidor}" styleClass="form-input"
+                                 pt:placeholder="localhost" />
+                </div>
+
                 <div style="margin-top:24px;">
                     <h:commandButton value="Iniciar Sesión" action="#{loginView.login}" styleClass="btn-login" />
                 </div>

@@ -8,8 +8,6 @@ import java.time.Duration;
 
 public class ConfiguracionServidor {
 
-    private static final String HOST = cargarHostCentral();
-
     /** Host central: -Dexamen.host, variable EXAMEN_HOST o "04. CONFIG/servidor.properties" (copiado al classpath al compilar). */
     private static String cargarHostCentral() {
         String host = "localhost";
@@ -28,10 +26,45 @@ public class ConfiguracionServidor {
         return host;
     }
 
-    private String comEndpoint = "http://" + HOST + ":8080/WS_Comercializadora_WebClient/api";
-    private String banquitoEndpoint = "http://" + HOST + ":8080/WS_BanQuito_Java_REST/api/credito";
+    private static final String PREF_KEY_HOST = "server_host";
+    private final java.util.prefs.Preferences prefs = java.util.prefs.Preferences.userNodeForPackage(ConfiguracionServidor.class);
+    private String host;
+    private String comEndpoint;
+    private String banquitoEndpoint;
     private String resolvedCom = null;
     private String resolvedBanquito = null;
+
+    /** Host guardado desde el menu de la consola; si no hay, el host central (04. CONFIG/servidor.properties). */
+    public ConfiguracionServidor() {
+        this.host = prefs.get(PREF_KEY_HOST, cargarHostCentral());
+        actualizarEndpoints();
+    }
+
+    private void actualizarEndpoints() {
+        this.comEndpoint = "http://" + host + ":8080/WS_Comercializadora_WebClient/api";
+        this.banquitoEndpoint = "http://" + host + ":8080/WS_BanQuito_Java_REST/api/credito";
+        this.resolvedCom = null;
+        this.resolvedBanquito = null;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    /** Cambia el host del servidor (IP o nombre) y lo recuerda para la proxima ejecucion. */
+    public synchronized void configurarHost(String nuevoHost) {
+        String h = nuevoHost == null ? "" : nuevoHost.trim();
+        if (h.startsWith("http://")) h = h.substring(7);
+        if (h.startsWith("https://")) h = h.substring(8);
+        int corte = h.indexOf('/');
+        if (corte >= 0) h = h.substring(0, corte);
+        int dosPuntos = h.indexOf(':');
+        if (dosPuntos >= 0) h = h.substring(0, dosPuntos);
+        if (h.isEmpty()) return;
+        this.host = h;
+        prefs.put(PREF_KEY_HOST, h);
+        actualizarEndpoints();
+    }
 
     public String getComEndpoint() {
         if (resolvedCom != null) {
@@ -49,7 +82,7 @@ public class ConfiguracionServidor {
         } catch (Exception ignored) {}
 
         // 2. Probar Servidor Standalone (puerto 8090)
-        String fallback8090 = "http://" + HOST + ":8090/api";
+        String fallback8090 = "http://" + host + ":8090/api";
         try {
             HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofMillis(800)).build();
             HttpRequest req = HttpRequest.newBuilder().uri(URI.create(fallback8090 + "/telefonos")).timeout(Duration.ofMillis(800)).GET().build();
@@ -85,7 +118,7 @@ public class ConfiguracionServidor {
         } catch (Exception ignored) {}
 
         // 2. Probar ruta directa
-        String cortaUrl = "http://" + HOST + ":8080/api/credito";
+        String cortaUrl = "http://" + host + ":8080/api/credito";
         try {
             HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofMillis(800)).build();
             HttpRequest req = HttpRequest.newBuilder().uri(URI.create(cortaUrl)).timeout(Duration.ofMillis(800)).GET().build();

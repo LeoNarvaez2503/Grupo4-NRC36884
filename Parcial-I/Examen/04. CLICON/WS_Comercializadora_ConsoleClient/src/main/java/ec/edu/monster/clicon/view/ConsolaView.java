@@ -73,6 +73,9 @@ public class ConsolaView {
                 case "8":
                     agregarTelefono();
                     break;
+                case "9":
+                    cambiarHostServidor();
+                    break;
                 case "0":
                     salir = true;
                     System.out.println("\n" + ANSI_CYAN + "Gracias por usar el Sistema Comercializadora. Saliendo..." + ANSI_RESET);
@@ -119,7 +122,20 @@ public class ConsolaView {
         System.out.println(" 6. Consultar Tabla de Amortizacion de un Credito Otorgado");
         System.out.println(ANSI_YELLOW + " 7. [DEMO TRIBUNAL] Ejecutar Pruebas Automatizadas de los Clientes Oficiales" + ANSI_RESET);
         System.out.println(" 8. Agregar Nuevo Telefono al Catalogo");
+        System.out.println(" 9. Cambiar IP / host del servidor (actual: " + controlador.getHost() + ")");
         System.out.println(" 0. Salir");
+    }
+
+    private void cambiarHostServidor() {
+        System.out.println("\n" + ANSI_BOLD + "=== CAMBIAR IP / HOST DEL SERVIDOR ===" + ANSI_RESET);
+        System.out.println("Host actual: " + controlador.getHost());
+        System.out.print("Nuevo host o IP (Enter para dejarlo igual): ");
+        String nuevo = scanner.nextLine().trim();
+        if (nuevo.isEmpty()) {
+            return;
+        }
+        controlador.cambiarHost(nuevo);
+        System.out.println(ANSI_GREEN + "[OK] Servidor configurado en: " + controlador.getHost() + ANSI_RESET);
     }
 
     private void verCatalogoTelefonos() {
