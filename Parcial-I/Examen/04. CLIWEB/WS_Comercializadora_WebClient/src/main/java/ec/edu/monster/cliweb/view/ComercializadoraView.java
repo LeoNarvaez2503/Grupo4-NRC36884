@@ -59,6 +59,7 @@ public class ComercializadoraView implements Serializable {
 
     // --- Catálogo CRUD ---
     private List<TelefonoCelular> telefonos = new ArrayList<>();
+    private String errorCatalogo = "";
     private String nuevoMarca = "";
     private String nuevoModelo = "";
     private double nuevoPrecio = 350.00;
@@ -83,11 +84,13 @@ public class ComercializadoraView implements Serializable {
     public void recargarTelefonos() {
         try {
             this.telefonos = catalogoDAO.listar(false);
+            this.errorCatalogo = "";
             if (!this.telefonos.isEmpty() && codTelefono == 0) {
                 codTelefono = this.telefonos.get(0).getCodTelefono();
             }
         } catch (Exception e) {
             this.telefonos = new ArrayList<>();
+            this.errorCatalogo = "No se pudo cargar el catálogo desde la base de datos (comercializadora_db): " + e.getMessage();
         }
     }
 
@@ -511,4 +514,8 @@ public class ComercializadoraView implements Serializable {
     public String getInfoClienteConsultado() { return infoClienteConsultado; }
 
     public List<Factura> getHistorialFacturas() { return historialFacturas; }
+
+    public String getErrorCatalogo() {
+        return errorCatalogo;
+    }
 }

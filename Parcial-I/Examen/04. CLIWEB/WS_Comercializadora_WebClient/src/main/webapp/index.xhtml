@@ -708,6 +708,12 @@
                             <span class="card-subtitle">#{comercializadoraView.telefonos.size()} dispositivos</span>
                         </div>
 
+                        <h:panelGroup rendered="#{not empty comercializadoraView.errorCatalogo}">
+                            <div style="background:#fee2e2; border:1px solid #ef4444; color:#7f1d1d; padding:12px 16px; border-radius:10px; margin-bottom:14px; font-weight:600;">
+                                #{comercializadoraView.errorCatalogo}
+                            </div>
+                        </h:panelGroup>
+
                         <h:form id="formListaTel">
                             <div class="table-responsive">
                                 <h:dataTable value="#{comercializadoraView.telefonos}" var="tel" styleClass="modern-table">
