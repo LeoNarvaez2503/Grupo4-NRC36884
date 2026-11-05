@@ -356,10 +356,10 @@ public class DesktopView extends JFrame {
         JPanel grid = new JPanel(new GridLayout(1, 4, 10, 0));
         grid.setBackground(Color.WHITE);
 
-        JButton btn1 = crearBotonRubrica("1. Carlos Andrade", "C.I. 1710000001 | Motorola ($450)", "Aprobado (Cuota $78.65)", new Color(16, 185, 129));
+        JButton btn1 = crearBotonRubrica("1. Carlos Andrade", "C.I. 1710000001 | Xiaomi Redmi ($450)", "Aprobado (Cuota $78.65)", new Color(16, 185, 129));
         btn1.addActionListener(e -> seleccionarClienteDemo(1));
 
-        JButton btn2 = crearBotonRubrica("2. Andrea Morales", "C.I. 1710000002 | Samsung ($850)", "Rechazo: Capacidad Insuf.", new Color(239, 68, 68));
+        JButton btn2 = crearBotonRubrica("2. Andrea Morales", "C.I. 1710000002 | Xiaomi 14 Pro ($850)", "Rechazo: Capacidad Insuf.", new Color(239, 68, 68));
         btn2.addActionListener(e -> seleccionarClienteDemo(2));
 
         JButton btn3 = crearBotonRubrica("3. Mateo Salazar", "C.I. 1710000003 | Varón 22 años", "Rechazo: Edad < 25 años", new Color(245, 158, 11));
@@ -717,7 +717,7 @@ public class DesktopView extends JFrame {
                 txtNombre.setText("Carlos Andrade");
                 cmbFormaPago.setSelectedItem("CREDITO_DIRECTO");
                 cmbCuotas.setSelectedItem(6);
-                seleccionarTelefonoPorModelo("Motorola");
+                seleccionarTelefonoPorModelo("Redmi");
                 verificarCreditoEnVivo();
             }
             case 2 -> {
@@ -725,7 +725,7 @@ public class DesktopView extends JFrame {
                 txtNombre.setText("Andrea Morales");
                 cmbFormaPago.setSelectedItem("CREDITO_DIRECTO");
                 cmbCuotas.setSelectedItem(6);
-                seleccionarTelefonoPorModelo("Samsung");
+                seleccionarTelefonoPorModelo("Xiaomi 14");
                 verificarCreditoEnVivo();
             }
             case 3 -> {
@@ -740,7 +740,7 @@ public class DesktopView extends JFrame {
                 txtCedula.setText("1710000004");
                 txtNombre.setText("Elena Castro");
                 cmbFormaPago.setSelectedItem("EFECTIVO");
-                seleccionarTelefonoPorModelo("Xiaomi");
+                seleccionarTelefonoPorModelo("Redmi");
                 actualizarCalculosEnVivo();
                 lblAlertaEstado.setText("<html><b style='color:#10b981;'>✔ Cliente 4 (Elena Castro) en Efectivo: Aplica 42% de descuento directo.</b></html>");
             }

@@ -170,6 +170,13 @@ public class ServidorApp {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             agregarHeadersCORS(exchange);
+            // Solo la raiz muestra la pagina informativa; cualquier otra ruta es 404 para que los clientes
+            // no confundan este servidor con la Comercializadora (puerto 8080 de Payara).
+            String ruta = exchange.getRequestURI().getPath();
+            if (!ruta.equals("/") && !ruta.equals("/WS_BanQuito_Java_REST") && !ruta.equals("/WS_BanQuito_Java_REST/")) {
+                exchange.sendResponseHeaders(404, -1);
+                return;
+            }
             String html = """
                 <!DOCTYPE html>
                 <html>

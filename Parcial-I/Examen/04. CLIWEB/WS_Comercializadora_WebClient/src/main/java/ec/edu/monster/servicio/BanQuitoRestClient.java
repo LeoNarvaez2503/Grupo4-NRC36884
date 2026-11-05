@@ -23,12 +23,32 @@ import java.util.Map;
 public class BanQuitoRestClient implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private static final String DEFAULT_BASE_URL = "http://localhost:8080/api/credito";
-    private static final String PAYARA_BASE_URL = "http://localhost:8080/WS_BanQuito_Java_REST/api/credito";
+    private static final String HOST = cargarHostCentral();
+    private static final String DEFAULT_BASE_URL = "http://" + HOST + ":8080/api/credito";
+    private static final String PAYARA_BASE_URL = "http://" + HOST + ":8080/WS_BanQuito_Java_REST/api/credito";
     private final String baseUrl;
     private volatile String resolvedBaseUrl;
     private final transient HttpClient client;
     private final transient Gson gson;
+
+
+    /** Host central: -Dexamen.host, variable EXAMEN_HOST o "04. CONFIG/servidor.properties" (copiado al classpath al compilar). */
+    private static String cargarHostCentral() {
+        String host = "localhost";
+        try (java.io.InputStream in = BanQuitoRestClient.class.getClassLoader().getResourceAsStream("servidor.properties")) {
+            if (in != null) {
+                java.util.Properties p = new java.util.Properties();
+                p.load(in);
+                host = p.getProperty("servidor.host", host).trim();
+            }
+        } catch (Exception ignored) {
+        }
+        String env = System.getenv("EXAMEN_HOST");
+        if (env != null && !env.isBlank()) host = env.trim();
+        String sys = System.getProperty("examen.host");
+        if (sys != null && !sys.isBlank()) host = sys.trim();
+        return host;
+    }
 
     public BanQuitoRestClient() {
         this(DEFAULT_BASE_URL);

@@ -100,7 +100,11 @@ public class ComercializadoraApp {
                 return Files.readAllBytes(pathWebapp);
             }
         } catch (Exception ignored) {}
-        return "<h1>Error cargando index.html</h1>".getBytes(StandardCharsets.UTF_8);
+        return ("<!DOCTYPE html><html><head><meta charset='utf-8'><title>Comercializadora - API REST</title></head><body style='font-family:sans-serif;padding:30px'>"
+                + "<h1>Comercializadora de Celulares - API REST (modo standalone)</h1>"
+                + "<p>La interfaz web (login.xhtml / index.xhtml) se despliega en Payara con el WAR WS_Comercializadora_WebClient.</p>"
+                + "<ul><li>GET /api/telefonos</li><li>POST /api/facturar</li><li>GET /api/verificar-credito</li><li>GET /api/amortizacion</li><li>GET /api/facturas</li></ul>"
+                + "</body></html>").getBytes(StandardCharsets.UTF_8);
     }
 
     // Handler de verificación de crédito en vivo (AJAX)

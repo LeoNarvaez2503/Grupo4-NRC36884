@@ -41,6 +41,21 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>servidor.properties</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <!-- Configuracion central: 04. CONFIG/servidor.properties -->
+                <directory>../../04. CONFIG</directory>
+                <includes>
+                    <include>servidor.properties</include>
+                </includes>
+            </resource>
+        </resources>
         <finalName>WS_Comercializadora_WebClient</finalName>
         <plugins>
             <plugin>

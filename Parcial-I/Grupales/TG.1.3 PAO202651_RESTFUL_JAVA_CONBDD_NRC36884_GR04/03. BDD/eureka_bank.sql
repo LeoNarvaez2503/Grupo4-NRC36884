@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- =============================================================================
 -- SISTEMA BANCARIO TRANSACCIONAL EUREKABANK - GRUPO 04 (GR04)
 -- DOMINIO: ec.edu.monster | MOTOR: MySQL / MariaDB (Docker / Podman Local :3306)

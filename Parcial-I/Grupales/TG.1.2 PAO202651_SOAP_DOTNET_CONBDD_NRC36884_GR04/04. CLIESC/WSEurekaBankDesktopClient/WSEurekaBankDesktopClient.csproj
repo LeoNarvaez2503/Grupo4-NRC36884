@@ -20,4 +20,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <ItemGroup>
+    <!-- Configuracion central: 04. CONFIG/servidor.properties -->
+    <None Include="../../04. CONFIG/servidor.properties" Link="servidor.properties">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

@@ -90,7 +90,7 @@ namespace ec.edu.monster.model
         private static readonly HttpClient Http = new() { Timeout = TimeSpan.FromSeconds(30) };
         private static readonly JsonSerializerOptions JsonOpts = new() { PropertyNameCaseInsensitive = true };
 
-        public string EndpointUrl { get; set; } = "http://localhost:5140/api";
+        public string EndpointUrl { get; set; } = ConfiguracionServidor.EndpointUrl;
 
         private string BaseUrl => EndpointUrl.TrimEnd('/');
 

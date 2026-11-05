@@ -108,7 +108,7 @@ namespace ec.edu.monster.model
     /// </summary>
     public class EurekaBankSoapModel
     {
-        public string EndpointUrl { get; set; } = "http://localhost:5120/EurekaBankWS.svc";
+        public string EndpointUrl { get; set; } = ConfiguracionServidor.EndpointUrl;
 
         private T Ejecutar<T>(Func<IEurekaBankSoapContrato, T> accion)
         {

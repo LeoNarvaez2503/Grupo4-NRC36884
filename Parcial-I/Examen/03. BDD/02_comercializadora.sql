@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- =======================================================================
 -- SISTEMA DE LA COMERCIALIZADORA DE TELEFONOS CELULARES
 -- Base de Datos: comercializadora_db
