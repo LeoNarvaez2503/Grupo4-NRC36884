@@ -454,14 +454,14 @@ public class DesktopView extends JFrame {
 
         JButton btnVerificar = new JButton("🔍 Verificar en BanQuito");
         btnVerificar.setBackground(COLOR_PRIMARY);
-        btnVerificar.setForeground(Color.WHITE);
+        btnVerificar.setForeground(Color.BLACK);
         btnVerificar.setFont(new Font("Segoe UI", Font.BOLD, 13));
         btnVerificar.setFocusPainted(false);
         btnVerificar.addActionListener(e -> verificarCreditoEnVivo());
 
         JButton btnEmitir = new JButton("💳 Emitir Factura Oficial");
         btnEmitir.setBackground(COLOR_SUCCESS);
-        btnEmitir.setForeground(Color.WHITE);
+        btnEmitir.setForeground(Color.BLACK);
         btnEmitir.setFont(new Font("Segoe UI", Font.BOLD, 13));
         btnEmitir.setFocusPainted(false);
         btnEmitir.addActionListener(e -> procesarFacturacion());
@@ -582,13 +582,13 @@ public class DesktopView extends JFrame {
 
         JButton btnRefrescar = new JButton("🔄 Refrescar Catálogo");
         btnRefrescar.setBackground(COLOR_PRIMARY);
-        btnRefrescar.setForeground(Color.WHITE);
+        btnRefrescar.setForeground(Color.BLACK);
         btnRefrescar.setFont(new Font("Segoe UI", Font.BOLD, 12));
         btnRefrescar.addActionListener(e -> refrescarCatalogo());
 
         JButton btnNuevo = new JButton("➕ Registrar Celular");
         btnNuevo.setBackground(COLOR_SUCCESS);
-        btnNuevo.setForeground(Color.WHITE);
+        btnNuevo.setForeground(Color.BLACK);
         btnNuevo.setFont(new Font("Segoe UI", Font.BOLD, 12));
         btnNuevo.addActionListener(e -> agregarTelefonoDialog());
 
@@ -599,13 +599,13 @@ public class DesktopView extends JFrame {
 
         JButton btnEditar = new JButton("✏️ Editar");
         btnEditar.setBackground(COLOR_PRIMARY);
-        btnEditar.setForeground(Color.WHITE);
+        btnEditar.setForeground(Color.BLACK);
         btnEditar.setFont(new Font("Segoe UI", Font.BOLD, 12));
         btnEditar.addActionListener(e -> editarTelefonoDialog(tabla));
 
         JButton btnEliminar = new JButton("🗑️ Eliminar");
         btnEliminar.setBackground(new Color(239, 68, 68));
-        btnEliminar.setForeground(Color.WHITE);
+        btnEliminar.setForeground(Color.BLACK);
         btnEliminar.setFont(new Font("Segoe UI", Font.BOLD, 12));
         btnEliminar.addActionListener(e -> eliminarTelefonoDialog(tabla));
 
@@ -637,7 +637,7 @@ public class DesktopView extends JFrame {
         txtCodCreditoConsulta = new JTextField("1");
         JButton btnBuscarCred = new JButton("Buscar Tabla por # Crédito");
         btnBuscarCred.setBackground(COLOR_PRIMARY);
-        btnBuscarCred.setForeground(Color.WHITE);
+        btnBuscarCred.setForeground(Color.BLACK);
         btnBuscarCred.addActionListener(e -> consultarAmortizacionClick());
         card1.add(new JLabel("Código de Crédito BanQuito (#):"), BorderLayout.NORTH);
         card1.add(txtCodCreditoConsulta, BorderLayout.CENTER);
@@ -650,7 +650,7 @@ public class DesktopView extends JFrame {
         txtCedulaConsulta = new JTextField("1710000001");
         JButton btnBuscarCed = new JButton("Verificar Sujeto y Capacidad por C.I.");
         btnBuscarCed.setBackground(COLOR_PRIMARY);
-        btnBuscarCed.setForeground(Color.WHITE);
+        btnBuscarCed.setForeground(Color.BLACK);
         btnBuscarCed.addActionListener(e -> validarSujetoClick());
         card2.add(new JLabel("Cédula de Identidad:"), BorderLayout.NORTH);
         card2.add(txtCedulaConsulta, BorderLayout.CENTER);
@@ -692,7 +692,7 @@ public class DesktopView extends JFrame {
         top.setBackground(COLOR_BG);
         JButton btnRefrescar = new JButton("🔄 Actualizar Historial de Facturas");
         btnRefrescar.setBackground(COLOR_PRIMARY);
-        btnRefrescar.setForeground(Color.WHITE);
+        btnRefrescar.setForeground(Color.BLACK);
         btnRefrescar.setFont(new Font("Segoe UI", Font.BOLD, 12));
         btnRefrescar.addActionListener(e -> cargarHistorialFacturas());
         top.add(btnRefrescar);
