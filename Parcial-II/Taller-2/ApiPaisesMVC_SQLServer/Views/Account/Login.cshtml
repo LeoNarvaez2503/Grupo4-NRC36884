@@ -1,0 +1,76 @@
+@model ApiPaisesMVC_SQLServer.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<div class="row justify-content-center align-items-center" style="min-height: 88vh;">
+    <div class="col-md-9 col-lg-8">
+        <div class="card overflow-hidden shadow-lg rounded-4">
+            <div class="row g-0">
+                <div class="col-md-5 d-flex flex-column justify-content-center align-items-center text-white p-4"
+                     style="background: linear-gradient(160deg, #0e7490, #1e3a8a);">
+                    <img src="~/images/login.jpeg"
+                         alt="Monster Login"
+                         class="img-fluid rounded-3 shadow mb-3"
+                         style="max-height: 270px; object-fit: contain;" />
+                    <h5 class="fw-bold mb-1">Bienvenido al Sistema</h5>
+                    <p class="small text-center text-light opacity-75 mb-0">
+                        ASP.NET Core MVC • SQL Server
+                    </p>
+                </div>
+
+                <div class="col-md-7 p-4 p-md-5 bg-white">
+                    <h3 class="fw-bold text-primary mb-1">Iniciar Sesión</h3>
+                    <p class="text-muted small mb-4">
+                        Consumo de APIs Públicas REST Countries &amp; Universidades
+                    </p>
+
+                    <form asp-action="Login" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="ReturnUrl" />
+
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small" role="alert"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Usuario" class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+                                <input asp-for="Usuario" class="form-control" placeholder="Ingrese su usuario" autofocus />
+                            </div>
+                            <span asp-validation-for="Usuario" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                                <input asp-for="Password" id="txtPassword" class="form-control" placeholder="Ingrese su contraseña" />
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="chkMostrar" />
+                            <label class="form-check-label small" for="chkMostrar">
+                                Mostrar contraseña
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Ingresar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('chkMostrar').addEventListener('change', function () {
+            const pwd = document.getElementById('txtPassword');
+            pwd.type = this.checked ? 'text' : 'password';
+        });
+    </script>
+}

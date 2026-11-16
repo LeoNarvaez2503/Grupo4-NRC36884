@@ -1,0 +1,94 @@
+@model IEnumerable<ApiPaisesMVC_SQLServer.Models.Universidad>
+@{
+    ViewData["Title"] = "Universidades (API Hipolabs)";
+    string? paisFiltro = ViewBag.PaisFiltro as string;
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <div>
+        <h2 class="fw-bold mb-0">Universidades por País (Actividad Avanzada)</h2>
+        <span class="text-muted small">Fuente: <code>http://universities.hipolabs.com/search?country=...</code></span>
+    </div>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h6 class="fw-bold mb-2">Importar desde API de Universidades a SQL Server</h6>
+            <form asp-action="Importar" method="post" class="d-flex gap-2">
+                @Html.AntiForgeryToken()
+                <input type="text" name="pais" class="form-control" value="@(paisFiltro ?? "Ecuador")"
+                       placeholder="Ej: Ecuador, Colombia, Spain" required />
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-cloud-download me-1"></i> Importar
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h6 class="fw-bold mb-2">Filtrar Universidades Guardadas en SQL Server</h6>
+            <form asp-action="Index" method="get" class="d-flex gap-2">
+                <input type="text" name="paisFiltro" class="form-control" value="@paisFiltro"
+                       placeholder="Filtrar por país..." />
+                <button type="submit" class="btn btn-dark">Filtrar</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Todas</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="card p-3">
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle mb-0">
+            <thead class="table-primary">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Dominio</th>
+                    <th>Sitio Web</th>
+                    <th>País</th>
+                    <th class="text-center" style="width: 90px;">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-4">
+                            No hay universidades guardadas. Ingrese un país (ej. Ecuador) y presione Importar.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var u in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@u.Nombre</td>
+                            <td>@u.Dominio</td>
+                            <td>
+                                @if (!string.IsNullOrWhiteSpace(u.SitioWeb) && u.SitioWeb.StartsWith("http"))
+                                {
+                                    <a href="@u.SitioWeb" target="_blank" rel="noopener">@u.SitioWeb</a>
+                                }
+                                else
+                                {
+                                    @u.SitioWeb
+                                }
+                            </td>
+                            <td>@u.Pais</td>
+                            <td class="text-center">
+                                <form asp-action="Eliminar" asp-route-id="@u.Id" method="post" class="m-0">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-danger" title="Eliminar">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

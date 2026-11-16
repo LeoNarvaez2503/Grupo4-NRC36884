@@ -1,0 +1,35 @@
+@model ApiPaisesMVC_SQLServer.Models.Pais
+@{
+    ViewData["Title"] = "Eliminar País";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card p-4 border-danger">
+            <h3 class="fw-bold text-danger mb-2">Confirmar Eliminación</h3>
+            <p class="text-muted">¿Está seguro de eliminar el siguiente país de SQL Server?</p>
+
+            <dl class="row mb-4">
+                <dt class="col-sm-4">Nombre:</dt>
+                <dd class="col-sm-8 fw-semibold">@Model.Nombre</dd>
+                <dt class="col-sm-4">Capital:</dt>
+                <dd class="col-sm-8">@Model.Capital</dd>
+                <dt class="col-sm-4">Región:</dt>
+                <dd class="col-sm-8">@Model.Region (@Model.SubRegion)</dd>
+                <dt class="col-sm-4">Población:</dt>
+                <dd class="col-sm-8">@Model.Poblacion.ToString("N0")</dd>
+                <dt class="col-sm-4">Moneda:</dt>
+                <dd class="col-sm-8">@Model.Moneda</dd>
+            </dl>
+
+            <form asp-action="Eliminar" method="post" class="d-flex gap-2">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash me-1"></i> Sí, Eliminar
+                </button>
+                <a asp-action="Lista" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>

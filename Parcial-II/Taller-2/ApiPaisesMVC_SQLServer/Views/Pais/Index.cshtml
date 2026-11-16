@@ -1,0 +1,93 @@
+@using ApiPaisesMVC_SQLServer.Models
+@{
+    ViewData["Title"] = "Inicio";
+    int totalPaises = ViewBag.TotalPaises ?? 0;
+    var resultadoApi = ViewBag.ResultadoApi as List<Pais>;
+    string? busquedaApi = ViewBag.BusquedaApi as string;
+}
+
+<div class="row g-4 mb-4">
+    <div class="col-lg-7">
+        <div class="card h-100 p-4">
+            <h2 class="fw-bold text-primary mb-2">Consumo de API REST Countries</h2>
+            <p class="text-muted">
+                Sistema web desarrollado en <strong>ASP.NET Core MVC</strong> con persistencia en
+                <strong>SQL Server</strong> mediante <strong>Entity Framework Core</strong>.
+            </p>
+            <div class="d-flex flex-wrap gap-2 mt-2">
+                <a asp-action="Importar" class="btn btn-success btn-lg">
+                    <i class="bi bi-cloud-download me-1"></i> Importar Información (Todos)
+                </a>
+                <a asp-action="Lista" class="btn btn-outline-primary btn-lg">
+                    <i class="bi bi-table me-1"></i> Ver Países (@totalPaises)
+                </a>
+                <a asp-action="Reportes" class="btn btn-outline-dark btn-lg">
+                    <i class="bi bi-bar-chart me-1"></i> Reportes
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card h-100 p-4">
+            <h5 class="fw-bold mb-2">
+                <i class="bi bi-search me-1 text-info"></i> Consultar País Específico en API (Actividad 1)
+            </h5>
+            <p class="small text-muted mb-3">
+                Ejemplo: <code>ecuador</code>, <code>spain</code>, <code>japan</code>.
+            </p>
+            <form asp-action="ConsultarApiPorNombre" method="post">
+                @Html.AntiForgeryToken()
+                <div class="input-group mb-3">
+                    <input type="text" name="nombrePais" class="form-control"
+                           value="@busquedaApi" placeholder="Nombre del país..." required />
+                    <button type="submit" class="btn btn-info text-white fw-semibold">
+                        Consultar API
+                    </button>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="guardarEnBd" value="true" id="chkGuardar" checked />
+                    <label class="form-check-label small" for="chkGuardar">
+                        Guardar o actualizar automáticamente en SQL Server
+                    </label>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@if (resultadoApi != null && resultadoApi.Count > 0)
+{
+    <div class="card p-4">
+        <h5 class="fw-bold mb-3">Resultado de Consulta API para "@busquedaApi"</h5>
+        <div class="table-responsive">
+            <table class="table table-striped align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Capital</th>
+                        <th>Región</th>
+                        <th>Subregión</th>
+                        <th class="text-end">Población</th>
+                        <th class="text-end">Área (km²)</th>
+                        <th>Moneda</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Pais item in resultadoApi)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@item.Nombre</td>
+                            <td>@item.Capital</td>
+                            <td><span class="badge bg-secondary">@item.Region</span></td>
+                            <td>@item.SubRegion</td>
+                            <td class="text-end">@item.Poblacion.ToString("N0")</td>
+                            <td class="text-end">@item.Area.ToString("N2")</td>
+                            <td>@item.Moneda</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

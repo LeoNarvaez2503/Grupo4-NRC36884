@@ -1,0 +1,88 @@
+@model ApiPaisesMVC_SQLServer.Models.ReportesViewModel
+@{
+    ViewData["Title"] = "Reportes Estadísticos";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold mb-0">Reportes Estadísticos (Actividad 5)</h2>
+    <a asp-action="Lista" class="btn btn-outline-primary">
+        <i class="bi bi-arrow-left me-1"></i> Volver al Listado
+    </a>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card p-3 border-start border-primary border-4 h-100">
+            <div class="text-muted small fw-bold">TOTAL DE PAÍSES REGISTRADOS</div>
+            <div class="fs-3 fw-bold text-primary mt-1">@Model.TotalPaises</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 border-start border-success border-4 h-100">
+            <div class="text-muted small fw-bold">PAÍS MÁS POBLADO (REPORTE 2)</div>
+            @if (Model.PaisMasPoblado != null)
+            {
+                <div class="fs-4 fw-bold text-success mt-1">@Model.PaisMasPoblado.Nombre</div>
+                <div class="small text-muted">
+                    @Model.PaisMasPoblado.Poblacion.ToString("N0") hab. • @Model.PaisMasPoblado.Region
+                </div>
+            }
+            else
+            {
+                <div class="fs-5 text-muted mt-1">Sin datos</div>
+            }
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 border-start border-info border-4 h-100">
+            <div class="text-muted small fw-bold">REGIÓN CON MÁS PAÍSES</div>
+            @if (Model.RegionConMasPaises != null)
+            {
+                <div class="fs-4 fw-bold text-info mt-1">@Model.RegionConMasPaises.Region</div>
+                <div class="small text-muted">@Model.RegionConMasPaises.CantidadPaises países</div>
+            }
+            else
+            {
+                <div class="fs-5 text-muted mt-1">Sin datos</div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="card p-4">
+    <h5 class="fw-bold mb-3">Cantidad de Países y Promedio Poblacional por Región (Reportes 1 y 3)</h5>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>Región</th>
+                    <th class="text-end">Cantidad de Países</th>
+                    <th class="text-end">Promedio Poblacional</th>
+                    <th class="text-end">Población Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.EstadisticasPorRegion.Any())
+                {
+                    <tr>
+                        <td colspan="4" class="text-center text-muted py-4">
+                            No existen registros aún. Importe los países desde la pestaña Inicio / API.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model.EstadisticasPorRegion)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@item.Region</td>
+                            <td class="text-end">@item.CantidadPaises</td>
+                            <td class="text-end">@item.PromedioPoblacion.ToString("N0")</td>
+                            <td class="text-end">@item.PoblacionTotal.ToString("N0")</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

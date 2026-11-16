@@ -1,0 +1,109 @@
+@model IEnumerable<ApiPaisesMVC_SQLServer.Models.Pais>
+@{
+    ViewData["Title"] = "Listado de Países";
+    string? buscar = ViewBag.Buscar as string;
+    string regionSel = ViewBag.RegionSeleccionada as string ?? "Todas";
+    string[] regiones = ["Todas", "América", "Europa", "Asia", "África", "Oceanía"];
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <div>
+        <h2 class="fw-bold mb-0">Listado de Países</h2>
+        <span class="text-muted small">Registros mostrados: @Model.Count()</span>
+    </div>
+    <div class="d-flex gap-2">
+        <a asp-action="Crear" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-1"></i> Nuevo País
+        </a>
+        <a asp-action="Importar" class="btn btn-success">
+            <i class="bi bi-cloud-download me-1"></i> Sincronizar API
+        </a>
+    </div>
+</div>
+
+<div class="card p-3 mb-3">
+    <form asp-action="Lista" method="get" class="row g-2 align-items-center mb-3">
+        <div class="col-md-5">
+            <input type="text" name="buscar" value="@buscar" class="form-control"
+                   placeholder="Buscar por Nombre, Región o Capital..." />
+        </div>
+        <div class="col-md-3">
+            <select name="region" class="form-select">
+                @foreach (string reg in regiones)
+                {
+                    <option value="@reg" selected="@(string.Equals(regionSel, reg, StringComparison.OrdinalIgnoreCase))">@reg</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-4 d-flex gap-2">
+            <button type="submit" class="btn btn-dark">
+                <i class="bi bi-search me-1"></i> Buscar
+            </button>
+            <a asp-action="Lista" class="btn btn-outline-secondary">Limpiar</a>
+        </div>
+    </form>
+
+    <div class="d-flex flex-wrap gap-2 align-items-center">
+        <span class="small fw-semibold text-muted me-1">Filtros dinámicos:</span>
+        @foreach (string reg in regiones)
+        {
+            bool active = string.Equals(regionSel, reg, StringComparison.OrdinalIgnoreCase);
+            <a asp-action="Lista" asp-route-region="@reg" asp-route-buscar="@buscar"
+               class="btn btn-sm @(active ? "btn-primary" : "btn-outline-primary")">
+                @reg
+            </a>
+        }
+    </div>
+</div>
+
+<div class="card p-3">
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle mb-0">
+            <thead class="table-primary">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Capital</th>
+                    <th>Región</th>
+                    <th>Subregión</th>
+                    <th class="text-end">Población</th>
+                    <th class="text-end">Área (km²)</th>
+                    <th>Moneda</th>
+                    <th class="text-center" style="width: 150px;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="8" class="text-center text-muted py-4">
+                            No hay países registrados con el criterio actual. Prueba presionar "Sincronizar API" o "Nuevo País".
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@item.Nombre</td>
+                            <td>@item.Capital</td>
+                            <td><span class="badge bg-info text-dark">@item.Region</span></td>
+                            <td>@item.SubRegion</td>
+                            <td class="text-end">@item.Poblacion.ToString("N0")</td>
+                            <td class="text-end">@item.Area.ToString("N2")</td>
+                            <td>@item.Moneda</td>
+                            <td class="text-center">
+                                <a asp-action="Editar" asp-route-id="@item.Id" class="btn btn-sm btn-warning">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a asp-action="Eliminar" asp-route-id="@item.Id" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
