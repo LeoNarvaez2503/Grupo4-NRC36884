@@ -7,9 +7,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Clase Java para bloquearCuentaManual complex type.
+ * <p>Java class for bloquearCuentaManual complex type.
  * 
- * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>{@code
  * <complexType name="bloquearCuentaManual">
@@ -40,7 +40,7 @@ public class BloquearCuentaManual {
     protected String usuario;
 
     /**
-     * Obtiene el valor de la propiedad numeroCuenta.
+     * Gets the value of the numeroCuenta property.
      * 
      * @return
      *     possible object is
@@ -52,7 +52,7 @@ public class BloquearCuentaManual {
     }
 
     /**
-     * Define el valor de la propiedad numeroCuenta.
+     * Sets the value of the numeroCuenta property.
      * 
      * @param value
      *     allowed object is
@@ -64,7 +64,7 @@ public class BloquearCuentaManual {
     }
 
     /**
-     * Obtiene el valor de la propiedad ventanilla.
+     * Gets the value of the ventanilla property.
      * 
      */
     public int getVentanilla() {
@@ -72,7 +72,7 @@ public class BloquearCuentaManual {
     }
 
     /**
-     * Define el valor de la propiedad ventanilla.
+     * Sets the value of the ventanilla property.
      * 
      */
     public void setVentanilla(int value) {
@@ -80,7 +80,7 @@ public class BloquearCuentaManual {
     }
 
     /**
-     * Obtiene el valor de la propiedad usuario.
+     * Gets the value of the usuario property.
      * 
      * @return
      *     possible object is
@@ -92,7 +92,7 @@ public class BloquearCuentaManual {
     }
 
     /**
-     * Define el valor de la propiedad usuario.
+     * Sets the value of the usuario property.
      * 
      * @param value
      *     allowed object is

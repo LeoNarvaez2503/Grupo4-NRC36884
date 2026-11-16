@@ -10,7 +10,10 @@ import ec.edu.monster.modelo.BanQuitoDTOs.*;
 import ec.edu.monster.modelo.Factura;
 import ec.edu.monster.modelo.TelefonoCelular;
 import ec.edu.monster.servicio.BanQuitoRestClient;
+import ec.edu.monster.servicio.CarritoParser;
 import ec.edu.monster.servicio.FacturacionService;
+import ec.edu.monster.servicio.FacturacionService.CarritoResuelto;
+import ec.edu.monster.servicio.FacturacionService.ItemCarrito;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -100,7 +103,11 @@ public class ComercializadoraApp {
                 return Files.readAllBytes(pathWebapp);
             }
         } catch (Exception ignored) {}
-        return "<h1>Error cargando index.html</h1>".getBytes(StandardCharsets.UTF_8);
+        return ("<!DOCTYPE html><html><head><meta charset='utf-8'><title>Comercializadora - API REST</title></head><body style='font-family:sans-serif;padding:30px'>"
+                + "<h1>Comercializadora de Celulares - API REST (modo standalone)</h1>"
+                + "<p>La interfaz web (login.xhtml / index.xhtml) se despliega en Payara con el WAR WS_Comercializadora_WebClient.</p>"
+                + "<ul><li>GET /api/telefonos</li><li>POST /api/facturar</li><li>GET /api/verificar-credito</li><li>GET /api/amortizacion</li><li>GET /api/facturas</li></ul>"
+                + "</body></html>").getBytes(StandardCharsets.UTF_8);
     }
 
     // Handler de verificación de crédito en vivo (AJAX)
@@ -119,8 +126,10 @@ public class ComercializadoraApp {
             int cuotas = Integer.parseInt(params.getOrDefault("cuotas", "6"));
 
             try {
-                TelefonoCelular tel = catalogoDAO.buscarPorId(codTelefono);
-                double precio = tel != null ? tel.getPrecio() : 0.0;
+                // Carrito: ?items=1:2,5:1 (codTelefono:cantidad). Sin items se usa codTelefono (1 unidad).
+                List<ItemCarrito> carrito = CarritoParser.desdeQuery(params.get("items"), codTelefono);
+                CarritoResuelto cr = facturacionService.resolverCarrito(carrito);
+                double precio = cr.ok() ? cr.subtotal() : 0.0;
 
                 // 1. Validar sujeto de crédito en BanQuito REST API
                 SujetoCreditoResponse sujeto = banquitoClient.validarSujetoCredito(cedula);
@@ -143,6 +152,9 @@ public class ComercializadoraApp {
                 resp.put("sujeto", sujeto);
                 resp.put("capacidad", capacidad);
                 resp.put("precioTelefono", precio);
+                resp.put("totalCarrito", precio);
+                resp.put("totalArticulos", cr.totalArticulos());
+                if (!cr.ok()) resp.put("mensajeCarrito", cr.error());
                 resp.put("capacidadSuficiente", capacidadSuficiente);
                 resp.put("tablaAmortizacion", amortizacion);
 
@@ -169,15 +181,15 @@ public class ComercializadoraApp {
 
                 String cedula = (String) body.getOrDefault("cedula", "");
                 String nombre = (String) body.getOrDefault("nombre", "");
-                int codTelefono = ((Double) body.getOrDefault("codTelefono", 0.0)).intValue();
+                List<ItemCarrito> carrito = CarritoParser.desdeBody(body);
                 String formaPago = (String) body.getOrDefault("formaPago", "EFECTIVO");
-                int cuotas = ((Double) body.getOrDefault("cuotas", 6.0)).intValue();
+                int cuotas = ((Number) body.getOrDefault("cuotas", 6.0)).intValue();
 
                 FacturacionService.ResultadoFactura res;
                 if ("EFECTIVO".equalsIgnoreCase(formaPago)) {
-                    res = facturacionService.facturarEfectivo(cedula, nombre, codTelefono);
+                    res = facturacionService.facturarEfectivo(cedula, nombre, carrito);
                 } else {
-                    res = facturacionService.facturarCreditoDirecto(cedula, nombre, codTelefono, cuotas);
+                    res = facturacionService.facturarCreditoDirecto(cedula, nombre, carrito, cuotas);
                 }
 
                 responderJson(exchange, res.exito() ? 200 : 400, res);

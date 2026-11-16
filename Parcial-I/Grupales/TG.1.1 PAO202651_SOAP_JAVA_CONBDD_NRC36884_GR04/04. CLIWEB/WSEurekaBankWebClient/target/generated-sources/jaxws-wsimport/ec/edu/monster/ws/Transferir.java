@@ -7,9 +7,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Clase Java para transferir complex type.
+ * <p>Java class for transferir complex type.
  * 
- * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>{@code
  * <complexType name="transferir">
@@ -46,7 +46,7 @@ public class Transferir {
     protected int ventanilla;
 
     /**
-     * Obtiene el valor de la propiedad cuentaOrigen.
+     * Gets the value of the cuentaOrigen property.
      * 
      * @return
      *     possible object is
@@ -58,7 +58,7 @@ public class Transferir {
     }
 
     /**
-     * Define el valor de la propiedad cuentaOrigen.
+     * Sets the value of the cuentaOrigen property.
      * 
      * @param value
      *     allowed object is
@@ -70,7 +70,7 @@ public class Transferir {
     }
 
     /**
-     * Obtiene el valor de la propiedad cuentaDestino.
+     * Gets the value of the cuentaDestino property.
      * 
      * @return
      *     possible object is
@@ -82,7 +82,7 @@ public class Transferir {
     }
 
     /**
-     * Define el valor de la propiedad cuentaDestino.
+     * Sets the value of the cuentaDestino property.
      * 
      * @param value
      *     allowed object is
@@ -94,7 +94,7 @@ public class Transferir {
     }
 
     /**
-     * Obtiene el valor de la propiedad monto.
+     * Gets the value of the monto property.
      * 
      */
     public double getMonto() {
@@ -102,7 +102,7 @@ public class Transferir {
     }
 
     /**
-     * Define el valor de la propiedad monto.
+     * Sets the value of the monto property.
      * 
      */
     public void setMonto(double value) {
@@ -110,7 +110,7 @@ public class Transferir {
     }
 
     /**
-     * Obtiene el valor de la propiedad empleadoId.
+     * Gets the value of the empleadoId property.
      * 
      */
     public int getEmpleadoId() {
@@ -118,7 +118,7 @@ public class Transferir {
     }
 
     /**
-     * Define el valor de la propiedad empleadoId.
+     * Sets the value of the empleadoId property.
      * 
      */
     public void setEmpleadoId(int value) {
@@ -126,7 +126,7 @@ public class Transferir {
     }
 
     /**
-     * Obtiene el valor de la propiedad ventanilla.
+     * Gets the value of the ventanilla property.
      * 
      */
     public int getVentanilla() {
@@ -134,7 +134,7 @@ public class Transferir {
     }
 
     /**
-     * Define el valor de la propiedad ventanilla.
+     * Sets the value of the ventanilla property.
      * 
      */
     public void setVentanilla(int value) {

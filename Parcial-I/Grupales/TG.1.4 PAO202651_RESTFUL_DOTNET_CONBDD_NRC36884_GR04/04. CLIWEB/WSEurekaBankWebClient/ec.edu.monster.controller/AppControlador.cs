@@ -6,7 +6,7 @@ namespace ec.edu.monster.controller
 {
     public class AppControlador
     {
-        public static string EndpointGlobal { get; set; } = "http://localhost:5140/api";
+        public static string EndpointGlobal { get; set; } = ConfiguracionServidor.EndpointUrl;
         private readonly EurekaBankRestModel _modelo = new() { EndpointUrl = EndpointGlobal };
         private const string CookieSesion = "EurekaBank_Sesion_REST";
 

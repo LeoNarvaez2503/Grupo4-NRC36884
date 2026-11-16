@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- =======================================================================
 -- SISTEMA BANQUITO CORE - MODULO DE CREDITO
 -- Base de Datos: banquito_db

@@ -186,7 +186,17 @@ public class HistorialActivity extends AppCompatActivity {
 
         // Dispositivo
         TextView tvDispositivo = new TextView(this);
-        tvDispositivo.setText("📱 " + f.modeloTelefono);
+        StringBuilder articulos = new StringBuilder();
+        if (f.items != null && !f.items.isEmpty()) {
+            for (ec.edu.monster.climov.model.FacturaModel.FacturaDetalle d : f.items) {
+                if (articulos.length() > 0) articulos.append("\n");
+                articulos.append("📱 ").append(d.cantidad).append(" × ").append(d.modeloTelefono)
+                        .append(String.format(Locale.US, "  ($%.2f)", d.subtotal));
+            }
+        } else {
+            articulos.append("📱 ").append(f.modeloTelefono);
+        }
+        tvDispositivo.setText(articulos.toString());
         tvDispositivo.setTextSize(12f);
         tvDispositivo.setTextColor(getResources().getColor(R.color.primary));
         tvDispositivo.setPadding(0, 2, 0, 6);
@@ -198,7 +208,7 @@ public class HistorialActivity extends AppCompatActivity {
         filaTotales.setPadding(0, 6, 0, 0);
 
         TextView tvPrecios = new TextView(this);
-        tvPrecios.setText(String.format(Locale.US, "Catálogo: $%.2f | Desc: -$%.2f", f.precioUnitario, f.valorDescuento));
+        tvPrecios.setText(String.format(Locale.US, "Subtotal: $%.2f | Desc: -$%.2f", f.subtotal > 0 ? f.subtotal : f.precioUnitario, f.valorDescuento));
         tvPrecios.setTextSize(11f);
         tvPrecios.setTextColor(getResources().getColor(R.color.gray));
 

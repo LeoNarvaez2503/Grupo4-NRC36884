@@ -1,6 +1,8 @@
 package ec.edu.monster.modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Factura implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -13,7 +15,8 @@ public class Factura implements Serializable {
     private String nombreCliente;
     private int codTelefono;
     private String modeloTelefono;
-    private double precioUnitario;
+    private double precioUnitario; // legado: refleja el subtotal de la factura
+    private double subtotal;       // suma de los items antes de descuento
     private String formaPago; // 'EFECTIVO' o 'CREDITO_DIRECTO'
     private double porcentajeDescuento; // 42.0 para efectivo
     private double valorDescuento;
@@ -22,6 +25,7 @@ public class Factura implements Serializable {
     private Integer numCuotas;
     private Double valorCuota;
     private String observacion;
+    private List<FacturaDetalle> items = new ArrayList<>();
 
     public Factura() {}
 
@@ -51,6 +55,18 @@ public class Factura implements Serializable {
 
     public double getPrecioUnitario() { return precioUnitario; }
     public void setPrecioUnitario(double precioUnitario) { this.precioUnitario = precioUnitario; }
+
+    public double getSubtotal() { return subtotal; }
+    public void setSubtotal(double subtotal) { this.subtotal = subtotal; }
+
+    public List<FacturaDetalle> getItems() { return items; }
+    public void setItems(List<FacturaDetalle> items) { this.items = items != null ? items : new ArrayList<>(); }
+
+    public int getTotalArticulos() {
+        int n = 0;
+        for (FacturaDetalle d : items) n += d.getCantidad();
+        return n;
+    }
 
     public String getFormaPago() { return formaPago; }
     public void setFormaPago(String formaPago) { this.formaPago = formaPago; }

@@ -173,7 +173,7 @@
                     android:layout_height="48dp"
                     android:backgroundTint="@color/accent"
                     android:text="📋 Consultar Tabla Francesa"
-                    android:textColor="@color/white"
+                    android:textColor="#000000"
                     android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>

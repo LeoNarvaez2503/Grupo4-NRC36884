@@ -13,6 +13,14 @@ public class AppControlador {
         this.service = new ComercializadoraService();
     }
 
+    public String getHost() {
+        return service.getConfig().getHost();
+    }
+
+    public void cambiarHost(String host) {
+        service.getConfig().configurarHost(host);
+    }
+
     public boolean autenticar(String usuario, String clave) {
         return service.autenticar(usuario, clave);
     }

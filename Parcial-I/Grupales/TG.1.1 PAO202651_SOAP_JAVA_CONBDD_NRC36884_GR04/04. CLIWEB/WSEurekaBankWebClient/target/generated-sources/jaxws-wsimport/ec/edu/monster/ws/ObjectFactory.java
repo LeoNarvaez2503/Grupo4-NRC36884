@@ -307,16 +307,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link AuthRespuestaDTO }
-     * 
-     * @return
-     *     the new instance of {@link AuthRespuestaDTO }
-     */
-    public AuthRespuestaDTO createAuthRespuestaDTO() {
-        return new AuthRespuestaDTO();
-    }
-
-    /**
      * Create an instance of {@link CuentaDetalleDTO }
      * 
      * @return
@@ -324,6 +314,16 @@ public class ObjectFactory {
      */
     public CuentaDetalleDTO createCuentaDetalleDTO() {
         return new CuentaDetalleDTO();
+    }
+
+    /**
+     * Create an instance of {@link AuthRespuestaDTO }
+     * 
+     * @return
+     *     the new instance of {@link AuthRespuestaDTO }
+     */
+    public AuthRespuestaDTO createAuthRespuestaDTO() {
+        return new AuthRespuestaDTO();
     }
 
     /**

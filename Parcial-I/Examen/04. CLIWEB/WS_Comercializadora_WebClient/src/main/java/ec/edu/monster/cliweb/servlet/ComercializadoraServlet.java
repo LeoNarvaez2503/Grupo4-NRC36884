@@ -9,7 +9,10 @@ import ec.edu.monster.modelo.BanQuitoDTOs.*;
 import ec.edu.monster.modelo.Factura;
 import ec.edu.monster.modelo.TelefonoCelular;
 import ec.edu.monster.servicio.BanQuitoRestClient;
+import ec.edu.monster.servicio.CarritoParser;
 import ec.edu.monster.servicio.FacturacionService;
+import ec.edu.monster.servicio.FacturacionService.CarritoResuelto;
+import ec.edu.monster.servicio.FacturacionService.ItemCarrito;
 import ec.edu.monster.servicio.FacturacionService.ResultadoFactura;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -72,8 +75,10 @@ public class ComercializadoraServlet extends HttpServlet {
                 int codTelefono = parseInt(req.getParameter("codTelefono"), 0);
                 int cuotas = parseInt(req.getParameter("cuotas"), 6);
 
-                TelefonoCelular tel = catalogoDAO.buscarPorId(codTelefono);
-                double precio = tel != null ? tel.getPrecio() : 0.0;
+                // Carrito: ?items=1:2,5:1 (codTelefono:cantidad). Sin items se usa codTelefono (1 unidad).
+                List<ItemCarrito> carrito = CarritoParser.desdeQuery(req.getParameter("items"), codTelefono);
+                CarritoResuelto cr = facturacionService.resolverCarrito(carrito);
+                double precio = cr.ok() ? cr.subtotal() : 0.0;
 
                 SujetoCreditoResponse sujeto = banquitoClient.validarSujetoCredito(cedula != null ? cedula.trim() : "");
                 MontoMaximoResponse capacidad = null;
@@ -95,6 +100,9 @@ public class ComercializadoraServlet extends HttpServlet {
                 r.put("sujeto", sujeto);
                 r.put("capacidad", capacidad);
                 r.put("precioTelefono", precio);
+                r.put("totalCarrito", precio);
+                r.put("totalArticulos", cr.totalArticulos());
+                if (!cr.ok()) r.put("mensajeCarrito", cr.error());
                 r.put("capacidadSuficiente", capacidadSuficiente);
                 r.put("tablaAmortizacion", amort);
 
@@ -162,15 +170,15 @@ public class ComercializadoraServlet extends HttpServlet {
                 Map<String, Object> body = gson.fromJson(reader, new com.google.gson.reflect.TypeToken<Map<String, Object>>(){}.getType());
                 String cedula = body.get("cedula") != null ? body.get("cedula").toString() : "";
                 String nombre = body.get("nombre") != null ? body.get("nombre").toString() : "";
-                int codTelefono = body.get("codTelefono") instanceof Number n ? n.intValue() : 0;
+                List<ItemCarrito> carrito = CarritoParser.desdeBody(body);
                 String formaPago = body.get("formaPago") != null ? body.get("formaPago").toString() : "EFECTIVO";
                 int cuotas = body.get("cuotas") instanceof Number n ? n.intValue() : 6;
 
                 ResultadoFactura res;
                 if ("EFECTIVO".equalsIgnoreCase(formaPago)) {
-                    res = facturacionService.facturarEfectivo(cedula, nombre, codTelefono);
+                    res = facturacionService.facturarEfectivo(cedula, nombre, carrito);
                 } else {
-                    res = facturacionService.facturarCreditoDirecto(cedula, nombre, codTelefono, cuotas);
+                    res = facturacionService.facturarCreditoDirecto(cedula, nombre, carrito, cuotas);
                 }
 
                 resp.setStatus(res.exito() ? 200 : 400);

@@ -12,4 +12,11 @@
     <PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
     <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
   </ItemGroup>
+
+  <ItemGroup>
+    <!-- Configuracion central: 04. CONFIG/servidor.properties -->
+    <None Include="../../04. CONFIG/servidor.properties" Link="servidor.properties">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
